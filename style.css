@@ -1355,3 +1355,49 @@ img {
     text-transform: uppercase;
     opacity: 0.75;
 }
+
+
+/* PHONE FIELD */
+.phone-field {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.phone-field select {
+    width: 180px;
+    padding: 16px;
+    background: transparent;
+    color: inherit;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    outline: none;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.phone-field input {
+    flex: 1;
+    padding: 16px;
+    background: transparent;
+    color: inherit;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    outline: none;
+    font-size: 15px;
+}
+
+.phone-field select option {
+    background: #111;
+    color: #fff;
+}
+
+@media (max-width: 600px) {
+    .phone-field {
+        flex-direction: column;
+    }
+
+    .phone-field select,
+    .phone-field input {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
