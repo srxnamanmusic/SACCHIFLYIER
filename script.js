@@ -1,51 +1,23 @@
 // ==========================================
-// SACCHI FLYIER - MAIN JAVASCRIPT
+// SACCHI FLYIER - WEBSITE JAVASCRIPT
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    // ------------------------------------------
-    // ELEMENTS
-    // ------------------------------------------
+    // ==========================================
+    // MOBILE MENU
+    // ==========================================
 
     const menuToggle = document.getElementById("menuToggle");
     const navLinks = document.getElementById("navLinks");
 
-    const searchButton = document.getElementById("searchButton");
-    const searchOverlay = document.getElementById("searchOverlay");
-    const closeSearch = document.getElementById("closeSearch");
-    const searchInput = document.getElementById("searchInput");
-
-    const cartButton = document.getElementById("cartButton");
-    const cartPanel = document.getElementById("cartPanel");
-    const closeCart = document.getElementById("closeCart");
-
-    const cartItemsContainer = document.getElementById("cartItems");
-    const cartCount = document.getElementById("cartCount");
-    const cartTotal = document.getElementById("cartTotal");
-    const checkoutButton = document.getElementById("checkoutButton");
-
-    const newsletterForm = document.getElementById("newsletterForm");
-    const newsletterEmail = document.getElementById("newsletterEmail");
-
-    const contactForm = document.getElementById("contactForm");
-
-
-    // ------------------------------------------
-    // MOBILE MENU
-    // ------------------------------------------
-
     if (menuToggle && navLinks) {
-
         menuToggle.addEventListener("click", () => {
             navLinks.classList.toggle("active");
             menuToggle.classList.toggle("active");
         });
 
-        // Close menu after clicking a navigation link
-        const links = navLinks.querySelectorAll("a");
-
-        links.forEach(link => {
+        navLinks.querySelectorAll("a").forEach(link => {
             link.addEventListener("click", () => {
                 navLinks.classList.remove("active");
                 menuToggle.classList.remove("active");
@@ -54,25 +26,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // ------------------------------------------
-    // SEARCH OVERLAY
-    // ------------------------------------------
+    // ==========================================
+    // SEARCH
+    // ==========================================
+
+    const searchButton = document.getElementById("searchButton");
+    const searchOverlay = document.getElementById("searchOverlay");
+    const closeSearch = document.getElementById("closeSearch");
+    const searchInput = document.getElementById("searchInput");
 
     if (searchButton && searchOverlay) {
-
         searchButton.addEventListener("click", () => {
             searchOverlay.classList.add("active");
 
-            setTimeout(() => {
-                if (searchInput) {
-                    searchInput.focus();
-                }
-            }, 200);
+            if (searchInput) {
+                setTimeout(() => searchInput.focus(), 200);
+            }
         });
     }
 
     if (closeSearch && searchOverlay) {
-
         closeSearch.addEventListener("click", () => {
             searchOverlay.classList.remove("active");
 
@@ -82,63 +55,46 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-
-    // Close search when clicking outside the search box
     if (searchOverlay) {
-
-        searchOverlay.addEventListener("click", (event) => {
-
+        searchOverlay.addEventListener("click", event => {
             if (event.target === searchOverlay) {
                 searchOverlay.classList.remove("active");
-
-                if (searchInput) {
-                    searchInput.value = "";
-                }
             }
-
         });
     }
 
 
-    // ------------------------------------------
-    // SEARCH
-    // ------------------------------------------
+    // ==========================================
+    // CART
+    // ==========================================
 
-    if (searchInput) {
+    let cart = JSON.parse(localStorage.getItem("sacchiFlyierCart")) || [];
 
-        searchInput.addEventListener("input", () => {
+    const cartButton = document.getElementById("cartButton");
+    const cartPanel = document.getElementById("cartPanel");
+    const closeCart = document.getElementById("closeCart");
 
-            const searchValue = searchInput.value.toLowerCase().trim();
+    const cartItemsContainer = document.getElementById("cartItems");
+    const cartCount = document.getElementById("cartCount");
+    const cartTotal = document.getElementById("cartTotal");
 
-            const products = document.querySelectorAll(".product-card");
-
-            products.forEach(product => {
-
-                const productText =
-                    product.textContent.toLowerCase();
-
-                if (productText.includes(searchValue)) {
-                    product.style.display = "";
-                } else {
-                    product.style.display = "none";
-                }
-
-            });
-
-        });
-    }
+    const checkoutButton = document.getElementById("checkoutButton");
 
 
-    // ------------------------------------------
-    // SHOPPING CART
-    // ------------------------------------------
-
-    let cart = [];
-
+    // ==========================================
+    // UPDATE CART
+    // ==========================================
 
     function updateCart() {
 
-        if (!cartItemsContainer) return;
+        if (cartCount) {
+            cartCount.textContent = cart.length;
+        }
+
+        if (!cartItemsContainer) {
+            saveCart();
+            return;
+        }
 
         cartItemsContainer.innerHTML = "";
 
@@ -157,84 +113,75 @@ document.addEventListener("DOMContentLoaded", () => {
 
             cart.forEach((item, index) => {
 
-                total += item.price;
+                total += Number(item.price) || 0;
 
-                const cartItem = document.createElement("div");
+                const itemElement = document.createElement("div");
 
-                cartItem.className = "cart-item";
+                itemElement.className = "cart-item";
 
-                cartItem.innerHTML = `
+                itemElement.innerHTML = `
                     <div class="cart-item-info">
-                        <strong>${item.name}</strong>
-                        <span>₹${item.price.toFixed(2)}</span>
+                        <strong>${escapeHTML(item.name)}</strong>
+                        <span>₹${Number(item.price).toFixed(2)}</span>
                     </div>
 
-                    <button 
+                    <button
                         class="remove-cart-item"
                         data-index="${index}">
                         ×
                     </button>
                 `;
 
-                cartItemsContainer.appendChild(cartItem);
-
+                cartItemsContainer.appendChild(itemElement);
             });
-
         }
 
-
-        // Update cart count
-        if (cartCount) {
-            cartCount.textContent = cart.length;
-        }
-
-
-        // Update total
         if (cartTotal) {
             cartTotal.textContent = `₹${total.toFixed(2)}`;
         }
 
-
-        // Remove buttons
-        const removeButtons =
-            document.querySelectorAll(".remove-cart-item");
-
-        removeButtons.forEach(button => {
+        document.querySelectorAll(".remove-cart-item").forEach(button => {
 
             button.addEventListener("click", () => {
 
-                const index =
-                    Number(button.dataset.index);
+                const index = Number(button.dataset.index);
 
                 cart.splice(index, 1);
 
+                saveCart();
                 updateCart();
-
             });
 
         });
-
     }
 
 
-    // ------------------------------------------
+    // ==========================================
+    // SAVE CART
+    // ==========================================
+
+    function saveCart() {
+        localStorage.setItem(
+            "sacchiFlyierCart",
+            JSON.stringify(cart)
+        );
+    }
+
+
+    // ==========================================
     // ADD TO CART
-    // ------------------------------------------
+    // ==========================================
 
-    const addCartButtons =
-        document.querySelectorAll(".add-cart");
-
-    addCartButtons.forEach(button => {
+    document.querySelectorAll(".add-cart").forEach(button => {
 
         button.addEventListener("click", () => {
+
+            const productCard =
+                button.closest(".product-card");
 
             const productName =
                 button.dataset.product ||
                 "Product";
-
-            // Try to find price from product card
-            const productCard =
-                button.closest(".product-card");
 
             let price = 0;
 
@@ -245,40 +192,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (priceElement) {
 
-                    const priceText =
-                        priceElement.textContent
-                            .replace(/[^\d.]/g, "");
-
                     price =
-                        parseFloat(priceText) || 0;
+                        parseFloat(
+                            priceElement.textContent
+                                .replace(/[^\d.]/g, "")
+                        ) || 0;
                 }
-
             }
-
 
             cart.push({
                 name: productName,
                 price: price
             });
 
-
+            saveCart();
             updateCart();
 
-
-            // Open cart
             if (cartPanel) {
                 cartPanel.classList.add("active");
             }
 
-
-            // Small button feedback
-            const originalText =
-                button.textContent;
+            const oldText = button.textContent;
 
             button.textContent = "Added ✓";
 
             setTimeout(() => {
-                button.textContent = originalText;
+                button.textContent = oldText;
             }, 1200);
 
         });
@@ -286,9 +225,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    // ------------------------------------------
+    // ==========================================
     // OPEN CART
-    // ------------------------------------------
+    // ==========================================
 
     if (cartButton && cartPanel) {
 
@@ -299,9 +238,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // ------------------------------------------
+    // ==========================================
     // CLOSE CART
-    // ------------------------------------------
+    // ==========================================
 
     if (closeCart && cartPanel) {
 
@@ -312,9 +251,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // ------------------------------------------
-    // CHECKOUT
-    // ------------------------------------------
+    // ==========================================
+    // GO TO CHECKOUT
+    // ==========================================
 
     if (checkoutButton) {
 
@@ -327,250 +266,473 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-
-            alert(
-                "Checkout will be available soon. Thank you for shopping with Sacchi Flyier!"
-            );
+            window.location.href = "checkout.html";
 
         });
 
     }
 
 
-    // ------------------------------------------
-    // NEWSLETTER
-    // ------------------------------------------
+    // ==========================================
+    // CHECKOUT PAGE
+    // ==========================================
 
-    if (newsletterForm) {
+    if (window.location.pathname.includes("checkout.html")) {
 
-        newsletterForm.addEventListener("submit", (event) => {
-
-            event.preventDefault();
-
-            const email =
-                newsletterEmail
-                    ? newsletterEmail.value.trim()
-                    : "";
-
-
-            if (!email) {
-
-                alert("Please enter your email.");
-
-                return;
-            }
-
-
-            if (!email.includes("@")) {
-
-                alert("Please enter a valid email address.");
-
-                return;
-            }
-
-
-            alert(
-                "Thank you for joining Sacchi Flyier!"
-            );
-
-
-            newsletterForm.reset();
-
-        });
+        loadCheckout();
 
     }
 
 
-    // ------------------------------------------
-    // CONTACT FORM
-    // ------------------------------------------
+    function loadCheckout() {
 
-    if (contactForm) {
+        const checkoutItems =
+            document.getElementById("checkoutItems");
 
-        contactForm.addEventListener("submit", (event) => {
+        const checkoutSubtotal =
+            document.getElementById("checkoutSubtotal");
 
-            event.preventDefault();
+        const checkoutTotal =
+            document.getElementById("checkoutTotal");
 
+        if (!checkoutItems) return;
 
-            alert(
-                "Thank you for contacting Sacchi Flyier. We will get back to you soon."
-            );
+        checkoutItems.innerHTML = "";
 
+        let subtotal = 0;
 
-            contactForm.reset();
 
-        });
+        if (cart.length === 0) {
 
-    }
+            checkoutItems.innerHTML = `
+                <p>Your cart is empty.</p>
+            `;
 
+        } else {
 
-    // ------------------------------------------
-    // 3D MOUSE EFFECT
-    // ------------------------------------------
+            cart.forEach(item => {
 
-    const productCards =
-        document.querySelectorAll(".product-card");
+                const price =
+                    Number(item.price) || 0;
 
+                subtotal += price;
 
-    productCards.forEach(card => {
+                const itemElement =
+                    document.createElement("div");
 
-        card.addEventListener("mousemove", (event) => {
+                itemElement.className =
+                    "checkout-item";
 
-            const rect =
-                card.getBoundingClientRect();
+                itemElement.innerHTML = `
+                    <span class="checkout-item-name">
+                        ${escapeHTML(item.name)}
+                    </span>
 
-            const x =
-                event.clientX - rect.left;
+                    <span class="checkout-item-price">
+                        ₹${price.toFixed(2)}
+                    </span>
+                `;
 
-            const y =
-                event.clientY - rect.top;
+                checkoutItems.appendChild(itemElement);
 
-
-            const centerX =
-                rect.width / 2;
-
-            const centerY =
-                rect.height / 2;
-
-
-            const rotateX =
-                ((y - centerY) / centerY) * -5;
-
-            const rotateY =
-                ((x - centerX) / centerX) * 5;
-
-
-            card.style.transform =
-                `perspective(1000px)
-                 rotateX(${rotateX}deg)
-                 rotateY(${rotateY}deg)
-                 translateY(-8px)`;
-
-        });
-
-
-        card.addEventListener("mouseleave", () => {
-
-            card.style.transform =
-                "perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)";
-
-        });
-
-    });
-
-
-    // ------------------------------------------
-    // SMOOTH SCROLL
-    // ------------------------------------------
-
-    const anchorLinks =
-        document.querySelectorAll('a[href^="#"]');
-
-
-    anchorLinks.forEach(link => {
-
-        link.addEventListener("click", (event) => {
-
-            const targetId =
-                link.getAttribute("href");
-
-            if (!targetId || targetId === "#") {
-                return;
-            }
-
-
-            const target =
-                document.querySelector(targetId);
-
-
-            if (target) {
-
-                event.preventDefault();
-
-                target.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
-
-            }
-
-        });
-
-    });
-
-
-    // ------------------------------------------
-    // SCROLL REVEAL
-    // ------------------------------------------
-
-    const revealElements =
-        document.querySelectorAll(
-            ".section-title, .product-card, .category-card, .story-content, .about-content"
-        );
-
-
-    const revealObserver =
-        new IntersectionObserver(
-            (entries, observer) => {
-
-                entries.forEach(entry => {
-
-                    if (entry.isIntersecting) {
-
-                        entry.target.classList.add("show");
-
-                        observer.unobserve(entry.target);
-
-                    }
-
-                });
-
-            },
-            {
-                threshold: 0.12
-            }
-        );
-
-
-    revealElements.forEach(element => {
-
-        element.classList.add("reveal");
-
-        revealObserver.observe(element);
-
-    });
-
-
-    // ------------------------------------------
-    // ESC KEY
-    // ------------------------------------------
-
-    document.addEventListener("keydown", (event) => {
-
-        if (event.key === "Escape") {
-
-            if (searchOverlay) {
-                searchOverlay.classList.remove("active");
-            }
-
-            if (cartPanel) {
-                cartPanel.classList.remove("active");
-            }
+            });
 
         }
 
-    });
+
+        if (checkoutSubtotal) {
+            checkoutSubtotal.textContent =
+                `₹${subtotal.toFixed(2)}`;
+        }
 
 
-    // ------------------------------------------
-    // INITIAL CART
-    // ------------------------------------------
+        if (checkoutTotal) {
+            checkoutTotal.textContent =
+                `₹${subtotal.toFixed(2)}`;
+        }
+
+
+        // ==========================================
+        // PLACE ORDER
+        // ==========================================
+
+        const placeOrderButton =
+            document.getElementById("placeOrderButton");
+
+        if (placeOrderButton) {
+
+            placeOrderButton.addEventListener(
+                "click",
+                placeOrder
+            );
+
+        }
+
+    }
+
+
+    // ==========================================
+    // PLACE ORDER FUNCTION
+    // ==========================================
+
+    function placeOrder() {
+
+        if (cart.length === 0) {
+
+            alert("Your cart is empty.");
+
+            return;
+        }
+
+
+        const name =
+            document.getElementById("checkoutName")?.value.trim();
+
+        const email =
+            document.getElementById("checkoutEmail")?.value.trim();
+
+        const phone =
+            document.getElementById("checkoutPhone")?.value.trim();
+
+        const address =
+            document.getElementById("address")?.value.trim();
+
+        const city =
+            document.getElementById("city")?.value.trim();
+
+        const state =
+            document.getElementById("state")?.value.trim();
+
+        const country =
+            document.getElementById("country")?.value.trim();
+
+        const postalCode =
+            document.getElementById("postalCode")?.value.trim();
+
+
+        if (
+            !name ||
+            !email ||
+            !phone ||
+            !address ||
+            !city ||
+            !state ||
+            !country ||
+            !postalCode
+        ) {
+
+            alert(
+                "Please complete all required information."
+            );
+
+            return;
+        }
+
+
+        const emailPattern =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailPattern.test(email)) {
+
+            alert(
+                "Please enter a valid email address."
+            );
+
+            return;
+        }
+
+
+        const countryCode =
+            document.getElementById(
+                "checkoutCountryCode"
+            )?.value || "+91";
+
+
+        const paymentMethod =
+            document.querySelector(
+                'input[name="payment"]:checked'
+            )?.value || "cod";
+
+
+        // Create order number
+        const orderNumber =
+            "SF-" +
+            Date.now().toString().slice(-8);
+
+
+        // Calculate total
+        const total =
+            cart.reduce(
+                (sum, item) =>
+                    sum + (Number(item.price) || 0),
+                0
+            );
+
+
+        const order = {
+
+            orderNumber: orderNumber,
+
+            customer: {
+                name: name,
+                email: email,
+                phone: countryCode + " " + phone
+            },
+
+            address: {
+                street: address,
+                city: city,
+                state: state,
+                country: country,
+                postalCode: postalCode
+            },
+
+            payment: paymentMethod,
+
+            items: cart,
+
+            total: total,
+
+            date: new Date().toISOString()
+
+        };
+
+
+        // Save order locally
+        localStorage.setItem(
+            "sacchiFlyierLastOrder",
+            JSON.stringify(order)
+        );
+
+
+        // Empty cart
+        cart = [];
+
+        saveCart();
+
+        updateCart();
+
+
+        alert(
+            `Order ${orderNumber} created successfully!`
+        );
+
+
+        window.location.href =
+            "index.html";
+
+    }
+
+
+    // ==========================================
+    // NEWSLETTER
+    // ==========================================
+
+    const newsletterForm =
+        document.getElementById("newsletterForm");
+
+    if (newsletterForm) {
+
+        newsletterForm.addEventListener(
+            "submit",
+            event => {
+
+                event.preventDefault();
+
+                const email =
+                    document.getElementById(
+                        "newsletterEmail"
+                    )?.value.trim();
+
+                if (!email) {
+
+                    alert(
+                        "Please enter your email."
+                    );
+
+                    return;
+                }
+
+                alert(
+                    "Thank you for joining Sacchi Flyier!"
+                );
+
+                newsletterForm.reset();
+
+            }
+        );
+
+    }
+
+
+    // ==========================================
+    // CONTACT FORM
+    // ==========================================
+
+    const contactForm =
+        document.getElementById("contactForm");
+
+    if (contactForm) {
+
+        contactForm.addEventListener(
+            "submit",
+            event => {
+
+                event.preventDefault();
+
+                alert(
+                    "Thank you for contacting Sacchi Flyier. We will get back to you soon."
+                );
+
+                contactForm.reset();
+
+            }
+        );
+
+    }
+
+
+    // ==========================================
+    // 3D PRODUCT CARD EFFECT
+    // ==========================================
+
+    document
+        .querySelectorAll(".product-card")
+        .forEach(card => {
+
+            card.addEventListener(
+                "mousemove",
+                event => {
+
+                    const rect =
+                        card.getBoundingClientRect();
+
+                    const x =
+                        event.clientX - rect.left;
+
+                    const y =
+                        event.clientY - rect.top;
+
+                    const centerX =
+                        rect.width / 2;
+
+                    const centerY =
+                        rect.height / 2;
+
+                    const rotateX =
+                        ((y - centerY) / centerY) * -5;
+
+                    const rotateY =
+                        ((x - centerX) / centerX) * 5;
+
+                    card.style.transform =
+                        `perspective(1000px)
+                         rotateX(${rotateX}deg)
+                         rotateY(${rotateY}deg)
+                         translateY(-8px)`;
+
+                }
+            );
+
+
+            card.addEventListener(
+                "mouseleave",
+                () => {
+
+                    card.style.transform =
+                        "perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)";
+
+                }
+            );
+
+        });
+
+
+    // ==========================================
+    // SMOOTH SCROLL
+    // ==========================================
+
+    document
+        .querySelectorAll('a[href^="#"]')
+        .forEach(link => {
+
+            link.addEventListener(
+                "click",
+                event => {
+
+                    const targetID =
+                        link.getAttribute("href");
+
+                    if (
+                        !targetID ||
+                        targetID === "#"
+                    ) {
+                        return;
+                    }
+
+                    const target =
+                        document.querySelector(targetID);
+
+                    if (target) {
+
+                        event.preventDefault();
+
+                        target.scrollIntoView({
+                            behavior: "smooth"
+                        });
+
+                    }
+
+                }
+            );
+
+        });
+
+
+    // ==========================================
+    // ESC KEY
+    // ==========================================
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (event.key === "Escape") {
+
+                if (searchOverlay) {
+                    searchOverlay.classList.remove("active");
+                }
+
+                if (cartPanel) {
+                    cartPanel.classList.remove("active");
+                }
+
+            }
+
+        }
+    );
+
+
+    // ==========================================
+    // SECURITY HELPER
+    // ==========================================
+
+    function escapeHTML(value) {
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    // ==========================================
+    // START
+    // ==========================================
 
     updateCart();
-
-
-    console.log(
-        "Sacchi Flyier website loaded successfully."
-    );
 
 });
