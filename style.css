@@ -1346,3 +1346,12 @@ img {
         grid-column: auto;
     }
 }
+
+/* TAGLINE */
+.tagline {
+    margin: 10px 0 15px;
+    font-size: 14px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.75;
+}
