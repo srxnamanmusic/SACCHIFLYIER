@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Checkout | Sacchi Flyier</title>
+
+    <meta
+        name="description"
+        content="Secure checkout for Sacchi Flyier."
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #080808;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .checkout-header {
+            width: 100%;
+            padding: 22px 7%;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #080808;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand img {
+            width: 48px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .brand-name {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .back-store {
+            padding: 10px 18px;
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 30px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .back-store:hover {
+            background: #ffffff;
+            color: #000000;
+        }
+
+        .checkout-wrapper {
+            width: 90%;
+            max-width: 1200px;
+            margin: 45px auto;
+        }
+
+        .checkout-title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .checkout-title h1 {
+            font-size: 38px;
+            margin-bottom: 8px;
+        }
+
+        .checkout-title p {
+            color: #aaaaaa;
+        }
+
+        .checkout-layout {
+            display: grid;
+            grid-template-columns: 1.4fr 0.9fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .checkout-box {
+            background: #111111;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 28px;
+        }
+
+        .checkout-box h2 {
+            font-size: 21px;
+            margin-bottom: 22px;
+        }
+
+        .section {
+            margin-bottom: 32px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 17px;
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            color: #cccccc;
+            margin-bottom: 8px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            height: 48px;
+            background: #191919;
+            color: #ffffff;
+            border: 1px solid #333333;
+            border-radius: 10px;
+            padding: 0 14px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #ffffff;
+        }
+
+        select option {
+            background: #111111;
+            color: #ffffff;
+        }
+
+        .phone-row {
+            display: grid;
+            grid-template-columns: 130px 1fr;
+            gap: 10px;
+        }
+
+        .payment-options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: #191919;
+            border: 1px solid #333333;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .payment-option input {
+            width: auto;
+            height: auto;
+            accent-color: #ffffff;
+        }
+
+        .payment-option strong {
+            font-size: 15px;
+        }
+
+        .payment-option span {
+            display: block;
+            color: #999999;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .order-summary {
+            position: sticky;
+            top: 25px;
+        }
+
+        .summary-items {
+            border-bottom: 1px solid #292929;
+            padding-bottom: 18px;
+            margin-bottom: 18px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 12px 0;
+            font-size: 14px;
+        }
+
+        .summary-item-name {
+            color: #dddddd;
+        }
+
+        .summary-item-price {
+            white-space: nowrap;
+            font-weight: 600;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 9px 0;
+            color: #cccccc;
+        }
+
+        .summary-row.total {
+            border-top: 1px solid #292929;
+            margin-top: 12px;
+            padding-top: 20px;
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .currency-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            padding: 12px 14px;
+            background: #191919;
+            border-radius: 10px;
+        }
+
+        .currency-line span:first-child {
+            color: #999999;
+            font-size: 13px;
+        }
+
+        #checkoutCurrency {
+            font-weight: 700;
+        }
+
+        .free-shipping {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .place-order {
+            width: 100%;
+            height: 52px;
+            border: none;
+            border-radius: 12px;
+            background: #ffffff;
+            color: #000000;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 22px;
+            transition: 0.3s;
+        }
+
+        .place-order:hover:not(:disabled) {
+            transform: translateY(-2px);
+            background: #dddddd;
+        }
+
+        .place-order:disabled {
+            background: #555555;
+            color: #999999;
+            cursor: not-allowed;
+        }
+
+        .secure-note {
+            text-align: center;
+            color: #777777;
+            font-size: 12px;
+            margin-top: 15px;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 30px 10px;
+            color: #999999;
+        }
+
+        .loading {
+            color: #999999;
+            font-size: 14px;
+        }
+
+        .error-message {
+            color: #ff7777;
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            color: #666666;
+            padding: 30px 20px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 850px) {
+
+            .checkout-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .order-summary {
+                position: static;
+            }
+
+            .checkout-title h1 {
+                font-size: 30px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .checkout-header {
+                padding: 18px 5%;
+            }
+
+            .brand-name {
+                font-size: 17px;
+            }
+
+            .brand img {
+                width: 40px;
+                height: 40px;
+            }
+
+            .back-store {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            .checkout-wrapper {
+                width: 94%;
+                margin: 30px auto;
+            }
+
+            .checkout-box {
+                padding: 20px;
+                border-radius: 14px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .phone-row {
+                grid-template-columns: 105px 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="checkout-header">
+
+    <a href="index.html" class="brand">
+
+        <img
+            src="logo.png"
+            alt="Sacchi Flyier Logo"
+        >
+
+        <span class="brand-name">
+            SACCHI FLYIER
+        </span>
+
+    </a>
+
+    <a href="index.html" class="back-store">
+        ← Back to Store
+    </a>
+
+</header>
+
+
+<main class="checkout-wrapper">
+
+    <div class="checkout-title">
+
+        <h1>Checkout</h1>
+
+        <p>
+            Complete your details to place your order.
+        </p>
+
+    </div>
+
+
+    <form id="checkoutForm">
+
+        <div class="checkout-layout">
+
+
+            <!-- =========================
+                 CUSTOMER INFORMATION
+            ========================== -->
+
+            <div class="checkout-box">
+
+                <div class="section">
+
+                    <h2>Contact Information</h2>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label for="checkoutName">
+                                Full Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="checkoutName"
+                                name="name"
+                                placeholder="Enter your full name"
+                                autocomplete="name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="checkoutEmail">
+                                Email Address
+                            </label>
+
+                            <input
+                                type="email"
+                                id="checkoutEmail"
+                                name="email"
+                                placeholder="you@example.com"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label>
+                                Phone Number
+                            </label>
+
+                            <div class="phone-row">
+
+                                <select
+                                    id="checkoutCountryCode"
+                                    name="countryCode"
+                                    required
+                                >
+
+                                    <option value="+93">
+                                        +93 Afghanistan
+                                    </option>
+
+                                    <option value="+355">
+                                        +355 Albania
+                                    </option>
+
+                                    <option value="+213">
+                                        +213 Algeria
+                                    </option>
+
+                                    <option value="+61">
+                                        +61 Australia
+                                    </option>
+
+                                    <option value="+32">
+                                        +32 Belgium
+                                    </option>
+
+                                    <option value="+55">
+                                        +55 Brazil
+                                    </option>
+
+                                    <option value="+1">
+                                        +1 Canada / USA
+                                    </option>
+
+                                    <option value="+86">
+                                        +86 China
+                                    </option>
+
+                                    <option value="+33">
+                                        +33 France
+                                    </option>
+
+                                    <option value="+49">
+                                        +49 Germany
+                                    </option>
+
+                                    <option value="+91" selected>
+                                        +91 India
+                                    </option>
+
+                                    <option value="+62">
+                                        +62 Indonesia
+                                    </option>
+
+                                    <option value="+39">
+                                        +39 Italy
+                                    </option>
+
+                                    <option value="+81">
+                                        +81 Japan
+                                    </option>
+
+                                    <option value="+60">
+                                        +60 Malaysia
+                                    </option>
+
+                                    <option value="+52">
+                                        +52 Mexico
+                                    </option>
+
+                                    <option value="+977">
+                                        +977 Nepal
+                                    </option>
+
+                                    <option value="+64">
+                                        +64 New Zealand
+                                    </option>
+
+                                    <option value="+92">
+                                        +92 Pakistan
+                                    </option>
+
+                                    <option value="+63">
+                                        +63 Philippines
+                                    </option>
+
+                                    <option value="+7">
+                                        +7 Russia
+                                    </option>
+
+                                    <option value="+966">
+                                        +966 Saudi Arabia
+                                    </option>
+
+                                    <option value="+65">
+                                        +65 Singapore
+                                    </option>
+
+                                    <option value="+27">
+                                        +27 South Africa
+                                    </option>
+
+                                    <option value="+82">
+                                        +82 South Korea
+                                    </option>
+
+                                    <option value="+34">
+                                        +34 Spain
+                                    </option>
+
+                                    <option value="+94">
+                                        +94 Sri Lanka
+                                    </option>
+
+                                    <option value="+46">
+                                        +46 Sweden
+                                    </option>
+
+                                    <option value="+41">
+                                        +41 Switzerland
+                                    </option>
+
+                                    <option value="+66">
+                                        +66 Thailand
+                                    </option>
+
+                                    <option value="+90">
+                                        +90 Turkey
+                                    </option>
+
+                                    <option value="+971">
+                                        +971 UAE
+                                    </option>
+
+                                    <option value="+44">
+                                        +44 UK
+                                    </option>
+
+                                    <option value="+84">
+                                        +84 Vietnam
+                                    </option>
+
+                                </select>
+
+
+                                <input
+                                    type="tel"
+                                    id="checkoutPhone"
+                                    name="phone"
+                                    placeholder="Phone number"
+                                    autocomplete="tel"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =========================
+                     SHIPPING ADDRESS
+                ========================== -->
+
+                <div class="section">
+
+                    <h2>Shipping Address</h2>
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group full">
+
+                            <label for="checkoutAddress">
+                                Address
+                            </label>
+
+                            <input
+                                type="text"
+                                id="checkoutAddress"
+                                name="address"
+                                placeholder="Street address / house number"
+                                autocomplete="street-address"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="checkoutCity">
+                                City
+                            </label>
+
+                            <input
+                                type="text"
+                                id="checkoutCity"
+                                name="city"
+                                placeholder="City"
+                                autocomplete="address-level2"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="checkoutState">
+                                State / Province
+                            </label>
+
+                            <input
+                                type="text"
+                                id="checkoutState"
+                                name="state"
+                                placeholder="State / Province"
+                                autocomplete="address-level1"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="checkoutCountry">
+                                Country
+                            </label>
+
+                            <select
+                                id="checkoutCountry"
+                                name="country"
+                                required
+                            >
+
+                                <option value="">
+                                    Select your country
+                                </option>
+
+                                <option value="Afghanistan">
+                                    Afghanistan
+                                </option>
+
+                                <option value="Albania">
+                                    Albania
+                                </option>
+
+                                <option value="Algeria">
+                                    Algeria
+                                </option>
+
+                                <option value="Andorra">
+                                    Andorra
+                                </option>
+
+                                <option value="Argentina">
+                                    Argentina
+                                </option>
+
+                                <option value="Australia">
+                                    Australia
+                                </option>
+
+                                <option value="Austria">
+                                    Austria
+                                </option>
+
+                                <option value="Bangladesh">
+                                    Bangladesh
+                                </option>
+
+                                <option value="Belgium">
+                                    Belgium
+                                </option>
+
+                                <option value="Brazil">
+                                    Brazil
+                                </option>
+
+                                <option value="Bulgaria">
+                                    Bulgaria
+                                </option>
+
+                                <option value="Cambodia">
+                                    Cambodia
+                                </option>
+
+                                <option value="Canada">
+                                    Canada
+                                </option>
+
+                                <option value="Chile">
+                                    Chile
+                                </option>
+
+                                <option value="China">
+                                    China
+                                </option>
+
+                                <option value="Colombia">
+                                    Colombia
+                                </option>
+
+                                <option value="Costa Rica">
+                                    Costa Rica
+                                </option>
+
+                                <option value="Croatia">
+                                    Croatia
+                                </option>
+
+                                <option value="Cyprus">
+                                    Cyprus
+                                </option>
+
+                                <option value="Czechia">
+                                    Czechia
+                                </option>
+
+                                <option value="Denmark">
+                                    Denmark
+                                </option>
+
+                                <option value="Egypt">
+                                    Egypt
+                                </option>
+
+                                <option value="Estonia">
+                                    Estonia
+                                </option>
+
+                                <option value="Finland">
+                                    Finland
+                                </option>
+
+                                <option value="France">
+                                    France
+                                </option>
+
+                                <option value="Georgia">
+                                    Georgia
+                                </option>
+
+                                <option value="Germany">
+                                    Germany
+                                </option>
+
+                                <option value="Greece">
+                                    Greece
+                                </option>
+
+                                <option value="Hong Kong (China)">
+                                    Hong Kong
+                                </option>
+
+                                <option value="Hungary">
+                                    Hungary
+                                </option>
+
+                                <option value="Iceland">
+                                    Iceland
+                                </option>
+
+                                <option value="India">
+                                    India
+                                </option>
+
+                                <option value="Indonesia">
+                                    Indonesia
+                                </option>
+
+                                <option value="Ireland">
+                                    Ireland
+                                </option>
+
+                                <option value="Israel">
+                                    Israel
+                                </option>
+
+                                <option value="Italy">
+                                    Italy
+                                </option>
+
+                                <option value="Japan">
+                                    Japan
+                                </option>
+
+                                <option value="Kazakhstan">
+                                    Kazakhstan
+                                </option>
+
+                                <option value="Kenya">
+                                    Kenya
+                                </option>
+
+                                <option value="Malaysia">
+                                    Malaysia
+                                </option>
+
+                                <option value="Maldives">
+                                    Maldives
+                                </option>
+
+                                <option value="Mexico">
+                                    Mexico
+                                </option>
+
+                                <option value="Morocco">
+                                    Morocco
+                                </option>
+
+                                <option value="Nepal">
+                                    Nepal
+                                </option>
+
+                                <option value="Netherlands">
+                                    Netherlands
+                                </option>
+
+                                <option value="New Zealand">
+                                    New Zealand
+                                </option>
+
+                                <option value="Nigeria">
+                                    Nigeria
+                                </option>
+
+                                <option value="Norway">
+                                    Norway
+                                </option>
+
+                                <option value="Oman">
+                                    Oman
+                                </option>
+
+                                <option value="Pakistan">
+                                    Pakistan
+                                </option>
+
+                                <option value="Peru">
+                                    Peru
+                                </option>
+
+                                <option value="Philippines">
+                                    Philippines
+                                </option>
+
+                                <option value="Poland">
+                                    Poland
+                                </option>
+
+                                <option value="Portugal">
+                                    Portugal
+                                </option>
+
+                                <option value="Qatar">
+                                    Qatar
+                                </option>
+
+                                <option value="Romania">
+                                    Romania
+                                </option>
+
+                                <option value="Russian Federation">
+                                    Russia
+                                </option>
+
+                                <option value="Saudi Arabia">
+                                    Saudi Arabia
+                                </option>
+
+                                <option value="Serbia">
+                                    Serbia
+                                </option>
+
+                                <option value="Singapore">
+                                    Singapore
+                                </option>
+
+                                <option value="Slovakia">
+                                    Slovakia
+                                </option>
+
+                                <option value="Slovenia">
+                                    Slovenia
+                                </option>
+
+                                <option value="South Africa">
+                                    South Africa
+                                </option>
+
+                                <option value="South Korea">
+                                    South Korea
+                                </option>
+
+                                <option value="Spain">
+                                    Spain
+                                </option>
+
+                                <option value="Sri Lanka">
+                                    Sri Lanka
+                                </option>
+
+                                <option value="Sweden">
+                                    Sweden
+                                </option>
+
+                                <option value="Switzerland">
+                                    Switzerland
+                                </option>
+
+                                <option value="Taiwan">
+                                    Taiwan
+                                </option>
+
+                                <option value="Thailand">
+                                    Thailand
+                                </option>
+
+                                <option value="Tunisia">
+                                    Tunisia
+                                </option>
+
+                                <option value="Turkey">
+                                    Turkey
+                                </option>
+
+                                <option value="Ukraine">
+                                    Ukraine
+                                </option>
+
+                                <option value="United Arab Emirates">
+                                    United Arab Emirates
+                                </option>
+
+                                <option value="United Kingdom">
+                                    United Kingdom
+                                </option>
+
+                                <option value="United States">
+                                    United States
+                                </option>
+
+                                <option value="Vietnam">
+                                    Vietnam
+                                </option>
+
+                            </select>
+
+                            <div
+                                id="countryError"
+                                class="error-message"
+                            ></div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="checkoutPostalCode">
+                                Postal / ZIP Code
+                            </label>
+
+                            <input
+                                type="text"
+                                id="checkoutPostalCode"
+                                name="postalCode"
+                                placeholder="Postal / ZIP code"
+                                autocomplete="postal-code"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =========================
+                     PAYMENT
+                ========================== -->
+
+                <div class="section">
+
+                    <h2>Payment Method</h2>
+
+                    <div class="payment-options">
+
+
+                        <label class="payment-option">
+
+                            <input
+                                type="radio"
+                                name="paymentMethod"
+                                value="cod"
+                                checked
+                            >
+
+                            <div>
+
+                                <strong>
+                                    Cash on Delivery
+                                </strong>
+
+                                <span>
+                                    Pay when your order arrives.
+                                </span>
+
+                            </div>
+
+                        </label>
+
+
+                        <label class="payment-option">
+
+                            <input
+                                type="radio"
+                                name="paymentMethod"
+                                value="online"
+                            >
+
+                            <div>
+
+                                <strong>
+                                    Online Payment
+                                </strong>
+
+                                <span>
+                                    Online payment option.
+                                </span>
+
+                            </div>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 ORDER SUMMARY
+            ========================== -->
+
+            <aside class="checkout-box order-summary">
+
+                <h2>
+                    Order Summary
+                </h2>
+
+
+                <div class="currency-line">
+
+                    <span>
+                        Currency
+                    </span>
+
+                    <strong id="checkoutCurrency">
+                        USD
+                    </strong>
+
+                </div>
+
+
+                <div
+                    id="checkoutItems"
+                    class="summary-items"
+                >
+
+                    <div class="loading">
+                        Loading your cart...
+                    </div>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Subtotal
+                    </span>
+
+                    <strong id="checkoutSubtotal">
+                        $0.00
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Shipping
+                    </span>
+
+                    <strong
+                        id="checkoutShipping"
+                        class="free-shipping"
+                    >
+                        FREE
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row total">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <strong id="checkoutTotal">
+                        $0.00
+                    </strong>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    id="placeOrderButton"
+                    class="place-order"
+                    disabled
+                >
+                    Place Order
+                </button>
+
+
+                <p class="secure-note">
+                    Your order information is handled securely.
+                </p>
+
+            </aside>
+
+        </div>
+
+    </form>
+
+</main>
+
+
+<footer>
+    © 2026 Sacchi Flyier. All rights reserved.
+</footer>
+
+
+<!--
+    IMPORTANT:
+    Keep this script at the bottom.
+    We will create the NEW checkout JavaScript next.
+-->
+
+<script src="script.js"></script>
+
+</body>
+</html>
