@@ -12,13 +12,9 @@ const menuButton = document.querySelector(".menu-button");
 const navbar = document.querySelector(".navbar");
 
 if (menuButton && navbar) {
-
     menuButton.addEventListener("click", function () {
-
         navbar.classList.toggle("active");
-
     });
-
 }
 
 
@@ -29,10 +25,8 @@ if (menuButton && navbar) {
 let cartCount =
     Number(localStorage.getItem("cartCount")) || 0;
 
-
 const cartButtons =
     document.querySelectorAll(".cart-button");
-
 
 cartButtons.forEach(function (button) {
 
@@ -48,9 +42,7 @@ cartButtons.forEach(function (button) {
         button.textContent = "ADDED ✓";
 
         setTimeout(function () {
-
             button.textContent = "ADD TO CART";
-
         }, 1500);
 
     });
@@ -64,7 +56,6 @@ cartButtons.forEach(function (button) {
 
 const newsletterForm =
     document.querySelector(".newsletter-form");
-
 
 if (newsletterForm) {
 
@@ -103,15 +94,12 @@ if (newsletterForm) {
 const navLinks =
     document.querySelectorAll(".navbar a");
 
-
 navLinks.forEach(function (link) {
 
     link.addEventListener("click", function () {
 
         if (navbar) {
-
             navbar.classList.remove("active");
-
         }
 
     });
@@ -128,12 +116,10 @@ function filterCategory(category) {
     const products =
         document.querySelectorAll(".product-card");
 
-
     products.forEach(function (product) {
 
         const productCategory =
             product.querySelector(".product-category");
-
 
         if (productCategory) {
 
@@ -141,7 +127,6 @@ function filterCategory(category) {
                 productCategory.textContent
                     .trim()
                     .toUpperCase();
-
 
             if (
                 categoryText ===
@@ -160,10 +145,8 @@ function filterCategory(category) {
 
     });
 
-
     const shop =
         document.querySelector("#shop");
-
 
     if (shop) {
 
@@ -181,7 +164,7 @@ function filterCategory(category) {
 
 
 // ======================================================
-// CHECKOUT
+// CHECKOUT ELEMENTS
 // ======================================================
 
 const countrySelect =
@@ -210,23 +193,26 @@ const placeOrderButton =
 
 
 // ======================================================
-// SETTINGS
+// CHECKOUT SETTINGS
 // ======================================================
 
-// Your customer shipping charge.
-// This is the amount BEFORE currency conversion.
+// Customer shipping charge.
+// This is always stored internally in USD.
 
 const BASE_SHIPPING_USD = 19.99;
 
 
-// These are the countries you decided not to ship to.
+// Your product/cart selling prices are currently INR.
+
+const STORE_CURRENCY = "INR";
+
+
+// Countries you do NOT ship to.
 
 const BLOCKED_COUNTRIES = [
-
     "Iraq",
     "Guinea-Bissau",
     "Holy See"
-
 ];
 
 
@@ -260,11 +246,11 @@ const COUNTRY_CURRENCY = {
     "Benin": "XOF",
     "Bermuda": "BMD",
     "Bhutan": "BTN",
-    "Bolivia": "BOB",
+    "Bolivia (Plurinational State of)": "BOB",
     "Bosnia and Herzegovina": "BAM",
     "Botswana": "BWP",
     "Brazil": "BRL",
-    "Brunei": "BND",
+    "Brunei Darussalam": "BND",
     "Bulgaria": "BGN",
     "Burkina Faso": "XOF",
     "Burundi": "BIF",
@@ -280,6 +266,7 @@ const COUNTRY_CURRENCY = {
     "Colombia": "COP",
     "Comoros": "KMF",
     "Congo": "XAF",
+    "Congo (the Democratic Republic of the)": "CDF",
     "Costa Rica": "CRC",
     "Côte d’Ivoire": "XOF",
     "Croatia": "EUR",
@@ -320,12 +307,12 @@ const COUNTRY_CURRENCY = {
     "Guyana": "GYD",
     "Haiti": "HTG",
     "Honduras": "HNL",
-    "Hong Kong": "HKD",
+    "Hong Kong (China)": "HKD",
     "Hungary": "HUF",
     "Iceland": "ISK",
     "India": "INR",
     "Indonesia": "IDR",
-    "Iran": "IRR",
+    "Iran (Islamic Republic of)": "IRR",
     "Iraq": "IQD",
     "Ireland": "EUR",
     "Isle of Man": "GBP",
@@ -422,8 +409,8 @@ const CURRENCY_SYMBOLS = {
     CNY: "¥",
     JPY: "¥",
     KRW: "₩",
-    AED: "د.إ",
-    SAR: "﷼",
+    AED: "د.إ ",
+    SAR: "﷼ ",
     CHF: "CHF ",
     SGD: "S$",
     NZD: "NZ$",
@@ -432,108 +419,103 @@ const CURRENCY_SYMBOLS = {
     THB: "฿",
     MYR: "RM",
     PHP: "₱",
-    IDR: "Rp",
+    IDR: "Rp ",
     BDT: "৳",
     PKR: "₨",
     ZAR: "R",
     BRL: "R$",
     MXN: "MX$",
     TRY: "₺",
-    PLN: "zł",
-    SEK: "kr",
-    NOK: "kr",
-    DKK: "kr",
-    CZK: "Kč",
-    HUF: "Ft",
-    RON: "lei",
+    PLN: "zł ",
+    SEK: "kr ",
+    NOK: "kr ",
+    DKK: "kr ",
+    CZK: "Kč ",
+    HUF: "Ft ",
+    RON: "lei ",
     RUB: "₽",
     UAH: "₴",
     VND: "₫",
     KZT: "₸",
-    EGP: "E£",
+    EGP: "E£ ",
     NGN: "₦",
-    GHS: "GH₵",
-    KES: "KSh",
+    GHS: "GH₵ ",
+    KES: "KSh ",
     NPR: "₨",
-    LKR: "Rs",
+    LKR: "Rs ",
     CLP: "$",
     COP: "$",
     ARS: "$",
-    PEN: "S/",
-    BOB: "Bs.",
-    UYU: "$U",
-    ISK: "kr",
-    ISL: "kr",
+    PEN: "S/ ",
+    BOB: "Bs. ",
+    UYU: "$U ",
     GEL: "₾",
     AMD: "֏",
     AZN: "₼",
-    ALL: "L",
-    RSD: "дин.",
-    BGN: "лв",
-    BAM: "KM",
-    MKD: "ден",
-    MAD: "د.م.",
-    DZD: "دج",
-    TND: "د.ت",
-    QAR: "ر.ق",
-    KWD: "د.ك",
-    BHD: ".د.ب",
-    OMR: "ر.ع.",
-    JOD: "د.ا",
+    ALL: "L ",
+    RSD: "дин. ",
+    BGN: "лв ",
+    BAM: "KM ",
+    MKD: "ден ",
+    MAD: "د.م. ",
+    DZD: "دج ",
+    TND: "د.ت ",
+    QAR: "ر.ق ",
+    KWD: "د.ك ",
+    BHD: ".د.ب ",
+    OMR: "ر.ع. ",
+    JOD: "د.ا ",
     ILS: "₪",
     KHR: "៛",
-    MMK: "K",
+    MMK: "K ",
     LAK: "₭",
-    MVR: "Rf",
+    MVR: "Rf ",
     MUR: "₨",
     FJD: "FJ$",
-    BWP: "P",
+    BWP: "P ",
     NAD: "N$",
-    SZL: "E",
-    GMD: "D",
-    GNF: "FG",
-    XOF: "CFA",
-    XAF: "FCFA",
-    XCD: "EC$",
-    XPF: "₣"
+    GMD: "D ",
+    GNF: "FG ",
+    XOF: "CFA ",
+    XAF: "FCFA ",
+    XCD: "EC$ ",
+    XPF: "₣ "
 
 };
 
 
 // ======================================================
-// CART DATA
+// GET CART
 // ======================================================
 
 function getCart() {
 
+    // IMPORTANT:
+    // This is the actual Sacchi Flyier cart key.
+
     const possibleKeys = [
+        "sacchiFlyierCart",
         "cart",
         "shoppingCart",
         "cartItems"
     ];
-
 
     for (const key of possibleKeys) {
 
         const saved =
             localStorage.getItem(key);
 
-
         if (!saved) {
             continue;
         }
-
 
         try {
 
             const parsed =
                 JSON.parse(saved);
 
-
             if (Array.isArray(parsed)) {
-
                 return parsed;
-
             }
 
         } catch (error) {
@@ -547,46 +529,27 @@ function getCart() {
 
     }
 
-
     return [];
 
 }
 
 
 // ======================================================
-// GET PRODUCT PRICE IN USD
+// GET ITEM PRICE
 // ======================================================
 
-function getItemPriceUSD(item) {
+function getItemPriceINR(item) {
 
     if (!item) {
         return 0;
     }
 
-
-    // Prefer an explicitly stored USD price.
-
     if (
-        item.priceUSD !== undefined &&
-        !isNaN(Number(item.priceUSD))
+        item.priceINR !== undefined &&
+        !isNaN(Number(item.priceINR))
     ) {
-
-        return Number(item.priceUSD);
-
+        return Number(item.priceINR);
     }
-
-
-    if (
-        item.usdPrice !== undefined &&
-        !isNaN(Number(item.usdPrice))
-    ) {
-
-        return Number(item.usdPrice);
-
-    }
-
-
-    // Otherwise use "price".
 
     if (
         item.price !== undefined &&
@@ -597,14 +560,11 @@ function getItemPriceUSD(item) {
             )
         )
     ) {
-
         return Number(
             String(item.price)
                 .replace(/[^0-9.-]/g, "")
         );
-
     }
-
 
     return 0;
 
@@ -624,7 +584,6 @@ function getItemQuantity(item) {
             1
         );
 
-
     return quantity > 0
         ? quantity
         : 1;
@@ -633,38 +592,27 @@ function getItemQuantity(item) {
 
 
 // ======================================================
-// CALCULATE CART SUBTOTAL IN USD
+// GET SUBTOTAL INR
 // ======================================================
 
-function getSubtotalUSD() {
+function getSubtotalINR() {
 
     const cart =
         getCart();
-
 
     if (!cart.length) {
         return 0;
     }
 
-
     let subtotal = 0;
-
 
     cart.forEach(function (item) {
 
-        const price =
-            getItemPriceUSD(item);
-
-
-        const quantity =
+        subtotal +=
+            getItemPriceINR(item) *
             getItemQuantity(item);
 
-
-        subtotal +=
-            price * quantity;
-
     });
-
 
     return subtotal;
 
@@ -672,7 +620,7 @@ function getSubtotalUSD() {
 
 
 // ======================================================
-// DISPLAY CART
+// DISPLAY CART ITEMS
 // ======================================================
 
 function renderCartItems() {
@@ -681,10 +629,8 @@ function renderCartItems() {
         return;
     }
 
-
     const cart =
         getCart();
-
 
     if (!cart.length) {
 
@@ -698,9 +644,7 @@ function renderCartItems() {
 
     }
 
-
     checkoutItems.innerHTML = "";
-
 
     cart.forEach(function (item) {
 
@@ -709,22 +653,17 @@ function renderCartItems() {
             item.title ||
             "Product";
 
-
         const quantity =
             getItemQuantity(item);
 
-
         const price =
-            getItemPriceUSD(item);
-
+            getItemPriceINR(item);
 
         const row =
             document.createElement("div");
 
-
         row.className =
             "checkout-item";
-
 
         row.innerHTML = `
             <div>
@@ -732,11 +671,13 @@ function renderCartItems() {
                 <small> × ${quantity}</small>
             </div>
 
-            <strong>
-                $${(price * quantity).toFixed(2)}
+            <strong class="checkout-item-price">
+                ${formatMoney(
+                    price * quantity,
+                    "INR"
+                )}
             </strong>
         `;
-
 
         checkoutItems.appendChild(row);
 
@@ -752,22 +693,17 @@ function renderCartItems() {
 function escapeHTML(value) {
 
     return String(value)
-
         .replace(/&/g, "&amp;")
-
         .replace(/</g, "&lt;")
-
         .replace(/>/g, "&gt;")
-
         .replace(/"/g, "&quot;")
-
         .replace(/'/g, "&#039;");
 
 }
 
 
 // ======================================================
-// GET CURRENCY
+// COUNTRY CURRENCY
 // ======================================================
 
 function getCurrencyForCountry(country) {
@@ -778,7 +714,35 @@ function getCurrencyForCountry(country) {
 
 
 // ======================================================
-// GET CURRENCY SYMBOL
+// FORMAT MONEY
+// ======================================================
+
+function formatMoney(amount, currency) {
+
+    try {
+
+        return new Intl.NumberFormat(
+            undefined,
+            {
+                style: "currency",
+                currency: currency
+            }
+        ).format(Number(amount));
+
+    } catch (error) {
+
+        return (
+            getCurrencySymbol(currency) +
+            Number(amount).toFixed(2)
+        );
+
+    }
+
+}
+
+
+// ======================================================
+// SYMBOL
 // ======================================================
 
 function getCurrencySymbol(currency) {
@@ -792,79 +756,34 @@ function getCurrencySymbol(currency) {
 
 
 // ======================================================
-// FORMAT MONEY
+// RATE CACHE
 // ======================================================
 
-function formatMoney(amount, currency) {
+function getCachedRate(base, quote) {
 
-    const symbol =
-        getCurrencySymbol(currency);
-
-
-    let decimals = 2;
-
-
-    // Currencies normally displayed without
-    // decimal places.
-
-    if (
-        currency === "JPY" ||
-        currency === "KRW" ||
-        currency === "VND" ||
-        currency === "CLP" ||
-        currency === "ISK"
-    ) {
-
-        decimals = 0;
-
-    }
-
-
-    return (
-        symbol +
-        Number(amount).toLocaleString(
-            undefined,
-            {
-                minimumFractionDigits: decimals,
-                maximumFractionDigits: decimals
-            }
-        )
-    );
-
-}
-
-
-// ======================================================
-// EXCHANGE RATE CACHE
-// ======================================================
-
-function getCachedRate(currency) {
-
-    if (currency === "USD") {
+    if (base === quote) {
         return 1;
     }
 
-
     const key =
-        "sf_rate_USD_" + currency;
-
+        "sf_rate_" +
+        base +
+        "_" +
+        quote;
 
     const saved =
         localStorage.getItem(key);
 
-
     if (!saved) {
         return null;
     }
-
 
     try {
 
         const data =
             JSON.parse(saved);
 
-
-        // Cache for 12 hours.
+        // 12-hour cache
 
         if (
             Date.now() - data.time <
@@ -877,12 +796,9 @@ function getCachedRate(currency) {
 
     } catch (error) {
 
-        console.warn(
-            "Invalid cached currency rate."
-        );
+        return null;
 
     }
-
 
     return null;
 
@@ -890,24 +806,28 @@ function getCachedRate(currency) {
 
 
 // ======================================================
-// SAVE EXCHANGE RATE
+// SAVE RATE
 // ======================================================
 
-function saveRate(currency, rate) {
+function saveRate(base, quote, rate) {
 
-    if (currency === "USD") {
+    if (base === quote) {
         return;
     }
 
+    const key =
+        "sf_rate_" +
+        base +
+        "_" +
+        quote;
 
     localStorage.setItem(
 
-        "sf_rate_USD_" + currency,
+        key,
 
         JSON.stringify({
 
             rate: rate,
-
             time: Date.now()
 
         })
@@ -918,56 +838,49 @@ function saveRate(currency, rate) {
 
 
 // ======================================================
-// GET LIVE EXCHANGE RATE
+// GET EXCHANGE RATE
 // ======================================================
 
-async function getExchangeRate(currency) {
+async function getExchangeRate(base, quote) {
 
-    if (currency === "USD") {
+    if (base === quote) {
         return 1;
     }
 
-
     const cached =
-        getCachedRate(currency);
-
+        getCachedRate(
+            base,
+            quote
+        );
 
     if (cached !== null) {
-
         return cached;
-
     }
 
+    // Frankfurter v2 API
 
     const url =
-        "https://api.frankfurter.dev/v1/latest" +
-        "?base=USD&symbols=" +
-        encodeURIComponent(currency);
-
+        "https://api.frankfurter.dev/v2/rate/" +
+        encodeURIComponent(base) +
+        "/" +
+        encodeURIComponent(quote);
 
     const response =
         await fetch(url);
 
-
     if (!response.ok) {
 
         throw new Error(
-            "Currency service unavailable."
+            "Exchange rate service unavailable."
         );
 
     }
 
-
     const data =
         await response.json();
 
-
     const rate =
-        Number(
-            data.rates &&
-            data.rates[currency]
-        );
-
+        Number(data.rate);
 
     if (
         !rate ||
@@ -975,17 +888,16 @@ async function getExchangeRate(currency) {
     ) {
 
         throw new Error(
-            "Exchange rate not available."
+            "Exchange rate unavailable."
         );
 
     }
 
-
     saveRate(
-        currency,
+        base,
+        quote,
         rate
     );
-
 
     return rate;
 
@@ -993,7 +905,7 @@ async function getExchangeRate(currency) {
 
 
 // ======================================================
-// SHOW MESSAGE
+// MESSAGE
 // ======================================================
 
 function showCountryMessage(
@@ -1005,15 +917,12 @@ function showCountryMessage(
         return;
     }
 
-
     countryMessage.textContent =
         message;
-
 
     countryMessage.className =
         "checkout-status " +
         type;
-
 
     countryMessage.style.display =
         "block";
@@ -1021,16 +930,11 @@ function showCountryMessage(
 }
 
 
-// ======================================================
-// HIDE MESSAGE
-// ======================================================
-
 function hideCountryMessage() {
 
     if (!countryMessage) {
         return;
     }
-
 
     countryMessage.textContent = "";
 
@@ -1041,7 +945,7 @@ function hideCountryMessage() {
 
 
 // ======================================================
-// SET CHECKOUT CURRENCY
+// CURRENCY LABEL
 // ======================================================
 
 function setCurrencyText(currency) {
@@ -1050,7 +954,6 @@ function setCurrencyText(currency) {
         return;
     }
 
-
     currencyElement.textContent =
         currency;
 
@@ -1058,26 +961,20 @@ function setCurrencyText(currency) {
 
 
 // ======================================================
-// RESET CHECKOUT
+// RESET
 // ======================================================
 
 function resetCheckout() {
 
     if (subtotalElement) {
-
         subtotalElement.textContent =
             "Select country";
-
     }
-
 
     if (shippingElement) {
-
         shippingElement.textContent =
             "Select country";
-
     }
-
 
     if (totalElement) {
 
@@ -1090,14 +987,10 @@ function resetCheckout() {
 
     }
 
-
     if (currencyElement) {
-
         currencyElement.textContent =
             "Select country";
-
     }
-
 
     hideCountryMessage();
 
@@ -1114,12 +1007,8 @@ async function updateCheckout() {
         return;
     }
 
-
     const country =
         countrySelect.value;
-
-
-    // Nothing selected.
 
     if (!country) {
 
@@ -1141,25 +1030,17 @@ async function updateCheckout() {
         const currency =
             getCurrencyForCountry(country);
 
-
         setCurrencyText(currency);
 
-
         if (shippingElement) {
-
             shippingElement.textContent =
                 "Unavailable";
-
         }
-
 
         if (subtotalElement) {
-
             subtotalElement.textContent =
                 "Unavailable";
-
         }
-
 
         if (totalElement) {
 
@@ -1172,6 +1053,9 @@ async function updateCheckout() {
 
         }
 
+        if (placeOrderButton) {
+            placeOrderButton.disabled = true;
+        }
 
         showCountryMessage(
 
@@ -1182,7 +1066,6 @@ async function updateCheckout() {
             "error"
 
         );
-
 
         return;
 
@@ -1196,9 +1079,11 @@ async function updateCheckout() {
     const currency =
         getCurrencyForCountry(country);
 
-
     setCurrencyText(currency);
 
+    if (placeOrderButton) {
+        placeOrderButton.disabled = false;
+    }
 
     if (totalElement) {
 
@@ -1208,11 +1093,10 @@ async function updateCheckout() {
 
     }
 
-
     showCountryMessage(
 
-        "Updating currency for " +
-        country +
+        "Converting prices to " +
+        currency +
         "…",
 
         "loading"
@@ -1222,35 +1106,43 @@ async function updateCheckout() {
 
     try {
 
-        const rate =
+        // Product prices are INR.
+        const productRate =
             await getExchangeRate(
+                "INR",
+                currency
+            );
+
+        // Shipping is USD.
+        const shippingRate =
+            await getExchangeRate(
+                "USD",
                 currency
             );
 
 
-        const subtotalUSD =
-            getSubtotalUSD();
-
+        const subtotalINR =
+            getSubtotalINR();
 
         const shippingUSD =
             BASE_SHIPPING_USD;
 
 
         const subtotalConverted =
-            subtotalUSD * rate;
-
+            subtotalINR *
+            productRate;
 
         const shippingConverted =
-            shippingUSD * rate;
-
+            shippingUSD *
+            shippingRate;
 
         const totalConverted =
-            (subtotalUSD + shippingUSD) *
-            rate;
+            subtotalConverted +
+            shippingConverted;
 
 
         // ==================================================
-        // DISPLAY SUBTOTAL
+        // SUBTOTAL
         // ==================================================
 
         if (subtotalElement) {
@@ -1265,7 +1157,7 @@ async function updateCheckout() {
 
 
         // ==================================================
-        // DISPLAY SHIPPING
+        // SHIPPING
         // ==================================================
 
         if (shippingElement) {
@@ -1280,7 +1172,7 @@ async function updateCheckout() {
 
 
         // ==================================================
-        // DISPLAY TOTAL
+        // TOTAL
         // ==================================================
 
         if (totalElement) {
@@ -1295,8 +1187,29 @@ async function updateCheckout() {
 
 
         // ==================================================
-        // SUCCESS MESSAGE
+        // SAVE CHECKOUT DATA
         // ==================================================
+
+        localStorage.setItem(
+            "checkoutCountry",
+            country
+        );
+
+        localStorage.setItem(
+            "checkoutCurrency",
+            currency
+        );
+
+        localStorage.setItem(
+            "checkoutProductRate",
+            String(productRate)
+        );
+
+        localStorage.setItem(
+            "checkoutShippingRate",
+            String(shippingRate)
+        );
+
 
         showCountryMessage(
 
@@ -1310,36 +1223,6 @@ async function updateCheckout() {
 
         );
 
-
-        // Save checkout information.
-
-        localStorage.setItem(
-
-            "checkoutCountry",
-
-            country
-
-        );
-
-
-        localStorage.setItem(
-
-            "checkoutCurrency",
-
-            currency
-
-        );
-
-
-        localStorage.setItem(
-
-            "checkoutExchangeRate",
-
-            String(rate)
-
-        );
-
-
     } catch (error) {
 
         console.error(
@@ -1348,24 +1231,20 @@ async function updateCheckout() {
         );
 
 
-        // Keep the checkout usable in USD
-        // if the currency service cannot be reached.
+        // If currency service fails,
+        // show the original currencies consistently
+        // instead of mixing them.
 
-        const subtotalUSD =
-            getSubtotalUSD();
-
-
-        const totalUSD =
-            subtotalUSD +
-            BASE_SHIPPING_USD;
+        const subtotalINR =
+            getSubtotalINR();
 
 
         if (subtotalElement) {
 
             subtotalElement.textContent =
                 formatMoney(
-                    subtotalUSD,
-                    "USD"
+                    subtotalINR,
+                    "INR"
                 );
 
         }
@@ -1385,20 +1264,19 @@ async function updateCheckout() {
         if (totalElement) {
 
             totalElement.textContent =
-                formatMoney(
-                    totalUSD,
-                    "USD"
-                );
+                "Conversion unavailable";
 
         }
 
 
-        setCurrencyText("USD");
+        setCurrencyText(
+            "Conversion unavailable"
+        );
 
 
         showCountryMessage(
 
-            "Currency conversion is temporarily unavailable. Prices are shown in USD.",
+            "Currency conversion is temporarily unavailable. Please try again.",
 
             "error"
 
@@ -1434,16 +1312,21 @@ if (countrySelect) {
             "checkoutCountry"
         );
 
+    if (savedCountry) {
 
-    if (
-        savedCountry &&
-        countrySelect.querySelector(
-            `option[value="${CSS.escape(savedCountry)}"]`
-        )
-    ) {
+        const option =
+            Array.from(
+                countrySelect.options
+            ).find(function (item) {
 
-        countrySelect.value =
-            savedCountry;
+                return item.value === savedCountry;
+
+            });
+
+        if (option) {
+            countrySelect.value =
+                savedCountry;
+        }
 
     }
 
@@ -1466,8 +1349,6 @@ if (placeOrderButton) {
                     : "";
 
 
-            // Country required.
-
             if (!country) {
 
                 alert(
@@ -1479,20 +1360,14 @@ if (placeOrderButton) {
             }
 
 
-            // Blocked country.
-
             if (
-                BLOCKED_COUNTRIES.includes(
-                    country
-                )
+                BLOCKED_COUNTRIES.includes(country)
             ) {
 
                 alert(
-
                     "Sorry, Sacchi Flyier currently does not ship to " +
                     country +
                     "."
-
                 );
 
                 return;
@@ -1500,13 +1375,12 @@ if (placeOrderButton) {
             }
 
 
-            // Check required fields.
+            // Required fields
 
             const requiredFields =
                 document.querySelectorAll(
                     ".checkout-form [required]"
                 );
-
 
             let valid = true;
 
@@ -1515,7 +1389,8 @@ if (placeOrderButton) {
                 function (field) {
 
                     if (
-                        !field.value.trim()
+                        String(field.value || "")
+                            .trim() === ""
                     ) {
 
                         valid = false;
@@ -1538,7 +1413,7 @@ if (placeOrderButton) {
 
 
             // ==================================================
-            // SAVE ORDER INFORMATION
+            // ORDER DATA
             // ==================================================
 
             const orderData = {
@@ -1594,12 +1469,8 @@ if (placeOrderButton) {
                 currency:
                     localStorage.getItem(
                         "checkoutCurrency"
-                    ) || getCurrencyForCountry(country),
-
-                exchangeRate:
-                    localStorage.getItem(
-                        "checkoutExchangeRate"
-                    ) || "1",
+                    ) ||
+                    getCurrencyForCountry(country),
 
                 subtotal:
                     subtotalElement
@@ -1623,18 +1494,13 @@ if (placeOrderButton) {
 
 
             localStorage.setItem(
-
                 "pendingOrder",
-
                 JSON.stringify(orderData)
-
             );
 
 
             alert(
-
                 "Your order details have been saved. The next payment/order step can now be connected."
-
             );
 
         }
