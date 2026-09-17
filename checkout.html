@@ -7,6 +7,60 @@
     <title>Checkout | Sacchi Flyier</title>
 
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Checkout-only improvements */
+
+        .checkout-country-note {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #999;
+        }
+
+        .checkout-status {
+            display: none;
+            margin-top: 12px;
+            padding: 12px 14px;
+            border: 1px solid #333;
+            background: #151515;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .checkout-status.error {
+            border-color: #7a2d2d;
+            color: #ff8f8f;
+        }
+
+        .checkout-status.success {
+            border-color: #315f3a;
+            color: #9be6a7;
+        }
+
+        .checkout-status.loading {
+            color: #ccc;
+        }
+
+        .currency-info {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #333;
+            font-size: 13px;
+            color: #999;
+        }
+
+        .currency-info strong {
+            color: #fff;
+        }
+
+        .unavailable-total {
+            color: #ff7777 !important;
+        }
+
+        select {
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -34,20 +88,29 @@
             <section class="checkout-form">
 
                 <div class="checkout-heading">
-                    <p class="checkout-label">SECURE CHECKOUT</p>
 
-                    <h1>Complete Your Order</h1>
+                    <p class="checkout-label">
+                        SECURE CHECKOUT
+                    </p>
+
+                    <h1>
+                        Complete Your Order
+                    </h1>
 
                     <p>
                         Enter your details below to continue with your order.
                     </p>
+
                 </div>
 
 
                 <!-- CONTACT INFORMATION -->
                 <div class="checkout-section">
 
-                    <h2>Contact Information</h2>
+                    <h2>
+                        Contact Information
+                    </h2>
+
 
                     <label for="checkoutName">
                         Full Name
@@ -85,18 +148,53 @@
                             id="checkoutCountryCode"
                             name="country_code"
                         >
-                            <option value="+91">🇮🇳 +91</option>
-                            <option value="+1">🇺🇸 +1</option>
-                            <option value="+44">🇬🇧 +44</option>
-                            <option value="+61">🇦🇺 +61</option>
-                            <option value="+1">🇨🇦 +1</option>
-                            <option value="+33">🇫🇷 +33</option>
-                            <option value="+49">🇩🇪 +49</option>
-                            <option value="+39">🇮🇹 +39</option>
-                            <option value="+81">🇯🇵 +81</option>
-                            <option value="+82">🇰🇷 +82</option>
-                            <option value="+971">🇦🇪 +971</option>
+
+                            <option value="+91">
+                                🇮🇳 +91
+                            </option>
+
+                            <option value="+1">
+                                🇺🇸 +1
+                            </option>
+
+                            <option value="+44">
+                                🇬🇧 +44
+                            </option>
+
+                            <option value="+61">
+                                🇦🇺 +61
+                            </option>
+
+                            <option value="+33">
+                                🇫🇷 +33
+                            </option>
+
+                            <option value="+49">
+                                🇩🇪 +49
+                            </option>
+
+                            <option value="+39">
+                                🇮🇹 +39
+                            </option>
+
+                            <option value="+81">
+                                🇯🇵 +81
+                            </option>
+
+                            <option value="+82">
+                                🇰🇷 +82
+                            </option>
+
+                            <option value="+86">
+                                🇨🇳 +86
+                            </option>
+
+                            <option value="+971">
+                                🇦🇪 +971
+                            </option>
+
                         </select>
+
 
                         <input
                             type="tel"
@@ -114,7 +212,9 @@
                 <!-- SHIPPING ADDRESS -->
                 <div class="checkout-section">
 
-                    <h2>Shipping Address</h2>
+                    <h2>
+                        Shipping Address
+                    </h2>
 
 
                     <label for="address">
@@ -159,7 +259,7 @@
                                 type="text"
                                 id="state"
                                 name="state"
-                                placeholder="State"
+                                placeholder="State / Province"
                                 required
                             >
 
@@ -176,7 +276,6 @@
                                 Country
                             </label>
 
-                            <!-- COUNTRY DROPDOWN -->
                             <select
                                 id="country"
                                 name="country"
@@ -187,81 +286,194 @@
                                     Select your country
                                 </option>
 
-                                <option value="Afghanistan">🇦🇫 Afghanistan</option>
-                                <option value="Albania">🇦🇱 Albania</option>
-                                <option value="Algeria">🇩🇿 Algeria</option>
-                                <option value="Argentina">🇦🇷 Argentina</option>
-                                <option value="Australia">🇦🇺 Australia</option>
-                                <option value="Austria">🇦🇹 Austria</option>
-                                <option value="Bangladesh">🇧🇩 Bangladesh</option>
-                                <option value="Belgium">🇧🇪 Belgium</option>
-                                <option value="Brazil">🇧🇷 Brazil</option>
-                                <option value="Bulgaria">🇧🇬 Bulgaria</option>
-                                <option value="Canada">🇨🇦 Canada</option>
-                                <option value="Chile">🇨🇱 Chile</option>
-                                <option value="China">🇨🇳 China</option>
-                                <option value="Colombia">🇨🇴 Colombia</option>
-                                <option value="Costa Rica">🇨🇷 Costa Rica</option>
-                                <option value="Croatia">🇭🇷 Croatia</option>
-                                <option value="Cyprus">🇨🇾 Cyprus</option>
-                                <option value="Czechia">🇨🇿 Czechia</option>
-                                <option value="Denmark">🇩🇰 Denmark</option>
-                                <option value="Ecuador">🇪🇨 Ecuador</option>
-                                <option value="Egypt">🇪🇬 Egypt</option>
-                                <option value="Estonia">🇪🇪 Estonia</option>
-                                <option value="Finland">🇫🇮 Finland</option>
-                                <option value="France">🇫🇷 France</option>
-                                <option value="Germany">🇩🇪 Germany</option>
-                                <option value="Greece">🇬🇷 Greece</option>
-                                <option value="Guatemala">🇬🇹 Guatemala</option>
-                                <option value="Hungary">🇭🇺 Hungary</option>
-                                <option value="Iceland">🇮🇸 Iceland</option>
-                                <option value="India">🇮🇳 India</option>
-                                <option value="Indonesia">🇮🇩 Indonesia</option>
-                                <option value="Ireland">🇮🇪 Ireland</option>
-                                <option value="Israel">🇮🇱 Israel</option>
-                                <option value="Italy">🇮🇹 Italy</option>
-                                <option value="Japan">🇯🇵 Japan</option>
-                                <option value="Jordan">🇯🇴 Jordan</option>
-                                <option value="Kenya">🇰🇪 Kenya</option>
-                                <option value="Malaysia">🇲🇾 Malaysia</option>
-                                <option value="Mexico">🇲🇽 Mexico</option>
-                                <option value="Nepal">🇳🇵 Nepal</option>
-                                <option value="Netherlands">🇳🇱 Netherlands</option>
-                                <option value="New Zealand">🇳🇿 New Zealand</option>
-                                <option value="Nigeria">🇳🇬 Nigeria</option>
-                                <option value="Norway">🇳🇴 Norway</option>
-                                <option value="Pakistan">🇵🇰 Pakistan</option>
-                                <option value="Peru">🇵🇪 Peru</option>
-                                <option value="Philippines">🇵🇭 Philippines</option>
-                                <option value="Poland">🇵🇱 Poland</option>
-                                <option value="Portugal">🇵🇹 Portugal</option>
-                                <option value="Qatar">🇶🇦 Qatar</option>
-                                <option value="Romania">🇷🇴 Romania</option>
-                                <option value="Saudi Arabia">🇸🇦 Saudi Arabia</option>
-                                <option value="Singapore">🇸🇬 Singapore</option>
-                                <option value="South Africa">🇿🇦 South Africa</option>
-                                <option value="South Korea">🇰🇷 South Korea</option>
-                                <option value="Spain">🇪🇸 Spain</option>
-                                <option value="Sri Lanka">🇱🇰 Sri Lanka</option>
-                                <option value="Sweden">🇸🇪 Sweden</option>
-                                <option value="Switzerland">🇨🇭 Switzerland</option>
-                                <option value="Thailand">🇹🇭 Thailand</option>
-                                <option value="Turkey">🇹🇷 Turkey</option>
-                                <option value="Ukraine">🇺🇦 Ukraine</option>
-                                <option value="United Arab Emirates">🇦🇪 United Arab Emirates</option>
-                                <option value="United Kingdom">🇬🇧 United Kingdom</option>
-                                <option value="United States">🇺🇸 United States</option>
-                                <option value="Vietnam">🇻🇳 Vietnam</option>
+                                <option value="Afghanistan">Afghanistan</option>
+                                <option value="Albania">Albania</option>
+                                <option value="Algeria">Algeria</option>
+                                <option value="American Samoa">American Samoa</option>
+                                <option value="Andorra">Andorra</option>
+                                <option value="Angola">Angola</option>
+                                <option value="Anguilla">Anguilla</option>
+                                <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+                                <option value="Argentina">Argentina</option>
+                                <option value="Armenia">Armenia</option>
+                                <option value="Aruba">Aruba</option>
+                                <option value="Australia">Australia</option>
+                                <option value="Austria">Austria</option>
+                                <option value="Azerbaijan">Azerbaijan</option>
+                                <option value="Bahamas">Bahamas</option>
+                                <option value="Bahrain">Bahrain</option>
+                                <option value="Bangladesh">Bangladesh</option>
+                                <option value="Barbados">Barbados</option>
+                                <option value="Belarus">Belarus</option>
+                                <option value="Belgium">Belgium</option>
+                                <option value="Belize">Belize</option>
+                                <option value="Benin">Benin</option>
+                                <option value="Bermuda">Bermuda</option>
+                                <option value="Bhutan">Bhutan</option>
+                                <option value="Bolivia">Bolivia</option>
+                                <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+                                <option value="Botswana">Botswana</option>
+                                <option value="Brazil">Brazil</option>
+                                <option value="Brunei">Brunei</option>
+                                <option value="Bulgaria">Bulgaria</option>
+                                <option value="Burkina Faso">Burkina Faso</option>
+                                <option value="Burundi">Burundi</option>
+                                <option value="Cabo Verde">Cabo Verde</option>
+                                <option value="Cambodia">Cambodia</option>
+                                <option value="Cameroon">Cameroon</option>
+                                <option value="Canada">Canada</option>
+                                <option value="Cayman Islands">Cayman Islands</option>
+                                <option value="Central African Republic">Central African Republic</option>
+                                <option value="Chad">Chad</option>
+                                <option value="Chile">Chile</option>
+                                <option value="China">China</option>
+                                <option value="Colombia">Colombia</option>
+                                <option value="Comoros">Comoros</option>
+                                <option value="Congo">Congo</option>
+                                <option value="Costa Rica">Costa Rica</option>
+                                <option value="Côte d’Ivoire">Côte d’Ivoire</option>
+                                <option value="Croatia">Croatia</option>
+                                <option value="Cuba">Cuba</option>
+                                <option value="Curaçao">Curaçao</option>
+                                <option value="Cyprus">Cyprus</option>
+                                <option value="Czechia">Czechia</option>
+                                <option value="Denmark">Denmark</option>
+                                <option value="Djibouti">Djibouti</option>
+                                <option value="Dominica">Dominica</option>
+                                <option value="Dominican Republic">Dominican Republic</option>
+                                <option value="Ecuador">Ecuador</option>
+                                <option value="Egypt">Egypt</option>
+                                <option value="El Salvador">El Salvador</option>
+                                <option value="Equatorial Guinea">Equatorial Guinea</option>
+                                <option value="Eritrea">Eritrea</option>
+                                <option value="Estonia">Estonia</option>
+                                <option value="Ethiopia">Ethiopia</option>
+                                <option value="Fiji">Fiji</option>
+                                <option value="Finland">Finland</option>
+                                <option value="France">France</option>
+                                <option value="French Polynesia">French Polynesia</option>
+                                <option value="Gabon">Gabon</option>
+                                <option value="Gambia">Gambia</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Germany">Germany</option>
+                                <option value="Ghana">Ghana</option>
+                                <option value="Gibraltar">Gibraltar</option>
+                                <option value="Greece">Greece</option>
+                                <option value="Greenland">Greenland</option>
+                                <option value="Grenada">Grenada</option>
+                                <option value="Guadeloupe">Guadeloupe</option>
+                                <option value="Guam">Guam</option>
+                                <option value="Guatemala">Guatemala</option>
+                                <option value="Guernsey">Guernsey</option>
+                                <option value="Guinea">Guinea</option>
 
-                                <!-- BLOCKED COUNTRIES -->
-                                <option value="Iraq">🇮🇶 Iraq</option>
-                                <option value="Guinea-Bissau">🇬🇼 Guinea-Bissau</option>
-                                <option value="Holy See">🇻🇦 Holy See</option>
+                                <!-- BLOCKED -->
+                                <option value="Guinea-Bissau">
+                                    Guinea-Bissau — Not available
+                                </option>
+
+                                <option value="Guyana">Guyana</option>
+                                <option value="Haiti">Haiti</option>
+                                <option value="Honduras">Honduras</option>
+                                <option value="Hong Kong">Hong Kong</option>
+                                <option value="Hungary">Hungary</option>
+                                <option value="Iceland">Iceland</option>
+                                <option value="India">India</option>
+                                <option value="Indonesia">Indonesia</option>
+                                <option value="Iran">Iran</option>
+
+                                <!-- BLOCKED -->
+                                <option value="Iraq">
+                                    Iraq — Not available
+                                </option>
+
+                                <option value="Ireland">Ireland</option>
+                                <option value="Isle of Man">Isle of Man</option>
+                                <option value="Israel">Israel</option>
+                                <option value="Italy">Italy</option>
+                                <option value="Jamaica">Jamaica</option>
+                                <option value="Japan">Japan</option>
+                                <option value="Jersey">Jersey</option>
+                                <option value="Jordan">Jordan</option>
+                                <option value="Kazakhstan">Kazakhstan</option>
+                                <option value="Kenya">Kenya</option>
+                                <option value="Kuwait">Kuwait</option>
+                                <option value="Kyrgyzstan">Kyrgyzstan</option>
+                                <option value="Laos">Laos</option>
+                                <option value="Latvia">Latvia</option>
+                                <option value="Lebanon">Lebanon</option>
+                                <option value="Liechtenstein">Liechtenstein</option>
+                                <option value="Lithuania">Lithuania</option>
+                                <option value="Luxembourg">Luxembourg</option>
+                                <option value="Macau">Macau</option>
+                                <option value="Malaysia">Malaysia</option>
+                                <option value="Maldives">Maldives</option>
+                                <option value="Malta">Malta</option>
+                                <option value="Martinique">Martinique</option>
+                                <option value="Mauritius">Mauritius</option>
+                                <option value="Mexico">Mexico</option>
+                                <option value="Monaco">Monaco</option>
+                                <option value="Mongolia">Mongolia</option>
+                                <option value="Montenegro">Montenegro</option>
+                                <option value="Morocco">Morocco</option>
+                                <option value="Mozambique">Mozambique</option>
+                                <option value="Myanmar">Myanmar</option>
+                                <option value="Namibia">Namibia</option>
+                                <option value="Nepal">Nepal</option>
+                                <option value="Netherlands">Netherlands</option>
+                                <option value="New Zealand">New Zealand</option>
+                                <option value="Nigeria">Nigeria</option>
+                                <option value="North Macedonia">North Macedonia</option>
+                                <option value="Norway">Norway</option>
+                                <option value="Oman">Oman</option>
+                                <option value="Pakistan">Pakistan</option>
+                                <option value="Panama">Panama</option>
+                                <option value="Papua New Guinea">Papua New Guinea</option>
+                                <option value="Paraguay">Paraguay</option>
+                                <option value="Peru">Peru</option>
+                                <option value="Philippines">Philippines</option>
+                                <option value="Poland">Poland</option>
+                                <option value="Portugal">Portugal</option>
+                                <option value="Puerto Rico">Puerto Rico</option>
+                                <option value="Qatar">Qatar</option>
+                                <option value="Romania">Romania</option>
+                                <option value="Russia">Russia</option>
+                                <option value="Saudi Arabia">Saudi Arabia</option>
+                                <option value="Serbia">Serbia</option>
+                                <option value="Singapore">Singapore</option>
+                                <option value="Slovakia">Slovakia</option>
+                                <option value="Slovenia">Slovenia</option>
+                                <option value="South Africa">South Africa</option>
+                                <option value="South Korea">South Korea</option>
+                                <option value="Spain">Spain</option>
+                                <option value="Sri Lanka">Sri Lanka</option>
+                                <option value="Suriname">Suriname</option>
+                                <option value="Sweden">Sweden</option>
+                                <option value="Switzerland">Switzerland</option>
+                                <option value="Taiwan">Taiwan</option>
+                                <option value="Thailand">Thailand</option>
+                                <option value="Tunisia">Tunisia</option>
+                                <option value="Turkey">Turkey</option>
+                                <option value="Ukraine">Ukraine</option>
+                                <option value="United Arab Emirates">United Arab Emirates</option>
+                                <option value="United Kingdom">United Kingdom</option>
+                                <option value="United States">United States</option>
+                                <option value="Uruguay">Uruguay</option>
+                                <option value="Uzbekistan">Uzbekistan</option>
+                                <option value="Venezuela">Venezuela</option>
+
+                                <!-- BLOCKED -->
+                                <option value="Holy See">
+                                    Holy See — Not available
+                                </option>
+
+                                <option value="Vietnam">Vietnam</option>
 
                             </select>
 
-                            <small id="countryMessage"></small>
+                            <p class="checkout-country-note">
+                                Shipping is available to supported countries only.
+                            </p>
 
                         </div>
 
@@ -284,13 +496,22 @@
 
                     </div>
 
+
+                    <div
+                        id="countryMessage"
+                        class="checkout-status"
+                    ></div>
+
                 </div>
 
 
                 <!-- PAYMENT -->
                 <div class="checkout-section">
 
-                    <h2>Payment Method</h2>
+                    <h2>
+                        Payment Method
+                    </h2>
+
 
                     <div class="payment-option">
 
@@ -345,20 +566,27 @@
                     YOUR ORDER
                 </p>
 
-                <h2>Order Summary</h2>
+
+                <h2>
+                    Order Summary
+                </h2>
 
 
                 <div id="checkoutItems">
+
                     <!-- Cart items appear here -->
+
                 </div>
 
 
                 <div class="summary-line">
 
-                    <span>Subtotal</span>
+                    <span>
+                        Subtotal
+                    </span>
 
                     <strong id="checkoutSubtotal">
-                        ₹0.00
+                        Select country
                     </strong>
 
                 </div>
@@ -366,10 +594,12 @@
 
                 <div class="summary-line">
 
-                    <span>Shipping</span>
+                    <span>
+                        Shipping
+                    </span>
 
                     <strong id="checkoutShipping">
-                        $19.99
+                        Select country
                     </strong>
 
                 </div>
@@ -377,10 +607,29 @@
 
                 <div class="summary-total">
 
-                    <span>Total</span>
+                    <span>
+                        Total
+                    </span>
 
                     <strong id="checkoutTotal">
-                        ₹0.00
+                        Select country
+                    </strong>
+
+                </div>
+
+
+                <div class="currency-info">
+
+                    Currency:
+                    <strong id="checkoutCurrency">
+                        Select country
+                    </strong>
+
+                    <br>
+
+                    Base shipping:
+                    <strong>
+                        $19.99 USD
                     </strong>
 
                 </div>
