@@ -1283,118 +1283,74 @@ function setupAddToCartButtons() {
    ========================================================= */
 
 function updateStoreCartUI() {
+    const cart = getCart();
+    const cartItems = document.getElementById("cartItems");
+    const cartTotal = document.getElementById("cartTotal");
 
-    const cart =
-        getCart();
+    if (!cartItems) return;
 
-    const cartItems =
-        document.getElementById(
-            "cartItems"
-        );
+    cartItems.innerHTML = "";
 
-    const cartTotal =
-        document.getElementById(
-            "cartTotal"
-        );
+    if (cart.length === 0) {
+        cartItems.innerHTML = `
+            <div class="empty-cart">
+                Your cart is empty.
+            </div>
+        `;
+    } else {
+        cart.forEach(function(item, index) {
 
+            const quantity = Number(item.quantity) || 1;
+            const price = Number(item.price) || 0;
 
-    if (cartItems) {
+            const itemHTML = document.createElement("div");
 
-        if (!cart.length) {
+            itemHTML.className = "cart-item";
 
-            cartItems.innerHTML = `
-                <div class="empty-cart">
-                    Your cart is empty.
-                </div>
+            itemHTML.innerHTML = `
+                <strong>${escapeHTML(item.name)}</strong>
+                <div>Qty: ${quantity}</div>
+                <div>$${(price * quantity).toFixed(2)}</div>
+
+                <button
+                    type="button"
+                    onclick="removeFromCart(${index})">
+                    Remove
+                </button>
             `;
 
-        } else {
-
-            cartItems.innerHTML = "";
-
-            cart.forEach(function(item, index) {
-
-                const quantity =
-                    Math.max(
-                        1,
-                        Number(item.quantity) || 1
-                    );
-
-                const itemPrice =
-                    Number(item.price) || 0;
-
-                const itemTotal =
-                    itemPrice * quantity;
-
-
-                const row =
-                    document.createElement(
-                        "div"
-                    );
-
-                row.className =
-                    "cart-item";
-
-
-                row.innerHTML = `
-                    <div>
-                        <strong>
-                            ${escapeHTML(
-                                item.name ||
-                                "Product"
-                            )}
-                        </strong>
-                        <div>
-                            Qty: ${quantity}
-                        </div>
-                    </div>
-
-                    <div>
-                        $${itemTotal.toFixed(2)}
-                    </div>
-                `;
-
-
-                cartItems.appendChild(row);
-
-            });
-
-        }
-
+            cartItems.appendChild(itemHTML);
+        });
     }
 
+    let total = 0;
+
+    cart.forEach(function(item) {
+        total +=
+            (Number(item.price) || 0) *
+            (Number(item.quantity) || 1);
+    });
 
     if (cartTotal) {
-
-        const total =
-            cart.reduce(
-                function(sum, item) {
-
-                    const price =
-                        Number(item.price) || 0;
-
-                    const quantity =
-                        Math.max(
-                            1,
-                            Number(item.quantity) || 1
-                        );
-
-                    return sum +
-                        price * quantity;
-
-                },
-                0
-            );
-
-
         cartTotal.textContent =
             "$" + total.toFixed(2);
-
     }
 
-
     updateCartCount();
+}
 
+
+function removeFromCart(index) {
+
+    const cart = getCart();
+
+    cart.splice(index, 1);
+
+    saveCart(cart);
+
+    updateStoreCartUI();
+
+    updateCheckout();
 }
 
 
