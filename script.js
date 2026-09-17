@@ -1,3232 +1,1568 @@
-/* =========================================================
-   SACCHI FLYIER - COMPLETE script.js
-   CJ COUNTRY SHIPPING + $10 PROFIT PRICING
-   Homepage + Cart + Checkout + Currency + Newsletter
-   ========================================================= */
-
-
-/* =========================================================
-   SETTINGS
-   ========================================================= */
-
-const CJ_PRODUCT_COST_USD = 1.62;
-const MINIMUM_PROFIT_USD = 10.00;
-
-const CART_KEY = "sacchiFlyierCart";
-
-
-/*
-   COUNTRIES BLOCKED BY SACCHI FLYIER
-
-   These countries have CJ shipping of:
-   $87.03 or $181.74
-*/
-
-const BLOCKED_COUNTRIES = [
-    "Iraq",
-    "Syrian Arab Republic",
-    "Yemen",
-
-    "Guinea-Bissau",
-    "Micronesia (Federated States of)",
-    "Palau",
-    "South Sudan"
-];
-
-
-/* =========================================================
-   COUNTRY → CJ SHIPPING COST
-   =========================================================
-
-   Selling price:
-   CJ product cost + CJ shipping + $10 profit
-
-   Customer shipping:
-   FREE
-*/
-
-const COUNTRY_SHIPPING_USD = {
-
-    "Afghanistan": 3.72,
-    "Albania": 3.22,
-    "Algeria": 3.35,
-    "American Samoa": 9.11,
-    "Andorra": 6.60,
-    "Angola": 3.53,
-    "Anguilla": 3.82,
-    "Antigua and Barbuda": 3.50,
-    "Argentina": 3.67,
-    "Armenia": 3.32,
-    "Aruba": 3.37,
-    "Australia": 6.48,
-    "Austria": 3.41,
-    "Azerbaijan": 3.19,
-
-    "Bahamas": 3.57,
-    "Bahrain": 4.71,
-    "Bangladesh": 3.45,
-    "Barbados": 3.53,
-    "Belarus": 4.56,
-    "Belgium": 6.82,
-    "Belize": 3.82,
-    "Benin": 4.61,
-    "Bermuda": 3.53,
-    "Bhutan": 5.67,
-
-    "Bolivia": 3.86,
-    "Bolivia (Plurinational State of)": 3.86,
-
-    "Bonaire, Sint Eustatius and Saba": 3.86,
-    "Bosnia and Herzegovina": 4.95,
-    "Botswana": 3.53,
-    "Bouvet Island": 9.86,
-    "Brazil": 6.05,
-
-    "British Indian Ocean Territory": 5.51,
-
-    "Brunei": 3.14,
-    "Brunei Darussalam": 3.14,
-
-    "Bulgaria": 8.74,
-    "Burkina Faso": 4.80,
-    "Burundi": 3.60,
-
-    "Cabo Verde": 3.86,
-    "Cambodia": 3.56,
-    "Cameroon": 3.35,
-    "Canada": 5.31,
-    "Cayman Islands": 3.60,
-    "Cayman island": 3.60,
-    "Central African Republic": 3.86,
-    "Chad": 3.64,
-    "Chile": 4.14,
-    "China": 3.05,
-    "Christmas Island": 9.43,
-    "Cocos (Keeling) Islands": 9.43,
-    "Cocos (Keeling) island": 9.43,
-    "Colombia": 2.85,
-    "Comoros": 3.14,
-
-    "Congo": 1.88,
-    "Congo (the Democratic Republic of the)": 1.90,
-
-    "Cook Islands": 4.14,
-    "Cook island": 4.14,
-
-    "Costa Rica": 1.75,
-
-    "Côte d’Ivoire": 1.88,
-    "Côte d'Ivoire": 1.88,
-
-    "Croatia": 8.71,
-    "Cuba": 3.57,
-    "Curaçao": 3.40,
-    "Cyprus": 6.51,
-    "Czechia": 8.38,
-
-    "Denmark": 3.37,
-    "Djibouti": 3.86,
-    "Dominica": 3.82,
-    "Dominican Republic": 3.37,
-
-    "Ecuador": 3.75,
-    "Egypt": 3.68,
-    "El Salvador": 3.52,
-    "Ei Salvador": 3.52,
-    "Equatorial Guinea": 4.27,
-    "Eritrea": 3.60,
-    "Estonia": 7.60,
-    "Ethiopia": 3.43,
-
-    "Falkland Islands": 5.30,
-    "Falkland island": 5.30,
-    "Faroe Islands": 8.38,
-    "Faroe island": 8.38,
-    "Fiji": 3.98,
-    "Finland": 3.36,
-    "France": 5.76,
-    "French Guiana": 3.46,
-    "French Polynesia": 3.46,
-    "French Southern Territories": 8.11,
-
-    "Gabon": 4.76,
-    "Gambia": 3.60,
-    "Georgia": 3.97,
-    "Germany": 6.17,
-    "Ghana": 3.27,
-    "Gibraltar": 4.11,
-    "Greece": 3.32,
-    "Greenland": 8.54,
-    "Grenada": 3.60,
-    "Guadeloupe": 8.59,
-    "Guam": 9.53,
-    "Guatemala": 3.61,
-    "Guernsey": 7.81,
-    "Guinea": 4.43,
-
-    "Guinea-Bissau": 87.03,
-
-    "Guyana": 5.51,
-    "Haiti": 3.82,
-
-    /* Hawaii has no CJ rate */
-    "Hawaii": null,
-
-    "Heard Island and McDonald Islands": 9.00,
-    "Heard Island and McDonald island": 9.00,
-
-    "Holy See": 38.81,
-    "Honduras": 3.82,
-
-    "Hong Kong": 3.92,
-    "Hong Kong (China)": 3.92,
-    "Hong king(China)": 3.92,
-
-    "Hungary": 3.36,
-    "Iceland": 3.56,
-    "India": 4.01,
-    "Indonesia": 3.06,
-
-    "Iran": 3.43,
-    "Iran (Islamic Republic of)": 3.43,
-
-    "Iraq": 181.74,
-
-    "Ireland": 6.80,
-    "Isle of Man": 7.81,
-    "Israel": 5.16,
-    "Italy": 7.10,
-
-    "Jamaica": 3.53,
-    "Japan": 4.96,
-    "Jersey": 7.35,
-    "Jordan": 3.45,
-
-    "Kazakhstan": 2.88,
-    "Kenya": 3.43,
-    "Kiribati": 4.38,
-
-    "Korea (the Democratic People's Republic of)": 137.03,
-    "Korea(The democratic peoples republic of)": 137.03,
-
-    "Korea": 3.91,
-    "South Korea": 3.91,
-
-    "Kuwait": 9.27,
-    "Kyrgyzstan": 3.25,
-
-    "Lao peoples Democratic republic": 4.28,
-    "Laos": 4.28,
-
-    "Latvia": 7.60,
-    "Lebanon": 3.25,
-    "Lesotho": 3.86,
-    "Liberia": 3.32,
-    "Libya": 4.80,
-    "Liechtenstein": 7.33,
-
-    /* Same as Latvia according to your list */
-    "Lithuania": 7.60,
-
-    "Luxembourg": 3.25,
-
-    "Macao (China)": 5.58,
-    "Macao(China)": 5.58,
-    "Macau": 5.58,
-
-    "Macedonia (The former Yugoslav Republic of)": 3.32,
-    "Macedonia(The former Yugoslav republic of": 3.32,
-
-    "Madagascar": 3.60,
-    "Malawi": 3.50,
-    "Malaysia": 3.41,
-    "Maldives": 2.95,
-    "Mali": 4.80,
-    "Malta": 3.31,
-    "Marshall Islands": 8.93,
-    "Marshall island": 8.93,
-    "Martinique": 8.10,
-    "Mauritania": 3.27,
-    "Mauritius": 3.23,
-    "Mayotte": 7.82,
-    "Mexico": 4.18,
-
-    "Micronesia (Federated States of)": 87.03,
-
-    "Moldova the republic": 3.22,
-    "Monaco": 6.35,
-    "Mongolia": 4.42,
-    "Montenegro": 4.95,
-    "Montserrat": 3.82,
-    "Morocco": 4.04,
-    "Mozambique": 3.23,
-    "Myanmar": 3.53,
-
-    "Namibia": 4.83,
-    "Nauru": 5.30,
-    "Nepal": 3.15,
-    "Netherlands": 6.36,
-    "New Caledonia": 3.98,
-    "New Zealand": 4.94,
-    "Nicaragua": 3.60,
-    "Niger": 4.76,
-    "Nigeria": 3.50,
-    "Niue": 4.48,
-    "Norfolk Island": 3.38,
-    "Northern Mariana Island": 9.15,
-    "Norway": 5.94,
-
-    "Oman": 4.17,
-
-    "Pakistan": 2.94,
-
-    "Palau": 87.03,
-
-    /* No CJ rate supplied */
-    "Palestine State of": null,
-
-    "Panama": 3.25,
-    "Papua New Guinea": 3.98,
-    "Paraguay": 3.67,
-    "Peru": 3.67,
-    "Philippines": 3.32,
-    "Pitcairn": 5.14,
-    "Poland": 5.27,
-    "Portugal": 6.11,
-    "Puerto Rico": 8.47,
-
-    "Qatar": 4.04,
-
-    "Réunion": 5.89,
-    "Reunion": 5.89,
-
-    "Romania": 4.91,
-    "Romania4.91": 4.91,
-
-    "Russian Federation": 4.36,
-    "Russia": 4.36,
-
-    "Rwanda": 3.50,
-
-    "Saint Helena, Ascension and Tristan da Cunha": 5.95,
-    "Saint Helena,Ascension and Tristan da Cunha": 5.95,
-
-    "Saint Kitts and Nevis": 3.82,
-    "Saint Lucia": 3.53,
-    "Saint Martin (French part)": 8.11,
-    "Saint Martin(French part)": 8.11,
-    "Saint Pierre and Miquelon": 6.10,
-    "Saint Vincent and the Grenadines": 3.82,
-
-    "Samoa": 4.04,
-    "San Marino": 4.94,
-    "São Tomé and Príncipe": 3.86,
-    "Sao Tome and Principe": 3.86,
-
-    "Saudi Arabia": 4.32,
-    "Senegal": 3.37,
-    "Serbia": 3.18,
-    "Seychelles": 3.21,
-    "Sierra Leone": 3.86,
-    "Singapore": 3.93,
-    "Sint Maarten (Dutch Part)": 3.86,
-    "Sint Maarten(Dutch Part)": 3.86,
-
-    "Slovakia": 8.72,
-    "Slovenia": 8.90,
-    "Solomon Islands": 4.03,
-    "Solomon island": 4.03,
-
-    "Somalia": 3.86,
-    "South Africa": 5.97,
-    "South Georgia and the South Sandwich Islands": 8.19,
-    "South Georgia and the south sandwich island": 8.19,
-
-    "South Sudan": 87.03,
-
-    "Spain": 4.87,
-    "Sri Lanka": 3.12,
-    "Sudan": 4.43,
-    "Suriname": 3.86,
-    "Surname": 3.86,
-
-    "Swaziland": 3.87,
-    "Sweden": 6.74,
-    "Switzerland": 6.40,
-
-    "Syrian Arab Republic": 181.74,
-
-    "Taiwan": 7.37,
-    "Taiwan (Province of China)": 7.37,
-
-    "Tajikistan": 3.25,
-    "Tanzania, United Republic of": 3.46,
-    "Tanzania,United republic of": 3.46,
-    "Thailand": 2.71,
-    "The Republic of Kosovo": 4.25,
-    "Timor-Leste": 5.76,
-    "Togo": 3.38,
-    "Tokelau": 4.40,
-    "Tonga": 4.78,
-    "Trinidad and Tobago": 3.27,
-    "Tunisia": 3.43,
-    "Turkey": 4.64,
-    "Turks and Caicos Islands": 3.86,
-    "Turks and Caicos island": 3.86,
-    "Tuvalu": 4.38,
-
-    "Uganda": 3.35,
-    "Ukraine": 3.23,
-
-    "United Arab Emirates": 4.03,
-    "UAE": 4.03,
-
-    "United Kingdom": 4.81,
-    "UK": 4.81,
-
-    "United States": 3.68,
-    "US": 3.68,
-
-    "Uruguay": 4.21,
-    "Uzbekistan": 4.21,
-    "Vanuatu": 4.81,
-    "Venezuela": 3.57,
-    "Venezuela (Bolivarian Republic of)": 3.57,
-    "Vietnam": 3.02,
-
-    "Virgin Islands (British)": 3.53,
-    "Virgin island (British)": 3.53,
-
-    "Virgin Islands (U.S.)": 9.15,
-    "Virgin island (U.S)": 9.15,
-
-    "Wallis and Futuna": 5.24,
-    "Western Sahara": 6.54,
-
-    "Yemen": 181.74,
-
-    "Zambia": 3.46,
-    "Zimbabwe": 4.01
-};
-
-
-/* =========================================================
-   COUNTRY → CURRENCY
-   ========================================================= */
-
-const COUNTRY_CURRENCY = {
-
-    "Afghanistan": "AFN",
-    "Albania": "ALL",
-    "Algeria": "DZD",
-    "American Samoa": "USD",
-    "Andorra": "EUR",
-    "Angola": "AOA",
-    "Anguilla": "XCD",
-    "Antigua and Barbuda": "XCD",
-    "Argentina": "ARS",
-    "Armenia": "AMD",
-    "Aruba": "AWG",
-    "Australia": "AUD",
-    "Austria": "EUR",
-    "Azerbaijan": "AZN",
-
-    "Bahamas": "BSD",
-    "Bahrain": "BHD",
-    "Bangladesh": "BDT",
-    "Barbados": "BBD",
-    "Belarus": "BYN",
-    "Belgium": "EUR",
-    "Belize": "BZD",
-    "Benin": "XOF",
-    "Bermuda": "BMD",
-    "Bhutan": "BTN",
-
-    "Bolivia": "BOB",
-    "Bolivia (Plurinational State of)": "BOB",
-
-    "Bonaire, Sint Eustatius and Saba": "USD",
-    "Bosnia and Herzegovina": "BAM",
-    "Botswana": "BWP",
-    "Bouvet Island": "NOK",
-    "Brazil": "BRL",
-
-    "British Indian Ocean Territory": "USD",
-
-    "Brunei": "BND",
-    "Brunei Darussalam": "BND",
-
-    "Bulgaria": "EUR",
-    "Burkina Faso": "XOF",
-    "Burundi": "BIF",
-
-    "Cabo Verde": "CVE",
-    "Cambodia": "KHR",
-    "Cameroon": "XAF",
-    "Canada": "CAD",
-    "Cayman Islands": "KYD",
-    "Cayman island": "KYD",
-    "Central African Republic": "XAF",
-    "Chad": "XAF",
-    "Chile": "CLP",
-    "China": "CNY",
-    "Christmas Island": "AUD",
-    "Cocos (Keeling) Islands": "AUD",
-    "Colombia": "COP",
-    "Comoros": "KMF",
-
-    "Congo": "XAF",
-    "Congo (the Democratic Republic of the)": "CDF",
-
-    "Cook Islands": "NZD",
-    "Costa Rica": "CRC",
-
-    "Côte d’Ivoire": "XOF",
-    "Côte d'Ivoire": "XOF",
-
-    "Croatia": "EUR",
-    "Cuba": "CUP",
-    "Curaçao": "ANG",
-    "Cyprus": "EUR",
-    "Czechia": "CZK",
-
-    "Denmark": "DKK",
-    "Djibouti": "DJF",
-    "Dominica": "XCD",
-    "Dominican Republic": "DOP",
-
-    "Ecuador": "USD",
-    "Egypt": "EGP",
-    "El Salvador": "USD",
-    "Ei Salvador": "USD",
-    "Equatorial Guinea": "XAF",
-    "Eritrea": "ERN",
-    "Estonia": "EUR",
-    "Ethiopia": "ETB",
-
-    "Falkland Islands": "FKP",
-    "Falkland island": "FKP",
-    "Faroe Islands": "DKK",
-    "Faroe island": "DKK",
-    "Fiji": "FJD",
-    "Finland": "EUR",
-    "France": "EUR",
-    "French Guiana": "EUR",
-    "French Polynesia": "XPF",
-    "French Southern Territories": "EUR",
-
-    "Gabon": "XAF",
-    "Gambia": "GMD",
-    "Georgia": "GEL",
-    "Germany": "EUR",
-    "Ghana": "GHS",
-    "Gibraltar": "GIP",
-    "Greece": "EUR",
-    "Greenland": "DKK",
-    "Grenada": "XCD",
-    "Guadeloupe": "EUR",
-    "Guam": "USD",
-    "Guatemala": "GTQ",
-    "Guernsey": "GBP",
-    "Guinea": "GNF",
-    "Guinea-Bissau": "XOF",
-    "Guyana": "GYD",
-
-    "Haiti": "HTG",
-    "Hawaii": "USD",
-    "Heard Island and McDonald Islands": "AUD",
-    "Heard Island and McDonald island": "AUD",
-    "Holy See": "EUR",
-    "Honduras": "HNL",
-
-    "Hong Kong": "HKD",
-    "Hong Kong (China)": "HKD",
-    "Hong king(China)": "HKD",
-
-    "Hungary": "HUF",
-    "Iceland": "ISK",
-    "India": "INR",
-    "Indonesia": "IDR",
-
-    "Iran": "IRR",
-    "Iran (Islamic Republic of)": "IRR",
-
-    "Iraq": "IQD",
-
-    "Ireland": "EUR",
-    "Isle of Man": "GBP",
-    "Israel": "ILS",
-    "Italy": "EUR",
-
-    "Jamaica": "JMD",
-    "Japan": "JPY",
-    "Jersey": "GBP",
-    "Jordan": "JOD",
-
-    "Kazakhstan": "KZT",
-    "Kenya": "KES",
-    "Kiribati": "AUD",
-
-    "Korea (the Democratic People's Republic of)": "KPW",
-    "Korea(The democratic peoples republic of)": "KPW",
-
-    "Korea": "KRW",
-    "South Korea": "KRW",
-
-    "Kuwait": "KWD",
-    "Kyrgyzstan": "KGS",
-
-    "Lao peoples Democratic republic": "LAK",
-    "Laos": "LAK",
-
-    "Latvia": "EUR",
-    "Lebanon": "LBP",
-    "Lesotho": "LSL",
-    "Liberia": "LRD",
-    "Libya": "LYD",
-    "Liechtenstein": "CHF",
-    "Lithuania": "EUR",
-    "Luxembourg": "EUR",
-
-    "Macao (China)": "MOP",
-    "Macao(China)": "MOP",
-    "Macau": "MOP",
-
-    "Macedonia (The former Yugoslav Republic of)": "MKD",
-    "Macedonia(The former Yugoslav republic of": "MKD",
-
-    "Madagascar": "MGA",
-    "Malawi": "MWK",
-    "Malaysia": "MYR",
-    "Maldives": "MVR",
-    "Mali": "XOF",
-    "Malta": "EUR",
-    "Marshall Islands": "USD",
-    "Marshall island": "USD",
-    "Martinique": "EUR",
-    "Mauritania": "MRU",
-    "Mauritius": "MUR",
-    "Mayotte": "EUR",
-    "Mexico": "MXN",
-
-    "Micronesia (Federated States of)": "USD",
-
-    "Moldova the republic": "MDL",
-    "Monaco": "EUR",
-    "Mongolia": "MNT",
-    "Montenegro": "EUR",
-    "Montserrat": "XCD",
-    "Morocco": "MAD",
-    "Mozambique": "MZN",
-    "Myanmar": "MMK",
-
-    "Namibia": "NAD",
-    "Nauru": "AUD",
-    "Nepal": "NPR",
-    "Netherlands": "EUR",
-    "New Caledonia": "XPF",
-    "New Zealand": "NZD",
-    "Nicaragua": "NIO",
-    "Niger": "XOF",
-    "Nigeria": "NGN",
-    "Niue": "NZD",
-    "Norfolk Island": "AUD",
-    "Northern Mariana Island": "USD",
-    "Norway": "NOK",
-
-    "Oman": "OMR",
-
-    "Pakistan": "PKR",
-    "Palau": "USD",
-    "Palestine State of": "ILS",
-    "Panama": "PAB",
-    "Papua New Guinea": "PGK",
-    "Paraguay": "PYG",
-    "Peru": "PEN",
-    "Philippines": "PHP",
-    "Pitcairn": "NZD",
-    "Poland": "PLN",
-    "Portugal": "EUR",
-    "Puerto Rico": "USD",
-
-    "Qatar": "QAR",
-
-    "Réunion": "EUR",
-    "Reunion": "EUR",
-
-    "Romania": "RON",
-    "Romania4.91": "RON",
-
-    "Russian Federation": "RUB",
-    "Russia": "RUB",
-
-    "Rwanda": "RWF",
-
-    "Saint Helena, Ascension and Tristan da Cunha": "SHP",
-    "Saint Helena,Ascension and Tristan da Cunha": "SHP",
-
-    "Saint Kitts and Nevis": "XCD",
-    "Saint Lucia": "XCD",
-    "Saint Martin (French part)": "EUR",
-    "Saint Martin(French part)": "EUR",
-    "Saint Pierre and Miquelon": "EUR",
-    "Saint Vincent and the Grenadines": "XCD",
-
-    "Samoa": "WST",
-    "San Marino": "EUR",
-    "São Tomé and Príncipe": "STN",
-    "Sao Tome and Principe": "STN",
-
-    "Saudi Arabia": "SAR",
-    "Senegal": "XOF",
-    "Serbia": "RSD",
-    "Seychelles": "SCR",
-    "Sierra Leone": "SLE",
-    "Singapore": "SGD",
-    "Sint Maarten (Dutch Part)": "ANG",
-    "Sint Maarten(Dutch Part)": "ANG",
-
-    "Slovakia": "EUR",
-    "Slovenia": "EUR",
-    "Solomon Islands": "SBD",
-    "Solomon island": "SBD",
-
-    "Somalia": "SOS",
-    "South Africa": "ZAR",
-    "South Georgia and the South Sandwich Islands": "GBP",
-    "South Georgia and the south sandwich island": "GBP",
-
-    "South Sudan": "SSP",
-
-    "Spain": "EUR",
-    "Sri Lanka": "LKR",
-    "Sudan": "SDG",
-    "Suriname": "SRD",
-    "Surname": "SRD",
-
-    "Swaziland": "SZL",
-    "Sweden": "SEK",
-    "Switzerland": "CHF",
-
-    "Syrian Arab Republic": "SYP",
-
-    "Taiwan": "TWD",
-    "Taiwan (Province of China)": "TWD",
-
-    "Tajikistan": "TJS",
-    "Tanzania, United Republic of": "TZS",
-    "Tanzania,United republic of": "TZS",
-    "Thailand": "THB",
-    "The Republic of Kosovo": "EUR",
-    "Timor-Leste": "USD",
-    "Togo": "XOF",
-    "Tokelau": "NZD",
-    "Tonga": "TOP",
-    "Trinidad and Tobago": "TTD",
-    "Tunisia": "TND",
-    "Turkey": "TRY",
-    "Turks and Caicos Islands": "USD",
-    "Turks and Caicos island": "USD",
-    "Tuvalu": "AUD",
-
-    "Uganda": "UGX",
-    "Ukraine": "UAH",
-
-    "United Arab Emirates": "AED",
-    "UAE": "AED",
-
-    "United Kingdom": "GBP",
-    "UK": "GBP",
-
-    "United States": "USD",
-    "US": "USD",
-
-    "Uruguay": "UYU",
-    "Uzbekistan": "UZS",
-    "Vanuatu": "VUV",
-    "Venezuela": "VES",
-    "Venezuela (Bolivarian Republic of)": "VES",
-    "Vietnam": "VND",
-
-    "Virgin Islands (British)": "USD",
-    "Virgin island (British)": "USD",
-    "Virgin Islands (U.S.)": "USD",
-    "Virgin island (U.S)": "USD",
-
-    "Wallis and Futuna": "XPF",
-    "Western Sahara": "MAD",
-
-    "Yemen": "YER",
-
-    "Zambia": "ZMW",
-    "Zimbabwe": "ZWG"
-};
-
-
-/* =========================================================
-   PRODUCT PRICING
-   ========================================================= */
-
-function getCJShipping(country) {
-
-    if (
-        !country ||
-        !Object.prototype.hasOwnProperty.call(
-            COUNTRY_SHIPPING_USD,
-            country
-        )
-    ) {
-        return null;
-    }
-
-    const shipping =
-        Number(COUNTRY_SHIPPING_USD[country]);
-
-    if (
-        !Number.isFinite(shipping) ||
-        shipping < 0
-    ) {
-        return null;
-    }
-
-    return shipping;
-}
-
-
-function getSellingPriceUSD(country) {
-
-    const shipping =
-        getCJShipping(country);
-
-    if (shipping === null) {
-        return null;
-    }
-
-    return (
-        CJ_PRODUCT_COST_USD +
-        shipping +
-        MINIMUM_PROFIT_USD
-    );
-}
-
-
-function isCountryBlocked(country) {
-
-    return BLOCKED_COUNTRIES.includes(country);
-}
-
-
-function isCountryAvailable(country) {
-
-    if (!country) {
-        return false;
-    }
-
-    if (isCountryBlocked(country)) {
-        return false;
-    }
-
-    return getCJShipping(country) !== null;
-}
-
-
-/* =========================================================
-   CART STORAGE
-   ========================================================= */
-
-function getCart() {
-
-    try {
-
-        const saved =
-            localStorage.getItem(CART_KEY);
-
-        if (!saved) {
-            return [];
-        }
-
-        const cart =
-            JSON.parse(saved);
-
-        return Array.isArray(cart)
-            ? cart
-            : [];
-
-    } catch (error) {
-
-        console.error(
-            "Cart read error:",
-            error
-        );
-
-        return [];
-    }
-}
-
-
-function saveCart(cart) {
-
-    localStorage.setItem(
-        CART_KEY,
-        JSON.stringify(cart)
-    );
-
-    updateCartCount();
-    renderCart();
-
-    window.dispatchEvent(
-        new Event("cartUpdated")
-    );
-}
-
-
-/* =========================================================
-   PRODUCT PRICE HELPERS
-   ========================================================= */
-
-function getItemCJCostUSD(item) {
-
-    const possibleValues = [
-
-        item?.cjCostUSD,
-        item?.cjCost,
-        item?.productCostUSD
-
-    ];
-
-    for (
-        const value of possibleValues
-    ) {
-
-        const number =
-            Number(value);
-
-        if (
-            Number.isFinite(number) &&
-            number >= 0
-        ) {
-            return number;
-        }
-    }
-
-    return CJ_PRODUCT_COST_USD;
-}
-
-
-function getItemPriceINR(item) {
-
-    /*
-       Kept for compatibility with old cart data.
-
-       New products use CJ cost in USD and
-       country-specific pricing at checkout.
-    */
-
-    const values = [
-
-        item?.priceINR,
-        item?.price,
-        item?.salePrice,
-        item?.productPrice,
-        item?.amount
-
-    ];
-
-    for (
-        const value of values
-    ) {
-
-        const price =
-            Number(value);
-
-        if (
-            Number.isFinite(price) &&
-            price >= 0
-        ) {
-
-            return price;
-        }
-    }
-
-    return 0;
-}
-
-
-function getItemQuantity(item) {
-
-    const quantity =
-        Number(
-            item?.quantity ??
-            item?.qty ??
-            1
-        );
-
-    if (
-        !Number.isFinite(quantity) ||
-        quantity < 1
-    ) {
-
-        return 1;
-    }
-
-    return Math.floor(quantity);
-}
-
-
-/* =========================================================
-   ADD TO CART
-   ========================================================= */
-
-function addToCart(
-    productName,
-    price = 0,
-    image = "",
-    cjCostUSD = CJ_PRODUCT_COST_USD
-) {
-
-    const cart =
-        getCart();
-
-    const name =
-        String(
-            productName ||
-            "Product"
-        ).trim();
-
-    const cost =
-        Number(cjCostUSD);
-
-
-    const existing =
-        cart.find(
-            item =>
-                String(
-                    item.name ||
-                    item.title ||
-                    item.productName ||
-                    ""
-                ).toLowerCase() ===
-                name.toLowerCase()
-        );
-
-
-    if (existing) {
-
-        existing.quantity =
-            getItemQuantity(existing) + 1;
-
-    } else {
-
-        cart.push({
-
-            id:
-                "SF-" +
-                Date.now() +
-                "-" +
-                Math.random()
-                    .toString(36)
-                    .slice(2, 8),
-
-            name: name,
-
-            /*
-               Product price is calculated by country
-               at checkout.
-            */
-
-            price: Number(price) || 0,
-
-            cjCostUSD:
-                Number.isFinite(cost)
-                    ? cost
-                    : CJ_PRODUCT_COST_USD,
-
-            quantity: 1,
-
-            image:
-                image || ""
-        });
-    }
-
-
-    saveCart(cart);
-
-
-    alert(
-        `${name} has been added to your cart.`
-    );
-}
-
-
-/* =========================================================
-   CART COUNT
-   ========================================================= */
-
-function updateCartCount() {
-
-    const cart =
-        getCart();
-
-    const count =
-        cart.reduce(
-            (
-                total,
-                item
-            ) =>
-                total +
-                getItemQuantity(item),
-            0
-        );
-
-
-    const elements =
-        document.querySelectorAll(
-            "#cartCount, .cart-count, #cart-count, [data-cart-count]"
-        );
-
-
-    elements.forEach(
-        element => {
-
-            element.textContent =
-                count;
-        }
-    );
-}
-
-
-/* =========================================================
-   CART TOTAL
-   ========================================================= */
-
-function getCartSubtotalINR() {
-
-    const cart =
-        getCart();
-
-    return cart.reduce(
-        (
-            total,
-            item
-        ) => {
-
-            return total +
-                (
-                    getItemPriceINR(item) *
-                    getItemQuantity(item)
-                );
-
-        },
-        0
-    );
-}
-
-
-/* =========================================================
-   RENDER CART
-   ========================================================= */
-
-function renderCart() {
-
-    const cartItems =
-        document.getElementById(
-            "cartItems"
-        );
-
-    const cartTotal =
-        document.getElementById(
-            "cartTotal"
-        );
-
-
-    if (!cartItems) {
-        return;
-    }
-
-
-    const cart =
-        getCart();
-
-
-    if (cart.length === 0) {
-
-        cartItems.innerHTML =
-            "<p>Your cart is empty.</p>";
-
-        if (cartTotal) {
-
-            cartTotal.textContent =
-                "—";
-        }
-
-        return;
-    }
-
-
-    cartItems.innerHTML =
-        cart.map(
-            (
-                item,
-                index
-            ) => {
-
-                const name =
-                    item.name ||
-                    item.title ||
-                    item.productName ||
-                    "Product";
-
-                const quantity =
-                    getItemQuantity(item);
-
-                const image =
-                    item.image ||
-                    "";
-
-
-                return `
-                    <div class="cart-item">
-
-                        ${
-                            image
-                                ? `
-                                    <img
-                                        src="${escapeHTML(image)}"
-                                        alt="${escapeHTML(name)}"
-                                        class="cart-item-image"
-                                    >
-                                  `
-                                : ""
-                        }
-
-                        <div class="cart-item-info">
-
-                            <strong>
-                                ${escapeHTML(name)}
-                            </strong>
-
-                            <span>
-                                Price calculated at checkout
-                            </span>
-
-                            <div class="cart-quantity">
-
-                                <button
-                                    type="button"
-                                    onclick="changeQuantity(${index}, -1)"
-                                >
-                                    −
-                                </button>
-
-                                <span>
-                                    ${quantity}
-                                </span>
-
-                                <button
-                                    type="button"
-                                    onclick="changeQuantity(${index}, 1)"
-                                >
-                                    +
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                        <button
-                            type="button"
-                            class="remove-cart-item"
-                            onclick="removeFromCart(${index})"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Sacchi Flyier secure checkout"
+    >
+
+    <title>Checkout | Sacchi Flyier</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+<body>
+
+<!-- =====================================================
+     CHECKOUT HEADER
+     ===================================================== -->
+
+<header class="checkout-header">
+
+    <div class="checkout-header-inner">
+
+        <a
+            href="index.html"
+            class="checkout-logo"
+        >
+            Sacchi Flyier
+        </a>
+
+        <a
+            href="index.html"
+            class="back-to-store"
+        >
+            ← Back to Store
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     CHECKOUT MAIN
+     ===================================================== -->
+
+<main class="checkout-page">
+
+    <div class="checkout-container">
+
+        <!-- =================================================
+             PAGE TITLE
+             ================================================= -->
+
+        <div class="checkout-title">
+
+            <h1>Checkout</h1>
+
+            <p>
+                Complete your details to place your order.
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             CHECKOUT GRID
+             ================================================= -->
+
+        <div class="checkout-grid">
+
+
+            <!-- =============================================
+                 CUSTOMER INFORMATION
+                 ============================================= -->
+
+            <section class="checkout-form-card">
+
+                <h2>Customer Information</h2>
+
+
+                <!-- NAME -->
+
+                <div class="checkout-field">
+
+                    <label for="checkoutName">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="checkoutName"
+                        name="name"
+                        placeholder="Enter your full name"
+                        autocomplete="name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="checkout-field">
+
+                    <label for="checkoutEmail">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="checkoutEmail"
+                        name="email"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div class="checkout-field">
+
+                    <label for="checkoutPhone">
+                        Phone Number
+                    </label>
+
+                    <div class="phone-row">
+
+                        <select
+                            id="checkoutCountryCode"
+                            name="countryCode"
+                            autocomplete="tel-country-code"
                         >
-                            ✕
-                        </button>
+
+                            <option value="+91">
+                                +91 India
+                            </option>
+
+                            <option value="+1">
+                                +1 USA/Canada
+                            </option>
+
+                            <option value="+44">
+                                +44 UK
+                            </option>
+
+                            <option value="+61">
+                                +61 Australia
+                            </option>
+
+                            <option value="+971">
+                                +971 UAE
+                            </option>
+
+                            <option value="+92">
+                                +92 Pakistan
+                            </option>
+
+                            <option value="+880">
+                                +880 Bangladesh
+                            </option>
+
+                            <option value="+86">
+                                +86 China
+                            </option>
+
+                            <option value="+81">
+                                +81 Japan
+                            </option>
+
+                            <option value="+82">
+                                +82 South Korea
+                            </option>
+
+                            <option value="+65">
+                                +65 Singapore
+                            </option>
+
+                            <option value="+60">
+                                +60 Malaysia
+                            </option>
+
+                        </select>
+
+
+                        <input
+                            type="tel"
+                            id="checkoutPhone"
+                            name="phone"
+                            placeholder="Phone number"
+                            autocomplete="tel"
+                            required
+                        >
 
                     </div>
-                `;
 
-            }
-        ).join("");
+                </div>
 
 
-    if (cartTotal) {
+                <!-- =========================================
+                     SHIPPING ADDRESS
+                     ========================================= -->
 
-        cartTotal.textContent =
-            "Price calculated at checkout";
-    }
-}
+                <h2 class="checkout-section-heading">
+                    Shipping Address
+                </h2>
 
 
-/* =========================================================
-   CHANGE QUANTITY
-   ========================================================= */
+                <!-- ADDRESS -->
 
-function changeQuantity(
-    index,
-    change
-) {
+                <div class="checkout-field">
 
-    const cart =
-        getCart();
+                    <label for="address">
+                        Address
+                    </label>
 
-    if (!cart[index]) {
-        return;
-    }
+                    <textarea
+                        id="address"
+                        name="address"
+                        placeholder="House number, street, area"
+                        autocomplete="street-address"
+                        rows="3"
+                        required
+                    ></textarea>
 
+                </div>
 
-    let quantity =
-        getItemQuantity(
-            cart[index]
-        ) +
-        Number(change);
 
+                <!-- CITY -->
 
-    if (quantity <= 0) {
+                <div class="checkout-field">
 
-        cart.splice(
-            index,
-            1
-        );
+                    <label for="city">
+                        City
+                    </label>
 
-    } else {
+                    <input
+                        type="text"
+                        id="city"
+                        name="city"
+                        placeholder="Enter your city"
+                        autocomplete="address-level2"
+                        required
+                    >
 
-        cart[index].quantity =
-            quantity;
-    }
+                </div>
 
 
-    saveCart(cart);
-}
+                <!-- STATE -->
 
+                <div class="checkout-field">
 
-/* =========================================================
-   REMOVE FROM CART
-   ========================================================= */
+                    <label for="state">
+                        State / Province
+                    </label>
 
-function removeFromCart(index) {
+                    <input
+                        type="text"
+                        id="state"
+                        name="state"
+                        placeholder="Enter your state or province"
+                        autocomplete="address-level1"
+                        required
+                    >
 
-    const cart =
-        getCart();
+                </div>
 
-    if (!cart[index]) {
-        return;
-    }
 
+                <!-- COUNTRY -->
 
-    cart.splice(
-        index,
-        1
-    );
+                <div class="checkout-field">
 
-    saveCart(cart);
-}
+                    <label for="country">
+                        Country
+                    </label>
 
+                    <select
+                        id="country"
+                        name="country"
+                        autocomplete="country-name"
+                        required
+                    >
 
-/* =========================================================
-   CART PANEL
-   ========================================================= */
+                        <option value="">
+                            Select your country
+                        </option>
 
-function openCart() {
 
-    const panel =
-        document.getElementById(
-            "cartPanel"
-        );
+                        <option value="Afghanistan">
+                            Afghanistan
+                        </option>
 
-    if (!panel) {
-        return;
-    }
+                        <option value="Albania">
+                            Albania
+                        </option>
 
+                        <option value="Algeria">
+                            Algeria
+                        </option>
 
-    panel.classList.add(
-        "active"
-    );
+                        <option value="American Samoa">
+                            American Samoa
+                        </option>
 
-    renderCart();
-}
+                        <option value="Andorra">
+                            Andorra
+                        </option>
 
+                        <option value="Angola">
+                            Angola
+                        </option>
 
-function closeCart() {
+                        <option value="Anguilla">
+                            Anguilla
+                        </option>
 
-    const panel =
-        document.getElementById(
-            "cartPanel"
-        );
+                        <option value="Antigua and Barbuda">
+                            Antigua and Barbuda
+                        </option>
 
-    if (!panel) {
-        return;
-    }
+                        <option value="Argentina">
+                            Argentina
+                        </option>
 
+                        <option value="Armenia">
+                            Armenia
+                        </option>
 
-    panel.classList.remove(
-        "active"
-    );
-}
+                        <option value="Aruba">
+                            Aruba
+                        </option>
 
+                        <option value="Australia">
+                            Australia
+                        </option>
 
-function setupCart() {
+                        <option value="Austria">
+                            Austria
+                        </option>
 
-    const cartButton =
-        document.getElementById(
-            "cartButton"
-        );
+                        <option value="Azerbaijan">
+                            Azerbaijan
+                        </option>
 
-    const closeButton =
-        document.getElementById(
-            "closeCart"
-        );
+                        <option value="Bahamas">
+                            Bahamas
+                        </option>
 
-    const checkoutButton =
-        document.getElementById(
-            "checkoutButton"
-        );
+                        <option value="Bahrain">
+                            Bahrain
+                        </option>
 
+                        <option value="Bangladesh">
+                            Bangladesh
+                        </option>
 
-    if (cartButton) {
+                        <option value="Barbados">
+                            Barbados
+                        </option>
 
-        cartButton.addEventListener(
-            "click",
-            openCart
-        );
-    }
+                        <option value="Belarus">
+                            Belarus
+                        </option>
 
+                        <option value="Belgium">
+                            Belgium
+                        </option>
 
-    if (closeButton) {
+                        <option value="Belize">
+                            Belize
+                        </option>
 
-        closeButton.addEventListener(
-            "click",
-            closeCart
-        );
-    }
+                        <option value="Benin">
+                            Benin
+                        </option>
 
+                        <option value="Bermuda">
+                            Bermuda
+                        </option>
 
-    if (checkoutButton) {
+                        <option value="Bhutan">
+                            Bhutan
+                        </option>
 
-        checkoutButton.addEventListener(
-            "click",
-            () => {
+                        <option value="Bolivia">
+                            Bolivia
+                        </option>
 
-                const cart =
-                    getCart();
+                        <option value="Bonaire, Sint Eustatius and Saba">
+                            Bonaire, Sint Eustatius and Saba
+                        </option>
 
-                if (
-                    cart.length === 0
-                ) {
+                        <option value="Bosnia and Herzegovina">
+                            Bosnia and Herzegovina
+                        </option>
 
-                    alert(
-                        "Your cart is empty."
-                    );
+                        <option value="Botswana">
+                            Botswana
+                        </option>
 
-                    return;
-                }
+                        <option value="Bouvet Island">
+                            Bouvet Island
+                        </option>
 
+                        <option value="Brazil">
+                            Brazil
+                        </option>
 
-                window.location.href =
-                    "checkout.html";
-            }
-        );
-    }
+                        <option value="British Indian Ocean Territory">
+                            British Indian Ocean Territory
+                        </option>
 
+                        <option value="Brunei Darussalam">
+                            Brunei Darussalam
+                        </option>
 
-    renderCart();
-}
+                        <option value="Bulgaria">
+                            Bulgaria
+                        </option>
 
+                        <option value="Burkina Faso">
+                            Burkina Faso
+                        </option>
 
-/* =========================================================
-   ADD-CART BUTTONS
-   ========================================================= */
+                        <option value="Burundi">
+                            Burundi
+                        </option>
 
-function setupAddToCartButtons() {
+                        <option value="Cabo Verde">
+                            Cabo Verde
+                        </option>
 
-    const buttons =
-        document.querySelectorAll(
-            ".add-cart"
-        );
+                        <option value="Cambodia">
+                            Cambodia
+                        </option>
 
+                        <option value="Cameroon">
+                            Cameroon
+                        </option>
 
-    buttons.forEach(
-        button => {
+                        <option value="Canada">
+                            Canada
+                        </option>
 
-            button.addEventListener(
-                "click",
-                () => {
+                        <option value="Cayman Islands">
+                            Cayman Islands
+                        </option>
 
-                    const productName =
-                        button.dataset.product ||
-                        button.dataset.name ||
-                        "Product";
+                        <option value="Central African Republic">
+                            Central African Republic
+                        </option>
 
+                        <option value="Chad">
+                            Chad
+                        </option>
 
-                    const price =
-                        Number(
-                            button.dataset.price ||
-                            button.dataset.productPrice ||
-                            0
-                        );
+                        <option value="Chile">
+                            Chile
+                        </option>
 
+                        <option value="China">
+                            China
+                        </option>
 
-                    const cjCost =
-                        Number(
-                            button.dataset.cjCost ||
-                            button.dataset.cjCostUsd ||
-                            CJ_PRODUCT_COST_USD
-                        );
+                        <option value="Christmas Island">
+                            Christmas Island
+                        </option>
 
+                        <option value="Cocos (Keeling) Islands">
+                            Cocos (Keeling) Islands
+                        </option>
 
-                    const image =
-                        button.dataset.image ||
-                        "";
+                        <option value="Colombia">
+                            Colombia
+                        </option>
 
+                        <option value="Comoros">
+                            Comoros
+                        </option>
 
-                    addToCart(
-                        productName,
-                        price,
-                        image,
-                        Number.isFinite(cjCost)
-                            ? cjCost
-                            : CJ_PRODUCT_COST_USD
-                    );
-                }
-            );
-        }
-    );
-}
+                        <option value="Congo">
+                            Congo
+                        </option>
 
+                        <option value="Congo (the Democratic Republic of the)">
+                            Democratic Republic of the Congo
+                        </option>
 
-/* =========================================================
-   SEARCH
-   ========================================================= */
+                        <option value="Cook Islands">
+                            Cook Islands
+                        </option>
 
-function setupSearch() {
+                        <option value="Costa Rica">
+                            Costa Rica
+                        </option>
 
-    const searchButton =
-        document.getElementById(
-            "searchButton"
-        );
+                        <option value="Côte d’Ivoire">
+                            Côte d’Ivoire
+                        </option>
 
-    const searchOverlay =
-        document.getElementById(
-            "searchOverlay"
-        );
+                        <option value="Croatia">
+                            Croatia
+                        </option>
 
-    const closeSearch =
-        document.getElementById(
-            "closeSearch"
-        );
+                        <option value="Cuba">
+                            Cuba
+                        </option>
 
-    const searchInput =
-        document.getElementById(
-            "searchInput"
-        );
+                        <option value="Curaçao">
+                            Curaçao
+                        </option>
 
+                        <option value="Cyprus">
+                            Cyprus
+                        </option>
 
-    if (
-        searchButton &&
-        searchOverlay
-    ) {
+                        <option value="Czechia">
+                            Czechia
+                        </option>
 
-        searchButton.addEventListener(
-            "click",
-            () => {
+                        <option value="Denmark">
+                            Denmark
+                        </option>
 
-                searchOverlay.classList.add(
-                    "active"
-                );
+                        <option value="Djibouti">
+                            Djibouti
+                        </option>
 
-                if (searchInput) {
+                        <option value="Dominica">
+                            Dominica
+                        </option>
 
-                    searchInput.focus();
-                }
-            }
-        );
-    }
+                        <option value="Dominican Republic">
+                            Dominican Republic
+                        </option>
 
+                        <option value="Ecuador">
+                            Ecuador
+                        </option>
 
-    if (
-        closeSearch &&
-        searchOverlay
-    ) {
+                        <option value="Egypt">
+                            Egypt
+                        </option>
 
-        closeSearch.addEventListener(
-            "click",
-            () => {
+                        <option value="El Salvador">
+                            El Salvador
+                        </option>
 
-                searchOverlay.classList.remove(
-                    "active"
-                );
-            }
-        );
-    }
+                        <option value="Equatorial Guinea">
+                            Equatorial Guinea
+                        </option>
 
+                        <option value="Eritrea">
+                            Eritrea
+                        </option>
 
-    if (searchInput) {
+                        <option value="Estonia">
+                            Estonia
+                        </option>
 
-        searchInput.addEventListener(
-            "input",
-            () => {
+                        <option value="Ethiopia">
+                            Ethiopia
+                        </option>
 
-                const query =
-                    searchInput.value
-                        .trim()
-                        .toLowerCase();
+                        <option value="Falkland Islands">
+                            Falkland Islands
+                        </option>
 
+                        <option value="Faroe Islands">
+                            Faroe Islands
+                        </option>
 
-                const products =
-                    document.querySelectorAll(
-                        ".product-card"
-                    );
+                        <option value="Fiji">
+                            Fiji
+                        </option>
 
+                        <option value="Finland">
+                            Finland
+                        </option>
 
-                products.forEach(
-                    product => {
+                        <option value="France">
+                            France
+                        </option>
 
-                        const text =
-                            product.textContent
-                                .toLowerCase();
+                        <option value="French Guiana">
+                            French Guiana
+                        </option>
 
+                        <option value="French Polynesia">
+                            French Polynesia
+                        </option>
 
-                        product.style.display =
-                            !query ||
-                            text.includes(query)
-                                ? ""
-                                : "none";
-                    }
-                );
-            }
-        );
-    }
-}
+                        <option value="French Southern Territories">
+                            French Southern Territories
+                        </option>
 
+                        <option value="Gabon">
+                            Gabon
+                        </option>
 
-/* =========================================================
-   MOBILE MENU
-   ========================================================= */
+                        <option value="Gambia">
+                            Gambia
+                        </option>
 
-function setupMobileMenu() {
+                        <option value="Georgia">
+                            Georgia
+                        </option>
 
-    const menuToggle =
-        document.getElementById(
-            "menuToggle"
-        );
+                        <option value="Germany">
+                            Germany
+                        </option>
+
+                        <option value="Ghana">
+                            Ghana
+                        </option>
+
+                        <option value="Gibraltar">
+                            Gibraltar
+                        </option>
+
+                        <option value="Greece">
+                            Greece
+                        </option>
+
+                        <option value="Greenland">
+                            Greenland
+                        </option>
+
+                        <option value="Grenada">
+                            Grenada
+                        </option>
+
+                        <option value="Guadeloupe">
+                            Guadeloupe
+                        </option>
+
+                        <option value="Guam">
+                            Guam
+                        </option>
+
+                        <option value="Guatemala">
+                            Guatemala
+                        </option>
+
+                        <option value="Guernsey">
+                            Guernsey
+                        </option>
+
+                        <option value="Guinea">
+                            Guinea
+                        </option>
+
+                        <option
+                            value="Guinea-Bissau"
+                            disabled
+                        >
+                            Guinea-Bissau — Not Available
+                        </option>
+
+                        <option value="Guyana">
+                            Guyana
+                        </option>
+
+                        <option value="Haiti">
+                            Haiti
+                        </option>
+
+                        <option value="Hawaii">
+                            Hawaii — Shipping Unavailable
+                        </option>
+
+                        <option value="Heard Island and McDonald Islands">
+                            Heard Island and McDonald Islands
+                        </option>
+
+                        <option value="Holy See">
+                            Holy See
+                        </option>
+
+                        <option value="Honduras">
+                            Honduras
+                        </option>
+
+                        <option value="Hong Kong (China)">
+                            Hong Kong
+                        </option>
+
+                        <option value="Hungary">
+                            Hungary
+                        </option>
+
+                        <option value="Iceland">
+                            Iceland
+                        </option>
+
+                        <option value="India">
+                            India
+                        </option>
+
+                        <option value="Indonesia">
+                            Indonesia
+                        </option>
+
+                        <option value="Iran (Islamic Republic of)">
+                            Iran
+                        </option>
+
+                        <option
+                            value="Iraq"
+                            disabled
+                        >
+                            Iraq — Not Available
+                        </option>
+
+                        <option value="Ireland">
+                            Ireland
+                        </option>
+
+                        <option value="Isle of Man">
+                            Isle of Man
+                        </option>
+
+                        <option value="Israel">
+                            Israel
+                        </option>
+
+                        <option value="Italy">
+                            Italy
+                        </option>
+
+                        <option value="Jamaica">
+                            Jamaica
+                        </option>
+
+                        <option value="Japan">
+                            Japan
+                        </option>
+
+                        <option value="Jersey">
+                            Jersey
+                        </option>
+
+                        <option value="Jordan">
+                            Jordan
+                        </option>
+
+                        <option value="Kazakhstan">
+                            Kazakhstan
+                        </option>
+
+                        <option value="Kenya">
+                            Kenya
+                        </option>
+
+                        <option value="Kiribati">
+                            Kiribati
+                        </option>
+
+                        <option
+                            value="Korea (the Democratic People's Republic of)"
+                            disabled
+                        >
+                            North Korea — Not Available
+                        </option>
+
+                        <option value="South Korea">
+                            South Korea
+                        </option>
+
+                        <option value="Kuwait">
+                            Kuwait
+                        </option>
+
+                        <option value="Kyrgyzstan">
+                            Kyrgyzstan
+                        </option>
+
+                        <option value="Laos">
+                            Laos
+                        </option>
+
+                        <option value="Latvia">
+                            Latvia
+                        </option>
+
+                        <option value="Lebanon">
+                            Lebanon
+                        </option>
+
+                        <option value="Lesotho">
+                            Lesotho
+                        </option>
+
+                        <option value="Liberia">
+                            Liberia
+                        </option>
+
+                        <option value="Libya">
+                            Libya
+                        </option>
+
+                        <option value="Liechtenstein">
+                            Liechtenstein
+                        </option>
+
+                        <option value="Lithuania">
+                            Lithuania
+                        </option>
+
+                        <option value="Luxembourg">
+                            Luxembourg
+                        </option>
+
+                        <option value="Macao (China)">
+                            Macao
+                        </option>
+
+                        <option value="Macedonia (The former Yugoslav Republic of)">
+                            North Macedonia
+                        </option>
+
+                        <option value="Madagascar">
+                            Madagascar
+                        </option>
+
+                        <option value="Malawi">
+                            Malawi
+                        </option>
+
+                        <option value="Malaysia">
+                            Malaysia
+                        </option>
+
+                        <option value="Maldives">
+                            Maldives
+                        </option>
+
+                        <option value="Mali">
+                            Mali
+                        </option>
+
+                        <option value="Malta">
+                            Malta
+                        </option>
+
+                        <option value="Marshall Islands">
+                            Marshall Islands
+                        </option>
+
+                        <option value="Martinique">
+                            Martinique
+                        </option>
+
+                        <option value="Mauritania">
+                            Mauritania
+                        </option>
+
+                        <option value="Mauritius">
+                            Mauritius
+                        </option>
+
+                        <option value="Mayotte">
+                            Mayotte
+                        </option>
+
+                        <option value="Mexico">
+                            Mexico
+                        </option>
+
+                        <option
+                            value="Micronesia (Federated States of)"
+                            disabled
+                        >
+                            Micronesia — Not Available
+                        </option>
+
+                        <option value="Moldova the republic">
+                            Moldova
+                        </option>
+
+                        <option value="Monaco">
+                            Monaco
+                        </option>
+
+                        <option value="Mongolia">
+                            Mongolia
+                        </option>
+
+                        <option value="Montenegro">
+                            Montenegro
+                        </option>
+
+                        <option value="Montserrat">
+                            Montserrat
+                        </option>
+
+                        <option value="Morocco">
+                            Morocco
+                        </option>
+
+                        <option value="Mozambique">
+                            Mozambique
+                        </option>
+
+                        <option value="Myanmar">
+                            Myanmar
+                        </option>
+
+                        <option value="Namibia">
+                            Namibia
+                        </option>
+
+                        <option value="Nauru">
+                            Nauru
+                        </option>
+
+                        <option value="Nepal">
+                            Nepal
+                        </option>
+
+                        <option value="Netherlands">
+                            Netherlands
+                        </option>
+
+                        <option value="New Caledonia">
+                            New Caledonia
+                        </option>
+
+                        <option value="New Zealand">
+                            New Zealand
+                        </option>
+
+                        <option value="Nicaragua">
+                            Nicaragua
+                        </option>
+
+                        <option value="Niger">
+                            Niger
+                        </option>
+
+                        <option value="Nigeria">
+                            Nigeria
+                        </option>
+
+                        <option value="Niue">
+                            Niue
+                        </option>
+
+                        <option value="Norfolk Island">
+                            Norfolk Island
+                        </option>
+
+                        <option value="Northern Mariana Island">
+                            Northern Mariana Islands
+                        </option>
+
+                        <option value="Norway">
+                            Norway
+                        </option>
+
+                        <option value="Oman">
+                            Oman
+                        </option>
+
+                        <option value="Pakistan">
+                            Pakistan
+                        </option>
+
+                        <option
+                            value="Palau"
+                            disabled
+                        >
+                            Palau — Not Available
+                        </option>
+
+                        <option value="Palestine State of">
+                            Palestine
+                        </option>
+
+                        <option value="Panama">
+                            Panama
+                        </option>
+
+                        <option value="Papua New Guinea">
+                            Papua New Guinea
+                        </option>
+
+                        <option value="Paraguay">
+                            Paraguay
+                        </option>
+
+                        <option value="Peru">
+                            Peru
+                        </option>
+
+                        <option value="Philippines">
+                            Philippines
+                        </option>
+
+                        <option value="Pitcairn">
+                            Pitcairn
+                        </option>
+
+                        <option value="Poland">
+                            Poland
+                        </option>
+
+                        <option value="Portugal">
+                            Portugal
+                        </option>
+
+                        <option value="Puerto Rico">
+                            Puerto Rico
+                        </option>
+
+                        <option value="Qatar">
+                            Qatar
+                        </option>
+
+                        <option value="Réunion">
+                            Réunion
+                        </option>
+
+                        <option value="Romania">
+                            Romania
+                        </option>
+
+                        <option value="Russian Federation">
+                            Russia
+                        </option>
+
+                        <option value="Rwanda">
+                            Rwanda
+                        </option>
+
+                        <option value="Saint Helena, Ascension and Tristan da Cunha">
+                            Saint Helena
+                        </option>
+
+                        <option value="Saint Kitts and Nevis">
+                            Saint Kitts and Nevis
+                        </option>
+
+                        <option value="Saint Lucia">
+                            Saint Lucia
+                        </option>
+
+                        <option value="Saint Martin (French part)">
+                            Saint Martin
+                        </option>
+
+                        <option value="Saint Pierre and Miquelon">
+                            Saint Pierre and Miquelon
+                        </option>
+
+                        <option value="Saint Vincent and the Grenadines">
+                            Saint Vincent and the Grenadines
+                        </option>
+
+                        <option value="Samoa">
+                            Samoa
+                        </option>
+
+                        <option value="San Marino">
+                            San Marino
+                        </option>
+
+                        <option value="São Tomé and Príncipe">
+                            São Tomé and Príncipe
+                        </option>
+
+                        <option value="Saudi Arabia">
+                            Saudi Arabia
+                        </option>
+
+                        <option value="Senegal">
+                            Senegal
+                        </option>
+
+                        <option value="Serbia">
+                            Serbia
+                        </option>
+
+                        <option value="Seychelles">
+                            Seychelles
+                        </option>
+
+                        <option value="Sierra Leone">
+                            Sierra Leone
+                        </option>
+
+                        <option value="Singapore">
+                            Singapore
+                        </option>
+
+                        <option value="Sint Maarten (Dutch Part)">
+                            Sint Maarten
+                        </option>
+
+                        <option value="Slovakia">
+                            Slovakia
+                        </option>
+
+                        <option value="Slovenia">
+                            Slovenia
+                        </option>
+
+                        <option value="Solomon Islands">
+                            Solomon Islands
+                        </option>
+
+                        <option value="Somalia">
+                            Somalia
+                        </option>
+
+                        <option value="South Africa">
+                            South Africa
+                        </option>
+
+                        <option value="South Georgia and the South Sandwich Islands">
+                            South Georgia and the South Sandwich Islands
+                        </option>
+
+                        <option
+                            value="South Sudan"
+                            disabled
+                        >
+                            South Sudan — Not Available
+                        </option>
+
+                        <option value="Spain">
+                            Spain
+                        </option>
+
+                        <option value="Sri Lanka">
+                            Sri Lanka
+                        </option>
+
+                        <option value="Sudan">
+                            Sudan
+                        </option>
+
+                        <option value="Suriname">
+                            Suriname
+                        </option>
+
+                        <option value="Swaziland">
+                            Eswatini
+                        </option>
+
+                        <option value="Sweden">
+                            Sweden
+                        </option>
+
+                        <option value="Switzerland">
+                            Switzerland
+                        </option>
+
+                        <option
+                            value="Syrian Arab Republic"
+                            disabled
+                        >
+                            Syria — Not Available
+                        </option>
+
+                        <option value="Taiwan">
+                            Taiwan
+                        </option>
+
+                        <option value="Tajikistan">
+                            Tajikistan
+                        </option>
+
+                        <option value="Tanzania, United Republic of">
+                            Tanzania
+                        </option>
+
+                        <option value="Thailand">
+                            Thailand
+                        </option>
+
+                        <option value="The Republic of Kosovo">
+                            Kosovo
+                        </option>
+
+                        <option value="Timor-Leste">
+                            Timor-Leste
+                        </option>
+
+                        <option value="Togo">
+                            Togo
+                        </option>
+
+                        <option value="Tokelau">
+                            Tokelau
+                        </option>
+
+                        <option value="Tonga">
+                            Tonga
+                        </option>
+
+                        <option value="Trinidad and Tobago">
+                            Trinidad and Tobago
+                        </option>
+
+                        <option value="Tunisia">
+                            Tunisia
+                        </option>
+
+                        <option value="Turkey">
+                            Turkey
+                        </option>
+
+                        <option value="Turks and Caicos Islands">
+                            Turks and Caicos Islands
+                        </option>
+
+                        <option value="Tuvalu">
+                            Tuvalu
+                        </option>
+
+                        <option value="Uganda">
+                            Uganda
+                        </option>
+
+                        <option value="Ukraine">
+                            Ukraine
+                        </option>
+
+                        <option value="United Arab Emirates">
+                            United Arab Emirates
+                        </option>
+
+                        <option value="United Kingdom">
+                            United Kingdom
+                        </option>
+
+                        <option value="United States">
+                            United States
+                        </option>
+
+                        <option value="Uruguay">
+                            Uruguay
+                        </option>
+
+                        <option value="Uzbekistan">
+                            Uzbekistan
+                        </option>
+
+                        <option value="Vanuatu">
+                            Vanuatu
+                        </option>
+
+                        <option value="Venezuela (Bolivarian Republic of)">
+                            Venezuela
+                        </option>
+
+                        <option value="Vietnam">
+                            Vietnam
+                        </option>
+
+                        <option value="Virgin Islands (British)">
+                            British Virgin Islands
+                        </option>
+
+                        <option value="Virgin Islands (U.S.)">
+                            U.S. Virgin Islands
+                        </option>
+
+                        <option value="Wallis and Futuna">
+                            Wallis and Futuna
+                        </option>
+
+                        <option value="Western Sahara">
+                            Western Sahara
+                        </option>
 
-    const navLinks =
-        document.getElementById(
-            "navLinks"
-        );
+                        <option
+                            value="Yemen"
+                            disabled
+                        >
+                            Yemen — Not Available
+                        </option>
 
+                        <option value="Zambia">
+                            Zambia
+                        </option>
 
-    if (
-        menuToggle &&
-        navLinks
-    ) {
+                        <option value="Zimbabwe">
+                            Zimbabwe
+                        </option>
 
-        menuToggle.addEventListener(
-            "click",
-            () => {
+                    </select>
 
-                navLinks.classList.toggle(
-                    "active"
-                );
-            }
-        );
+                    <p
+                        id="countryMessage"
+                        class="checkout-status loading"
+                    >
+                        Please select your shipping country.
+                    </p>
 
+                </div>
 
-        navLinks
-            .querySelectorAll("a")
-            .forEach(
-                link => {
 
-                    link.addEventListener(
-                        "click",
-                        () => {
+                <!-- POSTAL CODE -->
 
-                            navLinks.classList.remove(
-                                "active"
-                            );
-                        }
-                    );
-                }
-            );
-    }
-}
+                <div class="checkout-field">
 
+                    <label for="postalCode">
+                        Postal / ZIP Code
+                    </label>
 
-/* =========================================================
-   CATEGORY FILTER
-   ========================================================= */
+                    <input
+                        type="text"
+                        id="postalCode"
+                        name="postalCode"
+                        placeholder="Enter postal or ZIP code"
+                        autocomplete="postal-code"
+                        required
+                    >
 
-function setupCategoryFilter() {
+                </div>
 
-    const buttons =
-        document.querySelectorAll(
-            "[data-category]"
-        );
 
-    const products =
-        document.querySelectorAll(
-            "[data-product-category]"
-        );
+                <!-- =========================================
+                     PAYMENT
+                     ========================================= -->
 
+                <h2 class="checkout-section-heading">
+                    Payment Method
+                </h2>
 
-    if (
-        !buttons.length ||
-        !products.length
-    ) {
-        return;
-    }
 
+                <div class="payment-options">
 
-    buttons.forEach(
-        button => {
+                    <label class="payment-option">
 
-            button.addEventListener(
-                "click",
-                () => {
+                        <input
+                            type="radio"
+                            id="cod"
+                            name="payment"
+                            value="cod"
+                            checked
+                        >
 
-                    const category =
-                        button.dataset.category;
+                        <span>
+                            Cash on Delivery
+                        </span>
 
+                    </label>
 
-                    buttons.forEach(
-                        item =>
-                            item.classList.remove(
-                                "active"
-                            )
-                    );
 
+                    <label class="payment-option">
 
-                    button.classList.add(
-                        "active"
-                    );
+                        <input
+                            type="radio"
+                            id="online"
+                            name="payment"
+                            value="online"
+                        >
 
+                        <span>
+                            Online Payment
+                        </span>
 
-                    products.forEach(
-                        product => {
+                    </label>
 
-                            const productCategory =
-                                product.dataset
-                                    .productCategory;
+                </div>
 
 
-                            product.style.display =
-                                category === "all" ||
-                                category === "*" ||
-                                category === productCategory
-                                    ? ""
-                                    : "none";
-                        }
-                    );
-                }
-            );
-        }
-    );
-}
+                <p class="payment-note">
+                    Online payment processing will be connected
+                    when the payment gateway is ready.
+                </p>
 
 
-/* =========================================================
-   CURRENCY
-   ========================================================= */
+            </section>
 
-const exchangeRateCache = {};
 
+            <!-- =============================================
+                 ORDER SUMMARY
+                 ============================================= -->
 
-function getCurrencyForCountry(
-    country
-) {
+            <aside class="checkout-summary-card">
 
-    return COUNTRY_CURRENCY[country] ||
-        null;
-}
+                <h2>Order Summary</h2>
 
 
-function formatMoney(
-    amount,
-    currency
-) {
+                <!-- PRODUCTS -->
 
-    if (
-        !Number.isFinite(amount)
-    ) {
+                <div
+                    id="checkoutItems"
+                    class="checkout-items"
+                >
 
-        return "—";
-    }
+                    <p>
+                        Your cart is loading...
+                    </p>
 
+                </div>
 
-    try {
 
-        return new Intl.NumberFormat(
-            undefined,
-            {
-                style: "currency",
-                currency: currency,
-                maximumFractionDigits: 2
-            }
-        ).format(amount);
+                <!-- DIVIDER -->
 
-    } catch {
+                <div class="checkout-divider"></div>
 
-        return `${currency} ${amount.toFixed(2)}`;
-    }
-}
 
+                <!-- CURRENCY -->
 
-async function getExchangeRate(
-    fromCurrency,
-    toCurrency
-) {
+                <div class="checkout-summary-row">
 
-    if (
-        fromCurrency ===
-        toCurrency
-    ) {
+                    <span>
+                        Currency
+                    </span>
 
-        return 1;
-    }
+                    <strong id="checkoutCurrency">
+                        —
+                    </strong>
 
+                </div>
 
-    const key =
-        `${fromCurrency}_${toCurrency}`;
 
+                <!-- PRODUCT TOTAL -->
 
-    if (
-        exchangeRateCache[key]
-    ) {
+                <div class="checkout-summary-row">
 
-        return exchangeRateCache[key];
-    }
+                    <span>
+                        Product Total
+                    </span>
 
+                    <strong id="checkoutSubtotal">
+                        —
+                    </strong>
 
-    const url =
-        `https://api.frankfurter.dev/v2/rate/${encodeURIComponent(fromCurrency)}/${encodeURIComponent(toCurrency)}`;
+                </div>
 
 
-    const response =
-        await fetch(url);
+                <!-- CUSTOMER SHIPPING -->
 
+                <div class="checkout-summary-row">
 
-    if (!response.ok) {
+                    <span>
+                        Shipping
+                    </span>
 
-        throw new Error(
-            "Exchange rate unavailable"
-        );
-    }
+                    <strong id="checkoutShipping">
+                        FREE
+                    </strong>
 
+                </div>
 
-    const data =
-        await response.json();
 
+                <!-- DIVIDER -->
 
-    const rate =
-        Number(data.rate);
+                <div class="checkout-divider"></div>
 
 
-    if (
-        !Number.isFinite(rate) ||
-        rate <= 0
-    ) {
+                <!-- FINAL TOTAL -->
 
-        throw new Error(
-            "Invalid exchange rate"
-        );
-    }
+                <div class="checkout-total-row">
 
+                    <span>
+                        Total
+                    </span>
 
-    exchangeRateCache[key] =
-        rate;
+                    <strong id="checkoutTotal">
+                        —
+                    </strong>
 
+                </div>
 
-    return rate;
-}
 
+                <!-- SHIPPING NOTE -->
 
-async function convertMoney(
-    amount,
-    fromCurrency,
-    toCurrency
-) {
+                <div class="checkout-free-shipping">
 
-    if (
-        amount === 0
-    ) {
+                    <strong>
+                        FREE SHIPPING
+                    </strong>
 
-        return 0;
-    }
+                    <p>
+                        Your customer shipping charge is FREE.
+                    </p>
 
+                </div>
 
-    const rate =
-        await getExchangeRate(
-            fromCurrency,
-            toCurrency
-        );
 
+                <!-- PRICE NOTE -->
 
-    return amount * rate;
-}
+                <div class="checkout-price-note">
 
+                    <p>
+                        Product prices are automatically
+                        calculated according to the selected
+                        destination country.
+                    </p>
 
-/* =========================================================
-   CHECKOUT ELEMENTS
-   ========================================================= */
+                </div>
 
-function getCheckoutElements() {
 
-    return {
+                <!-- PLACE ORDER -->
 
-        name:
-            document.getElementById(
-                "checkoutName"
-            ),
+                <button
+                    type="button"
+                    id="placeOrderButton"
+                    class="place-order-button"
+                    disabled
+                >
+                    Place Order
+                </button>
 
-        email:
-            document.getElementById(
-                "checkoutEmail"
-            ),
 
-        phone:
-            document.getElementById(
-                "checkoutPhone"
-            ),
+                <!-- SECURITY -->
 
-        phoneCode:
-            document.getElementById(
-                "checkoutCountryCode"
-            ),
+                <div class="checkout-security">
 
-        address:
-            document.getElementById(
-                "address"
-            ),
+                    <span>🔒</span>
 
-        city:
-            document.getElementById(
-                "city"
-            ),
+                    <p>
+                        Your checkout information is handled
+                        securely.
+                    </p>
 
-        state:
-            document.getElementById(
-                "state"
-            ),
+                </div>
 
-        country:
-            document.getElementById(
-                "country"
-            ),
+            </aside>
 
-        postalCode:
-            document.getElementById(
-                "postalCode"
-            ),
+        </div>
 
-        countryMessage:
-            document.getElementById(
-                "countryMessage"
-            ),
+    </div>
 
-        checkoutItems:
-            document.getElementById(
-                "checkoutItems"
-            ),
+</main>
 
-        checkoutSubtotal:
-            document.getElementById(
-                "checkoutSubtotal"
-            ),
 
-        checkoutShipping:
-            document.getElementById(
-                "checkoutShipping"
-            ),
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
 
-        checkoutTotal:
-            document.getElementById(
-                "checkoutTotal"
-            ),
+<footer class="checkout-footer">
 
-        checkoutCurrency:
-            document.getElementById(
-                "checkoutCurrency"
-            ),
+    <p>
+        © 2026 Sacchi Flyier. All rights reserved.
+    </p>
 
-        placeOrderButton:
-            document.getElementById(
-                "placeOrderButton"
-            )
-    };
-}
+</footer>
 
 
-/* =========================================================
-   ESCAPE HTML
-   ========================================================= */
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
 
-function escapeHTML(value) {
+<script src="script.js"></script>
 
-    return String(value)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-}
-
-
-/* =========================================================
-   CHECKOUT ITEM DISPLAY
-   ========================================================= */
-
-async function renderCheckoutItems(
-    currency,
-    country
-) {
-
-    const elements =
-        getCheckoutElements();
-
-
-    if (!elements.checkoutItems) {
-        return;
-    }
-
-
-    const cart =
-        getCart();
-
-
-    if (
-        cart.length === 0
-    ) {
-
-        elements.checkoutItems.innerHTML =
-            "<p>Your cart is empty.</p>";
-
-        return;
-    }
-
-
-    const rate =
-        await getExchangeRate(
-            "USD",
-            currency
-        );
-
-
-    elements.checkoutItems.innerHTML =
-        cart.map(
-            item => {
-
-                const name =
-                    item.name ||
-                    item.title ||
-                    item.productName ||
-                    "Product";
-
-
-                const quantity =
-                    getItemQuantity(item);
-
-
-                const cjCost =
-                    getItemCJCostUSD(item);
-
-
-                const unitPriceUSD =
-                    getSellingPriceUSD(
-                        country
-                    );
-
-
-                const unitPrice =
-                    (
-                        unitPriceUSD ||
-                        (
-                            cjCost +
-                            (
-                                getCJShipping(country) || 0
-                            ) +
-                            MINIMUM_PROFIT_USD
-                        )
-                    );
-
-
-                const total =
-                    unitPrice *
-                    quantity *
-                    rate;
-
-
-                return `
-                    <div class="checkout-item">
-
-                        <div class="checkout-item-info">
-
-                            <strong>
-                                ${escapeHTML(name)}
-                            </strong>
-
-                            <span>
-                                Qty: ${quantity}
-                            </span>
-
-                        </div>
-
-                        <strong>
-                            ${formatMoney(
-                                total,
-                                currency
-                            )}
-                        </strong>
-
-                    </div>
-                `;
-
-            }
-        ).join("");
-}
-
-
-/* =========================================================
-   CHECKOUT REQUEST CONTROL
-   ========================================================= */
-
-let checkoutRequest = 0;
-
-
-/* =========================================================
-   UPDATE CHECKOUT
-   ========================================================= */
-
-async function updateCheckout() {
-
-    const elements =
-        getCheckoutElements();
-
-
-    if (!elements.country) {
-        return;
-    }
-
-
-    const request =
-        ++checkoutRequest;
-
-
-    const country =
-        elements.country.value;
-
-
-    const cart =
-        getCart();
-
-
-    /* -----------------------------------------------------
-       NO COUNTRY
-       ----------------------------------------------------- */
-
-    if (!country) {
-
-        setCheckoutMessage(
-            elements,
-            "Please select your shipping country.",
-            "loading"
-        );
-
-
-        setCheckoutValues(
-            elements,
-            "Select country",
-            "—",
-            "FREE",
-            "—"
-        );
-
-
-        disableOrderButton(
-            elements,
-            true
-        );
-
-        return;
-    }
-
-
-    /* -----------------------------------------------------
-       BLOCKED COUNTRY
-       ----------------------------------------------------- */
-
-    if (
-        isCountryBlocked(country)
-    ) {
-
-        setCheckoutMessage(
-            elements,
-            "Sorry, shipping is not available to this country.",
-            "error"
-        );
-
-
-        setCheckoutValues(
-            elements,
-            "Not available",
-            "—",
-            "—",
-            "—"
-        );
-
-
-        disableOrderButton(
-            elements,
-            true
-        );
-
-        return;
-    }
-
-
-    /* -----------------------------------------------------
-       NO CJ SHIPPING RATE
-       ----------------------------------------------------- */
-
-    const cjShipping =
-        getCJShipping(country);
-
-
-    if (
-        cjShipping === null
-    ) {
-
-        setCheckoutMessage(
-            elements,
-            "Shipping is currently unavailable to this country.",
-            "error"
-        );
-
-
-        setCheckoutValues(
-            elements,
-            "Unavailable",
-            "—",
-            "—",
-            "—"
-        );
-
-
-        disableOrderButton(
-            elements,
-            true
-        );
-
-        return;
-    }
-
-
-    /* -----------------------------------------------------
-       EMPTY CART
-       ----------------------------------------------------- */
-
-    if (
-        cart.length === 0
-    ) {
-
-        const currency =
-            getCurrencyForCountry(
-                country
-            );
-
-
-        setCheckoutMessage(
-            elements,
-            "Your cart is empty.",
-            "error"
-        );
-
-
-        setCheckoutValues(
-            elements,
-            currency || "USD",
-            formatMoney(
-                0,
-                currency || "USD"
-            ),
-            "FREE",
-            formatMoney(
-                0,
-                currency || "USD"
-            )
-        );
-
-
-        disableOrderButton(
-            elements,
-            true
-        );
-
-
-        if (currency) {
-
-            try {
-
-                await renderCheckoutItems(
-                    currency,
-                    country
-                );
-
-            } catch {
-
-                // Nothing else needed.
-            }
-        }
-
-        return;
-    }
-
-
-    /* -----------------------------------------------------
-       CURRENCY
-       ----------------------------------------------------- */
-
-    const currency =
-        getCurrencyForCountry(
-            country
-        );
-
-
-    if (!currency) {
-
-        setCheckoutMessage(
-            elements,
-            "Currency conversion is unavailable for this country.",
-            "error"
-        );
-
-
-        setCheckoutValues(
-            elements,
-            "Unavailable",
-            "—",
-            "—",
-            "—"
-        );
-
-
-        disableOrderButton(
-            elements,
-            true
-        );
-
-        return;
-    }
-
-
-    /* -----------------------------------------------------
-       CALCULATE CUSTOMER PRICE
-       ----------------------------------------------------- */
-
-    /*
-       For one product:
-
-       $1.62 CJ product cost
-       + country CJ shipping
-       + $10 profit
-       = customer selling price
-
-       Customer shipping = FREE
-    */
-
-
-    let totalUSD = 0;
-
-
-    cart.forEach(
-        item => {
-
-            const quantity =
-                getItemQuantity(item);
-
-
-            const productCost =
-                getItemCJCostUSD(item);
-
-
-            const sellingPrice =
-                productCost +
-                cjShipping +
-                MINIMUM_PROFIT_USD;
-
-
-            totalUSD +=
-                sellingPrice *
-                quantity;
-        }
-    );
-
-
-    /* -----------------------------------------------------
-       LOADING
-       ----------------------------------------------------- */
-
-    setCheckoutMessage(
-        elements,
-        `Shipping available to ${country}. Calculating total...`,
-        "loading"
-    );
-
-
-    setCheckoutValues(
-        elements,
-        `${currency} • Converting...`,
-        "Converting...",
-        "FREE",
-        "Converting..."
-    );
-
-
-    disableOrderButton(
-        elements,
-        true
-    );
-
-
-    try {
-
-        const total =
-            await convertMoney(
-                totalUSD,
-                "USD",
-                currency
-            );
-
-
-        const productTotal =
-            total;
-
-
-        if (
-            request !==
-            checkoutRequest
-        ) {
-
-            return;
-        }
-
-
-        setCheckoutValues(
-            elements,
-            currency,
-            formatMoney(
-                productTotal,
-                currency
-            ),
-            "FREE",
-            formatMoney(
-                total,
-                currency
-            )
-        );
-
-
-        setCheckoutMessage(
-            elements,
-            `Shipping available to ${country}. Customer shipping is FREE.`,
-            "success"
-        );
-
-
-        await renderCheckoutItems(
-            currency,
-            country
-        );
-
-
-        if (
-            request ===
-            checkoutRequest
-        ) {
-
-            disableOrderButton(
-                elements,
-                false
-            );
-        }
-
-    } catch (error) {
-
-        console.error(
-            "Checkout error:",
-            error
-        );
-
-
-        setCheckoutMessage(
-            elements,
-            "Currency conversion is temporarily unavailable. Please try again.",
-            "error"
-        );
-
-
-        setCheckoutValues(
-            elements,
-            "Unavailable",
-            "—",
-            "—",
-            "—"
-        );
-
-
-        disableOrderButton(
-            elements,
-            true
-        );
-    }
-}
-
-
-/* =========================================================
-   CHECKOUT DISPLAY HELPERS
-   ========================================================= */
-
-function setCheckoutValues(
-    elements,
-    currency,
-    subtotal,
-    shipping,
-    total
-) {
-
-    if (
-        elements.checkoutCurrency
-    ) {
-
-        elements.checkoutCurrency.textContent =
-            currency;
-    }
-
-
-    if (
-        elements.checkoutSubtotal
-    ) {
-
-        elements.checkoutSubtotal.textContent =
-            subtotal;
-    }
-
-
-    if (
-        elements.checkoutShipping
-    ) {
-
-        elements.checkoutShipping.textContent =
-            shipping;
-    }
-
-
-    if (
-        elements.checkoutTotal
-    ) {
-
-        elements.checkoutTotal.textContent =
-            total;
-    }
-}
-
-
-function setCheckoutMessage(
-    elements,
-    message,
-    type
-) {
-
-    if (
-        !elements.countryMessage
-    ) {
-
-        return;
-    }
-
-
-    elements.countryMessage.textContent =
-        message;
-
-
-    elements.countryMessage.className =
-        "checkout-status " +
-        (
-            type === "error"
-                ? "error"
-                : type === "success"
-                    ? "success"
-                    : "loading"
-        );
-}
-
-
-function disableOrderButton(
-    elements,
-    disabled
-) {
-
-    if (
-        elements.placeOrderButton
-    ) {
-
-        elements.placeOrderButton.disabled =
-            disabled;
-    }
-}
-
-
-/* =========================================================
-   PLACE ORDER
-   ========================================================= */
-
-async function handlePlaceOrder() {
-
-    const elements =
-        getCheckoutElements();
-
-
-    const cart =
-        getCart();
-
-
-    if (
-        cart.length === 0
-    ) {
-
-        alert(
-            "Your cart is empty."
-        );
-
-        return;
-    }
-
-
-    const country =
-        elements.country?.value ||
-        "";
-
-
-    if (!country) {
-
-        alert(
-            "Please select your shipping country."
-        );
-
-        return;
-    }
-
-
-    if (
-        isCountryBlocked(country)
-    ) {
-
-        alert(
-            "Sorry, shipping is not available to this country."
-        );
-
-        return;
-    }
-
-
-    const cjShipping =
-        getCJShipping(country);
-
-
-    if (
-        cjShipping === null
-    ) {
-
-        alert(
-            "Shipping is currently unavailable to this country."
-        );
-
-        return;
-    }
-
-
-    const requiredFields = [
-
-        elements.name,
-        elements.email,
-        elements.phone,
-        elements.address,
-        elements.city,
-        elements.state,
-        elements.country,
-        elements.postalCode
-    ];
-
-
-    for (
-        const field of requiredFields
-    ) {
-
-        if (!field) {
-            continue;
-        }
-
-
-        if (
-            !String(
-                field.value
-            ).trim()
-        ) {
-
-            field.focus();
-
-
-            alert(
-                "Please complete all required checkout fields."
-            );
-
-            return;
-        }
-    }
-
-
-    if (
-        elements.email &&
-        !elements.email.checkValidity()
-    ) {
-
-        elements.email.focus();
-
-
-        alert(
-            "Please enter a valid email address."
-        );
-
-        return;
-    }
-
-
-    const currency =
-        getCurrencyForCountry(
-            country
-        );
-
-
-    if (!currency) {
-
-        alert(
-            "Currency conversion is unavailable for this country."
-        );
-
-        return;
-    }
-
-
-    try {
-
-        let totalUSD = 0;
-
-
-        const orderItems =
-            cart.map(
-                item => {
-
-                    const quantity =
-                        getItemQuantity(item);
-
-
-                    const cjCost =
-                        getItemCJCostUSD(item);
-
-
-                    const unitSellingPrice =
-                        cjCost +
-                        cjShipping +
-                        MINIMUM_PROFIT_USD;
-
-
-                    const itemTotal =
-                        unitSellingPrice *
-                        quantity;
-
-
-                    totalUSD +=
-                        itemTotal;
-
-
-                    return {
-
-                        ...item,
-
-                        cjCostUSD:
-                            Number(
-                                cjCost.toFixed(2)
-                            ),
-
-                        cjShippingUSD:
-                            Number(
-                                cjShipping.toFixed(2)
-                            ),
-
-                        profitUSD:
-                            Number(
-                                (
-                                    MINIMUM_PROFIT_USD *
-                                    quantity
-                                ).toFixed(2)
-                            ),
-
-                        unitSellingPriceUSD:
-                            Number(
-                                unitSellingPrice.toFixed(2)
-                            ),
-
-                        itemTotalUSD:
-                            Number(
-                                itemTotal.toFixed(2)
-                            )
-                    };
-                }
-            );
-
-
-        const total =
-            await convertMoney(
-                totalUSD,
-                "USD",
-                currency
-            );
-
-
-        const selectedPayment =
-            document.querySelector(
-                'input[name="payment"]:checked'
-            );
-
-
-        const paymentMethod =
-            selectedPayment
-                ? selectedPayment.value
-                : "cod";
-
-
-        const order = {
-
-            orderId:
-                "SF-" +
-                Date.now(),
-
-
-            customer: {
-
-                name:
-                    elements.name.value.trim(),
-
-                email:
-                    elements.email.value.trim(),
-
-                phoneCode:
-                    elements.phoneCode?.value ||
-                    "+91",
-
-                phone:
-                    elements.phone.value.trim()
-            },
-
-
-            shippingAddress: {
-
-                address:
-                    elements.address.value.trim(),
-
-                city:
-                    elements.city.value.trim(),
-
-                state:
-                    elements.state.value.trim(),
-
-                country:
-                    country,
-
-                postalCode:
-                    elements.postalCode.value.trim()
-            },
-
-
-            items:
-                orderItems,
-
-
-            pricing: {
-
-                cjProductCostUSD:
-                    Number(
-                        CJ_PRODUCT_COST_USD.toFixed(2)
-                    ),
-
-                cjShippingUSD:
-                    Number(
-                        cjShipping.toFixed(2)
-                    ),
-
-                minimumProfitUSD:
-                    Number(
-                        MINIMUM_PROFIT_USD.toFixed(2)
-                    ),
-
-                customerShipping:
-                    "FREE",
-
-                totalUSD:
-                    Number(
-                        totalUSD.toFixed(2)
-                    ),
-
-                customerCurrency:
-                    currency,
-
-                customerTotal:
-                    Number(
-                        total.toFixed(2)
-                    )
-            },
-
-
-            currency:
-                currency,
-
-
-            /*
-               Product total already includes:
-               CJ product cost
-               + CJ shipping
-               + profit
-            */
-
-            subtotal:
-                Number(
-                    total.toFixed(2)
-                ),
-
-
-            shipping:
-                0,
-
-
-            total:
-                Number(
-                    total.toFixed(2)
-                ),
-
-
-            customerShipping:
-                "FREE",
-
-
-            cjShippingUSD:
-                Number(
-                    cjShipping.toFixed(2)
-                ),
-
-
-            minimumProfitUSD:
-                Number(
-                    MINIMUM_PROFIT_USD.toFixed(2)
-                ),
-
-
-            paymentMethod:
-                paymentMethod,
-
-
-            createdAt:
-                new Date().toISOString()
-        };
-
-
-        /* =================================================
-           SAVE ORDER
-           ================================================= */
-
-        localStorage.setItem(
-            "pendingOrder",
-            JSON.stringify(order)
-        );
-
-
-        localStorage.setItem(
-            "sacchiFlyierCheckout",
-            JSON.stringify(order)
-        );
-
-
-        /*
-           DO NOT EMPTY CART YET.
-           Payment/backend integration can be added later.
-        */
-
-
-        alert(
-            `Order ${order.orderId} created.\n\nTotal: ${formatMoney(
-                total,
-                currency
-            )}\nShipping: FREE\nPayment: ${
-                paymentMethod === "cod"
-                    ? "Cash on Delivery"
-                    : "Online Payment"
-            }`
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            "Order creation error:",
-            error
-        );
-
-
-        alert(
-            "We could not calculate your order total. Please try again."
-        );
-    }
-}
-
-
-/* =========================================================
-   CHECKOUT SETUP
-   ========================================================= */
-
-function setupCheckout() {
-
-    const elements =
-        getCheckoutElements();
-
-
-    if (
-        !elements.country
-    ) {
-
-        return;
-    }
-
-
-    elements.country.addEventListener(
-        "change",
-        updateCheckout
-    );
-
-
-    if (
-        elements.placeOrderButton
-    ) {
-
-        elements.placeOrderButton.addEventListener(
-            "click",
-            handlePlaceOrder
-        );
-    }
-
-
-    updateCheckout();
-}
-
-
-/* =========================================================
-   NEWSLETTER
-   ========================================================= */
-
-function setupNewsletter() {
-
-    const form =
-        document.getElementById(
-            "newsletterForm"
-        );
-
-
-    if (!form) {
-        return;
-    }
-
-
-    form.addEventListener(
-        "submit",
-        async event => {
-
-            event.preventDefault();
-
-
-            const input =
-                document.getElementById(
-                    "newsletterEmail"
-                );
-
-
-            if (!input) {
-                return;
-            }
-
-
-            const email =
-                input.value.trim();
-
-
-            if (
-                !input.checkValidity()
-            ) {
-
-                alert(
-                    "Please enter a valid email address."
-                );
-
-                return;
-            }
-
-
-            try {
-
-                const response =
-                    await fetch(
-                        "/api/newsletter",
-                        {
-
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                            body:
-                                JSON.stringify({
-                                    email:
-                                        email
-                                })
-                        }
-                    );
-
-
-                if (
-                    !response.ok
-                ) {
-
-                    throw new Error(
-                        "Newsletter request failed"
-                    );
-                }
-
-
-                alert(
-                    "Thanks for subscribing to Sacchi Flyier!"
-                );
-
-
-                form.reset();
-
-
-            } catch (error) {
-
-                console.error(
-                    "Newsletter error:",
-                    error
-                );
-
-
-                alert(
-                    "Newsletter service is currently unavailable."
-                );
-            }
-        }
-    );
-}
-
-
-/* =========================================================
-   STORAGE UPDATE
-   ========================================================= */
-
-window.addEventListener(
-    "storage",
-    event => {
-
-        if (
-            event.key === CART_KEY
-        ) {
-
-            updateCartCount();
-
-            renderCart();
-
-
-            if (
-                document.getElementById(
-                    "country"
-                )
-            ) {
-
-                updateCheckout();
-            }
-        }
-    }
-);
-
-
-/* =========================================================
-   CART UPDATED EVENT
-   ========================================================= */
-
-window.addEventListener(
-    "cartUpdated",
-    () => {
-
-        updateCartCount();
-
-        renderCart();
-
-
-        if (
-            document.getElementById(
-                "country"
-            )
-        ) {
-
-            updateCheckout();
-        }
-    }
-);
-
-
-/* =========================================================
-   START
-   ========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        setupMobileMenu();
-
-        setupCart();
-
-        setupAddToCartButtons();
-
-        setupSearch();
-
-        setupCategoryFilter();
-
-        setupNewsletter();
-
-        setupCheckout();
-
-        updateCartCount();
-
-        renderCart();
-    }
-);
+</body>
+</html>
