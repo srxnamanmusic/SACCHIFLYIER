@@ -1,35 +1,16 @@
 /* =========================================================
-   SACCHI FLYIER - script.js
+   SACCHI FLYIER - COMPLETE script.js
+   Homepage + Cart + Checkout + Currency + Newsletter
    ========================================================= */
 
 
 /* =========================================================
-   CART SETTINGS
-   ========================================================= */
-
-const CART_KEYS = [
-    "sacchiFlyierCart",
-    "cart",
-    "shoppingCart",
-    "cartItems"
-];
-
-
-/* =========================================================
-   CUSTOMER SHIPPING PRICE
-   =========================================================
-   
-   This is what YOU charge the customer.
-
-   CJ's actual shipping cost is separate.
+   SETTINGS
    ========================================================= */
 
 const CUSTOMER_SHIPPING_USD = 19.99;
 
-
-/* =========================================================
-   BLOCKED COUNTRIES
-   ========================================================= */
+const CART_KEY = "sacchiFlyierCart";
 
 const BLOCKED_COUNTRIES = [
     "Iraq",
@@ -78,6 +59,7 @@ const COUNTRY_CURRENCY = {
     "Botswana": "BWP",
     "Bouvet Island": "NOK",
     "Brazil": "BRL",
+
     "British Indian Ocean Territory": "USD",
 
     "Brunei": "BND",
@@ -96,12 +78,12 @@ const COUNTRY_CURRENCY = {
     "Chad": "XAF",
     "Chile": "CLP",
     "China": "CNY",
-    "Christmas Island": "AUD",
-    "Cocos (Keeling) Islands": "AUD",
     "Colombia": "COP",
     "Comoros": "KMF",
+
     "Congo": "XAF",
     "Congo (the Democratic Republic of the)": "CDF",
+
     "Cook Islands": "NZD",
     "Costa Rica": "CRC",
 
@@ -127,12 +109,9 @@ const COUNTRY_CURRENCY = {
     "Estonia": "EUR",
     "Ethiopia": "ETB",
 
-    "Falkland Islands": "FKP",
-    "Faroe Islands": "DKK",
     "Fiji": "FJD",
     "Finland": "EUR",
     "France": "EUR",
-    "French Guiana": "EUR",
     "French Polynesia": "XPF",
     "French Southern Territories": "EUR",
 
@@ -264,49 +243,85 @@ const COUNTRY_CURRENCY = {
 
     "Uruguay": "UYU",
     "Uzbekistan": "UZS",
-
     "Venezuela": "VES",
     "Vietnam": "VND"
 };
 
 
 /* =========================================================
-   CART
+   CART STORAGE
    ========================================================= */
 
 function getCart() {
 
-    for (const key of CART_KEYS) {
+    try {
 
-        try {
+        const saved = localStorage.getItem(CART_KEY);
 
-            const saved = localStorage.getItem(key);
-
-            if (!saved) {
-                continue;
-            }
-
-            const cart = JSON.parse(saved);
-
-            if (Array.isArray(cart)) {
-                return cart;
-            }
-
-        } catch (error) {
-
-            console.warn(
-                "Could not read cart:",
-                error
-            );
+        if (!saved) {
+            return [];
         }
-    }
 
-    return [];
+        const cart = JSON.parse(saved);
+
+        return Array.isArray(cart) ? cart : [];
+
+    } catch (error) {
+
+        console.error("Cart read error:", error);
+
+        return [];
+    }
+}
+
+
+function saveCart(cart) {
+
+    localStorage.setItem(
+        CART_KEY,
+        JSON.stringify(cart)
+    );
+
+    updateCartCount();
+    renderCart();
+
+    window.dispatchEvent(
+        new Event("cartUpdated")
+    );
 }
 
 
 /* =========================================================
-   CART QUANTITY
+   PRODUCT PRICE
+   ========================================================= */
+
+function getItemPriceINR(item) {
+
+    const values = [
+        item?.price,
+        item?.salePrice,
+        item?.productPrice,
+        item?.amount
+    ];
+
+    for (const value of values) {
+
+        const price = Number(value);
+
+        if (
+            Number.isFinite(price) &&
+            price >= 0
+        ) {
+            return price;
+        }
+    }
+
+    return 0;
+}
+
+
+/* =========================================================
+   QUANTITY
    ========================================================= */
 
 function getItemQuantity(item) {
@@ -324,68 +339,68 @@ function getItemQuantity(item) {
         return 1;
     }
 
-    return quantity;
+    return Math.floor(quantity);
 }
 
 
 /* =========================================================
-   PRODUCT PRICE
-   =========================================================
-   
-   Your product prices are treated as INR.
+   ADD TO CART
    ========================================================= */
 
-function getItemPriceINR(item) {
-
-    if (!item) {
-        return 0;
-    }
-
-    const possiblePrices = [
-        item.price,
-        item.salePrice,
-        item.productPrice,
-        item.amount
-    ];
-
-    for (const value of possiblePrices) {
-
-        const price = Number(value);
-
-        if (
-            Number.isFinite(price) &&
-            price >= 0
-        ) {
-            return price;
-        }
-    }
-
-    return 0;
-}
-
-
-/* =========================================================
-   CART SUBTOTAL
-   ========================================================= */
-
-function getCartSubtotalINR() {
+function addToCart(productName, price = 0, image = "") {
 
     const cart = getCart();
 
-    return cart.reduce(
-        (total, item) => {
+    const name = String(
+        productName || "Product"
+    ).trim();
 
-            const price =
-                getItemPriceINR(item);
+    const numericPrice = Number(price) || 0;
 
-            const quantity =
-                getItemQuantity(item);
+    const existing = cart.find(
+        item =>
+            String(
+                item.name ||
+                item.title ||
+                item.productName ||
+                ""
+            ).toLowerCase() ===
+            name.toLowerCase()
+    );
 
-            return total +
-                (price * quantity);
 
-        },
-        0
+    if (existing) {
+
+        existing.quantity =
+            getItemQuantity(existing) + 1;
+
+    } else {
+
+        cart.push({
+
+            id:
+                "SF-" +
+                Date.now() +
+                "-" +
+                Math.random()
+                    .toString(36)
+                    .slice(2, 8),
+
+            name: name,
+
+            price: numericPrice,
+
+            quantity: 1,
+
+            image: image || ""
+        });
+    }
+
+
+    saveCart(cart);
+
+    alert(
+        `${name} has been added to your cart.`
     );
 }
 
@@ -398,38 +413,622 @@ function updateCartCount() {
 
     const cart = getCart();
 
-    const quantity = cart.reduce(
-        (total, item) => {
-
-            return total +
-                getItemQuantity(item);
-
-        },
+    const count = cart.reduce(
+        (total, item) =>
+            total + getItemQuantity(item),
         0
     );
 
 
-    const selectors = [
-        ".cart-count",
-        "#cartCount",
-        "#cart-count",
-        "[data-cart-count]"
-    ];
+    const elements =
+        document.querySelectorAll(
+            "#cartCount, .cart-count, #cart-count, [data-cart-count]"
+        );
 
 
-    document
-        .querySelectorAll(selectors.join(","))
-        .forEach(element => {
-
-            element.textContent =
-                quantity;
-        });
+    elements.forEach(
+        element => {
+            element.textContent = count;
+        }
+    );
 }
 
 
 /* =========================================================
-   CURRENCY FORMAT
+   CART TOTAL
    ========================================================= */
+
+function getCartSubtotalINR() {
+
+    const cart = getCart();
+
+    return cart.reduce(
+        (total, item) => {
+
+            return total +
+                (
+                    getItemPriceINR(item) *
+                    getItemQuantity(item)
+                );
+
+        },
+        0
+    );
+}
+
+
+/* =========================================================
+   RENDER CART
+   ========================================================= */
+
+function renderCart() {
+
+    const cartItems =
+        document.getElementById(
+            "cartItems"
+        );
+
+    const cartTotal =
+        document.getElementById(
+            "cartTotal"
+        );
+
+
+    if (!cartItems) {
+        return;
+    }
+
+
+    const cart = getCart();
+
+
+    if (cart.length === 0) {
+
+        cartItems.innerHTML =
+            "<p>Your cart is empty.</p>";
+
+        if (cartTotal) {
+            cartTotal.textContent = "0";
+        }
+
+        return;
+    }
+
+
+    cartItems.innerHTML =
+        cart.map(
+            (item, index) => {
+
+                const name =
+                    item.name ||
+                    item.title ||
+                    item.productName ||
+                    "Product";
+
+                const price =
+                    getItemPriceINR(item);
+
+                const quantity =
+                    getItemQuantity(item);
+
+                const image =
+                    item.image || "";
+
+
+                return `
+                    <div class="cart-item">
+
+                        ${
+                            image
+                                ? `
+                                    <img
+                                        src="${escapeHTML(image)}"
+                                        alt="${escapeHTML(name)}"
+                                        class="cart-item-image"
+                                    >
+                                  `
+                                : ""
+                        }
+
+                        <div class="cart-item-info">
+
+                            <strong>
+                                ${escapeHTML(name)}
+                            </strong>
+
+                            <span>
+                                ₹${price.toFixed(2)}
+                            </span>
+
+                            <div class="cart-quantity">
+
+                                <button
+                                    type="button"
+                                    onclick="changeQuantity(${index}, -1)"
+                                >
+                                    −
+                                </button>
+
+                                <span>
+                                    ${quantity}
+                                </span>
+
+                                <button
+                                    type="button"
+                                    onclick="changeQuantity(${index}, 1)"
+                                >
+                                    +
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <button
+                            type="button"
+                            class="remove-cart-item"
+                            onclick="removeFromCart(${index})"
+                        >
+                            ✕
+                        </button>
+
+                    </div>
+                `;
+
+            }
+        ).join("");
+
+
+    if (cartTotal) {
+
+        cartTotal.textContent =
+            `₹${getCartSubtotalINR().toFixed(2)}`;
+    }
+}
+
+
+/* =========================================================
+   CHANGE QUANTITY
+   ========================================================= */
+
+function changeQuantity(index, change) {
+
+    const cart = getCart();
+
+    if (!cart[index]) {
+        return;
+    }
+
+
+    let quantity =
+        getItemQuantity(cart[index]) +
+        Number(change);
+
+
+    if (quantity <= 0) {
+
+        cart.splice(index, 1);
+
+    } else {
+
+        cart[index].quantity =
+            quantity;
+    }
+
+
+    saveCart(cart);
+}
+
+
+/* =========================================================
+   REMOVE FROM CART
+   ========================================================= */
+
+function removeFromCart(index) {
+
+    const cart = getCart();
+
+    if (!cart[index]) {
+        return;
+    }
+
+
+    cart.splice(index, 1);
+
+    saveCart(cart);
+}
+
+
+/* =========================================================
+   CART PANEL
+   ========================================================= */
+
+function openCart() {
+
+    const panel =
+        document.getElementById(
+            "cartPanel"
+        );
+
+    if (!panel) {
+        return;
+    }
+
+
+    panel.classList.add("active");
+
+    renderCart();
+}
+
+
+function closeCart() {
+
+    const panel =
+        document.getElementById(
+            "cartPanel"
+        );
+
+    if (!panel) {
+        return;
+    }
+
+
+    panel.classList.remove("active");
+}
+
+
+function setupCart() {
+
+    const cartButton =
+        document.getElementById(
+            "cartButton"
+        );
+
+    const closeButton =
+        document.getElementById(
+            "closeCart"
+        );
+
+    const checkoutButton =
+        document.getElementById(
+            "checkoutButton"
+        );
+
+
+    if (cartButton) {
+
+        cartButton.addEventListener(
+            "click",
+            openCart
+        );
+    }
+
+
+    if (closeButton) {
+
+        closeButton.addEventListener(
+            "click",
+            closeCart
+        );
+    }
+
+
+    if (checkoutButton) {
+
+        checkoutButton.addEventListener(
+            "click",
+            () => {
+
+                const cart = getCart();
+
+                if (cart.length === 0) {
+
+                    alert(
+                        "Your cart is empty."
+                    );
+
+                    return;
+                }
+
+
+                window.location.href =
+                    "checkout.html";
+            }
+        );
+    }
+
+
+    renderCart();
+}
+
+
+/* =========================================================
+   ADD-CART BUTTONS
+   ========================================================= */
+
+function setupAddToCartButtons() {
+
+    const buttons =
+        document.querySelectorAll(
+            ".add-cart"
+        );
+
+
+    buttons.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const productName =
+                    button.dataset.product ||
+                    button.dataset.name ||
+                    "Product";
+
+                const price =
+                    Number(
+                        button.dataset.price ||
+                        button.dataset.productPrice ||
+                        0
+                    );
+
+                const image =
+                    button.dataset.image ||
+                    "";
+
+
+                addToCart(
+                    productName,
+                    price,
+                    image
+                );
+            }
+        );
+    });
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+function setupSearch() {
+
+    const searchButton =
+        document.getElementById(
+            "searchButton"
+        );
+
+    const searchOverlay =
+        document.getElementById(
+            "searchOverlay"
+        );
+
+    const closeSearch =
+        document.getElementById(
+            "closeSearch"
+        );
+
+    const searchInput =
+        document.getElementById(
+            "searchInput"
+        );
+
+
+    if (
+        searchButton &&
+        searchOverlay
+    ) {
+
+        searchButton.addEventListener(
+            "click",
+            () => {
+
+                searchOverlay.classList.add(
+                    "active"
+                );
+
+                if (searchInput) {
+                    searchInput.focus();
+                }
+            }
+        );
+    }
+
+
+    if (
+        closeSearch &&
+        searchOverlay
+    ) {
+
+        closeSearch.addEventListener(
+            "click",
+            () => {
+
+                searchOverlay.classList.remove(
+                    "active"
+                );
+            }
+        );
+    }
+
+
+    if (searchInput) {
+
+        searchInput.addEventListener(
+            "input",
+            () => {
+
+                const query =
+                    searchInput.value
+                        .trim()
+                        .toLowerCase();
+
+
+                const products =
+                    document.querySelectorAll(
+                        ".product-card"
+                    );
+
+
+                products.forEach(product => {
+
+                    const text =
+                        product.textContent
+                            .toLowerCase();
+
+
+                    product.style.display =
+                        !query ||
+                        text.includes(query)
+                            ? ""
+                            : "none";
+                });
+            }
+        );
+    }
+}
+
+
+/* =========================================================
+   MOBILE MENU
+   ========================================================= */
+
+function setupMobileMenu() {
+
+    const menuToggle =
+        document.getElementById(
+            "menuToggle"
+        );
+
+    const navLinks =
+        document.getElementById(
+            "navLinks"
+        );
+
+
+    if (
+        menuToggle &&
+        navLinks
+    ) {
+
+        menuToggle.addEventListener(
+            "click",
+            () => {
+
+                navLinks.classList.toggle(
+                    "active"
+                );
+            }
+        );
+
+
+        navLinks
+            .querySelectorAll("a")
+            .forEach(link => {
+
+                link.addEventListener(
+                    "click",
+                    () => {
+
+                        navLinks.classList.remove(
+                            "active"
+                        );
+                    }
+                );
+            });
+    }
+}
+
+
+/* =========================================================
+   CATEGORY FILTER
+   ========================================================= */
+
+function setupCategoryFilter() {
+
+    const buttons =
+        document.querySelectorAll(
+            "[data-category]"
+        );
+
+    const products =
+        document.querySelectorAll(
+            "[data-product-category]"
+        );
+
+
+    if (
+        !buttons.length ||
+        !products.length
+    ) {
+        return;
+    }
+
+
+    buttons.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const category =
+                    button.dataset.category;
+
+
+                buttons.forEach(
+                    item =>
+                        item.classList.remove(
+                            "active"
+                        )
+                );
+
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                products.forEach(product => {
+
+                    const productCategory =
+                        product.dataset
+                            .productCategory;
+
+
+                    product.style.display =
+                        category === "all" ||
+                        category === "*" ||
+                        category === productCategory
+                            ? ""
+                            : "none";
+                });
+            }
+        );
+    });
+}
+
+
+/* =========================================================
+   CURRENCY
+   ========================================================= */
+
+const exchangeRateCache = {};
+
+
+function getCurrencyForCountry(country) {
+
+    return COUNTRY_CURRENCY[country] || null;
+}
+
+
+function isCountryBlocked(country) {
+
+    return BLOCKED_COUNTRIES.includes(
+        country
+    );
+}
+
 
 function formatMoney(
     amount,
@@ -439,6 +1038,7 @@ function formatMoney(
     if (!Number.isFinite(amount)) {
         return "—";
     }
+
 
     try {
 
@@ -451,45 +1051,12 @@ function formatMoney(
             }
         ).format(amount);
 
-    } catch (error) {
+    } catch {
 
         return `${currency} ${amount.toFixed(2)}`;
     }
 }
 
-
-/* =========================================================
-   COUNTRY → CURRENCY
-   ========================================================= */
-
-function getCurrencyForCountry(country) {
-
-    return COUNTRY_CURRENCY[country] || null;
-}
-
-
-/* =========================================================
-   CHECK BLOCKED COUNTRY
-   ========================================================= */
-
-function isCountryBlocked(country) {
-
-    return BLOCKED_COUNTRIES.includes(
-        country
-    );
-}
-
-
-/* =========================================================
-   EXCHANGE RATE CACHE
-   ========================================================= */
-
-const exchangeRateCache = {};
-
-
-/* =========================================================
-   GET EXCHANGE RATE
-   ========================================================= */
 
 async function getExchangeRate(
     fromCurrency,
@@ -504,16 +1071,14 @@ async function getExchangeRate(
     }
 
 
-    const cacheKey =
+    const key =
         `${fromCurrency}_${toCurrency}`;
 
 
     if (
-        exchangeRateCache[cacheKey]
+        exchangeRateCache[key]
     ) {
-        return exchangeRateCache[
-            cacheKey
-        ];
+        return exchangeRateCache[key];
     }
 
 
@@ -528,7 +1093,7 @@ async function getExchangeRate(
     if (!response.ok) {
 
         throw new Error(
-            `Exchange rate unavailable: ${fromCurrency} → ${toCurrency}`
+            "Exchange rate unavailable"
         );
     }
 
@@ -547,23 +1112,18 @@ async function getExchangeRate(
     ) {
 
         throw new Error(
-            "Invalid exchange rate."
+            "Invalid exchange rate"
         );
     }
 
 
-    exchangeRateCache[
-        cacheKey
-    ] = rate;
+    exchangeRateCache[key] =
+        rate;
 
 
     return rate;
 }
 
-
-/* =========================================================
-   CONVERT MONEY
-   ========================================================= */
 
 async function convertMoney(
     amount,
@@ -573,13 +1133,6 @@ async function convertMoney(
 
     if (amount === 0) {
         return 0;
-    }
-
-    if (
-        fromCurrency ===
-        toCurrency
-    ) {
-        return amount;
     }
 
 
@@ -601,11 +1154,6 @@ async function convertMoney(
 function getCheckoutElements() {
 
     return {
-
-        form:
-            document.getElementById(
-                "checkoutForm"
-            ),
 
         name:
             document.getElementById(
@@ -697,26 +1245,11 @@ function getCheckoutElements() {
 function escapeHTML(value) {
 
     return String(value)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
 
 
@@ -724,28 +1257,25 @@ function escapeHTML(value) {
    RENDER CHECKOUT ITEMS
    ========================================================= */
 
-async function renderCheckoutItems(
-    currency
-) {
+async function renderCheckoutItems(currency) {
 
     const elements =
         getCheckoutElements();
+
 
     if (!elements.checkoutItems) {
         return;
     }
 
 
-    const cart = getCart();
+    const cart =
+        getCart();
 
 
     if (cart.length === 0) {
 
-        elements.checkoutItems.innerHTML = `
-            <div class="empty-checkout-cart">
-                Your cart is empty.
-            </div>
-        `;
+        elements.checkoutItems.innerHTML =
+            "<p>Your cart is empty.</p>";
 
         return;
     }
@@ -762,13 +1292,10 @@ async function renderCheckoutItems(
                 currency
             );
 
-    } catch (error) {
+    } catch {
 
-        elements.checkoutItems.innerHTML = `
-            <div class="empty-checkout-cart">
-                Currency conversion is currently unavailable.
-            </div>
-        `;
+        elements.checkoutItems.innerHTML =
+            "<p>Currency conversion unavailable.</p>";
 
         return;
     }
@@ -783,17 +1310,14 @@ async function renderCheckoutItems(
                 item.productName ||
                 "Product";
 
-
             const quantity =
                 getItemQuantity(item);
 
-
-            const priceINR =
+            const price =
                 getItemPriceINR(item);
 
-
-            const lineTotal =
-                priceINR *
+            const total =
+                price *
                 quantity *
                 rate;
 
@@ -813,14 +1337,12 @@ async function renderCheckoutItems(
 
                     </div>
 
-                    <div class="checkout-item-price">
-
+                    <strong>
                         ${formatMoney(
-                            lineTotal,
+                            total,
                             currency
                         )}
-
-                    </div>
+                    </strong>
 
                 </div>
             `;
@@ -833,7 +1355,7 @@ async function renderCheckoutItems(
    UPDATE CHECKOUT
    ========================================================= */
 
-let checkoutUpdateNumber = 0;
+let checkoutRequest = 0;
 
 
 async function updateCheckout() {
@@ -847,8 +1369,8 @@ async function updateCheckout() {
     }
 
 
-    const requestNumber =
-        ++checkoutUpdateNumber;
+    const request =
+        ++checkoutRequest;
 
 
     const country =
@@ -859,99 +1381,96 @@ async function updateCheckout() {
         getCart();
 
 
-    /* -----------------------------------------------------
-       NO COUNTRY
-       ----------------------------------------------------- */
+    /* NO COUNTRY */
 
     if (!country) {
 
-        if (elements.checkoutCurrency) {
-            elements.checkoutCurrency.textContent =
-                "Select country";
-        }
+        setCheckoutMessage(
+            elements,
+            "Please select your shipping country.",
+            "loading"
+        );
 
-        if (elements.checkoutSubtotal) {
-            elements.checkoutSubtotal.textContent =
-                "—";
-        }
+        setCheckoutValues(
+            elements,
+            "Select country",
+            "—",
+            "—",
+            "—"
+        );
 
-        if (elements.checkoutShipping) {
-            elements.checkoutShipping.textContent =
-                "—";
-        }
-
-        if (elements.checkoutTotal) {
-            elements.checkoutTotal.textContent =
-                "—";
-        }
-
-        if (elements.countryMessage) {
-
-            elements.countryMessage.textContent =
-                "Please select your shipping country.";
-
-            elements.countryMessage.className =
-                "checkout-status";
-        }
-
-        if (elements.placeOrderButton) {
-            elements.placeOrderButton.disabled =
-                true;
-        }
+        disableOrderButton(
+            elements,
+            true
+        );
 
         return;
     }
 
 
-    /* -----------------------------------------------------
-       BLOCKED COUNTRY
-       ----------------------------------------------------- */
+    /* BLOCKED COUNTRY */
 
-    if (
-        isCountryBlocked(country)
-    ) {
+    if (isCountryBlocked(country)) {
 
-        if (elements.checkoutCurrency) {
-            elements.checkoutCurrency.textContent =
-                "Not available";
-        }
+        setCheckoutMessage(
+            elements,
+            "Sorry, shipping is not available to this country.",
+            "error"
+        );
 
-        if (elements.checkoutSubtotal) {
-            elements.checkoutSubtotal.textContent =
-                "—";
-        }
+        setCheckoutValues(
+            elements,
+            "Not available",
+            "—",
+            "—",
+            "—"
+        );
 
-        if (elements.checkoutShipping) {
-            elements.checkoutShipping.textContent =
-                "—";
-        }
-
-        if (elements.checkoutTotal) {
-            elements.checkoutTotal.textContent =
-                "—";
-        }
-
-        if (elements.countryMessage) {
-
-            elements.countryMessage.textContent =
-                "Sorry, shipping is not available to this country.";
-
-            elements.countryMessage.className =
-                "checkout-status unavailable";
-        }
-
-        if (elements.placeOrderButton) {
-            elements.placeOrderButton.disabled =
-                true;
-        }
+        disableOrderButton(
+            elements,
+            true
+        );
 
         return;
     }
 
 
-    /* -----------------------------------------------------
-       FIND CURRENCY
-       ----------------------------------------------------- */
+    /* EMPTY CART */
+
+    if (cart.length === 0) {
+
+        const currency =
+            getCurrencyForCountry(country);
+
+
+        setCheckoutMessage(
+            elements,
+            "Your cart is empty.",
+            "error"
+        );
+
+        setCheckoutValues(
+            elements,
+            currency || "Unavailable",
+            formatMoney(0, currency || "USD"),
+            formatMoney(0, currency || "USD"),
+            formatMoney(0, currency || "USD")
+        );
+
+        disableOrderButton(
+            elements,
+            true
+        );
+
+        await renderCheckoutItems(
+            currency || "USD"
+        );
+
+        return;
+    }
+
+
+    /* CURRENCY */
 
     const currency =
         getCurrencyForCountry(country);
@@ -959,142 +1478,58 @@ async function updateCheckout() {
 
     if (!currency) {
 
-        if (elements.checkoutCurrency) {
-            elements.checkoutCurrency.textContent =
-                "Unavailable";
-        }
+        setCheckoutMessage(
+            elements,
+            "Currency conversion is unavailable for this country.",
+            "error"
+        );
 
-        if (elements.checkoutSubtotal) {
-            elements.checkoutSubtotal.textContent =
-                "—";
-        }
+        setCheckoutValues(
+            elements,
+            "Unavailable",
+            "—",
+            "—",
+            "—"
+        );
 
-        if (elements.checkoutShipping) {
-            elements.checkoutShipping.textContent =
-                "—";
-        }
-
-        if (elements.checkoutTotal) {
-            elements.checkoutTotal.textContent =
-                "—";
-        }
-
-        if (elements.countryMessage) {
-
-            elements.countryMessage.textContent =
-                "Currency conversion is unavailable for this country.";
-
-            elements.countryMessage.className =
-                "checkout-status unavailable";
-        }
-
-        if (elements.placeOrderButton) {
-            elements.placeOrderButton.disabled =
-                true;
-        }
-
-        return;
-    }
-
-
-    /* -----------------------------------------------------
-       EMPTY CART
-       ----------------------------------------------------- */
-
-    if (cart.length === 0) {
-
-        if (elements.checkoutCurrency) {
-            elements.checkoutCurrency.textContent =
-                currency;
-        }
-
-        if (elements.checkoutSubtotal) {
-            elements.checkoutSubtotal.textContent =
-                formatMoney(
-                    0,
-                    currency
-                );
-        }
-
-        if (elements.checkoutShipping) {
-            elements.checkoutShipping.textContent =
-                formatMoney(
-                    0,
-                    currency
-                );
-        }
-
-        if (elements.checkoutTotal) {
-            elements.checkoutTotal.textContent =
-                formatMoney(
-                    0,
-                    currency
-                );
-        }
-
-        if (elements.countryMessage) {
-
-            elements.countryMessage.textContent =
-                "Your cart is empty.";
-
-            elements.countryMessage.className =
-                "checkout-status unavailable";
-        }
-
-        if (elements.placeOrderButton) {
-            elements.placeOrderButton.disabled =
-                true;
-        }
-
-        await renderCheckoutItems(
-            currency
+        disableOrderButton(
+            elements,
+            true
         );
 
         return;
     }
 
 
-    /* -----------------------------------------------------
-       LOADING
-       ----------------------------------------------------- */
+    /* LOADING */
 
-    if (elements.checkoutCurrency) {
-        elements.checkoutCurrency.textContent =
-            `${currency} • Converting...`;
-    }
-
-    if (elements.checkoutSubtotal) {
-        elements.checkoutSubtotal.textContent =
-            "Converting...";
-    }
-
-    if (elements.checkoutShipping) {
-        elements.checkoutShipping.textContent =
-            "Converting...";
-    }
-
-    if (elements.checkoutTotal) {
-        elements.checkoutTotal.textContent =
-            "Converting...";
-    }
-
-    if (elements.placeOrderButton) {
-        elements.placeOrderButton.disabled =
-            true;
-    }
+    setCheckoutMessage(
+        elements,
+        `Shipping available to ${country}. Calculating total...`,
+        "loading"
+    );
 
 
-    /* -----------------------------------------------------
-       CALCULATE
-       ----------------------------------------------------- */
+    setCheckoutValues(
+        elements,
+        `${currency} • Converting...`,
+        "Converting...",
+        "Converting...",
+        "Converting..."
+    );
+
+
+    disableOrderButton(
+        elements,
+        true
+    );
+
 
     try {
 
         const subtotalINR =
             getCartSubtotalINR();
 
-
-        /* Product price: INR → customer currency */
 
         const subtotal =
             await convertMoney(
@@ -1103,8 +1538,6 @@ async function updateCheckout() {
                 currency
             );
 
-
-        /* Shipping: USD 19.99 → customer currency */
 
         const shipping =
             await convertMoney(
@@ -1120,130 +1553,158 @@ async function updateCheckout() {
 
 
         if (
-            requestNumber !==
-            checkoutUpdateNumber
+            request !==
+            checkoutRequest
         ) {
             return;
         }
 
 
-        /* Display currency */
-
-        if (elements.checkoutCurrency) {
-            elements.checkoutCurrency.textContent =
-                currency;
-        }
-
-
-        /* Display subtotal */
-
-        if (elements.checkoutSubtotal) {
-
-            elements.checkoutSubtotal.textContent =
-                formatMoney(
-                    subtotal,
-                    currency
-                );
-        }
+        setCheckoutValues(
+            elements,
+            currency,
+            formatMoney(
+                subtotal,
+                currency
+            ),
+            formatMoney(
+                shipping,
+                currency
+            ),
+            formatMoney(
+                total,
+                currency
+            )
+        );
 
 
-        /* Display shipping */
+        setCheckoutMessage(
+            elements,
+            `Shipping available to ${country}.`,
+            "success"
+        );
 
-        if (elements.checkoutShipping) {
-
-            elements.checkoutShipping.textContent =
-                formatMoney(
-                    shipping,
-                    currency
-                );
-        }
-
-
-        /* Display total */
-
-        if (elements.checkoutTotal) {
-
-            elements.checkoutTotal.textContent =
-                formatMoney(
-                    total,
-                    currency
-                );
-        }
-
-
-        /* Country message */
-
-        if (elements.countryMessage) {
-
-            elements.countryMessage.textContent =
-                `Shipping available to ${country}.`;
-
-            elements.countryMessage.className =
-                "checkout-status available";
-        }
-
-
-        /* Product lines */
 
         await renderCheckoutItems(
             currency
         );
 
 
-        /* Enable order */
-
         if (
-            elements.placeOrderButton &&
-            requestNumber ===
-                checkoutUpdateNumber
+            request ===
+            checkoutRequest
         ) {
 
-            elements.placeOrderButton.disabled =
-                false;
+            disableOrderButton(
+                elements,
+                false
+            );
         }
-
 
     } catch (error) {
 
         console.error(
-            "Checkout conversion error:",
+            "Checkout error:",
             error
         );
 
 
-        if (elements.checkoutCurrency) {
-            elements.checkoutCurrency.textContent =
-                "Conversion unavailable";
-        }
+        setCheckoutMessage(
+            elements,
+            "Currency conversion is temporarily unavailable. Please try again.",
+            "error"
+        );
 
-        if (elements.checkoutSubtotal) {
-            elements.checkoutSubtotal.textContent =
-                "—";
-        }
 
-        if (elements.checkoutShipping) {
-            elements.checkoutShipping.textContent =
-                "—";
-        }
+        setCheckoutValues(
+            elements,
+            "Unavailable",
+            "—",
+            "—",
+            "—"
+        );
 
-        if (elements.checkoutTotal) {
-            elements.checkoutTotal.textContent =
-                "—";
-        }
 
-        if (elements.countryMessage) {
+        disableOrderButton(
+            elements,
+            true
+        );
+    }
+}
 
-            elements.countryMessage.textContent =
-                "Currency conversion is temporarily unavailable. Please try again.";
 
-            elements.countryMessage.className =
-                "checkout-status unavailable";
-        }
+/* =========================================================
+   CHECKOUT DISPLAY HELPERS
+   ========================================================= */
 
-        if (elements.placeOrderButton) {
-            elements.placeOrderButton.disabled =
-                true;
-        }
+function setCheckoutValues(
+    elements,
+    currency,
+    subtotal,
+    shipping,
+    total
+) {
+
+    if (elements.checkoutCurrency) {
+        elements.checkoutCurrency.textContent =
+            currency;
+    }
+
+    if (elements.checkoutSubtotal) {
+        elements.checkoutSubtotal.textContent =
+            subtotal;
+    }
+
+    if (elements.checkoutShipping) {
+        elements.checkoutShipping.textContent =
+            shipping;
+    }
+
+    if (elements.checkoutTotal) {
+        elements.checkoutTotal.textContent =
+            total;
+    }
+}
+
+
+function setCheckoutMessage(
+    elements,
+    message,
+    type
+) {
+
+    if (!elements.countryMessage) {
+        return;
+    }
+
+
+    elements.countryMessage.textContent =
+        message;
+
+
+    elements.countryMessage.className =
+        "checkout-status " +
+        (
+            type === "error"
+                ? "error"
+                : type === "success"
+                    ? "success"
+                    : "loading"
+        );
+}
+
+
+function disableOrderButton(
+    elements,
+    disabled
+) {
+
+    if (
+        elements.placeOrderButton
+    ) {
+
+        elements.placeOrderButton.disabled =
+            disabled;
     }
 }
 
@@ -1257,13 +1718,6 @@ async function handlePlaceOrder() {
     const elements =
         getCheckoutElements();
 
-
-    if (!elements.country) {
-        return;
-    }
-
-
-    /* Get cart */
 
     const cart =
         getCart();
@@ -1279,13 +1733,19 @@ async function handlePlaceOrder() {
     }
 
 
-    /* Get country */
-
     const country =
-        elements.country.value;
+        elements.country?.value || "";
 
 
-    /* Check blocked country */
+    if (!country) {
+
+        alert(
+            "Please select your shipping country."
+        );
+
+        return;
+    }
+
 
     if (
         isCountryBlocked(country)
@@ -1298,8 +1758,6 @@ async function handlePlaceOrder() {
         return;
     }
 
-
-    /* Check required fields */
 
     const requiredFields = [
 
@@ -1324,7 +1782,9 @@ async function handlePlaceOrder() {
 
 
         if (
-            !String(field.value).trim()
+            !String(
+                field.value
+            ).trim()
         ) {
 
             field.focus();
@@ -1337,8 +1797,6 @@ async function handlePlaceOrder() {
         }
     }
 
-
-    /* Validate email */
 
     if (
         elements.email &&
@@ -1354,8 +1812,6 @@ async function handlePlaceOrder() {
         return;
     }
 
-
-    /* Get currency */
 
     const currency =
         getCurrencyForCountry(
@@ -1375,13 +1831,9 @@ async function handlePlaceOrder() {
 
     try {
 
-        /* Calculate subtotal */
-
         const subtotalINR =
             getCartSubtotalINR();
 
-
-        /* Convert subtotal */
 
         const subtotal =
             await convertMoney(
@@ -1391,8 +1843,6 @@ async function handlePlaceOrder() {
             );
 
 
-        /* Convert customer shipping */
-
         const shipping =
             await convertMoney(
                 CUSTOMER_SHIPPING_USD,
@@ -1401,34 +1851,26 @@ async function handlePlaceOrder() {
             );
 
 
-        /* Calculate total */
-
         const total =
             subtotal +
             shipping;
 
 
-        /* Payment method */
-
-        let paymentMethod =
-            "Cash on Delivery";
-
+        /* IMPORTANT:
+           Your HTML uses name="payment"
+        */
 
         const selectedPayment =
             document.querySelector(
-                'input[name="paymentMethod"]:checked'
+                'input[name="payment"]:checked'
             );
 
 
-        if (selectedPayment) {
+        const paymentMethod =
+            selectedPayment
+                ? selectedPayment.value
+                : "cod";
 
-            paymentMethod =
-                selectedPayment.value ||
-                "Cash on Delivery";
-        }
-
-
-        /* Create order */
 
         const order = {
 
@@ -1502,7 +1944,7 @@ async function handlePlaceOrder() {
         };
 
 
-        /* Save order */
+        /* SAVE ORDER */
 
         localStorage.setItem(
             "pendingOrder",
@@ -1517,13 +1959,17 @@ async function handlePlaceOrder() {
 
 
         /*
-           NO confirmation.html REDIRECT.
-
-           For now, simply show the order ID.
+           DO NOT EMPTY CART YET.
+           Payment/backend integration can be added later.
         */
 
+
         alert(
-            `Order ${order.orderId} has been created successfully!`
+            `Order ${order.orderId} created.\n\nTotal: ${formatMoney(total, currency)}\nPayment: ${
+                paymentMethod === "cod"
+                    ? "Cash on Delivery"
+                    : "Online Payment"
+            }`
         );
 
 
@@ -1533,6 +1979,7 @@ async function handlePlaceOrder() {
             "Order creation error:",
             error
         );
+
 
         alert(
             "We could not calculate your order total. Please try again."
@@ -1556,20 +2003,11 @@ function setupCheckout() {
     }
 
 
-    /* Country changed */
-
     elements.country.addEventListener(
         "change",
         updateCheckout
     );
 
-
-    /* Initial checkout */
-
-    updateCheckout();
-
-
-    /* Place order */
 
     if (
         elements.placeOrderButton
@@ -1582,179 +2020,7 @@ function setupCheckout() {
     }
 
 
-    /* Form submit */
-
-    if (elements.form) {
-
-        elements.form.addEventListener(
-            "submit",
-            event => {
-
-                event.preventDefault();
-
-                handlePlaceOrder();
-            }
-        );
-    }
-}
-
-
-/* =========================================================
-   MOBILE MENU
-   ========================================================= */
-
-function setupMobileMenu() {
-
-    const menuToggle =
-        document.querySelector(
-            ".menu-toggle"
-        );
-
-
-    const navMenu =
-        document.querySelector(
-            ".nav-menu"
-        );
-
-
-    const closeMenu =
-        document.querySelector(
-            ".close-menu"
-        );
-
-
-    if (
-        menuToggle &&
-        navMenu
-    ) {
-
-        menuToggle.addEventListener(
-            "click",
-            () => {
-
-                navMenu.classList.add(
-                    "active"
-                );
-            }
-        );
-    }
-
-
-    if (
-        closeMenu &&
-        navMenu
-    ) {
-
-        closeMenu.addEventListener(
-            "click",
-            () => {
-
-                navMenu.classList.remove(
-                    "active"
-                );
-            }
-        );
-    }
-
-
-    document
-        .querySelectorAll(
-            ".nav-menu a"
-        )
-        .forEach(link => {
-
-            link.addEventListener(
-                "click",
-                () => {
-
-                    if (navMenu) {
-
-                        navMenu.classList.remove(
-                            "active"
-                        );
-                    }
-                }
-            );
-        });
-}
-
-
-/* =========================================================
-   CATEGORY FILTER
-   ========================================================= */
-
-function setupCategoryFilter() {
-
-    const buttons =
-        document.querySelectorAll(
-            "[data-category]"
-        );
-
-
-    const products =
-        document.querySelectorAll(
-            "[data-product-category]"
-        );
-
-
-    if (
-        buttons.length === 0 ||
-        products.length === 0
-    ) {
-        return;
-    }
-
-
-    buttons.forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                const category =
-                    button.dataset.category;
-
-
-                buttons.forEach(
-                    btn =>
-                        btn.classList.remove(
-                            "active"
-                        )
-                );
-
-
-                button.classList.add(
-                    "active"
-                );
-
-
-                products.forEach(
-                    product => {
-
-                        const productCategory =
-                            product.dataset
-                                .productCategory;
-
-
-                        if (
-                            category === "all" ||
-                            category === "*" ||
-                            category === productCategory
-                        ) {
-
-                            product.style.display =
-                                "";
-
-                        } else {
-
-                            product.style.display =
-                                "none";
-                        }
-                    }
-                );
-            }
-        );
-    });
+    updateCheckout();
 }
 
 
@@ -1764,121 +2030,107 @@ function setupCategoryFilter() {
 
 function setupNewsletter() {
 
-    const forms =
-        document.querySelectorAll(
-            ".newsletter-form, #newsletterForm"
+    const form =
+        document.getElementById(
+            "newsletterForm"
         );
 
 
-    forms.forEach(form => {
-
-        form.addEventListener(
-            "submit",
-            async event => {
-
-                event.preventDefault();
+    if (!form) {
+        return;
+    }
 
 
-                const emailInput =
-                    form.querySelector(
-                        'input[type="email"]'
-                    );
+    form.addEventListener(
+        "submit",
+        async event => {
+
+            event.preventDefault();
 
 
-                if (!emailInput) {
-                    return;
-                }
+            const input =
+                document.getElementById(
+                    "newsletterEmail"
+                );
 
 
-                const email =
-                    emailInput.value.trim();
-
-
-                if (!email) {
-
-                    alert(
-                        "Please enter your email address."
-                    );
-
-                    return;
-                }
-
-
-                if (
-                    !emailInput.checkValidity()
-                ) {
-
-                    alert(
-                        "Please enter a valid email address."
-                    );
-
-                    return;
-                }
-
-
-                /*
-                   Newsletter requests go to your backend.
-
-                   NEVER put your Resend API key in this file.
-                */
-
-                try {
-
-                    const response =
-                        await fetch(
-                            "/api/newsletter",
-                            {
-
-                                method: "POST",
-
-                                headers: {
-                                    "Content-Type":
-                                        "application/json"
-                                },
-
-                                body:
-                                    JSON.stringify({
-                                        email: email
-                                    })
-                            }
-                        );
-
-
-                    if (!response.ok) {
-                        throw new Error(
-                            "Newsletter request failed."
-                        );
-                    }
-
-
-                    alert(
-                        "Thanks for subscribing to Sacchi Flyier!"
-                    );
-
-
-                    form.reset();
-
-
-                } catch (error) {
-
-                    console.error(
-                        "Newsletter error:",
-                        error
-                    );
-
-
-                    alert(
-                        "Newsletter service is currently unavailable."
-                    );
-                }
+            if (!input) {
+                return;
             }
-        );
-    });
+
+
+            const email =
+                input.value.trim();
+
+
+            if (
+                !input.checkValidity()
+            ) {
+
+                alert(
+                    "Please enter a valid email address."
+                );
+
+                return;
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/newsletter",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify({
+                                    email: email
+                                })
+                        }
+                    );
+
+
+                if (!response.ok) {
+                    throw new Error(
+                        "Newsletter request failed"
+                    );
+                }
+
+
+                alert(
+                    "Thanks for subscribing to Sacchi Flyier!"
+                );
+
+
+                form.reset();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Newsletter error:",
+                    error
+                );
+
+
+                alert(
+                    "Newsletter service is currently unavailable."
+                );
+            }
+        }
+    );
 }
 
 
 /* =========================================================
-   STORAGE LISTENER
+   STORAGE UPDATE
    ========================================================= */
 
 window.addEventListener(
@@ -1886,12 +2138,12 @@ window.addEventListener(
     event => {
 
         if (
-            CART_KEYS.includes(
-                event.key
-            )
+            event.key === CART_KEY
         ) {
 
             updateCartCount();
+            renderCart();
+
 
             if (
                 document.getElementById(
@@ -1915,6 +2167,8 @@ window.addEventListener(
     () => {
 
         updateCartCount();
+        renderCart();
+
 
         if (
             document.getElementById(
@@ -1929,7 +2183,7 @@ window.addEventListener(
 
 
 /* =========================================================
-   START EVERYTHING
+   START
    ========================================================= */
 
 document.addEventListener(
@@ -1938,6 +2192,12 @@ document.addEventListener(
 
         setupMobileMenu();
 
+        setupCart();
+
+        setupAddToCartButtons();
+
+        setupSearch();
+
         setupCategoryFilter();
 
         setupNewsletter();
@@ -1945,5 +2205,7 @@ document.addEventListener(
         setupCheckout();
 
         updateCartCount();
+
+        renderCart();
     }
 );
