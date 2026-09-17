@@ -5,6 +5,19 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     // ==========================================
+    // SHIPPING SETTINGS
+    // ==========================================
+
+    const SHIPPING_COST = 19.99;
+
+    const BLOCKED_COUNTRIES = [
+        "Iraq",
+        "Guinea-Bissau",
+        "Holy See"
+    ];
+
+
+    // ==========================================
     // MOBILE MENU
     // ==========================================
 
@@ -12,17 +25,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const navLinks = document.getElementById("navLinks");
 
     if (menuToggle && navLinks) {
+
         menuToggle.addEventListener("click", () => {
+
             navLinks.classList.toggle("active");
             menuToggle.classList.toggle("active");
+
         });
 
+
         navLinks.querySelectorAll("a").forEach(link => {
+
             link.addEventListener("click", () => {
+
                 navLinks.classList.remove("active");
                 menuToggle.classList.remove("active");
+
             });
+
         });
+
     }
 
 
@@ -36,31 +58,51 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.getElementById("searchInput");
 
     if (searchButton && searchOverlay) {
+
         searchButton.addEventListener("click", () => {
+
             searchOverlay.classList.add("active");
 
             if (searchInput) {
-                setTimeout(() => searchInput.focus(), 200);
+
+                setTimeout(() => {
+                    searchInput.focus();
+                }, 200);
+
             }
+
         });
+
     }
 
+
     if (closeSearch && searchOverlay) {
+
         closeSearch.addEventListener("click", () => {
+
             searchOverlay.classList.remove("active");
 
             if (searchInput) {
                 searchInput.value = "";
             }
+
         });
+
     }
 
+
     if (searchOverlay) {
+
         searchOverlay.addEventListener("click", event => {
+
             if (event.target === searchOverlay) {
+
                 searchOverlay.classList.remove("active");
+
             }
+
         });
+
     }
 
 
@@ -68,17 +110,29 @@ document.addEventListener("DOMContentLoaded", () => {
     // CART
     // ==========================================
 
-    let cart = JSON.parse(localStorage.getItem("sacchiFlyierCart")) || [];
+    let cart =
+        JSON.parse(localStorage.getItem("sacchiFlyierCart")) || [];
 
-    const cartButton = document.getElementById("cartButton");
-    const cartPanel = document.getElementById("cartPanel");
-    const closeCart = document.getElementById("closeCart");
+    const cartButton =
+        document.getElementById("cartButton");
 
-    const cartItemsContainer = document.getElementById("cartItems");
-    const cartCount = document.getElementById("cartCount");
-    const cartTotal = document.getElementById("cartTotal");
+    const cartPanel =
+        document.getElementById("cartPanel");
 
-    const checkoutButton = document.getElementById("checkoutButton");
+    const closeCart =
+        document.getElementById("closeCart");
+
+    const cartItemsContainer =
+        document.getElementById("cartItems");
+
+    const cartCount =
+        document.getElementById("cartCount");
+
+    const cartTotal =
+        document.getElementById("cartTotal");
+
+    const checkoutButton =
+        document.getElementById("checkoutButton");
 
 
     // ==========================================
@@ -88,17 +142,25 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateCart() {
 
         if (cartCount) {
+
             cartCount.textContent = cart.length;
+
         }
 
+
         if (!cartItemsContainer) {
+
             saveCart();
+
             return;
+
         }
+
 
         cartItemsContainer.innerHTML = "";
 
         let total = 0;
+
 
         if (cart.length === 0) {
 
@@ -115,14 +177,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 total += Number(item.price) || 0;
 
-                const itemElement = document.createElement("div");
+                const itemElement =
+                    document.createElement("div");
 
                 itemElement.className = "cart-item";
 
                 itemElement.innerHTML = `
                     <div class="cart-item-info">
-                        <strong>${escapeHTML(item.name)}</strong>
-                        <span>₹${Number(item.price).toFixed(2)}</span>
+
+                        <strong>
+                            ${escapeHTML(item.name)}
+                        </strong>
+
+                        <span>
+                            ₹${Number(item.price).toFixed(2)}
+                        </span>
+
                     </div>
 
                     <button
@@ -133,26 +203,39 @@ document.addEventListener("DOMContentLoaded", () => {
                 `;
 
                 cartItemsContainer.appendChild(itemElement);
+
             });
+
         }
+
 
         if (cartTotal) {
-            cartTotal.textContent = `₹${total.toFixed(2)}`;
+
+            cartTotal.textContent =
+                `₹${total.toFixed(2)}`;
+
         }
 
-        document.querySelectorAll(".remove-cart-item").forEach(button => {
 
-            button.addEventListener("click", () => {
+        document
+            .querySelectorAll(".remove-cart-item")
+            .forEach(button => {
 
-                const index = Number(button.dataset.index);
+                button.addEventListener("click", () => {
 
-                cart.splice(index, 1);
+                    const index =
+                        Number(button.dataset.index);
 
-                saveCart();
-                updateCart();
+                    cart.splice(index, 1);
+
+                    saveCart();
+
+                    updateCart();
+
+                });
+
             });
 
-        });
     }
 
 
@@ -161,10 +244,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
 
     function saveCart() {
+
         localStorage.setItem(
             "sacchiFlyierCart",
             JSON.stringify(cart)
         );
+
     }
 
 
@@ -172,57 +257,75 @@ document.addEventListener("DOMContentLoaded", () => {
     // ADD TO CART
     // ==========================================
 
-    document.querySelectorAll(".add-cart").forEach(button => {
+    document
+        .querySelectorAll(".add-cart")
+        .forEach(button => {
 
-        button.addEventListener("click", () => {
+            button.addEventListener("click", () => {
 
-            const productCard =
-                button.closest(".product-card");
+                const productCard =
+                    button.closest(".product-card");
 
-            const productName =
-                button.dataset.product ||
-                "Product";
+                const productName =
+                    button.dataset.product ||
+                    "Product";
 
-            let price = 0;
+                let price = 0;
 
-            if (productCard) {
 
-                const priceElement =
-                    productCard.querySelector(".price");
+                if (productCard) {
 
-                if (priceElement) {
+                    const priceElement =
+                        productCard.querySelector(".price");
 
-                    price =
-                        parseFloat(
-                            priceElement.textContent
-                                .replace(/[^\d.]/g, "")
-                        ) || 0;
+                    if (priceElement) {
+
+                        price =
+                            parseFloat(
+                                priceElement.textContent
+                                    .replace(/[^\d.]/g, "")
+                            ) || 0;
+
+                    }
+
                 }
-            }
 
-            cart.push({
-                name: productName,
-                price: price
+
+                cart.push({
+                    name: productName,
+                    price: price
+                });
+
+
+                saveCart();
+
+                updateCart();
+
+
+                if (cartPanel) {
+
+                    cartPanel.classList.add("active");
+
+                }
+
+
+                const oldText =
+                    button.textContent;
+
+                button.textContent =
+                    "Added ✓";
+
+
+                setTimeout(() => {
+
+                    button.textContent =
+                        oldText;
+
+                }, 1200);
+
             });
 
-            saveCart();
-            updateCart();
-
-            if (cartPanel) {
-                cartPanel.classList.add("active");
-            }
-
-            const oldText = button.textContent;
-
-            button.textContent = "Added ✓";
-
-            setTimeout(() => {
-                button.textContent = oldText;
-            }, 1200);
-
         });
-
-    });
 
 
     // ==========================================
@@ -232,7 +335,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (cartButton && cartPanel) {
 
         cartButton.addEventListener("click", () => {
+
             cartPanel.classList.add("active");
+
         });
 
     }
@@ -245,7 +350,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (closeCart && cartPanel) {
 
         closeCart.addEventListener("click", () => {
+
             cartPanel.classList.remove("active");
+
         });
 
     }
@@ -264,9 +371,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Your cart is empty.");
 
                 return;
+
             }
 
-            window.location.href = "checkout.html";
+
+            window.location.href =
+                "checkout.html";
 
         });
 
@@ -277,12 +387,20 @@ document.addEventListener("DOMContentLoaded", () => {
     // CHECKOUT PAGE
     // ==========================================
 
-    if (window.location.pathname.includes("checkout.html")) {
+    if (
+        window.location.pathname
+            .toLowerCase()
+            .includes("checkout.html")
+    ) {
 
         loadCheckout();
 
     }
 
+
+    // ==========================================
+    // LOAD CHECKOUT
+    // ==========================================
 
     function loadCheckout() {
 
@@ -292,15 +410,32 @@ document.addEventListener("DOMContentLoaded", () => {
         const checkoutSubtotal =
             document.getElementById("checkoutSubtotal");
 
+        const checkoutShipping =
+            document.getElementById("checkoutShipping");
+
         const checkoutTotal =
             document.getElementById("checkoutTotal");
 
-        if (!checkoutItems) return;
+        const countrySelect =
+            document.getElementById("country");
+
+        const countryMessage =
+            document.getElementById("countryMessage");
+
+
+        if (!checkoutItems) {
+            return;
+        }
+
 
         checkoutItems.innerHTML = "";
 
         let subtotal = 0;
 
+
+        // ==========================================
+        // DISPLAY CART
+        // ==========================================
 
         if (cart.length === 0) {
 
@@ -317,11 +452,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 subtotal += price;
 
+
                 const itemElement =
                     document.createElement("div");
 
                 itemElement.className =
                     "checkout-item";
+
 
                 itemElement.innerHTML = `
                     <span class="checkout-item-name">
@@ -333,22 +470,88 @@ document.addEventListener("DOMContentLoaded", () => {
                     </span>
                 `;
 
-                checkoutItems.appendChild(itemElement);
+
+                checkoutItems.appendChild(
+                    itemElement
+                );
 
             });
 
         }
 
 
-        if (checkoutSubtotal) {
-            checkoutSubtotal.textContent =
-                `₹${subtotal.toFixed(2)}`;
+        // ==========================================
+        // SHIPPING
+        // ==========================================
+
+        if (checkoutShipping) {
+
+            checkoutShipping.textContent =
+                `$${SHIPPING_COST.toFixed(2)}`;
+
         }
 
 
-        if (checkoutTotal) {
-            checkoutTotal.textContent =
+        // ==========================================
+        // SUBTOTAL
+        // ==========================================
+
+        if (checkoutSubtotal) {
+
+            checkoutSubtotal.textContent =
                 `₹${subtotal.toFixed(2)}`;
+
+        }
+
+
+        // ==========================================
+        // TOTAL
+        // ==========================================
+        //
+        // IMPORTANT:
+        // Your products are currently displayed
+        // in INR (₹), while shipping is USD ($).
+        //
+        // Therefore we DON'T mathematically add
+        // ₹ + $ together.
+        //
+        // The total below keeps the product subtotal
+        // in INR and separately displays shipping USD.
+        //
+        // We will need a currency conversion/payment
+        // system before using this for real payments.
+        // ==========================================
+
+        if (checkoutTotal) {
+
+            checkoutTotal.textContent =
+                `₹${subtotal.toFixed(2)} + $${SHIPPING_COST.toFixed(2)}`;
+
+        }
+
+
+        // ==========================================
+        // COUNTRY AUTO-DETECTION
+        // ==========================================
+
+        autoDetectCountry();
+
+
+        // ==========================================
+        // COUNTRY CHANGE
+        // ==========================================
+
+        if (countrySelect) {
+
+            countrySelect.addEventListener(
+                "change",
+                () => {
+
+                    checkCountry();
+
+                }
+            );
+
         }
 
 
@@ -357,7 +560,10 @@ document.addEventListener("DOMContentLoaded", () => {
         // ==========================================
 
         const placeOrderButton =
-            document.getElementById("placeOrderButton");
+            document.getElementById(
+                "placeOrderButton"
+            );
+
 
         if (placeOrderButton) {
 
@@ -368,47 +574,312 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
+
+        // ==========================================
+        // CHECK INITIAL COUNTRY
+        // ==========================================
+
+        if (countrySelect &&
+            countrySelect.value) {
+
+            checkCountry();
+
+        }
+
     }
 
 
     // ==========================================
-    // PLACE ORDER FUNCTION
+    // AUTO DETECT COUNTRY
+    // ==========================================
+
+    function autoDetectCountry() {
+
+        const countrySelect =
+            document.getElementById("country");
+
+        if (!countrySelect) {
+            return;
+        }
+
+
+        /*
+         * Browser locale can give us a country code.
+         *
+         * Example:
+         * en-US -> US
+         * en-IN -> IN
+         * en-GB -> GB
+         *
+         * This is only a best-effort detection.
+         */
+
+        const locale =
+            navigator.language ||
+            navigator.userLanguage ||
+            "";
+
+
+        const parts =
+            locale.split("-");
+
+        let countryCode =
+            parts.length > 1
+                ? parts[1].toUpperCase()
+                : "";
+
+
+        const countryMap = {
+
+            AF: "Afghanistan",
+            AL: "Albania",
+            DZ: "Algeria",
+            AR: "Argentina",
+            AU: "Australia",
+            AT: "Austria",
+            BD: "Bangladesh",
+            BE: "Belgium",
+            BR: "Brazil",
+            BG: "Bulgaria",
+            CA: "Canada",
+            CL: "Chile",
+            CN: "China",
+            CO: "Colombia",
+            CR: "Costa Rica",
+            HR: "Croatia",
+            CY: "Cyprus",
+            CZ: "Czechia",
+            DK: "Denmark",
+            EC: "Ecuador",
+            EG: "Egypt",
+            EE: "Estonia",
+            FI: "Finland",
+            FR: "France",
+            DE: "Germany",
+            GR: "Greece",
+            GT: "Guatemala",
+            HU: "Hungary",
+            IS: "Iceland",
+            IN: "India",
+            ID: "Indonesia",
+            IE: "Ireland",
+            IL: "Israel",
+            IT: "Italy",
+            JP: "Japan",
+            JO: "Jordan",
+            KE: "Kenya",
+            MY: "Malaysia",
+            MX: "Mexico",
+            NP: "Nepal",
+            NL: "Netherlands",
+            NZ: "New Zealand",
+            NG: "Nigeria",
+            NO: "Norway",
+            PK: "Pakistan",
+            PE: "Peru",
+            PH: "Philippines",
+            PL: "Poland",
+            PT: "Portugal",
+            QA: "Qatar",
+            RO: "Romania",
+            SA: "Saudi Arabia",
+            SG: "Singapore",
+            ZA: "South Africa",
+            KR: "South Korea",
+            ES: "Spain",
+            LK: "Sri Lanka",
+            SE: "Sweden",
+            CH: "Switzerland",
+            TH: "Thailand",
+            TR: "Turkey",
+            UA: "Ukraine",
+            AE: "United Arab Emirates",
+            GB: "United Kingdom",
+            US: "United States",
+            VN: "Vietnam"
+
+        };
+
+
+        const detectedCountry =
+            countryMap[countryCode];
+
+
+        if (detectedCountry) {
+
+            const option =
+                Array.from(
+                    countrySelect.options
+                ).find(
+                    option =>
+                        option.value ===
+                        detectedCountry
+                );
+
+
+            if (option) {
+
+                countrySelect.value =
+                    detectedCountry;
+
+                checkCountry();
+
+            }
+
+        }
+
+    }
+
+
+    // ==========================================
+    // CHECK COUNTRY
+    // ==========================================
+
+    function checkCountry() {
+
+        const countrySelect =
+            document.getElementById("country");
+
+        const countryMessage =
+            document.getElementById("countryMessage");
+
+        const placeOrderButton =
+            document.getElementById(
+                "placeOrderButton"
+            );
+
+
+        if (!countrySelect) {
+            return true;
+        }
+
+
+        const country =
+            countrySelect.value.trim();
+
+
+        const isBlocked =
+            BLOCKED_COUNTRIES.includes(country);
+
+
+        if (isBlocked) {
+
+            if (countryMessage) {
+
+                countryMessage.textContent =
+                    "Sorry, shipping is not available to this country.";
+
+            }
+
+
+            if (placeOrderButton) {
+
+                placeOrderButton.disabled =
+                    true;
+
+            }
+
+
+            return false;
+
+        }
+
+
+        if (countryMessage) {
+
+            countryMessage.textContent =
+                country
+                    ? "Shipping available — $19.99"
+                    : "";
+
+        }
+
+
+        if (placeOrderButton) {
+
+            placeOrderButton.disabled =
+                false;
+
+        }
+
+
+        return true;
+
+    }
+
+
+    // ==========================================
+    // PLACE ORDER
     // ==========================================
 
     function placeOrder() {
 
         if (cart.length === 0) {
 
-            alert("Your cart is empty.");
+            alert(
+                "Your cart is empty."
+            );
 
             return;
+
         }
 
 
+        // ==========================================
+        // CUSTOMER DETAILS
+        // ==========================================
+
         const name =
-            document.getElementById("checkoutName")?.value.trim();
+            document
+                .getElementById("checkoutName")
+                ?.value.trim();
+
 
         const email =
-            document.getElementById("checkoutEmail")?.value.trim();
+            document
+                .getElementById("checkoutEmail")
+                ?.value.trim();
+
 
         const phone =
-            document.getElementById("checkoutPhone")?.value.trim();
+            document
+                .getElementById("checkoutPhone")
+                ?.value.trim();
+
 
         const address =
-            document.getElementById("address")?.value.trim();
+            document
+                .getElementById("address")
+                ?.value.trim();
+
 
         const city =
-            document.getElementById("city")?.value.trim();
+            document
+                .getElementById("city")
+                ?.value.trim();
+
 
         const state =
-            document.getElementById("state")?.value.trim();
+            document
+                .getElementById("state")
+                ?.value.trim();
+
 
         const country =
-            document.getElementById("country")?.value.trim();
+            document
+                .getElementById("country")
+                ?.value.trim();
+
 
         const postalCode =
-            document.getElementById("postalCode")?.value.trim();
+            document
+                .getElementById("postalCode")
+                ?.value.trim();
 
+
+        // ==========================================
+        // REQUIRED FIELDS
+        // ==========================================
 
         if (
             !name ||
@@ -426,27 +897,65 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
             return;
+
         }
 
+
+        // ==========================================
+        // CHECK BLOCKED COUNTRY
+        // ==========================================
+
+        if (
+            BLOCKED_COUNTRIES.includes(
+                country
+            )
+        ) {
+
+            alert(
+                "Sorry, shipping is not available to this country."
+            );
+
+            return;
+
+        }
+
+
+        // ==========================================
+        // EMAIL VALIDATION
+        // ==========================================
 
         const emailPattern =
             /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (!emailPattern.test(email)) {
+
+        if (
+            !emailPattern.test(email)
+        ) {
 
             alert(
                 "Please enter a valid email address."
             );
 
             return;
+
         }
 
 
-        const countryCode =
-            document.getElementById(
-                "checkoutCountryCode"
-            )?.value || "+91";
+        // ==========================================
+        // PHONE COUNTRY CODE
+        // ==========================================
 
+        const countryCode =
+            document
+                .getElementById(
+                    "checkoutCountryCode"
+                )
+                ?.value || "+91";
+
+
+        // ==========================================
+        // PAYMENT METHOD
+        // ==========================================
 
         const paymentMethod =
             document.querySelector(
@@ -454,58 +963,108 @@ document.addEventListener("DOMContentLoaded", () => {
             )?.value || "cod";
 
 
-        // Create order number
-        const orderNumber =
-            "SF-" +
-            Date.now().toString().slice(-8);
+        // ==========================================
+        // CALCULATE SUBTOTAL
+        // ==========================================
 
-
-        // Calculate total
-        const total =
+        const subtotal =
             cart.reduce(
                 (sum, item) =>
-                    sum + (Number(item.price) || 0),
+                    sum +
+                    (Number(item.price) || 0),
                 0
             );
 
+
+        // ==========================================
+        // ORDER NUMBER
+        // ==========================================
+
+        const orderNumber =
+            "SF-" +
+            Date.now()
+                .toString()
+                .slice(-8);
+
+
+        // ==========================================
+        // CREATE ORDER
+        // ==========================================
 
         const order = {
 
             orderNumber: orderNumber,
 
             customer: {
+
                 name: name,
+
                 email: email,
-                phone: countryCode + " " + phone
+
+                phone:
+                    countryCode +
+                    " " +
+                    phone
+
             },
+
 
             address: {
+
                 street: address,
+
                 city: city,
+
                 state: state,
+
                 country: country,
-                postalCode: postalCode
+
+                postalCode:
+                    postalCode
+
             },
 
-            payment: paymentMethod,
 
-            items: cart,
+            payment:
+                paymentMethod,
 
-            total: total,
 
-            date: new Date().toISOString()
+            items:
+                cart,
+
+
+            subtotal:
+                subtotal,
+
+
+            shipping:
+                SHIPPING_COST,
+
+
+            shippingCurrency:
+                "USD",
+
+
+            date:
+                new Date().toISOString()
 
         };
 
 
-        // Save order locally
+        // ==========================================
+        // SAVE ORDER LOCALLY
+        // ==========================================
+
         localStorage.setItem(
             "sacchiFlyierLastOrder",
             JSON.stringify(order)
         );
 
 
-        // Empty cart
+        // ==========================================
+        // EMPTY CART
+        // ==========================================
+
         cart = [];
 
         saveCart();
@@ -513,10 +1072,18 @@ document.addEventListener("DOMContentLoaded", () => {
         updateCart();
 
 
+        // ==========================================
+        // SUCCESS MESSAGE
+        // ==========================================
+
         alert(
             `Order ${orderNumber} created successfully!`
         );
 
+
+        // ==========================================
+        // RETURN TO SHOP
+        // ==========================================
 
         window.location.href =
             "index.html";
@@ -529,7 +1096,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
 
     const newsletterForm =
-        document.getElementById("newsletterForm");
+        document.getElementById(
+            "newsletterForm"
+        );
+
 
     if (newsletterForm) {
 
@@ -539,10 +1109,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 event.preventDefault();
 
+
                 const email =
-                    document.getElementById(
-                        "newsletterEmail"
-                    )?.value.trim();
+                    document
+                        .getElementById(
+                            "newsletterEmail"
+                        )
+                        ?.value.trim();
+
 
                 if (!email) {
 
@@ -551,11 +1125,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     );
 
                     return;
+
                 }
+
 
                 alert(
                     "Thank you for joining Sacchi Flyier!"
                 );
+
 
                 newsletterForm.reset();
 
@@ -570,7 +1147,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
 
     const contactForm =
-        document.getElementById("contactForm");
+        document.getElementById(
+            "contactForm"
+        );
+
 
     if (contactForm) {
 
@@ -580,9 +1160,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 event.preventDefault();
 
+
                 alert(
                     "Thank you for contacting Sacchi Flyier. We will get back to you soon."
                 );
+
 
                 contactForm.reset();
 
@@ -607,23 +1189,36 @@ document.addEventListener("DOMContentLoaded", () => {
                     const rect =
                         card.getBoundingClientRect();
 
+
                     const x =
-                        event.clientX - rect.left;
+                        event.clientX -
+                        rect.left;
+
 
                     const y =
-                        event.clientY - rect.top;
+                        event.clientY -
+                        rect.top;
+
 
                     const centerX =
                         rect.width / 2;
 
+
                     const centerY =
                         rect.height / 2;
 
+
                     const rotateX =
-                        ((y - centerY) / centerY) * -5;
+                        ((y - centerY) /
+                            centerY) *
+                        -5;
+
 
                     const rotateY =
-                        ((x - centerX) / centerX) * 5;
+                        ((x - centerX) /
+                            centerX) *
+                        5;
+
 
                     card.style.transform =
                         `perspective(1000px)
@@ -653,7 +1248,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
 
     document
-        .querySelectorAll('a[href^="#"]')
+        .querySelectorAll(
+            'a[href^="#"]'
+        )
         .forEach(link => {
 
             link.addEventListener(
@@ -661,24 +1258,35 @@ document.addEventListener("DOMContentLoaded", () => {
                 event => {
 
                     const targetID =
-                        link.getAttribute("href");
+                        link.getAttribute(
+                            "href"
+                        );
+
 
                     if (
                         !targetID ||
                         targetID === "#"
                     ) {
+
                         return;
+
                     }
 
+
                     const target =
-                        document.querySelector(targetID);
+                        document.querySelector(
+                            targetID
+                        );
+
 
                     if (target) {
 
                         event.preventDefault();
 
+
                         target.scrollIntoView({
-                            behavior: "smooth"
+                            behavior:
+                                "smooth"
                         });
 
                     }
@@ -700,11 +1308,20 @@ document.addEventListener("DOMContentLoaded", () => {
             if (event.key === "Escape") {
 
                 if (searchOverlay) {
-                    searchOverlay.classList.remove("active");
+
+                    searchOverlay.classList.remove(
+                        "active"
+                    );
+
                 }
 
+
                 if (cartPanel) {
-                    cartPanel.classList.remove("active");
+
+                    cartPanel.classList.remove(
+                        "active"
+                    );
+
                 }
 
             }
@@ -720,11 +1337,31 @@ document.addEventListener("DOMContentLoaded", () => {
     function escapeHTML(value) {
 
         return String(value)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
 
     }
 
