@@ -1,15 +1,19 @@
-// ======================================================
-// SACCHI FLYIER - MAIN JAVASCRIPT
-// CJ DROPSHIPPING + COUNTRY PRICING + CHECKOUT
-// ======================================================
+// ============================================================
+// SACCHI FLYIER - COMPLETE SCRIPT
+// Homepage + Cart + Checkout + CJ Country Pricing
+// ============================================================
+
+const CART_KEY = "sacchiFlyierCart";
 
 const CJ_PRODUCT_COST_USD = 1.62;
 const MINIMUM_PROFIT_USD = 10.00;
-const CART_KEY = "sacchiFlyierCart";
 
-// ======================================================
+// Customer always sees FREE shipping.
+// Your selling price includes CJ shipping + $10 profit.
+
+// ============================================================
 // BLOCKED COUNTRIES
-// ======================================================
+// ============================================================
 
 const BLOCKED_COUNTRIES = [
     "Iraq",
@@ -21,12 +25,11 @@ const BLOCKED_COUNTRIES = [
     "South Sudan"
 ];
 
-// ======================================================
-// CJ SHIPPING COST BY COUNTRY
-// ======================================================
+// ============================================================
+// CJ SHIPPING PRICES
+// ============================================================
 
 const COUNTRY_SHIPPING_USD = {
-
     "Afghanistan": 3.72,
     "Albania": 3.22,
     "Algeria": 3.35,
@@ -141,27 +144,4 @@ const COUNTRY_SHIPPING_USD = {
     "Ireland": 6.80,
     "Isle of Man": 7.81,
     "Israel": 5.16,
-    "Italy": 7.10,
-
-    "Jamaica": 3.53,
-    "Japan": 4.96,
-    "Jersey": 7.35,
-    "Jordan": 3.45,
-
-    "Kazakhstan": 2.88,
-    "Kenya": 3.43,
-    "Kiribati": 4.38,
-    "Korea (the Democratic People's Republic of)": 137.03,
-    "Korea (South Korea)": 3.91,
-    "Kuwait": 9.27,
-    "Kyrgyzstan": 3.25,
-
-    "Lao peoples Democratic republic": 4.28,
-    "Latvia": 7.60,
-    "Lebanon": 3.25,
-    "Lesotho": 3.86,
-    "Liberia": 3.32,
-    "Libya": 4.80,
-    "Liechtenstein": 7.33,
-    "Lithuania": 7.60,
-    "Luxembourg": 3
+    "Italy": 7.10
