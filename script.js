@@ -1,6 +1,6 @@
 /* =========================================================
    SACCHI FLYIER
-   COMPLETE CART + CHECKOUT + COUNTRY PRICE SYSTEM
+   CART + CHECKOUT + COUNTRY PRICING
    ========================================================= */
 
 
@@ -10,17 +10,17 @@
 
 const PRODUCT_COST_USD = 1.62;
 const PROFIT_USD = 10.00;
+
 const MAIN_PRODUCT_SKU = "CJLX239765601AZ";
 
 
 /* =========================================================
    2. CJ SHIPPING RATES
    Customer sees FREE shipping.
-   Shipping cost is included in the selling price.
+   Shipping cost is included in selling price.
    ========================================================= */
 
 const shippingRates = {
-
     "Afghanistan": 3.72,
     "Albania": 3.22,
     "Algeria": 3.35,
@@ -238,7 +238,7 @@ const shippingRates = {
 
 
 /* =========================================================
-   3. COUNTRIES WE DO NOT SHIP TO
+   3. BLOCKED COUNTRIES
    ========================================================= */
 
 const blockedCountries = [
@@ -253,11 +253,10 @@ const blockedCountries = [
 
 
 /* =========================================================
-   4. CURRENCY FOR EACH COUNTRY
+   4. COUNTRY CURRENCIES
    ========================================================= */
 
 const countryCurrency = {
-
     "Afghanistan": "AFN",
     "Albania": "ALL",
     "Algeria": "DZD",
@@ -479,151 +478,142 @@ const countryCurrency = {
    ========================================================= */
 
 const fallbackRates = {
-
     USD: 1,
-    AFN: 65,
+    INR: 88,
+    GBP: 0.74,
+    EUR: 0.85,
+    AUD: 1.52,
+    CAD: 1.38,
+    AED: 3.67,
+    SAR: 3.75,
+    CNY: 7.15,
+    JPY: 147,
+    KRW: 1390,
+    SGD: 1.29,
+    MYR: 4.25,
+    THB: 32.5,
+    VND: 26000,
+    IDR: 16500,
+    PHP: 58,
+    PKR: 285,
+    BDT: 122,
+    NPR: 140,
+    LKR: 305,
+    NZD: 1.66,
+    CHF: 0.80,
+    SEK: 9.30,
+    NOK: 10.00,
+    DKK: 6.35,
+    PLN: 3.65,
+    CZK: 21.2,
+    HUF: 335,
+    RON: 4.35,
+    TRY: 41.5,
+    ZAR: 17.2,
+    BRL: 5.45,
+    MXN: 18.8,
+    ARS: 1450,
+    CLP: 930,
+    COP: 3800,
+    PEN: 3.55,
+    NGN: 1500,
+    KES: 129,
+    GHS: 11,
+    EGP: 48.5,
+    MAD: 9.9,
+    ILS: 3.35,
+    QAR: 3.64,
+    KWD: 0.31,
+    OMR: 0.385,
+    BHD: 0.376,
+    JOD: 0.709,
+    GEL: 2.70,
+    KZT: 540,
+    UAH: 41,
+    RSD: 100,
+    ISK: 123,
+    BGN: 1.66,
     ALL: 82,
     DZD: 130,
-    EUR: 0.85,
-    ARS: 1450,
-    AUD: 1.52,
     AZN: 1.70,
-    BSD: 1,
-    BHD: 0.376,
-    BDT: 122,
-    BBD: 2,
-    BYN: 3.20,
-    BMD: 1,
-    BTN: 88,
-    BOB: 6.90,
+    MDL: 17.2,
+    MKD: 52,
     BAM: 1.66,
-    BWP: 13.5,
-    BRL: 5.45,
-    BND: 1.29,
-    BGN: 1.66,
-    BIF: 2950,
-    KHR: 4100,
-    XAF: 557,
-    CAD: 1.38,
-    KYD: 0.82,
-    CLP: 930,
-    CNY: 7.15,
-    COP: 3800,
-    KMF: 450,
-    CRC: 500,
     XOF: 557,
-    CUP: 24,
-    ANG: 1.79,
-    CZK: 21.2,
-    DKK: 6.35,
-    DJF: 177,
-    XCD: 2.70,
-    DOP: 63,
-    EGP: 48.5,
-    ERN: 15,
-    ETB: 145,
-    FJD: 2.25,
+    XAF: 557,
     XPF: 101.5,
-    GMD: 73,
-    GEL: 2.70,
-    GHS: 11,
-    GIP: 0.74,
+    XCD: 2.70,
+    FJD: 2.25,
+    WST: 2.80,
+    TOP: 2.35,
+    PGK: 4.05,
+    VUV: 119,
+    SBD: 8.10,
+    MUR: 45,
+    MVR: 15.4,
+    SCR: 13.2,
+    BWP: 13.5,
+    NAD: 17.2,
+    LSL: 17.2,
+    SZL: 17.2,
+    ZMW: 23,
+    MWK: 1750,
+    UGX: 3600,
+    TZS: 2450,
+    RWF: 1450,
     GNF: 8600,
-    GYD: 209,
+    SLE: 23,
+    SOS: 570,
+    ETB: 145,
+    ERN: 15,
     HTG: 130,
     HNL: 26,
-    HKD: 7.80,
-    HUF: 335,
-    ISK: 123,
-    INR: 88,
-    IDR: 16500,
-    IRR: 42000,
-    ILS: 3.35,
-    JMD: 158,
-    JPY: 147,
-    GBP: 0.74,
-    JOD: 0.709,
-    KZT: 540,
-    KES: 129,
-    KRW: 1390,
-    KWD: 0.31,
-    KGS: 87,
-    LAK: 21500,
-    CHF: 0.80,
-    LBP: 89500,
-    LSL: 17.2,
-    LRD: 190,
-    LYD: 5.45,
-    MOP: 7.99,
-    MKD: 52,
-    MGA: 4500,
-    MWK: 1750,
-    MYR: 4.25,
-    MVR: 15.4,
-    MRU: 40,
-    MUR: 45,
-    MXN: 18.8,
-    MDL: 17.2,
-    MNT: 3550,
-    MAD: 9.9,
-    MZN: 64,
-    MMK: 2100,
-    NAD: 17.2,
-    NPR: 140,
-    NZD: 1.66,
     NIO: 36.8,
-    NGN: 1500,
-    NOK: 10,
-    OMR: 0.385,
-    PKR: 285,
-    PAB: 1,
-    PGK: 4.05,
-    PYG: 8000,
-    PEN: 3.55,
-    PHP: 58,
-    PLN: 3.65,
-    QAR: 3.64,
-    RON: 4.35,
-    RUB: 80,
-    RWF: 1450,
-    SHP: 0.74,
-    WST: 2.80,
-    STN: 22.5,
-    SAR: 3.75,
-    RSD: 100,
-    SCR: 13.2,
-    SLE: 23,
-    SGD: 1.29,
+    DOP: 63,
+    BZD: 2,
+    BSD: 1,
+    BBD: 2,
+    BMD: 1,
+    KYD: 0.82,
     ANG: 1.79,
-    SBD: 8.10,
-    SOS: 570,
-    ZAR: 17.2,
-    SDG: 600,
-    SRD: 36,
-    SZL: 17.2,
-    SEK: 9.30,
-    TWD: 31.5,
-    TJS: 10.9,
-    TZS: 2450,
-    THB: 32.5,
-    TOP: 2.35,
-    TTD: 6.78,
-    TND: 2.90,
-    TRY: 41.5,
-    UAH: 41,
-    AED: 3.67,
+    CRC: 500,
+    BOB: 6.90,
+    PAB: 1,
+    PYG: 8000,
     UYU: 40,
-    UZS: 12500,
-    VUV: 119,
     VES: 140,
-    VND: 26000,
-    ZMW: 23,
+    MNT: 3550,
+    MMK: 2100,
+    LAK: 21500,
+    KGS: 87,
+    TJS: 10.9,
+    TND: 2.90,
+    LBP: 89500,
+    LYD: 5.45,
+    MRU: 40,
+    STN: 22.5,
+    SHP: 0.74,
+    GMD: 73,
+    GYD: 209,
+    JMD: 158,
+    TTD: 6.78,
+    CUP: 24,
+    MOP: 7.99,
+    HKD: 7.80,
+    TWD: 31.5,
+    BTN: 88,
+    BND: 1.29,
+    KMF: 557,
+    GIP: 0.74,
+    MGA: 4500,
+    MZN: 63,
+    NAD: 17.2,
     ZWG: 26
 };
 
 
 /* =========================================================
-   6. LIVE EXCHANGE RATES
+   6. EXCHANGE RATES
    ========================================================= */
 
 let exchangeRates = {
@@ -635,42 +625,32 @@ let usingLiveRates = false;
 
 /* =========================================================
    7. LOAD LIVE EXCHANGE RATES
-   IMPORTANT:
-   Checkout does NOT wait for this request.
    ========================================================= */
 
 async function loadExchangeRates() {
 
     try {
 
-        const controller =
-            new AbortController();
+        const controller = new AbortController();
 
-        const timeout =
-            setTimeout(
-                () => controller.abort(),
-                5000
-            );
+        const timeout = setTimeout(() => {
+            controller.abort();
+        }, 5000);
 
-        const response =
-            await fetch(
-                "https://open.er-api.com/v6/latest/USD",
-                {
-                    method: "GET",
-                    signal: controller.signal
-                }
-            );
+        const response = await fetch(
+            "https://open.er-api.com/v6/latest/USD",
+            {
+                signal: controller.signal
+            }
+        );
 
         clearTimeout(timeout);
 
         if (!response.ok) {
-            throw new Error(
-                "Exchange rate request failed."
-            );
+            throw new Error("Exchange-rate request failed.");
         }
 
-        const data =
-            await response.json();
+        const data = await response.json();
 
         if (
             data &&
@@ -685,31 +665,21 @@ async function loadExchangeRates() {
 
             usingLiveRates = true;
 
-            console.log(
-                "Sacchi Flyier: live exchange rates loaded."
-            );
-
-            /*
-               Refresh checkout after live rates arrive.
-            */
-
-            updateCheckout();
+            console.log("Sacchi Flyier: live exchange rates loaded.");
 
         }
 
     } catch (error) {
 
-        console.warn(
-            "Sacchi Flyier: live exchange rates unavailable. Using fallback rates."
-        );
+        usingLiveRates = false;
 
         exchangeRates = {
             ...fallbackRates
         };
 
-        usingLiveRates = false;
-
-        updateCheckout();
+        console.warn(
+            "Sacchi Flyier: using fallback exchange rates."
+        );
 
     }
 
@@ -731,19 +701,19 @@ function getCart() {
             return [];
         }
 
-        const parsed =
+        const cart =
             JSON.parse(savedCart);
 
-        if (!Array.isArray(parsed)) {
+        if (!Array.isArray(cart)) {
             return [];
         }
 
-        return parsed;
+        return cart;
 
     } catch (error) {
 
         console.error(
-            "Sacchi Flyier: could not read cart.",
+            "Sacchi Flyier cart error:",
             error
         );
 
@@ -763,12 +733,16 @@ function saveCart(cart) {
             JSON.stringify(cart)
         );
 
+        return true;
+
     } catch (error) {
 
         console.error(
-            "Sacchi Flyier: could not save cart.",
+            "Could not save cart:",
             error
         );
+
+        return false;
 
     }
 
@@ -776,7 +750,7 @@ function saveCart(cart) {
 
 
 /* =========================================================
-   9. COUNTRY SHIPPING
+   9. SHIPPING
    ========================================================= */
 
 function getCountryShipping(country) {
@@ -785,27 +759,18 @@ function getCountryShipping(country) {
         return null;
     }
 
-    if (
-        Object.prototype.hasOwnProperty.call(
-            shippingRates,
-            country
-        )
-    ) {
-
-        return Number(
-            shippingRates[country]
-        );
-
-    }
-
-    return null;
+    return Object.prototype.hasOwnProperty.call(
+        shippingRates,
+        country
+    )
+        ? shippingRates[country]
+        : null;
 
 }
 
 
 /* =========================================================
    10. COUNTRY SELLING PRICE
-   $1.62 PRODUCT + CJ SHIPPING + $10 PROFIT
    ========================================================= */
 
 function getUSDPriceForCountry(country) {
@@ -813,14 +778,15 @@ function getUSDPriceForCountry(country) {
     const shipping =
         getCountryShipping(country);
 
-    if (
-        shipping === null ||
-        !Number.isFinite(shipping)
-    ) {
-
+    if (shipping === null) {
         return null;
-
     }
+
+    /*
+       CJ product = $1.62
+       CJ shipping = country rate
+       Profit = $10
+    */
 
     return (
         PRODUCT_COST_USD +
@@ -832,54 +798,41 @@ function getUSDPriceForCountry(country) {
 
 
 /* =========================================================
-   11. COUNTRY CURRENCY
+   11. CURRENCY
    ========================================================= */
 
 function getCurrency(country) {
 
-    return (
-        countryCurrency[country] ||
-        "USD"
-    );
+    return countryCurrency[country] || "USD";
 
 }
 
-
-/* =========================================================
-   12. CONVERT USD TO CUSTOMER CURRENCY
-   ========================================================= */
 
 function convertFromUSD(
     usdAmount,
     currency
 ) {
 
-    const amount =
-        Number(usdAmount);
-
-    if (!Number.isFinite(amount)) {
-        return 0;
-    }
-
     const rate =
-        Number(exchangeRates[currency]);
+        exchangeRates[currency];
 
     if (
+        typeof rate !== "number" ||
         !Number.isFinite(rate) ||
         rate <= 0
     ) {
 
-        return amount;
+        return usdAmount;
 
     }
 
-    return amount * rate;
+    return usdAmount * rate;
 
 }
 
 
 /* =========================================================
-   13. FORMAT CUSTOMER PRICE
+   12. CUSTOMER PRICE FORMAT
    ========================================================= */
 
 function formatCustomerPrice(
@@ -896,6 +849,20 @@ function formatCustomerPrice(
             currency
         );
 
+    const zeroDecimalCurrencies = [
+        "JPY",
+        "KRW",
+        "VND",
+        "CLP",
+        "IDR",
+        "HUF"
+    ];
+
+    const decimals =
+        zeroDecimalCurrencies.includes(currency)
+            ? 0
+            : 2;
+
     try {
 
         return new Intl.NumberFormat(
@@ -903,20 +870,8 @@ function formatCustomerPrice(
             {
                 style: "currency",
                 currency: currency,
-                maximumFractionDigits:
-                    (
-                        currency === "JPY" ||
-                        currency === "KRW" ||
-                        currency === "VND" ||
-                        currency === "CLP" ||
-                        currency === "IDR" ||
-                        currency === "ISK" ||
-                        currency === "HUF" ||
-                        currency === "XOF" ||
-                        currency === "XAF"
-                    )
-                        ? 0
-                        : 2
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals
             }
         ).format(converted);
 
@@ -925,7 +880,7 @@ function formatCustomerPrice(
         return (
             currency +
             " " +
-            converted.toFixed(2)
+            converted.toFixed(decimals)
         );
 
     }
@@ -934,7 +889,7 @@ function formatCustomerPrice(
 
 
 /* =========================================================
-   14. PRODUCT IDENTIFICATION
+   13. PRODUCT IDENTIFICATION
    ========================================================= */
 
 function isMainCJProduct(item) {
@@ -949,9 +904,7 @@ function isMainCJProduct(item) {
             item.SKU ||
             item.productSku ||
             ""
-        )
-        .trim()
-        .toUpperCase();
+        ).trim().toUpperCase();
 
     const name =
         String(
@@ -959,36 +912,30 @@ function isMainCJProduct(item) {
             item.productName ||
             item.title ||
             ""
-        )
-        .trim()
-        .toLowerCase();
+        ).trim().toLowerCase();
+
+    if (sku === MAIN_PRODUCT_SKU) {
+        return true;
+    }
 
     return (
-        sku === MAIN_PRODUCT_SKU ||
-        name.includes(
-            "micro inlaid zircon"
-        ) ||
-        name.includes(
-            "zircon chain earrings"
-        )
+        name.includes("micro inlaid zircon") ||
+        name.includes("zircon chain earrings") ||
+        name.includes("zircon") &&
+        name.includes("earrings")
     );
 
 }
 
 
 /* =========================================================
-   15. GET ITEM USD PRICE
+   14. ITEM PRICE
    ========================================================= */
 
 function getItemUSDPrice(
     item,
     country
 ) {
-
-    /*
-       MAIN CJ PRODUCT:
-       $1.62 + country shipping + $10 profit
-    */
 
     if (isMainCJProduct(item)) {
 
@@ -998,30 +945,45 @@ function getItemUSDPrice(
 
     }
 
-
     /*
-       OLD CART PRODUCTS:
-       Use their saved price.
+       Other products use their saved
+       cart price.
     */
 
     const storedPrice =
         Number(
             item.price ??
             item.unitPrice ??
-            item.salePrice ??
+            item.productPrice ??
             0
         );
 
     if (
-        Number.isFinite(storedPrice) &&
-        storedPrice > 0
+        !Number.isFinite(storedPrice) ||
+        storedPrice < 0
     ) {
 
-        return storedPrice;
+        return 0;
 
     }
 
-    return 0;
+    return storedPrice;
+
+}
+
+
+/* =========================================================
+   15. HTML ESCAPE
+   ========================================================= */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
 }
 
@@ -1039,13 +1001,11 @@ function updateCartCount() {
         cart.reduce(
             function(total, item) {
 
-                const quantity =
+                return total +
                     Math.max(
                         1,
                         Number(item.quantity) || 1
                     );
-
-                return total + quantity;
 
             },
             0
@@ -1059,7 +1019,7 @@ function updateCartCount() {
     if (countElement) {
 
         countElement.textContent =
-            String(count);
+            count;
 
     }
 
@@ -1067,7 +1027,379 @@ function updateCartCount() {
 
 
 /* =========================================================
-   17. UPDATE CHECKOUT
+   17. ADD PRODUCT TO CART
+   ========================================================= */
+
+function addToCart(product) {
+
+    if (!product) {
+        return;
+    }
+
+    const cart =
+        getCart();
+
+    const productName =
+        String(
+            product.name ||
+            product.productName ||
+            product.title ||
+            "Product"
+        );
+
+    const productSKU =
+        String(
+            product.sku ||
+            product.SKU ||
+            ""
+        );
+
+    const existing =
+        cart.find(function(item) {
+
+            if (
+                productSKU &&
+                item.sku &&
+                item.sku === productSKU
+            ) {
+                return true;
+            }
+
+            return (
+                item.name === productName
+            );
+
+        });
+
+
+    if (existing) {
+
+        existing.quantity =
+            Math.max(
+                1,
+                Number(existing.quantity) || 1
+            ) + 1;
+
+        /*
+           Make sure the CJ SKU is retained.
+        */
+
+        if (
+            productSKU &&
+            !existing.sku
+        ) {
+
+            existing.sku =
+                productSKU;
+
+        }
+
+    } else {
+
+        cart.push({
+
+            name: productName,
+
+            price:
+                Number(product.price) || 0,
+
+            quantity: 1,
+
+            sku: productSKU,
+
+            image:
+                product.image ||
+                "",
+
+            productUrl:
+                product.productUrl ||
+                ""
+
+        });
+
+    }
+
+
+    saveCart(cart);
+
+    updateCartCount();
+
+    updateStoreCartUI();
+
+    /*
+       Small confirmation.
+    */
+
+    console.log(
+        "Added to cart:",
+        productName
+    );
+
+}
+
+
+/* =========================================================
+   18. STORE ADD-TO-CART BUTTONS
+   ========================================================= */
+
+function setupAddToCartButtons() {
+
+    const buttons =
+        document.querySelectorAll(
+            ".add-cart"
+        );
+
+    if (!buttons.length) {
+        return;
+    }
+
+    buttons.forEach(function(button) {
+
+        /*
+           Prevent duplicate event listeners.
+        */
+
+        if (
+            button.dataset.cartReady === "true"
+        ) {
+            return;
+        }
+
+        button.dataset.cartReady = "true";
+
+
+        button.addEventListener(
+            "click",
+            function(event) {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+
+                const productName =
+                    button.dataset.product ||
+                    button.dataset.name ||
+                    button.getAttribute(
+                        "data-product"
+                    ) ||
+                    "Product";
+
+
+                const productPrice =
+                    Number(
+                        button.dataset.price ||
+                        button.getAttribute(
+                            "data-price"
+                        ) ||
+                        0
+                    );
+
+
+                const productSKU =
+                    button.dataset.sku ||
+                    button.dataset.SKU ||
+                    button.getAttribute(
+                        "data-sku"
+                    ) ||
+                    "";
+
+
+                const productImage =
+                    button.dataset.image ||
+                    button.getAttribute(
+                        "data-image"
+                    ) ||
+                    "";
+
+
+                /*
+                   If this is your real CJ earrings
+                   product, automatically attach
+                   the correct CJ SKU.
+                */
+
+                const lowerName =
+                    productName.toLowerCase();
+
+
+                const finalSKU =
+                    productSKU ||
+                    (
+                        lowerName.includes("zircon") &&
+                        lowerName.includes("earring")
+                            ? MAIN_PRODUCT_SKU
+                            : ""
+                    );
+
+
+                const product = {
+
+                    name:
+                        productName,
+
+                    price:
+                        productPrice,
+
+                    sku:
+                        finalSKU,
+
+                    image:
+                        productImage
+
+                };
+
+
+                addToCart(product);
+
+
+                /*
+                   Open existing cart panel if
+                   your index.html has one.
+                */
+
+                const cartPanel =
+                    document.getElementById(
+                        "cartPanel"
+                    );
+
+                if (cartPanel) {
+
+                    cartPanel.classList.add(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
+
+    });
+
+}
+
+
+/* =========================================================
+   19. STORE CART UI
+   ========================================================= */
+
+function updateStoreCartUI() {
+
+    const cart =
+        getCart();
+
+    const cartItems =
+        document.getElementById(
+            "cartItems"
+        );
+
+    const cartTotal =
+        document.getElementById(
+            "cartTotal"
+        );
+
+
+    if (cartItems) {
+
+        if (!cart.length) {
+
+            cartItems.innerHTML = `
+                <div class="empty-cart">
+                    Your cart is empty.
+                </div>
+            `;
+
+        } else {
+
+            cartItems.innerHTML = "";
+
+            cart.forEach(function(item, index) {
+
+                const quantity =
+                    Math.max(
+                        1,
+                        Number(item.quantity) || 1
+                    );
+
+                const itemPrice =
+                    Number(item.price) || 0;
+
+                const itemTotal =
+                    itemPrice * quantity;
+
+
+                const row =
+                    document.createElement(
+                        "div"
+                    );
+
+                row.className =
+                    "cart-item";
+
+
+                row.innerHTML = `
+                    <div>
+                        <strong>
+                            ${escapeHTML(
+                                item.name ||
+                                "Product"
+                            )}
+                        </strong>
+                        <div>
+                            Qty: ${quantity}
+                        </div>
+                    </div>
+
+                    <div>
+                        $${itemTotal.toFixed(2)}
+                    </div>
+                `;
+
+
+                cartItems.appendChild(row);
+
+            });
+
+        }
+
+    }
+
+
+    if (cartTotal) {
+
+        const total =
+            cart.reduce(
+                function(sum, item) {
+
+                    const price =
+                        Number(item.price) || 0;
+
+                    const quantity =
+                        Math.max(
+                            1,
+                            Number(item.quantity) || 1
+                        );
+
+                    return sum +
+                        price * quantity;
+
+                },
+                0
+            );
+
+
+        cartTotal.textContent =
+            "$" + total.toFixed(2);
+
+    }
+
+
+    updateCartCount();
+
+}
+
+
+/* =========================================================
+   20. CHECKOUT UPDATE
    ========================================================= */
 
 function updateCheckout() {
@@ -1109,8 +1441,9 @@ function updateCheckout() {
 
     const country =
         countryElement
-            ? String(countryElement.value).trim()
+            ? countryElement.value
             : "";
+
 
     const cart =
         getCart();
@@ -1118,7 +1451,7 @@ function updateCheckout() {
 
     /* -----------------------------------------
        EMPTY CART
-       ----------------------------------------- */
+    ----------------------------------------- */
 
     if (!cart.length) {
 
@@ -1159,7 +1492,7 @@ function updateCheckout() {
 
     /* -----------------------------------------
        COUNTRY NOT SELECTED
-       ----------------------------------------- */
+    ----------------------------------------- */
 
     if (!country) {
 
@@ -1167,8 +1500,7 @@ function updateCheckout() {
 
             itemsElement.innerHTML = `
                 <div class="empty-cart">
-                    Select your country to see
-                    your price.
+                    Select your country to see your price.
                 </div>
             `;
 
@@ -1201,13 +1533,15 @@ function updateCheckout() {
 
     /* -----------------------------------------
        BLOCKED COUNTRY
-       ----------------------------------------- */
+    ----------------------------------------- */
 
     if (
-        blockedCountries.includes(
-            country
-        )
+        blockedCountries.includes(country)
     ) {
+
+        showCountryError(
+            "Shipping is currently unavailable for this country."
+        );
 
         if (itemsElement) {
 
@@ -1229,8 +1563,7 @@ function updateCheckout() {
         }
 
         if (shippingElement) {
-            shippingElement.textContent =
-                "Unavailable";
+            shippingElement.textContent = "Unavailable";
         }
 
         if (totalElement) {
@@ -1247,13 +1580,18 @@ function updateCheckout() {
 
 
     /* -----------------------------------------
-       COUNTRY HAS NO SHIPPING RATE
-       ----------------------------------------- */
+       SHIPPING RATE CHECK
+    ----------------------------------------- */
 
     const shipping =
         getCountryShipping(country);
 
+
     if (shipping === null) {
+
+        showCountryError(
+            "Shipping is currently unavailable for this country."
+        );
 
         if (itemsElement) {
 
@@ -1275,8 +1613,7 @@ function updateCheckout() {
         }
 
         if (shippingElement) {
-            shippingElement.textContent =
-                "Unavailable";
+            shippingElement.textContent = "Unavailable";
         }
 
         if (totalElement) {
@@ -1292,12 +1629,16 @@ function updateCheckout() {
     }
 
 
+    hideCountryError();
+
+
     /* -----------------------------------------
-       CUSTOMER CURRENCY
-       ----------------------------------------- */
+       CURRENCY
+    ----------------------------------------- */
 
     const currency =
         getCurrency(country);
+
 
     if (currencyElement) {
 
@@ -1308,151 +1649,98 @@ function updateCheckout() {
 
 
     /* -----------------------------------------
-       BUILD CART SUMMARY
-       ----------------------------------------- */
+       CALCULATE CART
+    ----------------------------------------- */
 
     let subtotalUSD = 0;
-    let validItems = 0;
 
     if (itemsElement) {
         itemsElement.innerHTML = "";
     }
 
 
-    cart.forEach(
-        function(item) {
+    cart.forEach(function(item) {
 
-            const quantity =
-                Math.max(
-                    1,
-                    Number(item.quantity) || 1
-                );
-
-            const unitPriceUSD =
-                getItemUSDPrice(
-                    item,
-                    country
-                );
-
-            if (
-                unitPriceUSD === null ||
-                !Number.isFinite(unitPriceUSD) ||
-                unitPriceUSD <= 0
-            ) {
-
-                return;
-
-            }
-
-            validItems++;
-
-            const itemTotalUSD =
-                unitPriceUSD * quantity;
-
-            subtotalUSD +=
-                itemTotalUSD;
+        const quantity =
+            Math.max(
+                1,
+                Number(item.quantity) || 1
+            );
 
 
-            const displayPrice =
-                formatCustomerPrice(
-                    itemTotalUSD,
-                    country
-                );
+        const unitPriceUSD =
+            getItemUSDPrice(
+                item,
+                country
+            );
 
 
-            const itemName =
-                item.name ||
-                item.productName ||
-                item.title ||
-                "Product";
-
-
-            if (itemsElement) {
-
-                const itemHTML =
-                    document.createElement(
-                        "div"
-                    );
-
-                itemHTML.className =
-                    "summary-item";
-
-                itemHTML.innerHTML = `
-                    <span class="summary-item-name">
-                        ${escapeHTML(itemName)}
-                        × ${quantity}
-                    </span>
-
-                    <span class="summary-item-price">
-                        ${displayPrice}
-                    </span>
-                `;
-
-                itemsElement.appendChild(
-                    itemHTML
-                );
-
-            }
-
+        if (
+            unitPriceUSD === null ||
+            !Number.isFinite(unitPriceUSD)
+        ) {
+            return;
         }
-    );
 
 
-    /* -----------------------------------------
-       NO VALID ITEMS
-       ----------------------------------------- */
+        const itemTotalUSD =
+            unitPriceUSD * quantity;
 
-    if (
-        validItems === 0 ||
-        subtotalUSD <= 0
-    ) {
+
+        subtotalUSD +=
+            itemTotalUSD;
+
+
+        const displayPrice =
+            formatCustomerPrice(
+                itemTotalUSD,
+                country
+            );
+
+
+        const itemName =
+            item.name ||
+            item.productName ||
+            "Product";
+
 
         if (itemsElement) {
 
-            itemsElement.innerHTML = `
-                <div class="empty-cart">
-                    Your cart does not contain
-                    a valid product.
-                </div>
+            const itemHTML =
+                document.createElement(
+                    "div"
+                );
+
+            itemHTML.className =
+                "summary-item";
+
+
+            itemHTML.innerHTML = `
+                <span class="summary-item-name">
+                    ${escapeHTML(itemName)}
+                    × ${quantity}
+                </span>
+
+                <span class="summary-item-price">
+                    ${displayPrice}
+                </span>
             `;
 
+
+            itemsElement.appendChild(
+                itemHTML
+            );
+
         }
 
-        if (currencyElement) {
-            currencyElement.textContent =
-                currency;
-        }
-
-        if (subtotalElement) {
-            subtotalElement.textContent =
-                "—";
-        }
-
-        if (shippingElement) {
-            shippingElement.textContent =
-                "—";
-        }
-
-        if (totalElement) {
-            totalElement.textContent =
-                "—";
-        }
-
-        if (placeOrderButton) {
-            placeOrderButton.disabled =
-                true;
-        }
-
-        return;
-
-    }
+    });
 
 
     /* -----------------------------------------
        TOTAL
-       ----------------------------------------- */
+    ----------------------------------------- */
 
-    const subtotalDisplay =
+    const totalDisplay =
         formatCustomerPrice(
             subtotalUSD,
             country
@@ -1462,15 +1750,14 @@ function updateCheckout() {
     if (subtotalElement) {
 
         subtotalElement.textContent =
-            subtotalDisplay;
+            totalDisplay;
 
     }
 
 
     /*
-       CJ shipping is already included
-       in the selling price.
-       Customer sees FREE shipping.
+       Shipping is already included
+       in the product price.
     */
 
     if (shippingElement) {
@@ -1484,7 +1771,7 @@ function updateCheckout() {
     if (totalElement) {
 
         totalElement.textContent =
-            subtotalDisplay;
+            totalDisplay;
 
     }
 
@@ -1492,7 +1779,7 @@ function updateCheckout() {
     if (placeOrderButton) {
 
         placeOrderButton.disabled =
-            false;
+            subtotalUSD <= 0;
 
     }
 
@@ -1500,65 +1787,50 @@ function updateCheckout() {
 
 
 /* =========================================================
-   18. HTML ESCAPE
+   21. COUNTRY ERROR
    ========================================================= */
 
-function escapeHTML(value) {
+function showCountryError(message) {
 
-    return String(value)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
-
-
-/* =========================================================
-   19. COUNTRY CHANGE
-   ========================================================= */
-
-function setupCountryChange() {
-
-    const countryElement =
+    const error =
         document.getElementById(
-            "checkoutCountry"
+            "countryError"
         );
 
-    if (!countryElement) {
+    if (!error) {
         return;
     }
 
-    countryElement.addEventListener(
-        "change",
-        function() {
+    error.textContent =
+        message;
 
-            updateCheckout();
+    error.style.display =
+        "block";
 
-        }
-    );
+}
+
+
+function hideCountryError() {
+
+    const error =
+        document.getElementById(
+            "countryError"
+        );
+
+    if (!error) {
+        return;
+    }
+
+    error.textContent = "";
+
+    error.style.display =
+        "none";
 
 }
 
 
 /* =========================================================
-   20. DEFAULT COUNTRY
+   22. DEFAULT COUNTRY
    ========================================================= */
 
 function setDefaultCountry() {
@@ -1573,20 +1845,17 @@ function setDefaultCountry() {
     }
 
 
-    /*
-       Only choose India if the
-       customer has not selected a country.
-    */
-
     if (!countryElement.value) {
 
         const indiaOption =
             Array.from(
                 countryElement.options
-            ).find(
-                option =>
-                    option.value === "India"
-            );
+            ).find(function(option) {
+
+                return option.value === "India";
+
+            });
+
 
         if (indiaOption) {
 
@@ -1601,7 +1870,46 @@ function setDefaultCountry() {
 
 
 /* =========================================================
-   21. CHECKOUT FORM
+   23. COUNTRY CHANGE
+   ========================================================= */
+
+function setupCountryChange() {
+
+    const countryElement =
+        document.getElementById(
+            "checkoutCountry"
+        );
+
+    if (!countryElement) {
+        return;
+    }
+
+
+    if (
+        countryElement.dataset.ready === "true"
+    ) {
+        return;
+    }
+
+
+    countryElement.dataset.ready =
+        "true";
+
+
+    countryElement.addEventListener(
+        "change",
+        function() {
+
+            updateCheckout();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   24. CHECKOUT FORM
    ========================================================= */
 
 function setupCheckoutForm() {
@@ -1616,6 +1924,17 @@ function setupCheckoutForm() {
     }
 
 
+    if (
+        form.dataset.ready === "true"
+    ) {
+        return;
+    }
+
+
+    form.dataset.ready =
+        "true";
+
+
     form.addEventListener(
         "submit",
         function(event) {
@@ -1628,17 +1947,12 @@ function setupCheckoutForm() {
                     "checkoutCountry"
                 );
 
+
             const country =
                 countryElement
-                    ? String(
-                        countryElement.value
-                    ).trim()
+                    ? countryElement.value
                     : "";
 
-
-            /* -----------------------------
-               COUNTRY CHECK
-               ----------------------------- */
 
             if (!country) {
 
@@ -1650,10 +1964,6 @@ function setupCheckoutForm() {
 
             }
 
-
-            /* -----------------------------
-               BLOCKED COUNTRY CHECK
-               ----------------------------- */
 
             if (
                 blockedCountries.includes(
@@ -1670,13 +1980,8 @@ function setupCheckoutForm() {
             }
 
 
-            /* -----------------------------
-               SHIPPING CHECK
-               ----------------------------- */
-
             if (
-                getCountryShipping(country)
-                === null
+                getCountryShipping(country) === null
             ) {
 
                 alert(
@@ -1688,17 +1993,14 @@ function setupCheckoutForm() {
             }
 
 
-            /* -----------------------------
-               CART CHECK
-               ----------------------------- */
-
             const cart =
                 getCart();
+
 
             if (!cart.length) {
 
                 alert(
-                    "Your cart is empty."
+                    "Your cart is empty. Please add a product first."
                 );
 
                 return;
@@ -1706,107 +2008,41 @@ function setupCheckoutForm() {
             }
 
 
-            /* -----------------------------
-               FORM DATA
-               ----------------------------- */
-
             const formData =
                 new FormData(form);
 
 
-            /*
-               These names support your
-               checkout HTML.
-            */
-
-            const getFormValue =
-                function(...names) {
-
-                    for (
-                        const name of names
-                    ) {
-
-                        const value =
-                            formData.get(name);
-
-                        if (
-                            value !== null &&
-                            String(value).trim() !== ""
-                        ) {
-
-                            return String(
-                                value
-                            ).trim();
-
-                        }
-
-                    }
-
-                    return "";
-
-                };
-
-
-            /* -----------------------------
-               CUSTOMER INFORMATION
-               ----------------------------- */
-
             const orderData = {
 
                 name:
-                    getFormValue(
-                        "name",
-                        "checkoutName"
-                    ),
+                    formData.get("name") || "",
 
                 email:
-                    getFormValue(
-                        "email",
-                        "checkoutEmail"
-                    ),
+                    formData.get("email") || "",
 
                 countryCode:
-                    getFormValue(
-                        "countryCode",
-                        "checkoutCountryCode"
-                    ),
+                    formData.get("countryCode") || "",
 
                 phone:
-                    getFormValue(
-                        "phone",
-                        "checkoutPhone"
-                    ),
+                    formData.get("phone") || "",
 
                 address:
-                    getFormValue(
-                        "address"
-                    ),
+                    formData.get("address") || "",
 
                 city:
-                    getFormValue(
-                        "city"
-                    ),
+                    formData.get("city") || "",
 
                 state:
-                    getFormValue(
-                        "state"
-                    ),
+                    formData.get("state") || "",
 
                 country:
                     country,
 
                 postalCode:
-                    getFormValue(
-                        "postalCode"
-                    ),
+                    formData.get("postalCode") || "",
 
                 paymentMethod:
-                    getFormValue(
-                        "paymentMethod"
-                    ) || "cod",
-
-                cart:
-                    cart,
+                    formData.get("paymentMethod") || "cod",
 
                 currency:
                     getCurrency(country),
@@ -1814,62 +2050,50 @@ function setupCheckoutForm() {
                 shipping:
                     "FREE",
 
+                cart:
+                    cart,
+
                 createdAt:
                     new Date().toISOString()
 
             };
 
 
-            /* -----------------------------
-               CALCULATE ORDER TOTAL
-               ----------------------------- */
+            /*
+               Calculate final total in USD
+               for internal order records.
+            */
 
             let totalUSD = 0;
 
-            cart.forEach(
-                function(item) {
 
-                    const quantity =
-                        Math.max(
-                            1,
-                            Number(
-                                item.quantity
-                            ) || 1
-                        );
+            cart.forEach(function(item) {
 
-                    const price =
-                        getItemUSDPrice(
-                            item,
-                            country
-                        );
+                const quantity =
+                    Math.max(
+                        1,
+                        Number(item.quantity) || 1
+                    );
 
-                    if (
-                        price !== null &&
-                        Number.isFinite(price) &&
-                        price > 0
-                    ) {
 
-                        totalUSD +=
-                            price * quantity;
+                const price =
+                    getItemUSDPrice(
+                        item,
+                        country
+                    );
 
-                    }
+
+                if (
+                    price !== null &&
+                    Number.isFinite(price)
+                ) {
+
+                    totalUSD +=
+                        price * quantity;
 
                 }
-            );
 
-
-            if (
-                !Number.isFinite(totalUSD) ||
-                totalUSD <= 0
-            ) {
-
-                alert(
-                    "Unable to calculate your order total. Please check your cart."
-                );
-
-                return;
-
-            }
+            });
 
 
             orderData.totalUSD =
@@ -1877,62 +2101,39 @@ function setupCheckoutForm() {
                     totalUSD.toFixed(2)
                 );
 
-            orderData.total =
+
+            orderData.customerTotal =
                 formatCustomerPrice(
                     totalUSD,
                     country
                 );
 
 
-            /* -----------------------------
-               SAVE ORDER
-               ----------------------------- */
-
-            try {
-
-                localStorage.setItem(
-                    "pendingOrder",
-                    JSON.stringify(
-                        orderData
-                    )
-                );
-
-            } catch (error) {
-
-                console.error(
-                    "Could not save order:",
-                    error
-                );
-
-                alert(
-                    "We could not save your order information. Please try again."
-                );
-
-                return;
-
-            }
+            localStorage.setItem(
+                "pendingOrder",
+                JSON.stringify(
+                    orderData
+                )
+            );
 
 
-            /* -----------------------------
-               PAYMENT STATUS
-               ----------------------------- */
+            /*
+               At this stage the order information
+               is saved locally.
 
-            if (
-                orderData.paymentMethod ===
-                "online"
-            ) {
+               Payment gateway/backend can be
+               connected afterward.
+            */
 
-                alert(
-                    "Your order information has been saved. Online payment processing will be connected next."
-                );
+            alert(
+                "Your order information has been saved successfully."
+            );
 
-            } else {
 
-                alert(
-                    "Your order information has been saved successfully."
-                );
-
-            }
+            console.log(
+                "Pending order:",
+                orderData
+            );
 
         }
     );
@@ -1941,222 +2142,79 @@ function setupCheckoutForm() {
 
 
 /* =========================================================
-   22. ADD PRODUCT TO CART
+   25. CART BUTTON
    ========================================================= */
 
-function addToCart(product) {
+function setupCartButton() {
 
-    if (!product) {
-        return getCart();
+    const cartButton =
+        document.getElementById(
+            "cartButton"
+        );
+
+    const cartPanel =
+        document.getElementById(
+            "cartPanel"
+        );
+
+    const closeCart =
+        document.getElementById(
+            "closeCart"
+        );
+
+
+    if (
+        cartButton &&
+        cartPanel &&
+        cartButton.dataset.ready !== "true"
+    ) {
+
+        cartButton.dataset.ready =
+            "true";
+
+
+        cartButton.addEventListener(
+            "click",
+            function(event) {
+
+                event.preventDefault();
+
+                cartPanel.classList.add(
+                    "active"
+                );
+
+                updateStoreCartUI();
+
+            }
+        );
+
     }
 
 
-    const cart =
-        getCart();
+    if (
+        closeCart &&
+        cartPanel &&
+        closeCart.dataset.ready !== "true"
+    ) {
+
+        closeCart.dataset.ready =
+            "true";
 
 
-    const productName =
-        String(
-            product.name ||
-            product.productName ||
-            product.title ||
-            "Product"
-        );
+        closeCart.addEventListener(
+            "click",
+            function(event) {
 
+                event.preventDefault();
 
-    const productSKU =
-        String(
-            product.sku ||
-            product.SKU ||
-            product.productSku ||
-            ""
-        );
-
-
-    const existing =
-        cart.find(
-            function(item) {
-
-                const sameSKU =
-                    productSKU &&
-                    (
-                        String(
-                            item.sku ||
-                            item.SKU ||
-                            ""
-                        ) === productSKU
-                    );
-
-                const sameName =
-                    String(
-                        item.name ||
-                        item.productName ||
-                        item.title ||
-                        ""
-                    ) === productName;
-
-                return (
-                    sameSKU ||
-                    sameName
+                cartPanel.classList.remove(
+                    "active"
                 );
 
             }
         );
 
-
-    if (existing) {
-
-        existing.quantity =
-            Math.max(
-                1,
-                Number(
-                    existing.quantity
-                ) || 1
-            ) + 1;
-
-
-        /*
-           If old cart item does not have
-           the SKU, add it now.
-        */
-
-        if (
-            !existing.sku &&
-            productSKU
-        ) {
-
-            existing.sku =
-                productSKU;
-
-        }
-
-    } else {
-
-        cart.push({
-
-            name:
-                productName,
-
-            price:
-                Number(
-                    product.price
-                ) || 0,
-
-            quantity:
-                1,
-
-            sku:
-                productSKU,
-
-            image:
-                product.image || "",
-
-            productName:
-                productName
-
-        });
-
     }
-
-
-    saveCart(cart);
-
-    updateCartCount();
-
-    /*
-       If checkout is open in the same page,
-       refresh it too.
-    */
-
-    updateCheckout();
-
-    return cart;
-
-}
-
-
-/* =========================================================
-   23. REMOVE CART ITEM
-   ========================================================= */
-
-function removeFromCart(index) {
-
-    const cart =
-        getCart();
-
-    if (
-        index < 0 ||
-        index >= cart.length
-    ) {
-
-        return;
-
-    }
-
-    cart.splice(
-        index,
-        1
-    );
-
-    saveCart(cart);
-
-    updateCartCount();
-
-    updateCheckout();
-
-}
-
-
-/* =========================================================
-   24. CHANGE CART QUANTITY
-   ========================================================= */
-
-function updateCartQuantity(
-    index,
-    quantity
-) {
-
-    const cart =
-        getCart();
-
-    if (
-        index < 0 ||
-        index >= cart.length
-    ) {
-
-        return;
-
-    }
-
-    const newQuantity =
-        Math.max(
-            1,
-            Number(quantity) || 1
-        );
-
-    cart[index].quantity =
-        newQuantity;
-
-    saveCart(cart);
-
-    updateCartCount();
-
-    updateCheckout();
-
-}
-
-
-/* =========================================================
-   25. CLEAR CART
-   ========================================================= */
-
-function clearCart() {
-
-    saveCart([]);
-
-    updateCartCount();
-
-    updateCheckout();
 
 }
 
@@ -2172,17 +2230,29 @@ function setupCheckoutButton() {
             "checkoutButton"
         );
 
-    if (!checkoutButton) {
+
+    if (
+        !checkoutButton ||
+        checkoutButton.dataset.ready === "true"
+    ) {
         return;
     }
 
 
+    checkoutButton.dataset.ready =
+        "true";
+
+
     checkoutButton.addEventListener(
         "click",
-        function() {
+        function(event) {
+
+            event.preventDefault();
+
 
             const cart =
                 getCart();
+
 
             if (!cart.length) {
 
@@ -2195,11 +2265,6 @@ function setupCheckoutButton() {
             }
 
 
-            /*
-               Your checkout page is:
-               checkout.html
-            */
-
             window.location.href =
                 "checkout.html";
 
@@ -2210,17 +2275,163 @@ function setupCheckoutButton() {
 
 
 /* =========================================================
-   27. START WEBSITE
+   27. SEARCH
+   ========================================================= */
+
+function setupSearch() {
+
+    const searchButton =
+        document.getElementById(
+            "searchButton"
+        );
+
+    const searchOverlay =
+        document.getElementById(
+            "searchOverlay"
+        );
+
+    const closeSearch =
+        document.getElementById(
+            "closeSearch"
+        );
+
+    const searchInput =
+        document.getElementById(
+            "searchInput"
+        );
+
+
+    if (
+        searchButton &&
+        searchOverlay &&
+        searchButton.dataset.ready !== "true"
+    ) {
+
+        searchButton.dataset.ready =
+            "true";
+
+
+        searchButton.addEventListener(
+            "click",
+            function(event) {
+
+                event.preventDefault();
+
+                searchOverlay.classList.add(
+                    "active"
+                );
+
+
+                if (searchInput) {
+
+                    setTimeout(
+                        function() {
+
+                            searchInput.focus();
+
+                        },
+                        100
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    if (
+        closeSearch &&
+        searchOverlay &&
+        closeSearch.dataset.ready !== "true"
+    ) {
+
+        closeSearch.dataset.ready =
+            "true";
+
+
+        closeSearch.addEventListener(
+            "click",
+            function(event) {
+
+                event.preventDefault();
+
+                searchOverlay.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   28. MOBILE MENU
+   ========================================================= */
+
+function setupMobileMenu() {
+
+    const menuToggle =
+        document.getElementById(
+            "menuToggle"
+        );
+
+    const navLinks =
+        document.getElementById(
+            "navLinks"
+        );
+
+
+    if (
+        !menuToggle ||
+        !navLinks ||
+        menuToggle.dataset.ready === "true"
+    ) {
+        return;
+    }
+
+
+    menuToggle.dataset.ready =
+        "true";
+
+
+    menuToggle.addEventListener(
+        "click",
+        function(event) {
+
+            event.preventDefault();
+
+            navLinks.classList.toggle(
+                "active"
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   29. START EVERYTHING
    ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
     function() {
 
+        console.log(
+            "Sacchi Flyier JavaScript loaded."
+        );
+
+
         /*
            IMPORTANT:
-           Do NOT wait for the exchange-rate
-           API before starting checkout.
+           Do NOT wait for exchange rates
+           before starting checkout.
         */
 
         setDefaultCountry();
@@ -2229,19 +2440,44 @@ document.addEventListener(
 
         setupCheckoutForm();
 
+        setupAddToCartButtons();
+
+        setupCartButton();
+
         setupCheckoutButton();
 
-        updateCheckout();
+        setupSearch();
+
+        setupMobileMenu();
 
         updateCartCount();
 
+        updateStoreCartUI();
+
+        updateCheckout();
+
 
         /*
-           Load live rates in the background.
-           Fallback rates are already available.
+           Load live rates in background.
+           Once loaded, refresh checkout.
         */
 
-        loadExchangeRates();
+        loadExchangeRates()
+            .then(function() {
+
+                updateCheckout();
+
+            })
+            .catch(function(error) {
+
+                console.warn(
+                    "Exchange-rate loading finished with an error.",
+                    error
+                );
+
+                updateCheckout();
+
+            });
 
     }
 );
