@@ -35,7 +35,9 @@
 
                 <div class="checkout-heading">
                     <p class="checkout-label">SECURE CHECKOUT</p>
+
                     <h1>Complete Your Order</h1>
+
                     <p>
                         Enter your details below to continue with your order.
                     </p>
@@ -47,7 +49,9 @@
 
                     <h2>Contact Information</h2>
 
-                    <label for="checkoutName">Full Name</label>
+                    <label for="checkoutName">
+                        Full Name
+                    </label>
 
                     <input
                         type="text"
@@ -58,7 +62,9 @@
                     >
 
 
-                    <label for="checkoutEmail">Email Address</label>
+                    <label for="checkoutEmail">
+                        Email Address
+                    </label>
 
                     <input
                         type="email"
@@ -69,7 +75,9 @@
                     >
 
 
-                    <label>Phone Number</label>
+                    <label for="checkoutPhone">
+                        Phone Number
+                    </label>
 
                     <div class="checkout-phone">
 
@@ -125,7 +133,10 @@
                     <div class="checkout-row">
 
                         <div>
-                            <label for="city">City</label>
+
+                            <label for="city">
+                                City
+                            </label>
 
                             <input
                                 type="text"
@@ -134,11 +145,15 @@
                                 placeholder="City"
                                 required
                             >
+
                         </div>
 
 
                         <div>
-                            <label for="state">State</label>
+
+                            <label for="state">
+                                State
+                            </label>
 
                             <input
                                 type="text"
@@ -147,6 +162,7 @@
                                 placeholder="State"
                                 required
                             >
+
                         </div>
 
                     </div>
@@ -155,21 +171,103 @@
                     <div class="checkout-row">
 
                         <div>
+
                             <label for="country">
                                 Country
                             </label>
 
-                            <input
-                                type="text"
+                            <!-- COUNTRY DROPDOWN -->
+                            <select
                                 id="country"
                                 name="country"
-                                placeholder="Country"
                                 required
                             >
+
+                                <option value="">
+                                    Select your country
+                                </option>
+
+                                <option value="Afghanistan">🇦🇫 Afghanistan</option>
+                                <option value="Albania">🇦🇱 Albania</option>
+                                <option value="Algeria">🇩🇿 Algeria</option>
+                                <option value="Argentina">🇦🇷 Argentina</option>
+                                <option value="Australia">🇦🇺 Australia</option>
+                                <option value="Austria">🇦🇹 Austria</option>
+                                <option value="Bangladesh">🇧🇩 Bangladesh</option>
+                                <option value="Belgium">🇧🇪 Belgium</option>
+                                <option value="Brazil">🇧🇷 Brazil</option>
+                                <option value="Bulgaria">🇧🇬 Bulgaria</option>
+                                <option value="Canada">🇨🇦 Canada</option>
+                                <option value="Chile">🇨🇱 Chile</option>
+                                <option value="China">🇨🇳 China</option>
+                                <option value="Colombia">🇨🇴 Colombia</option>
+                                <option value="Costa Rica">🇨🇷 Costa Rica</option>
+                                <option value="Croatia">🇭🇷 Croatia</option>
+                                <option value="Cyprus">🇨🇾 Cyprus</option>
+                                <option value="Czechia">🇨🇿 Czechia</option>
+                                <option value="Denmark">🇩🇰 Denmark</option>
+                                <option value="Ecuador">🇪🇨 Ecuador</option>
+                                <option value="Egypt">🇪🇬 Egypt</option>
+                                <option value="Estonia">🇪🇪 Estonia</option>
+                                <option value="Finland">🇫🇮 Finland</option>
+                                <option value="France">🇫🇷 France</option>
+                                <option value="Germany">🇩🇪 Germany</option>
+                                <option value="Greece">🇬🇷 Greece</option>
+                                <option value="Guatemala">🇬🇹 Guatemala</option>
+                                <option value="Hungary">🇭🇺 Hungary</option>
+                                <option value="Iceland">🇮🇸 Iceland</option>
+                                <option value="India">🇮🇳 India</option>
+                                <option value="Indonesia">🇮🇩 Indonesia</option>
+                                <option value="Ireland">🇮🇪 Ireland</option>
+                                <option value="Israel">🇮🇱 Israel</option>
+                                <option value="Italy">🇮🇹 Italy</option>
+                                <option value="Japan">🇯🇵 Japan</option>
+                                <option value="Jordan">🇯🇴 Jordan</option>
+                                <option value="Kenya">🇰🇪 Kenya</option>
+                                <option value="Malaysia">🇲🇾 Malaysia</option>
+                                <option value="Mexico">🇲🇽 Mexico</option>
+                                <option value="Nepal">🇳🇵 Nepal</option>
+                                <option value="Netherlands">🇳🇱 Netherlands</option>
+                                <option value="New Zealand">🇳🇿 New Zealand</option>
+                                <option value="Nigeria">🇳🇬 Nigeria</option>
+                                <option value="Norway">🇳🇴 Norway</option>
+                                <option value="Pakistan">🇵🇰 Pakistan</option>
+                                <option value="Peru">🇵🇪 Peru</option>
+                                <option value="Philippines">🇵🇭 Philippines</option>
+                                <option value="Poland">🇵🇱 Poland</option>
+                                <option value="Portugal">🇵🇹 Portugal</option>
+                                <option value="Qatar">🇶🇦 Qatar</option>
+                                <option value="Romania">🇷🇴 Romania</option>
+                                <option value="Saudi Arabia">🇸🇦 Saudi Arabia</option>
+                                <option value="Singapore">🇸🇬 Singapore</option>
+                                <option value="South Africa">🇿🇦 South Africa</option>
+                                <option value="South Korea">🇰🇷 South Korea</option>
+                                <option value="Spain">🇪🇸 Spain</option>
+                                <option value="Sri Lanka">🇱🇰 Sri Lanka</option>
+                                <option value="Sweden">🇸🇪 Sweden</option>
+                                <option value="Switzerland">🇨🇭 Switzerland</option>
+                                <option value="Thailand">🇹🇭 Thailand</option>
+                                <option value="Turkey">🇹🇷 Turkey</option>
+                                <option value="Ukraine">🇺🇦 Ukraine</option>
+                                <option value="United Arab Emirates">🇦🇪 United Arab Emirates</option>
+                                <option value="United Kingdom">🇬🇧 United Kingdom</option>
+                                <option value="United States">🇺🇸 United States</option>
+                                <option value="Vietnam">🇻🇳 Vietnam</option>
+
+                                <!-- BLOCKED COUNTRIES -->
+                                <option value="Iraq">🇮🇶 Iraq</option>
+                                <option value="Guinea-Bissau">🇬🇼 Guinea-Bissau</option>
+                                <option value="Holy See">🇻🇦 Holy See</option>
+
+                            </select>
+
+                            <small id="countryMessage"></small>
+
                         </div>
 
 
                         <div>
+
                             <label for="postalCode">
                                 PIN / ZIP Code
                             </label>
@@ -181,6 +279,7 @@
                                 placeholder="PIN / ZIP"
                                 required
                             >
+
                         </div>
 
                     </div>
@@ -248,10 +347,9 @@
 
                 <h2>Order Summary</h2>
 
+
                 <div id="checkoutItems">
-
-                    <!-- Cart items will appear here -->
-
+                    <!-- Cart items appear here -->
                 </div>
 
 
