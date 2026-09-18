@@ -1301,7 +1301,11 @@ function updateStoreCartUI() {
         cart.forEach(function(item, index) {
 
             const quantity = Number(item.quantity) || 1;
-            const price = Number(item.price) || 0;
+           
+           const price =
+               getItemUSDPrice(item,
+               detectedCustomerCountry
+                        ) || 0;
 
             const itemHTML = document.createElement("div");
 
