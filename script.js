@@ -277,7 +277,6 @@ const exchangeRates = {
     OMR: 0.385,
     QAR: 3.64,
     KHR: 4100,
-    MAD: 10.00,
     HKD: 7.80,
     TWD: 32.00
 };
@@ -435,10 +434,12 @@ function getShippingRate(country) {
         return null;
     }
 
-    if (Object.prototype.hasOwnProperty.call(
-        shippingRates,
-        country
-    )) {
+    if (
+        Object.prototype.hasOwnProperty.call(
+            shippingRates,
+            country
+        )
+    ) {
         return shippingRates[country];
     }
 
@@ -464,7 +465,8 @@ function getCurrency(country) {
 
 function convertUSDToCurrency(amountUSD, currency) {
 
-    const rate = exchangeRates[currency] || 1;
+    const rate =
+        exchangeRates[currency] || 1;
 
     return amountUSD * rate;
 }
@@ -478,8 +480,14 @@ function formatMoney(amount, currency) {
     let decimals = 2;
 
     if (
-        ["JPY", "KRW", "VND", "IDR", "CLP", "COP"]
-            .includes(currency)
+        [
+            "JPY",
+            "KRW",
+            "VND",
+            "IDR",
+            "CLP",
+            "COP"
+        ].includes(currency)
     ) {
         decimals = 0;
     }
@@ -560,7 +568,20 @@ function addToCart(productName) {
 
     updateCartCount();
 
-    alert(productName + " added to cart!");
+    /*
+       Automatically open the cart panel
+       after the product is added.
+       No popup alert.
+    */
+
+    const cartPanel =
+        document.getElementById("cartPanel");
+
+    if (cartPanel) {
+
+        cartPanel.classList.add("active");
+
+    }
 }
 
 
@@ -621,8 +642,12 @@ function updateStoreCartUI() {
             '<p class="empty-cart">Your cart is empty.</p>';
 
         if (cartTotal) {
+
             cartTotal.textContent =
-                formatMoney(0, currency);
+                formatMoney(
+                    0,
+                    currency
+                );
         }
 
         return;
@@ -636,7 +661,10 @@ function updateStoreCartUI() {
             Number(item.quantity || 1);
 
         const itemPrice =
-            getItemUSDPrice(item, country);
+            getItemUSDPrice(
+                item,
+                country
+            );
 
         if (itemPrice === null) {
             return;
@@ -656,7 +684,10 @@ function updateStoreCartUI() {
         itemElement.innerHTML = `
 
             <div>
-                <strong>${escapeHTML(item.name)}</strong>
+
+                <strong>
+                    ${escapeHTML(item.name)}
+                </strong>
 
                 <p>
                     Qty: ${quantity}
@@ -671,6 +702,7 @@ function updateStoreCartUI() {
                         currency
                     )}
                 </p>
+
             </div>
 
             <button
@@ -682,7 +714,9 @@ function updateStoreCartUI() {
             </button>
         `;
 
-        cartItems.appendChild(itemElement);
+        cartItems.appendChild(
+            itemElement
+        );
     });
 
     if (cartTotal) {
@@ -706,7 +740,9 @@ function updateStoreCartUI() {
                 function () {
 
                     const index =
-                        Number(this.dataset.index);
+                        Number(
+                            this.dataset.index
+                        );
 
                     const updatedCart =
                         getCart();
@@ -716,7 +752,9 @@ function updateStoreCartUI() {
                         1
                     );
 
-                    saveCart(updatedCart);
+                    saveCart(
+                        updatedCart
+                    );
 
                     updateStoreCartUI();
 
@@ -734,47 +772,69 @@ function updateStoreCartUI() {
 function updateCheckout() {
 
     const checkoutItems =
-        document.getElementById("checkoutItems");
+        document.getElementById(
+            "checkoutItems"
+        );
 
     const subtotalElement =
-        document.getElementById("checkoutSubtotal");
+        document.getElementById(
+            "checkoutSubtotal"
+        );
 
     const shippingElement =
-        document.getElementById("checkoutShipping");
+        document.getElementById(
+            "checkoutShipping"
+        );
 
     const totalElement =
-        document.getElementById("checkoutTotal");
+        document.getElementById(
+            "checkoutTotal"
+        );
 
     const currencyElement =
-        document.getElementById("checkoutCurrency");
+        document.getElementById(
+            "checkoutCurrency"
+        );
 
     const placeOrderButton =
-        document.getElementById("placeOrderButton");
+        document.getElementById(
+            "placeOrderButton"
+        );
 
     const countryError =
-        document.getElementById("countryError");
+        document.getElementById(
+            "countryError"
+        );
 
     const countrySelect =
-        document.getElementById("checkoutCountry");
+        document.getElementById(
+            "checkoutCountry"
+        );
 
     if (!checkoutItems) {
         return;
     }
 
-    const cart = getCart();
+    const cart =
+        getCart();
 
     let country =
         countrySelect?.value ||
         getSelectedCountry();
 
-    if (countrySelect && country) {
-        countrySelect.value = country;
+    if (
+        countrySelect &&
+        country
+    ) {
+        countrySelect.value =
+            country;
     }
 
     const currency =
         getCurrency(country);
 
     if (currencyElement) {
+
         currencyElement.textContent =
             currency;
     }
@@ -782,12 +842,18 @@ function updateCheckout() {
     checkoutItems.innerHTML = "";
 
     if (placeOrderButton) {
-        placeOrderButton.disabled = true;
+
+        placeOrderButton.disabled =
+            true;
     }
 
     if (countryError) {
-        countryError.style.display = "none";
-        countryError.textContent = "";
+
+        countryError.style.display =
+            "none";
+
+        countryError.textContent =
+            "";
     }
 
     if (cart.length === 0) {
@@ -811,7 +877,9 @@ function updateCheckout() {
         return;
     }
 
-    if (isCountryBlocked(country)) {
+    if (
+        isCountryBlocked(country)
+    ) {
 
         checkoutItems.innerHTML =
             '<div class="empty-cart">Shipping is unavailable to this country.</div>';
@@ -868,10 +936,13 @@ function updateCheckout() {
         const itemTotal =
             price * quantity;
 
-        subtotalUSD += itemTotal;
+        subtotalUSD +=
+            itemTotal;
 
         const row =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         row.className =
             "summary-item";
@@ -879,11 +950,17 @@ function updateCheckout() {
         row.innerHTML = `
 
             <span class="summary-item-name">
-                ${escapeHTML(item.name)}
+
+                ${escapeHTML(
+                    item.name
+                )}
+
                 × ${quantity}
+
             </span>
 
             <strong class="summary-item-price">
+
                 ${formatMoney(
                     convertUSDToCurrency(
                         itemTotal,
@@ -891,10 +968,13 @@ function updateCheckout() {
                     ),
                     currency
                 )}
+
             </strong>
         `;
 
-        checkoutItems.appendChild(row);
+        checkoutItems.appendChild(
+            row
+        );
     });
 
     /*
@@ -904,6 +984,7 @@ function updateCheckout() {
     */
 
     if (shippingElement) {
+
         shippingElement.textContent =
             "FREE";
     }
@@ -914,7 +995,9 @@ function updateCheckout() {
     );
 
     if (placeOrderButton) {
-        placeOrderButton.disabled = false;
+
+        placeOrderButton.disabled =
+            false;
     }
 }
 
@@ -929,13 +1012,19 @@ function setCheckoutTotals(
 ) {
 
     const subtotalElement =
-        document.getElementById("checkoutSubtotal");
+        document.getElementById(
+            "checkoutSubtotal"
+        );
 
     const totalElement =
-        document.getElementById("checkoutTotal");
+        document.getElementById(
+            "checkoutTotal"
+        );
 
     const shippingElement =
-        document.getElementById("checkoutShipping");
+        document.getElementById(
+            "checkoutShipping"
+        );
 
     const converted =
         convertUSDToCurrency(
@@ -1169,7 +1258,8 @@ function setupCheckoutForm() {
                             "checkoutState"
                         )?.value.trim(),
 
-                    country: country,
+                    country:
+                        country,
 
                     postalCode:
                         document.getElementById(
@@ -1180,7 +1270,8 @@ function setupCheckoutForm() {
                 paymentMethod:
                     paymentMethod,
 
-                items: cart,
+                items:
+                    cart,
 
                 currency:
                     getCurrency(country),
@@ -1347,7 +1438,8 @@ function setupSearch() {
                 );
 
                 setTimeout(
-                    () => searchInput?.focus(),
+                    () =>
+                        searchInput?.focus(),
                     100
                 );
             }
@@ -1469,11 +1561,26 @@ function setupAddCartButtons() {
 function escapeHTML(value) {
 
     return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 }
 
 
