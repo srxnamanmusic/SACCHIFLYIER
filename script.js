@@ -1330,10 +1330,12 @@ function updateStoreCartUI() {
     let total = 0;
 
     cart.forEach(function(item) {
-        total +=
-            (Number(item.price) || 0) *
-            (Number(item.quantity) || 1);
-    });
+    total +=
+        getItemUSDPrice(
+            item,
+            detectedCustomerCountry
+        ) * (Number(item.quantity) || 1);
+});
 
     if (cartTotal) {
         cartTotal.textContent =
