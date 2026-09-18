@@ -1,6 +1,7 @@
 /* =========================================================
    SACCHI FLYIER
    CART + CHECKOUT + COUNTRY PRICING
+   CJ DROPSHIPPING
    ========================================================= */
 
 
@@ -13,19 +14,28 @@ const PROFIT_USD = 10.00;
 
 const MAIN_PRODUCT_SKU = "CJLX239765601AZ";
 
+const MAIN_PRODUCT_NAME =
+    "Light Luxury High-grade Micro Inlaid Zircon Chain Earrings";
+
 
 /* =========================================================
    2. CJ SHIPPING RATES
-   Customer sees FREE shipping.
-   Shipping cost is included in selling price.
+   Shipping cost from China in USD
    ========================================================= */
 
 const shippingRates = {
+
     "Afghanistan": 3.72,
     "Albania": 3.22,
     "Algeria": 3.35,
+    "American Samoa": 9.11,
     "Andorra": 6.60,
+    "Angola": 3.53,
+    "Anguilla": 3.82,
+    "Antigua and Barbuda": 3.50,
     "Argentina": 3.67,
+    "Armenia": 3.32,
+    "Aruba": 3.37,
     "Australia": 6.48,
     "Austria": 3.41,
     "Azerbaijan": 3.19,
@@ -39,14 +49,18 @@ const shippingRates = {
     "Benin": 4.61,
     "Bermuda": 3.53,
     "Bhutan": 5.67,
-    "Bolivia": 3.86,
+    "Bolivia (Plurinational State of)": 3.86,
+    "Bonaire, Sint Eustatius and Saba": 3.86,
     "Bosnia and Herzegovina": 4.95,
     "Botswana": 3.53,
+    "Bouvet Island": 9.86,
     "Brazil": 6.05,
+    "British Indian Ocean Territory": 5.51,
     "Brunei Darussalam": 3.14,
     "Bulgaria": 8.74,
     "Burkina Faso": 4.80,
     "Burundi": 3.60,
+    "Cabo Verde": 3.86,
     "Cambodia": 3.56,
     "Cameroon": 3.35,
     "Canada": 5.31,
@@ -55,9 +69,13 @@ const shippingRates = {
     "Chad": 3.64,
     "Chile": 4.14,
     "China": 3.05,
+    "Christmas Island": 9.43,
+    "Cocos (Keeling) Islands": 9.43,
     "Colombia": 2.85,
     "Comoros": 3.14,
+    "Congo (the Democratic Republic of the)": 1.90,
     "Congo": 1.88,
+    "Cook Islands": 4.14,
     "Costa Rica": 1.75,
     "Côte d’Ivoire": 1.88,
     "Croatia": 8.71,
@@ -75,11 +93,14 @@ const shippingRates = {
     "Equatorial Guinea": 4.27,
     "Eritrea": 3.60,
     "Ethiopia": 3.43,
+    "Falkland Islands": 5.30,
+    "Faroe Islands": 8.38,
     "Fiji": 3.98,
     "Finland": 3.36,
     "France": 5.76,
     "French Guiana": 3.46,
     "French Polynesia": 3.46,
+    "French Southern Territories": 8.11,
     "Gabon": 4.76,
     "Gambia": 3.60,
     "Georgia": 3.97,
@@ -93,15 +114,19 @@ const shippingRates = {
     "Guam": 9.53,
     "Guernsey": 7.81,
     "Guinea": 4.43,
+    "Guinea-Bissau": 87.03,
     "Guyana": 5.51,
     "Haiti": 3.82,
+    "Heard Island and McDonald Islands": 9.00,
+    "Holy See": 38.81,
     "Honduras": 3.82,
     "Hong Kong (China)": 3.92,
     "Hungary": 3.36,
     "Iceland": 3.56,
     "India": 4.01,
     "Indonesia": 3.06,
-    "Iran": 3.43,
+    "Iran (Islamic Republic of)": 3.43,
+    "Iraq": 181.74,
     "Ireland": 6.80,
     "Isle of Man": 7.81,
     "Israel": 5.16,
@@ -112,10 +137,12 @@ const shippingRates = {
     "Jordan": 3.45,
     "Kazakhstan": 2.88,
     "Kenya": 3.43,
-    "South Korea": 3.91,
+    "Kiribati": 4.38,
+    "Korea (the Democratic People's Republic of)": 137.03,
+    "Korea (South Korea)": 3.91,
     "Kuwait": 9.27,
     "Kyrgyzstan": 3.25,
-    "Laos": 4.28,
+    "Lao peoples Democratic republic": 4.28,
     "Latvia": 7.60,
     "Lebanon": 3.25,
     "Lesotho": 3.86,
@@ -125,7 +152,7 @@ const shippingRates = {
     "Lithuania": 7.60,
     "Luxembourg": 3.25,
     "Macao (China)": 5.58,
-    "North Macedonia": 3.32,
+    "Macedonia (The former Yugoslav Republic of)": 3.32,
     "Madagascar": 3.60,
     "Malawi": 3.50,
     "Malaysia": 3.41,
@@ -138,7 +165,8 @@ const shippingRates = {
     "Mauritius": 3.23,
     "Mayotte": 7.82,
     "Mexico": 4.18,
-    "Moldova": 3.22,
+    "Micronesia (Federated States of)": 87.03,
+    "Moldova the republic": 3.22,
     "Monaco": 6.35,
     "Mongolia": 4.42,
     "Montenegro": 4.95,
@@ -157,10 +185,11 @@ const shippingRates = {
     "Nigeria": 3.50,
     "Niue": 4.48,
     "Norfolk Island": 3.38,
-    "Northern Mariana Islands": 9.15,
+    "Northern Mariana Island": 9.15,
     "Norway": 5.94,
     "Oman": 4.17,
     "Pakistan": 2.94,
+    "Palau": 87.03,
     "Panama": 3.25,
     "Papua New Guinea": 3.98,
     "Paraguay": 3.67,
@@ -175,40 +204,42 @@ const shippingRates = {
     "Romania": 4.91,
     "Russian Federation": 4.36,
     "Rwanda": 3.50,
-    "Saint Helena": 5.95,
+    "Saint Helena, Ascension and Tristan da Cunha": 5.95,
     "Saint Kitts and Nevis": 3.82,
     "Saint Lucia": 3.53,
-    "Saint Martin": 8.11,
+    "Saint Martin (French part)": 8.11,
     "Saint Pierre and Miquelon": 6.10,
     "Saint Vincent and the Grenadines": 3.82,
     "Samoa": 4.04,
     "San Marino": 4.94,
-    "São Tomé and Príncipe": 3.86,
+    "Sao Tome and Principe": 3.86,
     "Saudi Arabia": 4.32,
     "Senegal": 3.37,
     "Serbia": 3.18,
     "Seychelles": 3.21,
     "Sierra Leone": 3.86,
     "Singapore": 3.93,
-    "Sint Maarten": 3.86,
+    "Sint Maarten (Dutch Part)": 3.86,
     "Slovakia": 8.72,
     "Slovenia": 8.90,
     "Solomon Islands": 4.03,
     "Somalia": 3.86,
     "South Africa": 5.97,
-    "South Georgia": 8.19,
+    "South Georgia and South Sandwich Islands": 8.19,
+    "South Sudan": 87.03,
     "Spain": 4.87,
     "Sri Lanka": 3.12,
     "Sudan": 4.43,
     "Suriname": 3.86,
-    "Eswatini": 3.87,
+    "Swaziland": 3.87,
     "Sweden": 6.74,
     "Switzerland": 6.40,
+    "Syrian Arab Republic": 181.74,
     "Taiwan": 7.37,
     "Tajikistan": 3.25,
-    "Tanzania": 3.46,
+    "Tanzania, United Republic of": 3.46,
     "Thailand": 2.71,
-    "Kosovo": 4.25,
+    "The Republic of Kosovo": 4.25,
     "Timor-Leste": 5.76,
     "Togo": 3.38,
     "Tokelau": 4.40,
@@ -226,19 +257,20 @@ const shippingRates = {
     "Uruguay": 4.21,
     "Uzbekistan": 4.21,
     "Vanuatu": 4.81,
-    "Venezuela": 3.57,
+    "Venezuela (Bolivarian Republic of)": 3.57,
     "Vietnam": 3.02,
-    "British Virgin Islands": 3.53,
-    "U.S. Virgin Islands": 9.15,
+    "Virgin Islands (British)": 3.53,
+    "Virgin Islands (U.S.)": 9.15,
     "Wallis and Futuna": 5.24,
     "Western Sahara": 6.54,
+    "Yemen": 181.74,
     "Zambia": 3.46,
     "Zimbabwe": 4.01
 };
 
 
 /* =========================================================
-   3. BLOCKED COUNTRIES
+   3. COUNTRIES THAT YOU DO NOT SHIP TO
    ========================================================= */
 
 const blockedCountries = [
@@ -246,17 +278,18 @@ const blockedCountries = [
     "Syrian Arab Republic",
     "Yemen",
     "Guinea-Bissau",
-    "Micronesia",
+    "Micronesia (Federated States of)",
     "Palau",
     "South Sudan"
 ];
 
 
 /* =========================================================
-   4. COUNTRY CURRENCIES
+   4. COUNTRY → CURRENCY
    ========================================================= */
 
 const countryCurrency = {
+
     "Afghanistan": "AFN",
     "Albania": "ALL",
     "Algeria": "DZD",
@@ -268,426 +301,252 @@ const countryCurrency = {
     "Bahamas": "BSD",
     "Bahrain": "BHD",
     "Bangladesh": "BDT",
-    "Barbados": "BBD",
-    "Belarus": "BYN",
     "Belgium": "EUR",
     "Belize": "BZD",
-    "Benin": "XOF",
-    "Bermuda": "BMD",
     "Bhutan": "BTN",
-    "Bolivia": "BOB",
+    "Bolivia (Plurinational State of)": "BOB",
     "Bosnia and Herzegovina": "BAM",
-    "Botswana": "BWP",
     "Brazil": "BRL",
     "Brunei Darussalam": "BND",
     "Bulgaria": "BGN",
-    "Burkina Faso": "XOF",
-    "Burundi": "BIF",
     "Cambodia": "KHR",
-    "Cameroon": "XAF",
     "Canada": "CAD",
-    "Cayman Islands": "KYD",
-    "Central African Republic": "XAF",
-    "Chad": "XAF",
     "Chile": "CLP",
     "China": "CNY",
     "Colombia": "COP",
-    "Comoros": "KMF",
-    "Congo": "XAF",
     "Costa Rica": "CRC",
-    "Côte d’Ivoire": "XOF",
     "Croatia": "EUR",
-    "Cuba": "CUP",
-    "Curaçao": "ANG",
     "Cyprus": "EUR",
     "Czechia": "CZK",
     "Denmark": "DKK",
-    "Djibouti": "DJF",
-    "Dominica": "XCD",
-    "Dominican Republic": "DOP",
-    "Ecuador": "USD",
     "Egypt": "EGP",
-    "El Salvador": "USD",
-    "Equatorial Guinea": "XAF",
-    "Eritrea": "ERN",
-    "Ethiopia": "ETB",
-    "Fiji": "FJD",
+    "Estonia": "EUR",
     "Finland": "EUR",
     "France": "EUR",
-    "French Guiana": "EUR",
-    "French Polynesia": "XPF",
-    "Gabon": "XAF",
-    "Gambia": "GMD",
     "Georgia": "GEL",
     "Germany": "EUR",
     "Ghana": "GHS",
-    "Gibraltar": "GIP",
     "Greece": "EUR",
-    "Greenland": "DKK",
-    "Grenada": "XCD",
-    "Guadeloupe": "EUR",
-    "Guam": "USD",
-    "Guernsey": "GBP",
-    "Guinea": "GNF",
-    "Guyana": "GYD",
-    "Haiti": "HTG",
-    "Honduras": "HNL",
     "Hong Kong (China)": "HKD",
     "Hungary": "HUF",
     "Iceland": "ISK",
     "India": "INR",
     "Indonesia": "IDR",
-    "Iran": "IRR",
     "Ireland": "EUR",
-    "Isle of Man": "GBP",
     "Israel": "ILS",
     "Italy": "EUR",
-    "Jamaica": "JMD",
     "Japan": "JPY",
-    "Jersey": "GBP",
     "Jordan": "JOD",
     "Kazakhstan": "KZT",
     "Kenya": "KES",
-    "South Korea": "KRW",
     "Kuwait": "KWD",
     "Kyrgyzstan": "KGS",
-    "Laos": "LAK",
     "Latvia": "EUR",
     "Lebanon": "LBP",
-    "Lesotho": "LSL",
-    "Liberia": "LRD",
-    "Libya": "LYD",
     "Liechtenstein": "CHF",
     "Lithuania": "EUR",
     "Luxembourg": "EUR",
-    "Macao (China)": "MOP",
-    "North Macedonia": "MKD",
-    "Madagascar": "MGA",
-    "Malawi": "MWK",
     "Malaysia": "MYR",
     "Maldives": "MVR",
-    "Mali": "XOF",
     "Malta": "EUR",
-    "Marshall Islands": "USD",
-    "Martinique": "EUR",
-    "Mauritania": "MRU",
-    "Mauritius": "MUR",
-    "Mayotte": "EUR",
     "Mexico": "MXN",
-    "Moldova": "MDL",
+    "Moldova the republic": "MDL",
     "Monaco": "EUR",
     "Mongolia": "MNT",
     "Montenegro": "EUR",
-    "Montserrat": "XCD",
     "Morocco": "MAD",
-    "Mozambique": "MZN",
-    "Myanmar": "MMK",
-    "Namibia": "NAD",
-    "Nauru": "AUD",
     "Nepal": "NPR",
     "Netherlands": "EUR",
-    "New Caledonia": "XPF",
     "New Zealand": "NZD",
-    "Nicaragua": "NIO",
-    "Niger": "XOF",
     "Nigeria": "NGN",
-    "Niue": "NZD",
-    "Norfolk Island": "AUD",
-    "Northern Mariana Islands": "USD",
+    "North Macedonia": "MKD",
     "Norway": "NOK",
     "Oman": "OMR",
     "Pakistan": "PKR",
     "Panama": "PAB",
-    "Papua New Guinea": "PGK",
     "Paraguay": "PYG",
     "Peru": "PEN",
     "Philippines": "PHP",
-    "Pitcairn": "NZD",
     "Poland": "PLN",
     "Portugal": "EUR",
-    "Puerto Rico": "USD",
     "Qatar": "QAR",
-    "Réunion": "EUR",
     "Romania": "RON",
     "Russian Federation": "RUB",
-    "Rwanda": "RWF",
-    "Saint Helena": "SHP",
-    "Saint Kitts and Nevis": "XCD",
-    "Saint Lucia": "XCD",
-    "Saint Martin": "EUR",
-    "Saint Pierre and Miquelon": "EUR",
-    "Saint Vincent and the Grenadines": "XCD",
-    "Samoa": "WST",
-    "San Marino": "EUR",
-    "São Tomé and Príncipe": "STN",
     "Saudi Arabia": "SAR",
-    "Senegal": "XOF",
     "Serbia": "RSD",
-    "Seychelles": "SCR",
-    "Sierra Leone": "SLE",
     "Singapore": "SGD",
-    "Sint Maarten": "ANG",
     "Slovakia": "EUR",
     "Slovenia": "EUR",
-    "Solomon Islands": "SBD",
-    "Somalia": "SOS",
     "South Africa": "ZAR",
-    "South Georgia": "GBP",
+    "South Korea": "KRW",
     "Spain": "EUR",
     "Sri Lanka": "LKR",
-    "Sudan": "SDG",
-    "Suriname": "SRD",
-    "Eswatini": "SZL",
     "Sweden": "SEK",
     "Switzerland": "CHF",
     "Taiwan": "TWD",
-    "Tajikistan": "TJS",
-    "Tanzania": "TZS",
     "Thailand": "THB",
-    "Kosovo": "EUR",
-    "Timor-Leste": "USD",
-    "Togo": "XOF",
-    "Tokelau": "NZD",
-    "Tonga": "TOP",
-    "Trinidad and Tobago": "TTD",
     "Tunisia": "TND",
     "Turkey": "TRY",
-    "Turks and Caicos Islands": "USD",
-    "Tuvalu": "AUD",
-    "Uganda": "UGX",
     "Ukraine": "UAH",
     "United Arab Emirates": "AED",
     "United Kingdom": "GBP",
     "United States": "USD",
     "Uruguay": "UYU",
     "Uzbekistan": "UZS",
-    "Vanuatu": "VUV",
-    "Venezuela": "VES",
-    "Vietnam": "VND",
-    "British Virgin Islands": "USD",
-    "U.S. Virgin Islands": "USD",
-    "Wallis and Futuna": "XPF",
-    "Western Sahara": "MAD",
-    "Zambia": "ZMW",
-    "Zimbabwe": "ZWG"
+    "Vietnam": "VND"
 };
 
 
 /* =========================================================
    5. FALLBACK EXCHANGE RATES
+   USD → LOCAL CURRENCY
    ========================================================= */
 
-const fallbackRates = {
+const exchangeRates = {
+
     USD: 1,
-    INR: 88,
-    GBP: 0.74,
+
+    INR: 88.00,
     EUR: 0.85,
-    AUD: 1.52,
+    GBP: 0.74,
     CAD: 1.38,
+    AUD: 1.52,
+    NZD: 1.77,
+
     AED: 3.67,
     SAR: 3.75,
-    CNY: 7.15,
-    JPY: 147,
+    QAR: 3.64,
+    BHD: 0.377,
+    KWD: 0.307,
+    OMR: 0.385,
+
+    JPY: 148,
+    CNY: 7.12,
+    HKD: 7.80,
+    TWD: 31.5,
     KRW: 1390,
+
     SGD: 1.29,
-    MYR: 4.25,
+    MYR: 4.22,
     THB: 32.5,
+    IDR: 16400,
+    PHP: 57.0,
     VND: 26000,
-    IDR: 16500,
-    PHP: 58,
-    PKR: 285,
+
+    PKR: 283,
     BDT: 122,
     NPR: 140,
-    LKR: 305,
-    NZD: 1.66,
-    CHF: 0.80,
-    SEK: 9.30,
-    NOK: 10.00,
+    LKR: 306,
+
+    BRL: 5.40,
+    MXN: 18.5,
+    ARS: 1450,
+    CLP: 950,
+    COP: 3900,
+    PEN: 3.50,
+
+    ZAR: 17.0,
+    NGN: 1500,
+    GHS: 12.5,
+    KES: 129,
+
+    CHF: 0.81,
+    SEK: 9.35,
+    NOK: 10.1,
     DKK: 6.35,
     PLN: 3.65,
     CZK: 21.2,
-    HUF: 335,
+    HUF: 330,
     RON: 4.35,
-    TRY: 41.5,
-    ZAR: 17.2,
-    BRL: 5.45,
-    MXN: 18.8,
-    ARS: 1450,
-    CLP: 930,
-    COP: 3800,
-    PEN: 3.55,
-    NGN: 1500,
-    KES: 129,
-    GHS: 11,
-    EGP: 48.5,
-    MAD: 9.9,
-    ILS: 3.35,
-    QAR: 3.64,
-    KWD: 0.31,
-    OMR: 0.385,
-    BHD: 0.376,
-    JOD: 0.709,
-    GEL: 2.70,
-    KZT: 540,
-    UAH: 41,
+    BGN: 1.66,
+
+    TRY: 41,
+    UAH: 41.5,
     RSD: 100,
     ISK: 123,
-    BGN: 1.66,
-    ALL: 82,
-    DZD: 130,
-    AZN: 1.70,
-    MDL: 17.2,
-    MKD: 52,
-    BAM: 1.66,
-    XOF: 557,
-    XAF: 557,
-    XPF: 101.5,
-    XCD: 2.70,
-    FJD: 2.25,
-    WST: 2.80,
-    TOP: 2.35,
-    PGK: 4.05,
-    VUV: 119,
-    SBD: 8.10,
-    MUR: 45,
-    MVR: 15.4,
-    SCR: 13.2,
-    BWP: 13.5,
-    NAD: 17.2,
-    LSL: 17.2,
-    SZL: 17.2,
-    ZMW: 23,
-    MWK: 1750,
-    UGX: 3600,
-    TZS: 2450,
-    RWF: 1450,
-    GNF: 8600,
-    SLE: 23,
-    SOS: 570,
-    ETB: 145,
-    ERN: 15,
-    HTG: 130,
-    HNL: 26,
-    NIO: 36.8,
-    DOP: 63,
-    BZD: 2,
-    BSD: 1,
-    BBD: 2,
-    BMD: 1,
-    KYD: 0.82,
-    ANG: 1.79,
-    CRC: 500,
-    BOB: 6.90,
-    PAB: 1,
-    PYG: 8000,
-    UYU: 40,
-    VES: 140,
-    MNT: 3550,
-    MMK: 2100,
-    LAK: 21500,
-    KGS: 87,
-    TJS: 10.9,
-    TND: 2.90,
-    LBP: 89500,
-    LYD: 5.45,
-    MRU: 40,
-    STN: 22.5,
-    SHP: 0.74,
-    GMD: 73,
-    GYD: 209,
-    JMD: 158,
-    TTD: 6.78,
-    CUP: 24,
-    MOP: 7.99,
-    HKD: 7.80,
-    TWD: 31.5,
-    BTN: 88,
-    BND: 1.29,
-    KMF: 557,
-    GIP: 0.74,
-    MGA: 4500,
-    MZN: 63,
-    NAD: 17.2,
-    ZWG: 26
+
+    EGP: 48,
+    MAD: 9.3,
+    ILS: 3.30,
+    JOD: 0.709
 };
 
 
 /* =========================================================
-   6. EXCHANGE RATES
+   6. CURRENCY SYMBOLS
    ========================================================= */
 
-let exchangeRates = {
-    ...fallbackRates
+const currencySymbols = {
+
+    USD: "$",
+    INR: "₹",
+    EUR: "€",
+    GBP: "£",
+    CAD: "CA$",
+    AUD: "A$",
+    NZD: "NZ$",
+
+    AED: "د.إ",
+    SAR: "﷼",
+    QAR: "﷼",
+    BHD: ".د.ب",
+    KWD: "د.ك",
+    OMR: "﷼",
+
+    JPY: "¥",
+    CNY: "¥",
+    HKD: "HK$",
+    TWD: "NT$",
+    KRW: "₩",
+
+    SGD: "S$",
+    MYR: "RM",
+    THB: "฿",
+    IDR: "Rp",
+    PHP: "₱",
+    VND: "₫",
+
+    PKR: "₨",
+    BDT: "৳",
+    NPR: "₨",
+    LKR: "Rs",
+
+    BRL: "R$",
+    MXN: "MX$",
+    ARS: "$",
+    CLP: "$",
+    COP: "$",
+    PEN: "S/",
+
+    ZAR: "R",
+    NGN: "₦",
+    GHS: "GH₵",
+    KES: "KSh",
+
+    CHF: "CHF",
+    SEK: "kr",
+    NOK: "kr",
+    DKK: "kr",
+    PLN: "zł",
+    CZK: "Kč",
+    HUF: "Ft",
+    RON: "lei",
+    BGN: "лв",
+
+    TRY: "₺",
+    UAH: "₴",
+    RSD: "дин",
+    ISK: "kr",
+
+    EGP: "E£",
+    MAD: "د.م.",
+    ILS: "₪",
+    JOD: "د.ا"
 };
 
-let usingLiveRates = false;
-
 
 /* =========================================================
-   7. LOAD LIVE EXCHANGE RATES
-   ========================================================= */
-
-async function loadExchangeRates() {
-
-    try {
-
-        const controller = new AbortController();
-
-        const timeout = setTimeout(() => {
-            controller.abort();
-        }, 5000);
-
-        const response = await fetch(
-            "https://open.er-api.com/v6/latest/USD",
-            {
-                signal: controller.signal
-            }
-        );
-
-        clearTimeout(timeout);
-
-        if (!response.ok) {
-            throw new Error("Exchange-rate request failed.");
-        }
-
-        const data = await response.json();
-
-        if (
-            data &&
-            data.result === "success" &&
-            data.rates
-        ) {
-
-            exchangeRates = {
-                ...fallbackRates,
-                ...data.rates
-            };
-
-            usingLiveRates = true;
-
-            console.log("Sacchi Flyier: live exchange rates loaded.");
-
-        }
-
-    } catch (error) {
-
-        usingLiveRates = false;
-
-        exchangeRates = {
-            ...fallbackRates
-        };
-
-        console.warn(
-            "Sacchi Flyier: using fallback exchange rates."
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   8. CART STORAGE
+   7. CART STORAGE
    ========================================================= */
 
 function getCart() {
@@ -695,148 +554,150 @@ function getCart() {
     try {
 
         const savedCart =
-            localStorage.getItem("cart");
+            localStorage.getItem("cart") ||
+            localStorage.getItem("shoppingCart") ||
+            localStorage.getItem("cartItems");
 
         if (!savedCart) {
             return [];
         }
 
-        const cart =
-            JSON.parse(savedCart);
+        const parsed = JSON.parse(savedCart);
 
-        if (!Array.isArray(cart)) {
-            return [];
-        }
-
-        return cart;
+        return Array.isArray(parsed) ? parsed : [];
 
     } catch (error) {
 
-        console.error(
-            "Sacchi Flyier cart error:",
-            error
-        );
+        console.error("Cart loading error:", error);
 
         return [];
-
     }
-
 }
 
 
 function saveCart(cart) {
 
-    try {
+    localStorage.setItem("cart", JSON.stringify(cart));
 
-        localStorage.setItem(
-            "cart",
-            JSON.stringify(cart)
-        );
+    localStorage.setItem(
+        "shoppingCart",
+        JSON.stringify(cart)
+    );
 
-        return true;
-
-    } catch (error) {
-
-        console.error(
-            "Could not save cart:",
-            error
-        );
-
-        return false;
-
-    }
-
+    localStorage.setItem(
+        "cartItems",
+        JSON.stringify(cart)
+    );
 }
 
 
 /* =========================================================
-   9. SHIPPING
+   8. COUNTRY HELPERS
    ========================================================= */
 
-function getCountryShipping(country) {
+function getSelectedCountry() {
+
+    return (
+        localStorage.getItem("customerCountry") ||
+        localStorage.getItem("checkoutCountry") ||
+        "India"
+    );
+}
+
+
+function isBlockedCountry(country) {
+
+    return blockedCountries.includes(country);
+}
+
+
+function getShippingRate(country) {
 
     if (!country) {
         return null;
     }
 
-    return Object.prototype.hasOwnProperty.call(
-        shippingRates,
-        country
-    )
-        ? shippingRates[country]
-        : null;
-
-}
-
-
-/* =========================================================
-   10. COUNTRY SELLING PRICE
-   ========================================================= */
-
-function getUSDPriceForCountry(country) {
-
-    const shipping =
-        getCountryShipping(country);
-
-    if (shipping === null) {
+    if (isBlockedCountry(country)) {
         return null;
     }
 
-    /*
-       CJ product = $1.62
-       CJ shipping = country rate
-       Profit = $10
-    */
+    if (
+        Object.prototype.hasOwnProperty.call(
+            shippingRates,
+            country
+        )
+    ) {
 
-    return (
-        PRODUCT_COST_USD +
-        shipping +
-        PROFIT_USD
-    );
+        return Number(shippingRates[country]);
+    }
 
+    return null;
 }
 
-
-/* =========================================================
-   11. CURRENCY
-   ========================================================= */
 
 function getCurrency(country) {
 
     return countryCurrency[country] || "USD";
-
-}
-
-
-function convertFromUSD(
-    usdAmount,
-    currency
-) {
-
-    const rate =
-        exchangeRates[currency];
-
-    if (
-        typeof rate !== "number" ||
-        !Number.isFinite(rate) ||
-        rate <= 0
-    ) {
-
-        return usdAmount;
-
-    }
-
-    return usdAmount * rate;
-
 }
 
 
 /* =========================================================
-   12. CUSTOMER PRICE FORMAT
+   9. PRODUCT PRICE
+   Product price =
+   CJ product cost + CJ shipping + $10 profit
+   ========================================================= */
+
+function getItemUSDPrice(item, country) {
+
+    const quantity =
+        Number(item.quantity) > 0
+            ? Number(item.quantity)
+            : 1;
+
+    let productCost =
+        Number(item.price);
+
+    if (!Number.isFinite(productCost)) {
+        productCost = PRODUCT_COST_USD;
+    }
+
+    let shipping =
+        getShippingRate(country);
+
+    if (shipping === null) {
+        shipping = 0;
+    }
+
+    return (
+        productCost +
+        shipping +
+        PROFIT_USD
+    );
+}
+
+
+/* =========================================================
+   10. USD → LOCAL CURRENCY
+   ========================================================= */
+
+function convertUSDToCurrency(
+    amountUSD,
+    currency
+) {
+
+    const rate =
+        Number(exchangeRates[currency]) || 1;
+
+    return amountUSD * rate;
+}
+
+
+/* =========================================================
+   11. FORMAT CUSTOMER PRICE
    ========================================================= */
 
 function formatCustomerPrice(
-    usdAmount,
+    amountUSD,
     country
 ) {
 
@@ -844,47 +705,69 @@ function formatCustomerPrice(
         getCurrency(country);
 
     const converted =
-        convertFromUSD(
-            usdAmount,
+        convertUSDToCurrency(
+            amountUSD,
             currency
         );
 
-    const zeroDecimalCurrencies = [
-        "JPY",
-        "KRW",
-        "VND",
-        "CLP",
-        "IDR",
-        "HUF"
-    ];
+    const symbol =
+        currencySymbols[currency] || currency;
 
-    const decimals =
-        zeroDecimalCurrencies.includes(currency)
-            ? 0
-            : 2;
+    let decimals = 2;
 
-    try {
+    if (
+        [
+            "JPY",
+            "KRW",
+            "VND",
+            "IDR",
+            "CLP",
+            "COP",
+            "HUF"
+        ].includes(currency)
+    ) {
+        decimals = 0;
+    }
 
-        return new Intl.NumberFormat(
+    return (
+        symbol +
+        converted.toLocaleString(
             undefined,
             {
-                style: "currency",
-                currency: currency,
                 minimumFractionDigits: decimals,
                 maximumFractionDigits: decimals
             }
-        ).format(converted);
+        )
+    );
+}
 
-    } catch (error) {
 
-        return (
-            currency +
-            " " +
-            converted.toFixed(decimals)
-        );
+/* =========================================================
+   12. CART COUNT
+   ========================================================= */
 
+function updateCartCount() {
+
+    const cartCount =
+        document.getElementById("cartCount");
+
+    if (!cartCount) {
+        return;
     }
 
+    const cart = getCart();
+
+    const count =
+        cart.reduce(
+            (total, item) =>
+                total +
+                (
+                    Number(item.quantity) || 1
+                ),
+            0
+        );
+
+    cartCount.textContent = count;
 }
 
 
@@ -892,207 +775,58 @@ function formatCustomerPrice(
    13. PRODUCT IDENTIFICATION
    ========================================================= */
 
-function isMainCJProduct(item) {
+function isMainProduct(item) {
 
     if (!item) {
         return false;
     }
 
-    const sku =
-        String(
-            item.sku ||
-            item.SKU ||
-            item.productSku ||
-            ""
-        ).trim().toUpperCase();
-
-    const name =
-        String(
-            item.name ||
-            item.productName ||
-            item.title ||
-            ""
-        ).trim().toLowerCase();
-
-    if (sku === MAIN_PRODUCT_SKU) {
-        return true;
-    }
-
     return (
-        name.includes("micro inlaid zircon") ||
-        name.includes("zircon chain earrings") ||
-        name.includes("zircon") &&
-        name.includes("earrings")
+        item.sku === MAIN_PRODUCT_SKU ||
+        item.dataSku === MAIN_PRODUCT_SKU ||
+        item.productSku === MAIN_PRODUCT_SKU ||
+        item.name === MAIN_PRODUCT_NAME
     );
-
 }
 
 
 /* =========================================================
-   14. ITEM PRICE
-   ========================================================= */
-
-function getItemUSDPrice(
-    item,
-    country
-) {
-
-    if (isMainCJProduct(item)) {
-
-        return getUSDPriceForCountry(
-            country
-        );
-
-    }
-
-    /*
-       Other products use their saved
-       cart price.
-    */
-
-    const storedPrice =
-        Number(
-            item.price ??
-            item.unitPrice ??
-            item.productPrice ??
-            0
-        );
-
-    if (
-        !Number.isFinite(storedPrice) ||
-        storedPrice < 0
-    ) {
-
-        return 0;
-
-    }
-
-    return storedPrice;
-
-}
-
-
-/* =========================================================
-   15. HTML ESCAPE
-   ========================================================= */
-
-function escapeHTML(value) {
-
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-}
-
-
-/* =========================================================
-   16. UPDATE CART COUNT
-   ========================================================= */
-
-function updateCartCount() {
-
-    const cart =
-        getCart();
-
-    const count =
-        cart.reduce(
-            function(total, item) {
-
-                return total +
-                    Math.max(
-                        1,
-                        Number(item.quantity) || 1
-                    );
-
-            },
-            0
-        );
-
-    const countElement =
-        document.getElementById(
-            "cartCount"
-        );
-
-    if (countElement) {
-
-        countElement.textContent =
-            count;
-
-    }
-
-}
-
-
-/* =========================================================
-   17. ADD PRODUCT TO CART
+   14. ADD PRODUCT TO CART
    ========================================================= */
 
 function addToCart(product) {
 
-    if (!product) {
-        return;
-    }
-
-    const cart =
-        getCart();
+    const cart = getCart();
 
     const productName =
-        String(
-            product.name ||
-            product.productName ||
-            product.title ||
-            "Product"
-        );
+        product.name ||
+        MAIN_PRODUCT_NAME;
 
     const productSKU =
-        String(
-            product.sku ||
-            product.SKU ||
-            ""
+        product.sku ||
+        MAIN_PRODUCT_SKU;
+
+    const productPrice =
+        Number(product.price) ||
+        PRODUCT_COST_USD;
+
+    const existingIndex =
+        cart.findIndex(
+            item =>
+                (
+                    item.sku === productSKU ||
+                    item.name === productName
+                )
         );
 
-    const existing =
-        cart.find(function(item) {
+    if (existingIndex !== -1) {
 
-            if (
-                productSKU &&
-                item.sku &&
-                item.sku === productSKU
-            ) {
-                return true;
-            }
-
-            return (
-                item.name === productName
-            );
-
-        });
-
-
-    if (existing) {
-
-        existing.quantity =
-            Math.max(
-                1,
-                Number(existing.quantity) || 1
+        cart[existingIndex].quantity =
+            (
+                Number(
+                    cart[existingIndex].quantity
+                ) || 1
             ) + 1;
-
-        /*
-           Make sure the CJ SKU is retained.
-        */
-
-        if (
-            productSKU &&
-            !existing.sku
-        ) {
-
-            existing.sku =
-                productSKU;
-
-        }
 
     } else {
 
@@ -1100,25 +834,20 @@ function addToCart(product) {
 
             name: productName,
 
-            price:
-                Number(product.price) || 0,
+            sku: productSKU,
+
+            price: productPrice,
 
             quantity: 1,
 
-            sku: productSKU,
-
             image:
-                product.image ||
-                "",
+                product.image || "",
 
-            productUrl:
-                product.productUrl ||
-                ""
+            variant:
+                product.variant || "Gold Plated"
 
         });
-
     }
-
 
     saveCart(cart);
 
@@ -1126,20 +855,14 @@ function addToCart(product) {
 
     updateStoreCartUI();
 
-    /*
-       Small confirmation.
-    */
-
-    console.log(
-        "Added to cart:",
-        productName
+    showCartMessage(
+        "Product added to cart."
     );
-
 }
 
 
 /* =========================================================
-   18. STORE ADD-TO-CART BUTTONS
+   15. ADD BUTTONS
    ========================================================= */
 
 function setupAddToCartButtons() {
@@ -1149,244 +872,295 @@ function setupAddToCartButtons() {
             ".add-cart"
         );
 
-    if (!buttons.length) {
-        return;
-    }
-
-    buttons.forEach(function(button) {
-
-        /*
-           Prevent duplicate event listeners.
-        */
-
-        if (
-            button.dataset.cartReady === "true"
-        ) {
-            return;
-        }
-
-        button.dataset.cartReady = "true";
-
+    buttons.forEach(button => {
 
         button.addEventListener(
             "click",
-            function(event) {
+            function () {
 
-                event.preventDefault();
-                event.stopPropagation();
+                const name =
+                    this.dataset.product ||
+                    MAIN_PRODUCT_NAME;
 
-
-                const productName =
-                    button.dataset.product ||
-                    button.dataset.name ||
-                    button.getAttribute(
-                        "data-product"
-                    ) ||
-                    "Product";
-
-
-                const productPrice =
-                    Number(
-                        button.dataset.price ||
-                        button.getAttribute(
-                            "data-price"
-                        ) ||
-                        0
-                    );
-
-
-                const productSKU =
-                    button.dataset.sku ||
-                    button.dataset.SKU ||
-                    button.getAttribute(
-                        "data-sku"
-                    ) ||
-                    "";
-
-
-                const productImage =
-                    button.dataset.image ||
-                    button.getAttribute(
-                        "data-image"
-                    ) ||
-                    "";
-
-
-                /*
-                   If this is your real CJ earrings
-                   product, automatically attach
-                   the correct CJ SKU.
-                */
-
-                const lowerName =
-                    productName.toLowerCase();
-
-
-                const finalSKU =
-                    productSKU ||
+                const sku =
+                    this.dataset.sku ||
                     (
-                        lowerName.includes("zircon") &&
-                        lowerName.includes("earring")
+                        name === MAIN_PRODUCT_NAME
                             ? MAIN_PRODUCT_SKU
-                            : ""
+                            : name
                     );
 
-
-                const product = {
-
-                    name:
-                        productName,
-
-                    price:
-                        productPrice,
-
-                    sku:
-                        finalSKU,
-
-                    image:
-                        productImage
-
-                };
-
-
-                addToCart(product);
-
-
-                /*
-                   Open existing cart panel if
-                   your index.html has one.
-                */
-
-                const cartPanel =
-                    document.getElementById(
-                        "cartPanel"
+                const price =
+                    Number(
+                        this.dataset.price
+                    ) ||
+                    (
+                        name === MAIN_PRODUCT_NAME
+                            ? PRODUCT_COST_USD
+                            : PRODUCT_COST_USD
                     );
 
-                if (cartPanel) {
+                const image =
+                    this.dataset.image ||
+                    "";
 
-                    cartPanel.classList.add(
-                        "active"
-                    );
+                const variant =
+                    this.dataset.variant ||
+                    "Gold Plated";
 
-                }
+                addToCart({
 
+                    name: name,
+
+                    sku: sku,
+
+                    price: price,
+
+                    image: image,
+
+                    variant: variant
+                });
             }
         );
 
     });
-
 }
 
 
 /* =========================================================
-   19. STORE CART UI
+   16. CART MESSAGE
+   ========================================================= */
+
+function showCartMessage(message) {
+
+    const oldMessage =
+        document.querySelector(
+            ".cart-message"
+        );
+
+    if (oldMessage) {
+        oldMessage.remove();
+    }
+
+    const messageBox =
+        document.createElement("div");
+
+    messageBox.className =
+        "cart-message";
+
+    messageBox.textContent =
+        message;
+
+    messageBox.style.position =
+        "fixed";
+
+    messageBox.style.bottom =
+        "25px";
+
+    messageBox.style.right =
+        "25px";
+
+    messageBox.style.zIndex =
+        "99999";
+
+    messageBox.style.padding =
+        "12px 18px";
+
+    messageBox.style.background =
+        "#111";
+
+    messageBox.style.color =
+        "#fff";
+
+    messageBox.style.border =
+        "1px solid #555";
+
+    messageBox.style.borderRadius =
+        "8px";
+
+    document.body.appendChild(
+        messageBox
+    );
+
+    setTimeout(
+        () => messageBox.remove(),
+        2200
+    );
+}
+
+
+/* =========================================================
+   17. STORE CART UI
    ========================================================= */
 
 function updateStoreCartUI() {
 
+    const cartItems =
+        document.getElementById(
+            "cartItems"
+        );
+
+    const cartTotal =
+        document.getElementById(
+            "cartTotal"
+        );
+
+    if (!cartItems) {
+        return;
+    }
+
     const cart = getCart();
 
-    const cartItems = document.getElementById("cartItems");
-    const cartTotal = document.getElementById("cartTotal");
-
-    if (!cartItems) return;
-
-    cartItems.innerHTML = "";
+    const country =
+        getSelectedCountry();
 
     if (cart.length === 0) {
-        cartItems.innerHTML = `
-            <div class="empty-cart">
-                Your cart is empty.
-            </div>
-        `;
+
+        cartItems.innerHTML =
+            "<p>Your cart is empty.</p>";
 
         if (cartTotal) {
             cartTotal.textContent = "$0.00";
         }
 
         updateCartCount();
+
         return;
     }
 
-    let total = 0;
+    let totalUSD = 0;
 
-    cart.forEach(function(item, index) {
+    cartItems.innerHTML = "";
 
-        const quantity = Number(item.quantity) || 1;
+    cart.forEach(
+        (item, index) => {
 
-        /*
-         * CJ PRODUCT PRICE
-         */
-        const productCost = 1.62;
+            const quantity =
+                Number(item.quantity) > 0
+                    ? Number(item.quantity)
+                    : 1;
 
-        /*
-         * PROFIT
-         */
-        const profit = 10.00;
+            const itemPriceUSD =
+                getItemUSDPrice(
+                    item,
+                    country
+                );
 
-        /*
-         * Use the customer's selected country
-         * from checkout.
-         */
-        const country =
-            localStorage.getItem("checkoutCountry") || "India";
+            const itemTotalUSD =
+                itemPriceUSD *
+                quantity;
 
-        /*
-         * CJ SHIPPING COST
-         */
-        const shipping =
-            Number(shippingRates[country]) || 0;
+            totalUSD += itemTotalUSD;
 
-        /*
-         * CUSTOMER PRICE
-         */
-        const priceUSD =
-            productCost + shipping + profit;
+            const itemDiv =
+                document.createElement(
+                    "div"
+                );
 
-        const itemTotal =
-            priceUSD * quantity;
+            itemDiv.className =
+                "cart-item";
 
-        total += itemTotal;
+            itemDiv.innerHTML = `
 
-        const itemHTML = document.createElement("div");
+                <div class="cart-item-info">
 
-        itemHTML.className = "cart-item";
+                    <strong>
+                        ${
+                            item.name ||
+                            MAIN_PRODUCT_NAME
+                        }
+                    </strong>
 
-        itemHTML.innerHTML = `
-            <strong>${escapeHTML(item.name)}</strong>
+                    <small>
+                        ${
+                            item.variant ||
+                            ""
+                        }
+                    </small>
 
-            <div>Qty: ${quantity}</div>
+                    <small>
+                        Quantity:
+                        ${quantity}
+                    </small>
 
-            <div>
-                $${priceUSD.toFixed(2)}
-            </div>
+                    <span>
+                        ${formatCustomerPrice(
+                            itemTotalUSD,
+                            country
+                        )}
+                    </span>
 
-            <button
-                type="button"
-                onclick="removeFromCart(${index})">
-                Remove
-            </button>
-        `;
+                </div>
 
-        cartItems.appendChild(itemHTML);
-    });
+                <button
+                    class="remove-cart-item"
+                    data-index="${index}">
+                    Remove
+                </button>
+            `;
+
+            cartItems.appendChild(
+                itemDiv
+            );
+        }
+    );
 
     if (cartTotal) {
+
         cartTotal.textContent =
-            "$" + total.toFixed(2);
+            formatCustomerPrice(
+                totalUSD,
+                country
+            );
     }
+
+    const removeButtons =
+        cartItems.querySelectorAll(
+            ".remove-cart-item"
+        );
+
+    removeButtons.forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    const index =
+                        Number(
+                            this.dataset.index
+                        );
+
+                    removeFromCart(index);
+                }
+            );
+        }
+    );
 
     updateCartCount();
 }
 
 
+/* =========================================================
+   18. REMOVE FROM CART
+   ========================================================= */
+
 function removeFromCart(index) {
 
     const cart = getCart();
 
+    if (
+        index < 0 ||
+        index >= cart.length
+    ) {
+        return;
+    }
+
     cart.splice(index, 1);
 
     saveCart(cart);
+
+    updateCartCount();
 
     updateStoreCartUI();
 
@@ -1395,563 +1169,450 @@ function removeFromCart(index) {
 
 
 /* =========================================================
-   20. CHECKOUT UPDATE
+   19. OPEN CART
+   ========================================================= */
+
+function openCart() {
+
+    const cartPanel =
+        document.getElementById(
+            "cartPanel"
+        );
+
+    if (!cartPanel) {
+        return;
+    }
+
+    cartPanel.classList.add(
+        "active"
+    );
+
+    cartPanel.classList.add(
+        "open"
+    );
+}
+
+
+/* =========================================================
+   20. CLOSE CART
+   ========================================================= */
+
+function closeCart() {
+
+    const cartPanel =
+        document.getElementById(
+            "cartPanel"
+        );
+
+    if (!cartPanel) {
+        return;
+    }
+
+    cartPanel.classList.remove(
+        "active"
+    );
+
+    cartPanel.classList.remove(
+        "open"
+    );
+}
+
+
+/* =========================================================
+   21. CHECKOUT CALCULATION
    ========================================================= */
 
 function updateCheckout() {
 
+    const checkoutItems =
+        document.getElementById(
+            "checkoutItems"
+        );
+
+    const checkoutSubtotal =
+        document.getElementById(
+            "checkoutSubtotal"
+        );
+
+    const checkoutShipping =
+        document.getElementById(
+            "checkoutShipping"
+        );
+
+    const checkoutTotal =
+        document.getElementById(
+            "checkoutTotal"
+        );
+
+    const checkoutCurrency =
+        document.getElementById(
+            "checkoutCurrency"
+        );
+
+    const placeOrderButton =
+        document.getElementById(
+            "placeOrderButton"
+        );
+
+    if (!checkoutItems) {
+        return;
+    }
+
     const cart = getCart();
 
-    const itemsElement = document.getElementById("checkoutItems");
-    const subtotalElement = document.getElementById("checkoutSubtotal");
-    const shippingElement = document.getElementById("checkoutShipping");
-    const totalElement = document.getElementById("checkoutTotal");
-    const currencyElement = document.getElementById("checkoutCurrency");
-    const countryElement = document.getElementById("checkoutCountry");
+    const countrySelect =
+        document.getElementById(
+            "checkoutCountry"
+        );
 
-    if (!itemsElement) return;
-
-    // Get customer country
-    const country = countryElement
-        ? countryElement.value
-        : "India";
-
-    // Customer currency
-    const currency =
-        countryCurrency[country] || "USD";
-
-    if (currencyElement) {
-        currencyElement.textContent = currency;
-    }
-
-    // Empty cart
-    if (!cart || cart.length === 0) {
-
-        itemsElement.textContent = "Your cart is empty.";
-
-        if (subtotalElement) {
-            subtotalElement.textContent = "$0.00";
-        }
-
-        if (shippingElement) {
-            shippingElement.textContent = "FREE";
-        }
-
-        if (totalElement) {
-            totalElement.textContent = "$0.00";
-        }
-
-        return;
-    }
-
-    let totalUSD = 0;
-
-    // Show cart products
-    itemsElement.innerHTML = "";
-
-    cart.forEach(function(item) {
-
-        const quantity =
-            Number(item.quantity) || 1;
-
-        const shipping =
-            Number(shippingRates[country]) || 0;
-
-        // $1.62 CJ cost + country shipping + $10 profit
-        const priceUSD =
-            1.62 + shipping + 10;
-
-        const itemTotal =
-            priceUSD * quantity;
-
-        totalUSD += itemTotal;
-
-        const div = document.createElement("div");
-
-        div.innerHTML = `
-            <strong>${escapeHTML(item.name)}</strong>
-            <div>Qty: ${quantity}</div>
-            <div>Price: $${priceUSD.toFixed(2)}</div>
-        `;
-
-        itemsElement.appendChild(div);
-    });
-
-    // Show USD for now
-    // Currency conversion will be applied by your existing
-    // exchange-rate system.
-    if (subtotalElement) {
-        subtotalElement.textContent =
-            "$" + totalUSD.toFixed(2);
-    }
-
-    if (shippingElement) {
-        shippingElement.textContent = "FREE";
-    }
-
-    if (totalElement) {
-        totalElement.textContent =
-            "$" + totalUSD.toFixed(2);
-    }
-}
-
-
-    /* -----------------------------------------
-       EMPTY CART
-    ----------------------------------------- */
-
-    if (!cart.length) {
-
-        if (itemsElement) {
-
-            itemsElement.innerHTML = `
-                <div class="empty-cart">
-                    Your cart is empty.
-                </div>
-            `;
-
-        }
-
-        if (currencyElement) {
-            currencyElement.textContent = "—";
-        }
-
-        if (subtotalElement) {
-            subtotalElement.textContent = "—";
-        }
-
-        if (shippingElement) {
-            shippingElement.textContent = "—";
-        }
-
-        if (totalElement) {
-            totalElement.textContent = "—";
-        }
-
-        if (placeOrderButton) {
-            placeOrderButton.disabled = true;
-        }
-
-        return;
-
-    }
-
-
-    /* -----------------------------------------
-       COUNTRY NOT SELECTED
-    ----------------------------------------- */
+    const country =
+        countrySelect
+            ? countrySelect.value
+            : getSelectedCountry();
 
     if (!country) {
 
-        if (itemsElement) {
+        checkoutItems.innerHTML =
+            "<p>Please select your country.</p>";
 
-            itemsElement.innerHTML = `
-                <div class="empty-cart">
-                    Select your country to see your price.
-                </div>
-            `;
-
+        if (checkoutSubtotal) {
+            checkoutSubtotal.textContent =
+                "$0.00";
         }
 
-        if (currencyElement) {
-            currencyElement.textContent = "—";
+        if (checkoutShipping) {
+            checkoutShipping.textContent =
+                "FREE";
         }
 
-        if (subtotalElement) {
-            subtotalElement.textContent = "—";
-        }
-
-        if (shippingElement) {
-            shippingElement.textContent = "—";
-        }
-
-        if (totalElement) {
-            totalElement.textContent = "—";
+        if (checkoutTotal) {
+            checkoutTotal.textContent =
+                "$0.00";
         }
 
         if (placeOrderButton) {
-            placeOrderButton.disabled = true;
+            placeOrderButton.disabled =
+                true;
         }
 
         return;
-
     }
 
+    if (isBlockedCountry(country)) {
 
-    /* -----------------------------------------
-       BLOCKED COUNTRY
-    ----------------------------------------- */
-
-    if (
-        blockedCountries.includes(country)
-    ) {
-
-        showCountryError(
-            "Shipping is currently unavailable for this country."
-        );
-
-        if (itemsElement) {
-
-            itemsElement.innerHTML = `
-                <div class="empty-cart">
-                    Shipping is currently unavailable
-                    for this country.
-                </div>
+        checkoutItems.innerHTML =
+            `
+            <p>
+                Sorry, shipping is not available
+                to ${country}.
+            </p>
             `;
 
+        if (checkoutSubtotal) {
+            checkoutSubtotal.textContent =
+                "—";
         }
 
-        if (currencyElement) {
-            currencyElement.textContent = "—";
+        if (checkoutShipping) {
+            checkoutShipping.textContent =
+                "Unavailable";
         }
 
-        if (subtotalElement) {
-            subtotalElement.textContent = "—";
-        }
-
-        if (shippingElement) {
-            shippingElement.textContent = "Unavailable";
-        }
-
-        if (totalElement) {
-            totalElement.textContent = "—";
+        if (checkoutTotal) {
+            checkoutTotal.textContent =
+                "—";
         }
 
         if (placeOrderButton) {
-            placeOrderButton.disabled = true;
+            placeOrderButton.disabled =
+                true;
         }
 
         return;
-
     }
-
-
-    /* -----------------------------------------
-       SHIPPING RATE CHECK
-    ----------------------------------------- */
 
     const shipping =
-        getCountryShipping(country);
+        getShippingRate(country);
 
+    if (
+        shipping === null &&
+        cart.length > 0
+    ) {
 
-    if (shipping === null) {
-
-        showCountryError(
-            "Shipping is currently unavailable for this country."
-        );
-
-        if (itemsElement) {
-
-            itemsElement.innerHTML = `
-                <div class="empty-cart">
-                    Shipping is currently unavailable
-                    for this country.
-                </div>
+        checkoutItems.innerHTML =
+            `
+            <p>
+                Shipping information is
+                unavailable for ${country}.
+            </p>
             `;
 
-        }
-
-        if (currencyElement) {
-            currencyElement.textContent = "—";
-        }
-
-        if (subtotalElement) {
-            subtotalElement.textContent = "—";
-        }
-
-        if (shippingElement) {
-            shippingElement.textContent = "Unavailable";
-        }
-
-        if (totalElement) {
-            totalElement.textContent = "—";
-        }
-
         if (placeOrderButton) {
-            placeOrderButton.disabled = true;
+            placeOrderButton.disabled =
+                true;
         }
 
         return;
-
     }
-
-
-    hideCountryError();
-
-
-    /* -----------------------------------------
-       CURRENCY
-    ----------------------------------------- */
 
     const currency =
         getCurrency(country);
 
+    if (checkoutCurrency) {
 
-    if (currencyElement) {
-
-        currencyElement.textContent =
+        checkoutCurrency.textContent =
             currency;
-
     }
 
+    if (cart.length === 0) {
 
-    /* -----------------------------------------
-       CALCULATE CART
-    ----------------------------------------- */
+        checkoutItems.innerHTML =
+            "<p>Your cart is empty.</p>";
+
+        if (checkoutSubtotal) {
+            checkoutSubtotal.textContent =
+                formatCustomerPrice(
+                    0,
+                    country
+                );
+        }
+
+        if (checkoutShipping) {
+            checkoutShipping.textContent =
+                "FREE";
+        }
+
+        if (checkoutTotal) {
+            checkoutTotal.textContent =
+                formatCustomerPrice(
+                    0,
+                    country
+                );
+        }
+
+        if (placeOrderButton) {
+            placeOrderButton.disabled =
+                true;
+        }
+
+        return;
+    }
 
     let subtotalUSD = 0;
 
-    if (itemsElement) {
-        itemsElement.innerHTML = "";
-    }
+    checkoutItems.innerHTML = "";
 
+    cart.forEach(
+        item => {
 
-    cart.forEach(function(item) {
+            const quantity =
+                Number(item.quantity) > 0
+                    ? Number(item.quantity)
+                    : 1;
 
-        const quantity =
-            Math.max(
-                1,
-                Number(item.quantity) || 1
-            );
+            const itemPriceUSD =
+                getItemUSDPrice(
+                    item,
+                    country
+                );
 
+            const itemTotalUSD =
+                itemPriceUSD *
+                quantity;
 
-        const unitPriceUSD =
-            getItemUSDPrice(
-                item,
-                country
-            );
+            subtotalUSD +=
+                itemTotalUSD;
 
-
-        if (
-            unitPriceUSD === null ||
-            !Number.isFinite(unitPriceUSD)
-        ) {
-            return;
-        }
-
-
-        const itemTotalUSD =
-            unitPriceUSD * quantity;
-
-
-        subtotalUSD +=
-            itemTotalUSD;
-
-
-        const displayPrice =
-            formatCustomerPrice(
-                itemTotalUSD,
-                country
-            );
-
-
-        const itemName =
-            item.name ||
-            item.productName ||
-            "Product";
-
-
-        if (itemsElement) {
-
-            const itemHTML =
+            const itemElement =
                 document.createElement(
                     "div"
                 );
 
-            itemHTML.className =
-                "summary-item";
+            itemElement.className =
+                "checkout-item";
 
+            itemElement.innerHTML = `
 
-            itemHTML.innerHTML = `
-                <span class="summary-item-name">
-                    ${escapeHTML(itemName)}
+                <span>
+                    ${
+                        item.name ||
+                        MAIN_PRODUCT_NAME
+                    }
                     × ${quantity}
                 </span>
 
-                <span class="summary-item-price">
-                    ${displayPrice}
-                </span>
+                <strong>
+                    ${formatCustomerPrice(
+                        itemTotalUSD,
+                        country
+                    )}
+                </strong>
             `;
 
-
-            itemsElement.appendChild(
-                itemHTML
+            checkoutItems.appendChild(
+                itemElement
             );
-
         }
-
-    });
-
-
-    /* -----------------------------------------
-       TOTAL
-    ----------------------------------------- */
-
-    const totalDisplay =
-        formatCustomerPrice(
-            subtotalUSD,
-            country
-        );
-
-
-    if (subtotalElement) {
-
-        subtotalElement.textContent =
-            totalDisplay;
-
-    }
-
+    );
 
     /*
-       Shipping is already included
-       in the product price.
+       Customer pays FREE shipping.
+       CJ shipping is already included
+       in the product selling price.
     */
 
-    if (shippingElement) {
+    const totalUSD =
+        subtotalUSD;
 
-        shippingElement.textContent =
+    if (checkoutSubtotal) {
+
+        checkoutSubtotal.textContent =
+            formatCustomerPrice(
+                subtotalUSD,
+                country
+            );
+    }
+
+    if (checkoutShipping) {
+
+        checkoutShipping.textContent =
             "FREE";
-
     }
 
+    if (checkoutTotal) {
 
-    if (totalElement) {
-
-        totalElement.textContent =
-            totalDisplay;
-
+        checkoutTotal.textContent =
+            formatCustomerPrice(
+                totalUSD,
+                country
+            );
     }
-
 
     if (placeOrderButton) {
 
         placeOrderButton.disabled =
-            subtotalUSD <= 0;
-
+            false;
     }
-
 }
 
 
 /* =========================================================
-   21. COUNTRY ERROR
+   22. CHECKOUT COUNTRY CHANGE
    ========================================================= */
 
-function showCountryError(message) {
+function setupCheckoutCountry() {
 
-    const error =
-        document.getElementById(
-            "countryError"
-        );
-
-    if (!error) {
-        return;
-    }
-
-    error.textContent =
-        message;
-
-    error.style.display =
-        "block";
-
-}
-
-
-function hideCountryError() {
-
-    const error =
-        document.getElementById(
-            "countryError"
-        );
-
-    if (!error) {
-        return;
-    }
-
-    error.textContent = "";
-
-    error.style.display =
-        "none";
-
-}
-
-
-/* =========================================================
-   22. DEFAULT COUNTRY
-   ========================================================= */
-
-function setDefaultCountry() {
-
-    const countryElement =
+    const countrySelect =
         document.getElementById(
             "checkoutCountry"
         );
 
-    if (!countryElement) {
+    if (!countrySelect) {
         return;
     }
 
-
-    if (!countryElement.value) {
-
-        const indiaOption =
-            Array.from(
-                countryElement.options
-            ).find(function(option) {
-
-                return option.value === "India";
-
-            });
-
-
-        if (indiaOption) {
-
-            countryElement.value =
-                "India";
-
-        }
-
-    }
-
-}
-
-
-/* =========================================================
-   23. COUNTRY CHANGE
-   ========================================================= */
-
-function setupCountryChange() {
-
-    const countryElement =
-        document.getElementById(
+    const savedCountry =
+        localStorage.getItem(
             "checkoutCountry"
-        );
-
-    if (!countryElement) {
-        return;
-    }
-
+        ) ||
+        localStorage.getItem(
+            "customerCountry"
+        ) ||
+        "";
 
     if (
-        countryElement.dataset.ready === "true"
+        savedCountry &&
+        Array.from(
+            countrySelect.options
+        ).some(
+            option =>
+                option.value ===
+                savedCountry
+        )
+    ) {
+
+        countrySelect.value =
+            savedCountry;
+    }
+
+    countrySelect.addEventListener(
+        "change",
+        function () {
+
+            const country =
+                this.value;
+
+            localStorage.setItem(
+                "customerCountry",
+                country
+            );
+
+            localStorage.setItem(
+                "checkoutCountry",
+                country
+            );
+
+            updateStoreCartUI();
+
+            updateCheckout();
+
+            updateCountryError();
+        }
+    );
+
+    updateCountryError();
+
+    updateCheckout();
+}
+
+
+/* =========================================================
+   23. COUNTRY ERROR
+   ========================================================= */
+
+function updateCountryError() {
+
+    const countrySelect =
+        document.getElementById(
+            "checkoutCountry"
+        );
+
+    const countryError =
+        document.getElementById(
+            "countryError"
+        );
+
+    if (
+        !countrySelect ||
+        !countryError
     ) {
         return;
     }
 
+    const country =
+        countrySelect.value;
 
-    countryElement.dataset.ready =
-        "true";
+    if (
+        country &&
+        isBlockedCountry(country)
+    ) {
 
+        countryError.textContent =
+            `
+            Sorry, we currently do not
+            ship to ${country}.
+            `;
 
-    countryElement.addEventListener(
-        "change",
-        function() {
+        countryError.style.display =
+            "block";
 
-            updateCheckout();
+        return;
+    }
 
-        }
-    );
+    countryError.textContent = "";
 
+    countryError.style.display =
+        "none";
 }
 
 
@@ -1970,36 +1631,21 @@ function setupCheckoutForm() {
         return;
     }
 
-
-    if (
-        form.dataset.ready === "true"
-    ) {
-        return;
-    }
-
-
-    form.dataset.ready =
-        "true";
-
-
     form.addEventListener(
         "submit",
-        function(event) {
+        function (event) {
 
             event.preventDefault();
 
-
-            const countryElement =
+            const countrySelect =
                 document.getElementById(
                     "checkoutCountry"
                 );
 
-
             const country =
-                countryElement
-                    ? countryElement.value
+                countrySelect
+                    ? countrySelect.value
                     : "";
-
 
             if (!country) {
 
@@ -2008,183 +1654,197 @@ function setupCheckoutForm() {
                 );
 
                 return;
-
             }
 
-
             if (
-                blockedCountries.includes(
-                    country
-                )
+                isBlockedCountry(country)
             ) {
 
                 alert(
-                    "Sorry, we currently do not ship to this country."
+                    `Sorry, we do not ship to ${country}.`
                 );
 
                 return;
-
             }
-
-
-            if (
-                getCountryShipping(country) === null
-            ) {
-
-                alert(
-                    "Shipping is currently unavailable for this country."
-                );
-
-                return;
-
-            }
-
 
             const cart =
                 getCart();
 
-
-            if (!cart.length) {
+            if (cart.length === 0) {
 
                 alert(
-                    "Your cart is empty. Please add a product first."
+                    "Your cart is empty."
                 );
 
                 return;
-
             }
 
+            const name =
+                document.getElementById(
+                    "checkoutName"
+                )?.value.trim() || "";
 
-            const formData =
-                new FormData(form);
+            const email =
+                document.getElementById(
+                    "checkoutEmail"
+                )?.value.trim() || "";
 
+            const phoneCode =
+                document.getElementById(
+                    "checkoutCountryCode"
+                )?.value || "";
 
-            const orderData = {
+            const phone =
+                document.getElementById(
+                    "checkoutPhone"
+                )?.value.trim() || "";
 
-                name:
-                    formData.get("name") || "",
+            const address =
+                document.getElementById(
+                    "checkoutAddress"
+                )?.value.trim() || "";
 
-                email:
-                    formData.get("email") || "",
+            const city =
+                document.getElementById(
+                    "checkoutCity"
+                )?.value.trim() || "";
 
-                countryCode:
-                    formData.get("countryCode") || "",
+            const state =
+                document.getElementById(
+                    "checkoutState"
+                )?.value.trim() || "";
 
-                phone:
-                    formData.get("phone") || "",
+            const postalCode =
+                document.getElementById(
+                    "checkoutPostalCode"
+                )?.value.trim() || "";
 
-                address:
-                    formData.get("address") || "",
+            const payment =
+                document.querySelector(
+                    'input[name="payment"]:checked'
+                )?.value || "cod";
 
-                city:
-                    formData.get("city") || "",
+            if (!name) {
 
-                state:
-                    formData.get("state") || "",
+                alert(
+                    "Please enter your name."
+                );
 
-                country:
-                    country,
+                return;
+            }
 
-                postalCode:
-                    formData.get("postalCode") || "",
+            if (!email) {
+
+                alert(
+                    "Please enter your email."
+                );
+
+                return;
+            }
+
+            if (!phone) {
+
+                alert(
+                    "Please enter your phone number."
+                );
+
+                return;
+            }
+
+            if (!address) {
+
+                alert(
+                    "Please enter your address."
+                );
+
+                return;
+            }
+
+            if (!city) {
+
+                alert(
+                    "Please enter your city."
+                );
+
+                return;
+            }
+
+            if (!state) {
+
+                alert(
+                    "Please enter your state."
+                );
+
+                return;
+            }
+
+            if (!postalCode) {
+
+                alert(
+                    "Please enter your postal code."
+                );
+
+                return;
+            }
+
+            const order = {
+
+                orderId:
+                    "SF-" +
+                    Date.now(),
+
+                customer: {
+
+                    name: name,
+
+                    email: email,
+
+                    phone:
+                        phoneCode +
+                        " " +
+                        phone,
+
+                    address: address,
+
+                    city: city,
+
+                    state: state,
+
+                    postalCode: postalCode,
+
+                    country: country
+                },
 
                 paymentMethod:
-                    formData.get("paymentMethod") || "cod",
+                    payment,
 
                 currency:
                     getCurrency(country),
 
-                shipping:
-                    "FREE",
-
-                cart:
+                items:
                     cart,
 
                 createdAt:
                     new Date().toISOString()
-
             };
 
-
-            /*
-               Calculate final total in USD
-               for internal order records.
-            */
-
-            let totalUSD = 0;
-
-
-            cart.forEach(function(item) {
-
-                const quantity =
-                    Math.max(
-                        1,
-                        Number(item.quantity) || 1
-                    );
-
-
-                const price =
-                    getItemUSDPrice(
-                        item,
-                        country
-                    );
-
-
-                if (
-                    price !== null &&
-                    Number.isFinite(price)
-                ) {
-
-                    totalUSD +=
-                        price * quantity;
-
-                }
-
-            });
-
-
-            orderData.totalUSD =
-                Number(
-                    totalUSD.toFixed(2)
-                );
-
-
-            orderData.customerTotal =
-                formatCustomerPrice(
-                    totalUSD,
-                    country
-                );
-
-
             localStorage.setItem(
-                "pendingOrder",
-                JSON.stringify(
-                    orderData
-                )
+                "lastOrder",
+                JSON.stringify(order)
             );
 
-
             /*
-               At this stage the order information
-               is saved locally.
-
-               Payment gateway/backend can be
-               connected afterward.
+               For now this stores the order locally.
+               Your Resend/CJ backend can be connected
+               separately for actual order processing.
             */
 
             alert(
-                "Your order information has been saved successfully."
-            );
-
-
-            console.log(
-                "Pending order:",
-                orderData
+                "Order information saved successfully."
             );
 
         }
     );
-
 }
 
 
@@ -2199,75 +1859,31 @@ function setupCartButton() {
             "cartButton"
         );
 
-    const cartPanel =
-        document.getElementById(
-            "cartPanel"
-        );
-
-    const closeCart =
+    const closeCartButton =
         document.getElementById(
             "closeCart"
         );
 
-
-    if (
-        cartButton &&
-        cartPanel &&
-        cartButton.dataset.ready !== "true"
-    ) {
-
-        cartButton.dataset.ready =
-            "true";
-
+    if (cartButton) {
 
         cartButton.addEventListener(
             "click",
-            function(event) {
-
-                event.preventDefault();
-
-                cartPanel.classList.add(
-                    "active"
-                );
-
-                updateStoreCartUI();
-
-            }
+            openCart
         );
-
     }
 
+    if (closeCartButton) {
 
-    if (
-        closeCart &&
-        cartPanel &&
-        closeCart.dataset.ready !== "true"
-    ) {
-
-        closeCart.dataset.ready =
-            "true";
-
-
-        closeCart.addEventListener(
+        closeCartButton.addEventListener(
             "click",
-            function(event) {
-
-                event.preventDefault();
-
-                cartPanel.classList.remove(
-                    "active"
-                );
-
-            }
+            closeCart
         );
-
     }
-
 }
 
 
 /* =========================================================
-   26. CHECKOUT BUTTON FROM CART
+   26. CHECKOUT BUTTON
    ========================================================= */
 
 function setupCheckoutButton() {
@@ -2277,47 +1893,30 @@ function setupCheckoutButton() {
             "checkoutButton"
         );
 
-
-    if (
-        !checkoutButton ||
-        checkoutButton.dataset.ready === "true"
-    ) {
+    if (!checkoutButton) {
         return;
     }
 
-
-    checkoutButton.dataset.ready =
-        "true";
-
-
     checkoutButton.addEventListener(
         "click",
-        function(event) {
-
-            event.preventDefault();
-
+        function () {
 
             const cart =
                 getCart();
 
-
-            if (!cart.length) {
+            if (cart.length === 0) {
 
                 alert(
                     "Your cart is empty."
                 );
 
                 return;
-
             }
-
 
             window.location.href =
                 "checkout.html";
-
         }
     );
-
 }
 
 
@@ -2347,72 +1946,97 @@ function setupSearch() {
             "searchInput"
         );
 
-
     if (
         searchButton &&
-        searchOverlay &&
-        searchButton.dataset.ready !== "true"
+        searchOverlay
     ) {
-
-        searchButton.dataset.ready =
-            "true";
-
 
         searchButton.addEventListener(
             "click",
-            function(event) {
-
-                event.preventDefault();
+            function () {
 
                 searchOverlay.classList.add(
                     "active"
                 );
 
+                searchOverlay.classList.add(
+                    "open"
+                );
 
                 if (searchInput) {
 
                     setTimeout(
-                        function() {
-
-                            searchInput.focus();
-
-                        },
+                        () =>
+                            searchInput.focus(),
                         100
                     );
-
                 }
-
             }
         );
-
     }
-
 
     if (
         closeSearch &&
-        searchOverlay &&
-        closeSearch.dataset.ready !== "true"
+        searchOverlay
     ) {
-
-        closeSearch.dataset.ready =
-            "true";
-
 
         closeSearch.addEventListener(
             "click",
-            function(event) {
-
-                event.preventDefault();
+            function () {
 
                 searchOverlay.classList.remove(
                     "active"
                 );
 
+                searchOverlay.classList.remove(
+                    "open"
+                );
             }
         );
-
     }
 
+    if (searchInput) {
+
+        searchInput.addEventListener(
+            "input",
+            function () {
+
+                const searchText =
+                    this.value
+                        .trim()
+                        .toLowerCase();
+
+                const products =
+                    document.querySelectorAll(
+                        ".product-card"
+                    );
+
+                products.forEach(
+                    product => {
+
+                        const text =
+                            product.textContent
+                                .toLowerCase();
+
+                        if (
+                            text.includes(
+                                searchText
+                            )
+                        ) {
+
+                            product.style.display =
+                                "";
+
+                        } else {
+
+                            product.style.display =
+                                "none";
+                        }
+                    }
+                );
+            }
+        );
+    }
 }
 
 
@@ -2432,60 +2056,200 @@ function setupMobileMenu() {
             "navLinks"
         );
 
-
     if (
         !menuToggle ||
-        !navLinks ||
-        menuToggle.dataset.ready === "true"
+        !navLinks
     ) {
         return;
     }
 
-
-    menuToggle.dataset.ready =
-        "true";
-
-
     menuToggle.addEventListener(
         "click",
-        function(event) {
-
-            event.preventDefault();
+        function () {
 
             navLinks.classList.toggle(
                 "active"
             );
 
+            navLinks.classList.toggle(
+                "open"
+            );
+
         }
     );
-
 }
 
 
 /* =========================================================
-   29. START EVERYTHING
+   29. NEWSLETTER FORM
+   ========================================================= */
+
+function setupNewsletter() {
+
+    const form =
+        document.getElementById(
+            "newsletterForm"
+        );
+
+    const emailInput =
+        document.getElementById(
+            "newsletterEmail"
+        );
+
+    if (!form) {
+        return;
+    }
+
+    form.addEventListener(
+        "submit",
+        function (event) {
+
+            event.preventDefault();
+
+            const email =
+                emailInput
+                    ? emailInput.value.trim()
+                    : "";
+
+            if (!email) {
+
+                alert(
+                    "Please enter your email."
+                );
+
+                return;
+            }
+
+            localStorage.setItem(
+                "newsletterEmail",
+                email
+            );
+
+            alert(
+                "Thank you for subscribing!"
+            );
+
+            form.reset();
+        }
+    );
+}
+
+
+/* =========================================================
+   30. CONTACT FORM
+   ========================================================= */
+
+function setupContactForm() {
+
+    const form =
+        document.getElementById(
+            "contactForm"
+        );
+
+    if (!form) {
+        return;
+    }
+
+    form.addEventListener(
+        "submit",
+        function (event) {
+
+            event.preventDefault();
+
+            const emailInput =
+                form.querySelector(
+                    'input[type="email"]'
+                );
+
+            if (
+                emailInput &&
+                !emailInput.value.trim()
+            ) {
+
+                alert(
+                    "Please enter your email."
+                );
+
+                return;
+            }
+
+            alert(
+                "Thank you! Your message has been received."
+            );
+
+            form.reset();
+        }
+    );
+}
+
+
+/* =========================================================
+   31. COUNTRY PERSISTENCE
+   ========================================================= */
+
+function setupSavedCountry() {
+
+    const countrySelect =
+        document.getElementById(
+            "checkoutCountry"
+        );
+
+    if (!countrySelect) {
+        return;
+    }
+
+    const savedCountry =
+        localStorage.getItem(
+            "customerCountry"
+        ) ||
+        localStorage.getItem(
+            "checkoutCountry"
+        );
+
+    if (!savedCountry) {
+        return;
+    }
+
+    const exists =
+        Array.from(
+            countrySelect.options
+        ).some(
+            option =>
+                option.value ===
+                savedCountry
+        );
+
+    if (exists) {
+
+        countrySelect.value =
+            savedCountry;
+    }
+}
+
+
+/* =========================================================
+   32. UPDATE EVERYTHING
+   ========================================================= */
+
+function updateEverything() {
+
+    updateCartCount();
+
+    updateStoreCartUI();
+
+    updateCheckout();
+
+    updateCountryError();
+}
+
+
+/* =========================================================
+   33. PAGE START
    ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
-    function() {
-
-        console.log(
-            "Sacchi Flyier JavaScript loaded."
-        );
-
-
-        /*
-           IMPORTANT:
-           Do NOT wait for exchange rates
-           before starting checkout.
-        */
-
-        setDefaultCountry();
-
-        setupCountryChange();
-
-        setupCheckoutForm();
+    function () {
 
         setupAddToCartButtons();
 
@@ -2497,34 +2261,66 @@ document.addEventListener(
 
         setupMobileMenu();
 
+        setupNewsletter();
+
+        setupContactForm();
+
+        setupCheckoutCountry();
+
+        setupCheckoutForm();
+
+        setupSavedCountry();
+
+        updateEverything();
+
+    }
+);
+
+
+/* =========================================================
+   34. STORAGE CHANGE
+   ========================================================= */
+
+window.addEventListener(
+    "storage",
+    function () {
+
         updateCartCount();
-       
+
         updateStoreCartUI();
 
         updateCheckout();
 
-
-        /*
-           Load live rates in background.
-           Once loaded, refresh checkout.
-        */
-
-        loadExchangeRates()
-            .then(function() {
-
-                updateCheckout();
-
-            })
-            .catch(function(error) {
-
-                console.warn(
-                    "Exchange-rate loading finished with an error.",
-                    error
-                );
-
-                updateCheckout();
-
-            });
-
     }
 );
+
+
+/* =========================================================
+   35. GLOBAL FUNCTIONS
+   ========================================================= */
+
+window.addToCart =
+    addToCart;
+
+window.removeFromCart =
+    removeFromCart;
+
+window.updateCartCount =
+    updateCartCount;
+
+window.updateStoreCartUI =
+    updateStoreCartUI;
+
+window.updateCheckout =
+    updateCheckout;
+
+window.openCart =
+    openCart;
+
+window.closeCart =
+    closeCart;
+
+
+/* =========================================================
+   END
+   ========================================================= */
