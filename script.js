@@ -2448,6 +2448,8 @@ document.addEventListener(
 
         updateCartCount();
 
+        detectCustomerCountry();
+       
         updateStoreCartUI();
 
         updateCheckout();
