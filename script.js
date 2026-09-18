@@ -2498,8 +2498,6 @@ document.addEventListener(
         setupMobileMenu();
 
         updateCartCount();
-
-        detectCustomerCountry();
        
         updateStoreCartUI();
 
