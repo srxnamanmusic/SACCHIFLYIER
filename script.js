@@ -1400,49 +1400,100 @@ function removeFromCart(index) {
 
 function updateCheckout() {
 
-    const countryElement =
-        document.getElementById(
-            "checkoutCountry"
-        );
+    const cart = getCart();
 
-    const currencyElement =
-        document.getElementById(
-            "checkoutCurrency"
-        );
+    const itemsElement = document.getElementById("checkoutItems");
+    const subtotalElement = document.getElementById("checkoutSubtotal");
+    const shippingElement = document.getElementById("checkoutShipping");
+    const totalElement = document.getElementById("checkoutTotal");
+    const currencyElement = document.getElementById("checkoutCurrency");
+    const countryElement = document.getElementById("checkoutCountry");
 
-    const itemsElement =
-        document.getElementById(
-            "checkoutItems"
-        );
+    if (!itemsElement) return;
 
-    const subtotalElement =
-        document.getElementById(
-            "checkoutSubtotal"
-        );
+    // Get customer country
+    const country = countryElement
+        ? countryElement.value
+        : "India";
 
-    const shippingElement =
-        document.getElementById(
-            "checkoutShipping"
-        );
+    // Customer currency
+    const currency =
+        countryCurrency[country] || "USD";
 
-    const totalElement =
-        document.getElementById(
-            "checkoutTotal"
-        );
+    if (currencyElement) {
+        currencyElement.textContent = currency;
+    }
 
-    const placeOrderButton =
-        document.getElementById(
-            "placeOrderButton"
-        );
+    // Empty cart
+    if (!cart || cart.length === 0) {
 
-    const country =
-        countryElement
-            ? countryElement.value
-            : "";
+        itemsElement.textContent = "Your cart is empty.";
 
+        if (subtotalElement) {
+            subtotalElement.textContent = "$0.00";
+        }
 
-    const cart =
-        getCart();
+        if (shippingElement) {
+            shippingElement.textContent = "FREE";
+        }
+
+        if (totalElement) {
+            totalElement.textContent = "$0.00";
+        }
+
+        return;
+    }
+
+    let totalUSD = 0;
+
+    // Show cart products
+    itemsElement.innerHTML = "";
+
+    cart.forEach(function(item) {
+
+        const quantity =
+            Number(item.quantity) || 1;
+
+        const shipping =
+            Number(shippingRates[country]) || 0;
+
+        // $1.62 CJ cost + country shipping + $10 profit
+        const priceUSD =
+            1.62 + shipping + 10;
+
+        const itemTotal =
+            priceUSD * quantity;
+
+        totalUSD += itemTotal;
+
+        const div = document.createElement("div");
+
+        div.innerHTML = `
+            <strong>${escapeHTML(item.name)}</strong>
+            <div>Qty: ${quantity}</div>
+            <div>Price: $${priceUSD.toFixed(2)}</div>
+        `;
+
+        itemsElement.appendChild(div);
+    });
+
+    // Show USD for now
+    // Currency conversion will be applied by your existing
+    // exchange-rate system.
+    if (subtotalElement) {
+        subtotalElement.textContent =
+            "$" + totalUSD.toFixed(2);
+    }
+
+    if (shippingElement) {
+        shippingElement.textContent = "FREE";
+    }
+
+    if (totalElement) {
+        totalElement.textContent =
+            "$" + totalUSD.toFixed(2);
+    }
+}
 
 
     /* -----------------------------------------
