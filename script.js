@@ -1283,7 +1283,9 @@ function setupAddToCartButtons() {
    ========================================================= */
 
 function updateStoreCartUI() {
+
     const cart = getCart();
+
     const cartItems = document.getElementById("cartItems");
     const cartTotal = document.getElementById("cartTotal");
 
@@ -1297,45 +1299,77 @@ function updateStoreCartUI() {
                 Your cart is empty.
             </div>
         `;
-    } else {
-        cart.forEach(function(item, index) {
 
-            const quantity = Number(item.quantity) || 1;
-           
-           const price =
-               getItemUSDPrice(item,
-               detectedCustomerCountry
-                        ) || 0;
+        if (cartTotal) {
+            cartTotal.textContent = "$0.00";
+        }
 
-            const itemHTML = document.createElement("div");
-
-            itemHTML.className = "cart-item";
-
-            itemHTML.innerHTML = `
-                <strong>${escapeHTML(item.name)}</strong>
-                <div>Qty: ${quantity}</div>
-                <div>$${(price * quantity).toFixed(2)}</div>
-
-                <button
-                    type="button"
-                    onclick="removeFromCart(${index})">
-                    Remove
-                </button>
-            `;
-
-            cartItems.appendChild(itemHTML);
-        });
+        updateCartCount();
+        return;
     }
 
     let total = 0;
 
-    cart.forEach(function(item) {
-    total +=
-        getItemUSDPrice(
-            item,
-            detectedCustomerCountry
-        ) * (Number(item.quantity) || 1);
-});
+    cart.forEach(function(item, index) {
+
+        const quantity = Number(item.quantity) || 1;
+
+        /*
+         * CJ PRODUCT PRICE
+         */
+        const productCost = 1.62;
+
+        /*
+         * PROFIT
+         */
+        const profit = 10.00;
+
+        /*
+         * Use the customer's selected country
+         * from checkout.
+         */
+        const country =
+            localStorage.getItem("checkoutCountry") || "India";
+
+        /*
+         * CJ SHIPPING COST
+         */
+        const shipping =
+            Number(shippingRates[country]) || 0;
+
+        /*
+         * CUSTOMER PRICE
+         */
+        const priceUSD =
+            productCost + shipping + profit;
+
+        const itemTotal =
+            priceUSD * quantity;
+
+        total += itemTotal;
+
+        const itemHTML = document.createElement("div");
+
+        itemHTML.className = "cart-item";
+
+        itemHTML.innerHTML = `
+            <strong>${escapeHTML(item.name)}</strong>
+
+            <div>Qty: ${quantity}</div>
+
+            <div>
+                $${priceUSD.toFixed(2)}
+            </div>
+
+            <button
+                type="button"
+                onclick="removeFromCart(${index})">
+                Remove
+            </button>
+        `;
+
+        cartItems.appendChild(itemHTML);
+    });
 
     if (cartTotal) {
         cartTotal.textContent =
