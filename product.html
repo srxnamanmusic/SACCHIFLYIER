@@ -305,7 +305,7 @@
 
         /* =====================================================
            COUNTRY SHIPPING RATES
-           
+
            Customer Price =
            Product Cost + CJ Shipping + Profit
            ===================================================== */
@@ -549,90 +549,261 @@
         const blockedCountries = [
 
             "Iraq",
-
             "Syrian Arab Republic",
-
             "Yemen",
-
             "Guinea-Bissau",
-
             "Micronesia (Federated States of)",
-
             "Palau",
-
-            "South Sudan"
+            "South Sudan",
+            "Holy See",
+            "Korea (the Democratic People's Republic of)"
 
         ];
 
 
         /* =====================================================
-           CURRENCY SETTINGS
+           COUNTRY → CURRENCY
+
+           Every country in the CJ shipping list is mapped.
         ===================================================== */
 
         const countryCurrency = {
 
-            "India": "INR",
-            "United States": "USD",
-            "Canada": "CAD",
-            "United Kingdom": "GBP",
+            "Afghanistan": "AFN",
+            "Albania": "ALL",
+            "Algeria": "DZD",
+            "American Samoa": "USD",
+            "Andorra": "EUR",
+            "Angola": "AOA",
+            "Anguilla": "XCD",
+            "Antigua and Barbuda": "XCD",
+            "Argentina": "ARS",
+            "Armenia": "AMD",
+            "Aruba": "AWG",
             "Australia": "AUD",
-            "Germany": "EUR",
-            "France": "EUR",
-            "Italy": "EUR",
-            "Spain": "EUR",
-            "Netherlands": "EUR",
-            "Belgium": "EUR",
             "Austria": "EUR",
-            "Ireland": "EUR",
-            "Portugal": "EUR",
-            "Finland": "EUR",
-            "Greece": "EUR",
-            "Luxembourg": "EUR",
-            "Japan": "JPY",
-            "China": "CNY",
-            "South Korea": "KRW",
-            "Singapore": "SGD",
-            "New Zealand": "NZD",
-            "United Arab Emirates": "AED",
-            "Saudi Arabia": "SAR",
-            "Qatar": "QAR",
-            "Kuwait": "KWD",
-            "Switzerland": "CHF",
-            "Norway": "NOK",
-            "Sweden": "SEK",
-            "Denmark": "DKK",
-            "Poland": "PLN",
-            "Czechia": "CZK",
-            "Hungary": "HUF",
-            "Turkey": "TRY",
-            "Thailand": "THB",
-            "Malaysia": "MYR",
-            "Indonesia": "IDR",
-            "Philippines": "PHP",
-            "Vietnam": "VND",
-            "Pakistan": "PKR",
+            "Azerbaijan": "AZN",
+            "Bahamas": "BSD",
+            "Bahrain": "BHD",
             "Bangladesh": "BDT",
-            "Sri Lanka": "LKR",
-            "Nepal": "NPR",
-            "Mexico": "MXN",
+            "Barbados": "BBD",
+            "Belarus": "BYN",
+            "Belgium": "EUR",
+            "Belize": "BZD",
+            "Benin": "XOF",
+            "Bermuda": "BMD",
+            "Bhutan": "BTN",
+            "Bolivia (Plurinational State of)": "BOB",
+            "Bonaire, Sint Eustatius and Saba": "USD",
+            "Bosnia and Herzegovina": "BAM",
+            "Botswana": "BWP",
+            "Bouvet Island": "NOK",
             "Brazil": "BRL",
-            "South Africa": "ZAR",
-            "Nigeria": "NGN",
-            "Egypt": "EGP",
-            "Israel": "ILS",
-            "Iceland": "ISK",
-            "Russia": "RUB",
-            "Ukraine": "UAH",
-            "Romania": "RON",
+            "British Indian Ocean Territory": "USD",
+            "Brunei Darussalam": "BND",
             "Bulgaria": "BGN",
+            "Burkina Faso": "XOF",
+            "Burundi": "BIF",
+            "Cabo Verde": "CVE",
+            "Cambodia": "KHR",
+            "Cameroon": "XAF",
+            "Canada": "CAD",
+            "Cayman Islands": "KYD",
+            "Central African Republic": "XAF",
+            "Chad": "XAF",
+            "Chile": "CLP",
+            "China": "CNY",
+            "Christmas Island": "AUD",
+            "Cocos (Keeling) Islands": "AUD",
+            "Colombia": "COP",
+            "Comoros": "KMF",
+            "Cook Islands": "NZD",
+            "Costa Rica": "CRC",
+            "Côte d'Ivoire": "XOF",
             "Croatia": "EUR",
-            "Serbia": "RSD"
+            "Cuba": "CUP",
+            "Curaçao": "ANG",
+            "Cyprus": "EUR",
+            "Czechia": "CZK",
+            "Denmark": "DKK",
+            "Djibouti": "DJF",
+            "Dominica": "XCD",
+            "Dominican Republic": "DOP",
+            "Ecuador": "USD",
+            "Egypt": "EGP",
+            "El Salvador": "USD",
+            "Equatorial Guinea": "XAF",
+            "Eritrea": "ERN",
+            "Ethiopia": "ETB",
+            "Falkland Islands": "FKP",
+            "Faroe Islands": "DKK",
+            "Fiji": "FJD",
+            "Finland": "EUR",
+            "France": "EUR",
+            "French Guiana": "EUR",
+            "French Polynesia": "XPF",
+            "French Southern Territories": "EUR",
+            "Gabon": "XAF",
+            "Gambia": "GMD",
+            "Georgia": "GEL",
+            "Germany": "EUR",
+            "Ghana": "GHS",
+            "Gibraltar": "GIP",
+            "Greece": "EUR",
+            "Greenland": "DKK",
+            "Grenada": "XCD",
+            "Guadeloupe": "EUR",
+            "Guam": "USD",
+            "Guernsey": "GBP",
+            "Guinea": "GNF",
+            "Guyana": "GYD",
+            "Haiti": "HTG",
+            "Heard Island and McDonald Islands": "AUD",
+            "Honduras": "HNL",
+            "Hong Kong (China)": "HKD",
+            "Iceland": "ISK",
+            "India": "INR",
+            "Indonesia": "IDR",
+            "Iran (Islamic Republic of)": "IRR",
+            "Ireland": "EUR",
+            "Isle of Man": "GBP",
+            "Israel": "ILS",
+            "Italy": "EUR",
+            "Jamaica": "JMD",
+            "Japan": "JPY",
+            "Jersey": "GBP",
+            "Jordan": "JOD",
+            "Kazakhstan": "KZT",
+            "Kenya": "KES",
+            "Kiribati": "AUD",
+            "Korea (South Korea)": "KRW",
+            "Kuwait": "KWD",
+            "Kyrgyzstan": "KGS",
+            "Lao peoples Democratic republic": "LAK",
+            "Latvia": "EUR",
+            "Lebanon": "LBP",
+            "Lesotho": "LSL",
+            "Liberia": "LRD",
+            "Libya": "LYD",
+            "Liechtenstein": "CHF",
+            "Lithuania": "EUR",
+            "Luxembourg": "EUR",
+            "Macao (China)": "MOP",
+            "Macedonia (The former Yugoslav Republic of)": "MKD",
+            "Madagascar": "MGA",
+            "Malawi": "MWK",
+            "Malaysia": "MYR",
+            "Maldives": "MVR",
+            "Mali": "XOF",
+            "Malta": "EUR",
+            "Marshall Islands": "USD",
+            "Martinique": "EUR",
+            "Mauritania": "MRU",
+            "Mauritius": "MUR",
+            "Mayotte": "EUR",
+            "Mexico": "MXN",
+            "Moldova the republic": "MDL",
+            "Monaco": "EUR",
+            "Mongolia": "MNT",
+            "Montenegro": "EUR",
+            "Montserrat": "XCD",
+            "Morocco": "MAD",
+            "Mozambique": "MZN",
+            "Myanmar": "MMK",
+            "Namibia": "NAD",
+            "Nauru": "AUD",
+            "Nepal": "NPR",
+            "Netherlands": "EUR",
+            "New Caledonia": "XPF",
+            "New Zealand": "NZD",
+            "Nicaragua": "NIO",
+            "Niger": "XOF",
+            "Nigeria": "NGN",
+            "Niue": "NZD",
+            "Norfolk Island": "AUD",
+            "Northern Mariana Island": "USD",
+            "Norway": "NOK",
+            "Oman": "OMR",
+            "Pakistan": "PKR",
+            "Panama": "USD",
+            "Papua New Guinea": "PGK",
+            "Paraguay": "PYG",
+            "Peru": "PEN",
+            "Philippines": "PHP",
+            "Pitcairn": "NZD",
+            "Poland": "PLN",
+            "Portugal": "EUR",
+            "Puerto Rico": "USD",
+            "Qatar": "QAR",
+            "Réunion": "EUR",
+            "Romania": "RON",
+            "Russian Federation": "RUB",
+            "Rwanda": "RWF",
+            "Saint Helena, Ascension and Tristan da Cunha": "SHP",
+            "Saint Kitts and Nevis": "XCD",
+            "Saint Lucia": "XCD",
+            "Saint Martin (French part)": "EUR",
+            "Saint Pierre and Miquelon": "EUR",
+            "Saint Vincent and the Grenadines": "XCD",
+            "Samoa": "WST",
+            "San Marino": "EUR",
+            "Sao Tome and Principe": "STN",
+            "Saudi Arabia": "SAR",
+            "Senegal": "XOF",
+            "Serbia": "RSD",
+            "Seychelles": "SCR",
+            "Sierra Leone": "SLE",
+            "Singapore": "SGD",
+            "Sint Maarten (Dutch Part)": "ANG",
+            "Slovakia": "EUR",
+            "Slovenia": "EUR",
+            "Solomon Islands": "SBD",
+            "South Africa": "ZAR",
+            "South Georgia and South Sandwich Islands": "GBP",
+            "Spain": "EUR",
+            "Sri Lanka": "LKR",
+            "Sudan": "SDG",
+            "Suriname": "SRD",
+            "Swaziland": "SZL",
+            "Taiwan": "TWD",
+            "Tajikistan": "TJS",
+            "Tanzania, United Republic of": "TZS",
+            "Thailand": "THB",
+            "The Republic of Kosovo": "EUR",
+            "Timor-Leste": "USD",
+            "Togo": "XOF",
+            "Tokelau": "NZD",
+            "Tonga": "TOP",
+            "Trinidad and Tobago": "TTD",
+            "Tunisia": "TND",
+            "Turkey": "TRY",
+            "Turks and Caicos Islands": "USD",
+            "Tuvalu": "AUD",
+            "Uganda": "UGX",
+            "Ukraine": "UAH",
+            "United Arab Emirates": "AED",
+            "United Kingdom": "GBP",
+            "United States": "USD",
+            "Uruguay": "UYU",
+            "Uzbekistan": "UZS",
+            "Vanuatu": "VUV",
+            "Venezuela (Bolivarian Republic of)": "VES",
+            "Vietnam": "VND",
+            "Virgin Islands (British)": "USD",
+            "Virgin Islands (U.S.)": "USD",
+            "Wallis and Futuna": "XPF",
+            "Western Sahara": "MAD",
+            "Zambia": "ZMW",
+            "Zimbabwe": "ZWG"
 
         };
 
 
         /* =====================================================
-           CURRENCY SYMBOLS
+           CURRENCY SYMBOL FALLBACKS
+
+           Intl.NumberFormat handles normal display.
+           These are only used if browser formatting fails.
         ===================================================== */
 
         const currencySymbols = {
@@ -643,11 +814,11 @@
             EUR: "€",
             CAD: "CA$",
             AUD: "A$",
+            NZD: "NZ$",
             JPY: "¥",
             CNY: "¥",
             KRW: "₩",
             SGD: "S$",
-            NZD: "NZ$",
             AED: "د.إ",
             SAR: "﷼",
             QAR: "ر.ق",
@@ -680,16 +851,116 @@
             UAH: "₴",
             RON: "lei",
             BGN: "лв",
-            RSD: "дин"
+            RSD: "дин",
+            AFN: "؋",
+            ALL: "L",
+            DZD: "دج",
+            AOA: "Kz",
+            XCD: "EC$",
+            ARS: "$",
+            AMD: "֏",
+            AWG: "ƒ",
+            AZN: "₼",
+            BSD: "B$",
+            BHD: ".د.ب",
+            BBD: "Bds$",
+            BYN: "Br",
+            BZD: "BZ$",
+            XOF: "CFA",
+            BMD: "$",
+            BTN: "Nu.",
+            BOB: "Bs.",
+            BAM: "KM",
+            BWP: "P",
+            CVE: "$",
+            KHR: "៛",
+            XAF: "FCFA",
+            KYD: "CI$",
+            CLP: "$",
+            COP: "$",
+            KMF: "CF",
+            CRC: "₡",
+            CUP: "$",
+            ANG: "ƒ",
+            DJF: "Fdj",
+            DOP: "RD$",
+            ERN: "Nfk",
+            ETB: "Br",
+            FKP: "£",
+            FJD: "FJ$",
+            XPF: "₣",
+            GMD: "D",
+            GEL: "₾",
+            GHS: "₵",
+            GIP: "£",
+            GNF: "FG",
+            GYD: "G$",
+            HTG: "G",
+            HNL: "L",
+            HKD: "HK$",
+            IRR: "﷼",
+            JMD: "J$",
+            JOD: "JD",
+            KZT: "₸",
+            KES: "KSh",
+            KGS: "сом",
+            LAK: "₭",
+            LBP: "ل.ل",
+            LSL: "L",
+            LRD: "L$",
+            LYD: "ل.د",
+            MOP: "MOP$",
+            MKD: "ден",
+            MGA: "Ar",
+            MWK: "MK",
+            MVR: "Rf",
+            MRU: "UM",
+            MUR: "₨",
+            MDL: "L",
+            MNT: "₮",
+            MAD: "د.م.",
+            MZN: "MT",
+            MMK: "K",
+            NAD: "N$",
+            NIO: "C$",
+            NGN: "₦",
+            OMR: "﷼",
+            PGK: "K",
+            PYG: "₲",
+            PEN: "S/",
+            RWF: "FRw",
+            SHP: "£",
+            SCR: "₨",
+            SLE: "Le",
+            SBD: "SI$",
+            SDG: "ج.س.",
+            SRD: "$",
+            SZL: "E",
+            TWD: "NT$",
+            TJS: "SM",
+            TZS: "TSh",
+            TOP: "T$",
+            TTD: "TT$",
+            TND: "د.ت",
+            UGX: "USh",
+            UYU: "$U",
+            UZS: "so'm",
+            VUV: "VT",
+            VES: "Bs.",
+            WST: "T",
+            ZMW: "ZK",
+            ZWG: "ZiG"
 
         };
 
 
         /* =====================================================
            EXCHANGE RATES
-           
-           These are fallback rates for display conversion.
-           USD is the internal pricing currency.
+
+           Existing rates are preserved.
+
+           These are fallback display rates and are not
+           guaranteed to be live market rates.
         ===================================================== */
 
         const exchangeRates = {
@@ -804,13 +1075,7 @@
                     {
                         style: "currency",
                         currency: currency,
-                        maximumFractionDigits:
-                            currency === "JPY" ||
-                            currency === "KRW" ||
-                            currency === "VND" ||
-                            currency === "IDR"
-                                ? 0
-                                : 2
+                        currencyDisplay: "symbol"
                     }
                 ).format(amount);
 
@@ -822,7 +1087,7 @@
 
                 return (
                     symbol +
-                    amount.toFixed(2)
+                    Number(amount).toFixed(2)
                 );
 
             }
@@ -832,6 +1097,8 @@
 
         /* =====================================================
            CREATE COUNTRY LIST
+           
+           Blocked countries are completely removed.
         ===================================================== */
 
         function createCountryList() {
@@ -852,6 +1119,13 @@
 
 
             Object.keys(shippingRates)
+                .filter(function(country) {
+
+                    return !blockedCountries.includes(
+                        country
+                    );
+
+                })
                 .sort()
                 .forEach(function(country) {
 
@@ -906,6 +1180,10 @@
             }
 
 
+            /* =================================================
+               BLOCKED COUNTRY CHECK
+            ================================================= */
+
             if (
                 blockedCountries.includes(country)
             ) {
@@ -948,6 +1226,12 @@
                 productPrice.textContent =
                     "Unavailable";
 
+                priceUSD.textContent =
+                    "";
+
+                shippingText.textContent =
+                    "";
+
                 countryMessage.textContent =
                     "Shipping is currently unavailable for this country.";
 
@@ -980,13 +1264,73 @@
 
 
             const currency =
-                countryCurrency[country] ||
-                "USD";
+                countryCurrency[country];
 
+
+            /* =================================================
+               CHECK CURRENCY
+            ================================================= */
+
+            if (!currency) {
+
+                productPrice.textContent =
+                    "$" +
+                    selectedPriceUSD.toFixed(2);
+
+                priceUSD.textContent =
+                    "Price: $" +
+                    selectedPriceUSD.toFixed(2) +
+                    " USD";
+
+                shippingText.textContent =
+                    "FREE SHIPPING";
+
+                countryMessage.textContent =
+                    "Local currency is currently unavailable. USD price shown.";
+
+                addButton.disabled = false;
+
+                buyButton.disabled = false;
+
+                return;
+
+            }
+
+
+            /* =================================================
+               CHECK EXCHANGE RATE
+            ================================================= */
 
             const rate =
-                exchangeRates[currency] ||
-                1;
+                exchangeRates[currency];
+
+
+            if (
+                typeof rate !== "number"
+            ) {
+
+                productPrice.textContent =
+                    "$" +
+                    selectedPriceUSD.toFixed(2);
+
+                priceUSD.textContent =
+                    "Price: $" +
+                    selectedPriceUSD.toFixed(2) +
+                    " USD";
+
+                shippingText.textContent =
+                    "FREE SHIPPING";
+
+                countryMessage.textContent =
+                    "Local currency conversion is currently unavailable. USD price shown.";
+
+                addButton.disabled = false;
+
+                buyButton.disabled = false;
+
+                return;
+
+            }
 
 
             const localPrice =
@@ -1224,10 +1568,8 @@
 
         /* =====================================================
            TRY TO DETECT CUSTOMER COUNTRY
-           
-           This uses the browser's locale/timezone first.
-           The customer can always manually select another
-           country.
+
+           Existing detection system preserved.
         ===================================================== */
 
         function detectCountry() {
@@ -1299,7 +1641,10 @@
                 detectedCountry &&
                 shippingRates[
                     detectedCountry
-                ] !== undefined
+                ] !== undefined &&
+                !blockedCountries.includes(
+                    detectedCountry
+                )
             ) {
 
                 countrySelect.value =
