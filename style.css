@@ -1728,3 +1728,54 @@ img {
 .product-thumbnail:hover {
     opacity: 0.8;
 }
+
+
+
+
+/* ================= SACCHI FLYIER PRODUCT GALLERY ================= */
+
+#sf-earring-gallery {
+    position: relative;
+}
+
+#sf-earring-gallery > input {
+    display: none !important;
+}
+
+#sf-earring-gallery .sf-main-images {
+    width: 100%;
+}
+
+#sf-earring-gallery .sf-main-images img {
+    display: none !important;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+}
+
+#sf-earring-gallery #sf-img-1:checked ~ .sf-main-images img:nth-child(1),
+#sf-earring-gallery #sf-img-2:checked ~ .sf-main-images img:nth-child(2),
+#sf-earring-gallery #sf-img-3:checked ~ .sf-main-images img:nth-child(3) {
+    display: block !important;
+}
+
+#sf-earring-gallery .sf-thumbnails {
+    display: flex !important;
+    gap: 10px !important;
+    margin-top: 10px !important;
+}
+
+#sf-earring-gallery .sf-thumbnails label {
+    display: block !important;
+    width: 60px !important;
+    height: 60px !important;
+    cursor: pointer !important;
+    overflow: hidden !important;
+}
+
+#sf-earring-gallery .sf-thumbnails img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    cursor: pointer !important;
+}
