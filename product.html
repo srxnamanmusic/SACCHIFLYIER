@@ -1,1329 +1,1453 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title>Light Luxury Zircon Chain Earrings | Sacchi Flyier</title>
 
-    <title>
-        Light Luxury High-grade Micro Inlaid Zircon Chain Earrings | Sacchi Flyier
-    </title>
+    <link rel="stylesheet" href="product-style.css">
 
-    <meta
-        name="description"
-        content="Light Luxury High-grade Micro Inlaid Zircon Chain Earrings from Sacchi Flyier."
-    >
+    <style>
+        .country-message {
+            margin-top: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
 
-    <link
-        rel="stylesheet"
-        href="product-style.css"
-    >
+        .country-message:empty {
+            display: none;
+        }
 
+        .country-select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border-radius: 8px;
+            border: 1px solid #555;
+            background: #111;
+            color: white;
+            font-size: 15px;
+        }
+
+        .price-usd {
+            font-size: 13px;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        .shipping-text {
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .quantity-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .quantity-box button {
+            width: 38px;
+            height: 38px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .quantity-box span {
+            min-width: 25px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .product-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .product-buttons button {
+            padding: 13px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .product-buttons button:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .product-message {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- ================= HEADER ================= -->
+<header class="product-header">
 
-    <header class="product-header">
+    <div class="logo">
+        SACCHI FLYIER
+    </div>
 
-        <a
-            href="index.html"
-            class="product-logo"
-        >
-            SACCHI FLYIER
-        </a>
+    <a href="index.html" class="back-shop">
+        ← Back to Shop
+    </a>
 
-        <a
-            href="index.html#shop"
-            class="back-shop"
-        >
-            ← Back to Shop
-        </a>
-
-    </header>
+</header>
 
 
-    <!-- ================= PRODUCT ================= -->
+<main class="product-page">
 
-    <main class="product-page">
+    <!-- PRODUCT IMAGE -->
+    <section class="product-image-section">
 
-        <section class="product-details">
+        <div class="main-product-image">
+
+            <img
+                src="earrings-1.jpg"
+                alt="Light Luxury High-grade Micro Inlaid Zircon Chain Earrings"
+            >
+
+        </div>
+
+    </section>
 
 
-            <!-- ================= PRODUCT IMAGE ================= -->
+    <!-- PRODUCT INFORMATION -->
+    <section class="product-info">
 
-            <div class="product-photo">
+        <h1>
+            Light Luxury High-grade Micro Inlaid Zircon Chain Earrings
+        </h1>
 
-                <img
-                    src="earrings-1.jpg"
-                    alt="Light Luxury High-grade Micro Inlaid Zircon Chain Earrings"
-                >
+        <p class="product-sku">
+            SKU: CJLX239765601AZ
+        </p>
 
+
+        <!-- COUNTRY -->
+        <div class="country-section">
+
+            <label for="customerCountry">
+                Select your country
+            </label>
+
+            <select
+                id="customerCountry"
+                class="country-select"
+            >
+                <option value="">
+                    Detecting your country...
+                </option>
+            </select>
+
+            <div
+                id="countryMessage"
+                class="country-message"
+            ></div>
+
+        </div>
+
+
+        <!-- PRICE -->
+        <div class="price-section">
+
+            <div
+                id="productPrice"
+                class="product-price"
+            >
+                Select your country
             </div>
 
+            <div
+                id="priceUSD"
+                class="price-usd"
+            ></div>
 
-            <!-- ================= PRODUCT INFORMATION ================= -->
+            <div
+                id="shippingText"
+                class="shipping-text"
+            ></div>
 
-            <div class="product-information">
+        </div>
 
-                <p class="product-label">
-                    SACCHI FLYIER
-                </p>
 
-                <h1>
-                    Light Luxury High-grade Micro Inlaid Zircon Chain Earrings
-                </h1>
+        <!-- VARIANT -->
+        <div class="variant-section">
 
-                <p class="product-variant">
+            <label for="productVariant">
+                Variant
+            </label>
+
+            <select id="productVariant">
+
+                <option value="Gold Plated">
                     Gold Plated
-                </p>
+                </option>
+
+            </select>
+
+        </div>
 
 
-                <!-- ================= COUNTRY ================= -->
+        <!-- QUANTITY -->
+        <div class="quantity-section">
 
-                <div class="country-section">
+            <label>
+                Quantity
+            </label>
 
-                    <label for="customerCountry">
-                        Shipping Country
-                    </label>
+            <div class="quantity-box">
 
-                    <select id="customerCountry">
-
-                        <option value="">
-                            Detecting your country...
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <!-- ================= PRICE ================= -->
-
-                <div class="product-price">
-
-                    <span id="productPrice">
-                        —
-                    </span>
-
-                </div>
-
-                <p id="priceUSD" class="price-usd">
-                    Product price will be calculated according to your country.
-                </p>
-
-
-                <!-- ================= SHIPPING ================= -->
-
-                <p
-                    id="shippingText"
-                    class="shipping-text"
+                <button
+                    type="button"
+                    id="decreaseQuantity"
                 >
-                    FREE SHIPPING
-                </p>
+                    −
+                </button>
 
+                <span id="productQuantity">
+                    1
+                </span>
 
-                <!-- ================= COUNTRY MESSAGE ================= -->
-
-                <p
-                    id="countryMessage"
-                    class="country-message"
-                ></p>
-
-
-                <!-- ================= DESCRIPTION ================= -->
-
-                <div class="product-description">
-
-                    <h2>
-                        Product Description
-                    </h2>
-
-                    <p>
-                        Add a stylish touch to your everyday look with
-                        these Light Luxury High-grade Micro Inlaid
-                        Zircon Chain Earrings.
-                    </p>
-
-                    <p>
-                        Designed with a delicate chain style and
-                        zircon detailing, these earrings are suitable
-                        for casual outfits, special occasions and
-                        everyday styling.
-                    </p>
-
-                </div>
-
-
-                <!-- ================= PRODUCT DETAILS ================= -->
-
-                <div class="product-specifications">
-
-                    <h2>
-                        Product Details
-                    </h2>
-
-                    <ul>
-
-                        <li>
-                            <strong>Product:</strong>
-                            Zircon Chain Earrings
-                        </li>
-
-                        <li>
-                            <strong>Style:</strong>
-                            Light Luxury
-                        </li>
-
-                        <li>
-                            <strong>Color:</strong>
-                            Gold
-                        </li>
-
-                        <li>
-                            <strong>Finish:</strong>
-                            Gold Plated
-                        </li>
-
-                        <li>
-                            <strong>Weight:</strong>
-                            18g
-                        </li>
-
-                        <li>
-                            <strong>SKU:</strong>
-                            CJLX239765601AZ
-                        </li>
-
-                        <li>
-                            <strong>Shipping:</strong>
-                            FREE
-                        </li>
-
-                    </ul>
-
-                </div>
-
-
-                <!-- ================= QUANTITY ================= -->
-
-                <div class="quantity-section">
-
-                    <label for="productQuantity">
-                        Quantity
-                    </label>
-
-                    <div class="quantity-control">
-
-                        <button
-                            type="button"
-                            id="decreaseQuantity"
-                        >
-                            −
-                        </button>
-
-                        <input
-                            type="number"
-                            id="productQuantity"
-                            value="1"
-                            min="1"
-                            readonly
-                        >
-
-                        <button
-                            type="button"
-                            id="increaseQuantity"
-                        >
-                            +
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <!-- ================= BUTTONS ================= -->
-
-                <div class="product-actions">
-
-                    <button
-                        type="button"
-                        id="addProductToCart"
-                        class="product-button"
-                        disabled
-                    >
-                        Add to Cart
-                    </button>
-
-                    <button
-                        type="button"
-                        id="buyNowButton"
-                        class="product-button buy-button"
-                        disabled
-                    >
-                        Buy Now
-                    </button>
-
-                </div>
-
-
-                <p
-                    id="productMessage"
-                    class="product-message"
-                ></p>
+                <button
+                    type="button"
+                    id="increaseQuantity"
+                >
+                    +
+                </button>
 
             </div>
 
-        </section>
-
-    </main>
-
-
-    <!-- ================= JAVASCRIPT ================= -->
-
-    <script>
-
-        /* =====================================================
-           PRODUCT SETTINGS
-        ===================================================== */
-
-        const PRODUCT_COST_USD = 1.62;
-
-        const PROFIT_USD = 10.00;
-
-        const PRODUCT_SKU = "CJLX239765601AZ";
-
-        const PRODUCT_NAME =
-            "Light Luxury High-grade Micro Inlaid Zircon Chain Earrings";
-
-
-        /* =====================================================
-           COUNTRY SHIPPING RATES
-           
-           Customer Price =
-           Product Cost + CJ Shipping + Profit
-           ===================================================== */
-
-        const shippingRates = {
-
-            "Afghanistan": 3.72,
-            "Albania": 3.22,
-            "Algeria": 3.35,
-            "American Samoa": 9.11,
-            "Andorra": 6.60,
-            "Angola": 3.53,
-            "Anguilla": 3.82,
-            "Antigua and Barbuda": 3.50,
-            "Argentina": 3.67,
-            "Armenia": 3.32,
-            "Aruba": 3.37,
-            "Australia": 6.48,
-            "Austria": 3.41,
-            "Azerbaijan": 3.19,
-            "Bahamas": 3.57,
-            "Bahrain": 4.71,
-            "Bangladesh": 3.45,
-            "Barbados": 3.53,
-            "Belarus": 4.56,
-            "Belgium": 6.82,
-            "Belize": 3.82,
-            "Benin": 4.61,
-            "Bermuda": 3.53,
-            "Bhutan": 5.67,
-            "Bolivia (Plurinational State of)": 3.86,
-            "Bonaire, Sint Eustatius and Saba": 3.86,
-            "Bosnia and Herzegovina": 4.95,
-            "Botswana": 3.53,
-            "Bouvet Island": 9.86,
-            "Brazil": 6.05,
-            "British Indian Ocean Territory": 5.51,
-            "Brunei Darussalam": 3.14,
-            "Bulgaria": 8.74,
-            "Burkina Faso": 4.80,
-            "Burundi": 3.60,
-            "Cabo Verde": 3.86,
-            "Cambodia": 3.56,
-            "Cameroon": 3.35,
-            "Canada": 5.31,
-            "Cayman Islands": 3.60,
-            "Central African Republic": 3.86,
-            "Chad": 3.64,
-            "Chile": 4.14,
-            "China": 3.05,
-            "Christmas Island": 9.43,
-            "Cocos (Keeling) Islands": 9.43,
-            "Colombia": 2.85,
-            "Comoros": 3.14,
-            "Cook Islands": 4.14,
-            "Costa Rica": 1.75,
-            "Côte d'Ivoire": 1.88,
-            "Croatia": 8.71,
-            "Cuba": 3.57,
-            "Curaçao": 3.40,
-            "Cyprus": 6.51,
-            "Czechia": 8.38,
-            "Denmark": 3.37,
-            "Djibouti": 3.86,
-            "Dominica": 3.82,
-            "Dominican Republic": 3.37,
-            "Ecuador": 3.75,
-            "Egypt": 3.68,
-            "El Salvador": 3.52,
-            "Equatorial Guinea": 4.27,
-            "Eritrea": 3.60,
-            "Ethiopia": 3.43,
-            "Falkland Islands": 5.30,
-            "Faroe Islands": 8.38,
-            "Fiji": 3.98,
-            "Finland": 3.36,
-            "France": 5.76,
-            "French Guiana": 3.46,
-            "French Polynesia": 3.46,
-            "French Southern Territories": 8.11,
-            "Gabon": 4.76,
-            "Gambia": 3.60,
-            "Georgia": 3.97,
-            "Germany": 6.17,
-            "Ghana": 3.27,
-            "Gibraltar": 4.11,
-            "Greece": 3.32,
-            "Greenland": 8.54,
-            "Grenada": 3.60,
-            "Guadeloupe": 8.59,
-            "Guam": 9.53,
-            "Guernsey": 7.81,
-            "Guinea": 4.43,
-            "Guyana": 5.51,
-            "Haiti": 3.82,
-            "Heard Island and McDonald Islands": 9.00,
-            "Honduras": 3.82,
-            "Hong Kong (China)": 3.92,
-            "Iceland": 3.56,
-            "India": 4.01,
-            "Indonesia": 3.06,
-            "Iran (Islamic Republic of)": 3.43,
-            "Ireland": 6.80,
-            "Isle of Man": 7.81,
-            "Israel": 5.16,
-            "Italy": 7.10,
-            "Jamaica": 3.53,
-            "Japan": 4.96,
-            "Jersey": 7.35,
-            "Jordan": 3.45,
-            "Kazakhstan": 2.88,
-            "Kenya": 3.43,
-            "Kiribati": 4.38,
-            "Korea (South Korea)": 3.91,
-            "Kuwait": 9.27,
-            "Kyrgyzstan": 3.25,
-            "Lao peoples Democratic republic": 4.28,
-            "Latvia": 7.60,
-            "Lebanon": 3.25,
-            "Lesotho": 3.86,
-            "Liberia": 3.32,
-            "Libya": 4.80,
-            "Liechtenstein": 7.33,
-            "Lithuania": 7.60,
-            "Luxembourg": 3.25,
-            "Macao (China)": 5.58,
-            "Macedonia (The former Yugoslav Republic of)": 3.32,
-            "Madagascar": 3.60,
-            "Malawi": 3.50,
-            "Malaysia": 3.41,
-            "Maldives": 2.95,
-            "Mali": 4.80,
-            "Malta": 3.31,
-            "Marshall Islands": 8.93,
-            "Martinique": 8.10,
-            "Mauritania": 3.27,
-            "Mauritius": 3.23,
-            "Mayotte": 7.82,
-            "Mexico": 4.18,
-            "Moldova the republic": 3.22,
-            "Monaco": 6.35,
-            "Mongolia": 4.42,
-            "Montenegro": 4.95,
-            "Montserrat": 3.82,
-            "Morocco": 4.04,
-            "Mozambique": 3.23,
-            "Myanmar": 3.53,
-            "Namibia": 4.83,
-            "Nauru": 5.30,
-            "Nepal": 3.15,
-            "Netherlands": 6.36,
-            "New Caledonia": 3.98,
-            "New Zealand": 4.94,
-            "Nicaragua": 3.60,
-            "Niger": 4.76,
-            "Nigeria": 3.50,
-            "Niue": 4.48,
-            "Norfolk Island": 3.38,
-            "Northern Mariana Island": 9.15,
-            "Norway": 5.94,
-            "Oman": 4.17,
-            "Pakistan": 2.94,
-            "Panama": 3.25,
-            "Papua New Guinea": 3.98,
-            "Paraguay": 3.67,
-            "Peru": 3.67,
-            "Philippines": 3.32,
-            "Pitcairn": 5.14,
-            "Poland": 5.27,
-            "Portugal": 6.11,
-            "Puerto Rico": 8.47,
-            "Qatar": 4.04,
-            "Réunion": 5.89,
-            "Romania": 4.91,
-            "Russian Federation": 4.36,
-            "Rwanda": 3.50,
-            "Saint Helena, Ascension and Tristan da Cunha": 5.95,
-            "Saint Kitts and Nevis": 3.82,
-            "Saint Lucia": 3.53,
-            "Saint Martin (French part)": 8.11,
-            "Saint Pierre and Miquelon": 6.10,
-            "Saint Vincent and the Grenadines": 3.82,
-            "Samoa": 4.04,
-            "San Marino": 4.94,
-            "Sao Tome and Principe": 3.86,
-            "Saudi Arabia": 4.32,
-            "Senegal": 3.37,
-            "Serbia": 3.18,
-            "Seychelles": 3.21,
-            "Sierra Leone": 3.86,
-            "Singapore": 3.93,
-            "Sint Maarten (Dutch Part)": 3.86,
-            "Slovakia": 8.72,
-            "Slovenia": 8.90,
-            "Solomon Islands": 4.03,
-            "South Africa": 5.97,
-            "South Georgia and South Sandwich Islands": 8.19,
-            "Spain": 4.87,
-            "Sri Lanka": 3.12,
-            "Sudan": 4.43,
-            "Suriname": 3.86,
-            "Swaziland": 3.87,
-            "Taiwan": 7.37,
-            "Tajikistan": 3.25,
-            "Tanzania, United Republic of": 3.46,
-            "Thailand": 2.71,
-            "The Republic of Kosovo": 4.25,
-            "Timor-Leste": 5.76,
-            "Togo": 3.38,
-            "Tokelau": 4.40,
-            "Tonga": 4.78,
-            "Trinidad and Tobago": 3.27,
-            "Tunisia": 3.43,
-            "Turkey": 4.64,
-            "Turks and Caicos Islands": 3.86,
-            "Tuvalu": 4.38,
-            "Uganda": 3.35,
-            "Ukraine": 3.23,
-            "United Arab Emirates": 4.03,
-            "United Kingdom": 4.81,
-            "United States": 3.68,
-            "Uruguay": 4.21,
-            "Uzbekistan": 4.21,
-            "Vanuatu": 4.81,
-            "Venezuela (Bolivarian Republic of)": 3.57,
-            "Vietnam": 3.02,
-            "Virgin Islands (British)": 3.53,
-            "Virgin Islands (U.S.)": 9.15,
-            "Wallis and Futuna": 5.24,
-            "Western Sahara": 6.54,
-            "Zambia": 3.46,
-            "Zimbabwe": 4.01
-
-        };
-
-
-        /* =====================================================
-           BLOCKED COUNTRIES
-        ===================================================== */
-
-        const blockedCountries = [
-
-            "Iraq",
-
-            "Syrian Arab Republic",
-
-            "Yemen",
-
-            "Guinea-Bissau",
-
-            "Micronesia (Federated States of)",
-
-            "Palau",
-
-            "South Sudan"
-
-        ];
-
-
-        /* =====================================================
-           CURRENCY SETTINGS
-        ===================================================== */
-
-        const countryCurrency = {
-
-            "India": "INR",
-            "United States": "USD",
-            "Canada": "CAD",
-            "United Kingdom": "GBP",
-            "Australia": "AUD",
-            "Germany": "EUR",
-            "France": "EUR",
-            "Italy": "EUR",
-            "Spain": "EUR",
-            "Netherlands": "EUR",
-            "Belgium": "EUR",
-            "Austria": "EUR",
-            "Ireland": "EUR",
-            "Portugal": "EUR",
-            "Finland": "EUR",
-            "Greece": "EUR",
-            "Luxembourg": "EUR",
-            "Japan": "JPY",
-            "China": "CNY",
-            "South Korea": "KRW",
-            "Singapore": "SGD",
-            "New Zealand": "NZD",
-            "United Arab Emirates": "AED",
-            "Saudi Arabia": "SAR",
-            "Qatar": "QAR",
-            "Kuwait": "KWD",
-            "Switzerland": "CHF",
-            "Norway": "NOK",
-            "Sweden": "SEK",
-            "Denmark": "DKK",
-            "Poland": "PLN",
-            "Czechia": "CZK",
-            "Hungary": "HUF",
-            "Turkey": "TRY",
-            "Thailand": "THB",
-            "Malaysia": "MYR",
-            "Indonesia": "IDR",
-            "Philippines": "PHP",
-            "Vietnam": "VND",
-            "Pakistan": "PKR",
-            "Bangladesh": "BDT",
-            "Sri Lanka": "LKR",
-            "Nepal": "NPR",
-            "Mexico": "MXN",
-            "Brazil": "BRL",
-            "South Africa": "ZAR",
-            "Nigeria": "NGN",
-            "Egypt": "EGP",
-            "Israel": "ILS",
-            "Iceland": "ISK",
-            "Russia": "RUB",
-            "Ukraine": "UAH",
-            "Romania": "RON",
-            "Bulgaria": "BGN",
-            "Croatia": "EUR",
-            "Serbia": "RSD"
-
-        };
-
-
-        /* =====================================================
-           CURRENCY SYMBOLS
-        ===================================================== */
-
-        const currencySymbols = {
-
-            USD: "$",
-            INR: "₹",
-            GBP: "£",
-            EUR: "€",
-            CAD: "CA$",
-            AUD: "A$",
-            JPY: "¥",
-            CNY: "¥",
-            KRW: "₩",
-            SGD: "S$",
-            NZD: "NZ$",
-            AED: "د.إ",
-            SAR: "﷼",
-            QAR: "ر.ق",
-            KWD: "د.ك",
-            CHF: "CHF",
-            NOK: "kr",
-            SEK: "kr",
-            DKK: "kr",
-            PLN: "zł",
-            CZK: "Kč",
-            HUF: "Ft",
-            TRY: "₺",
-            THB: "฿",
-            MYR: "RM",
-            IDR: "Rp",
-            PHP: "₱",
-            VND: "₫",
-            PKR: "₨",
-            BDT: "৳",
-            LKR: "Rs",
-            NPR: "Rs",
-            MXN: "MX$",
-            BRL: "R$",
-            ZAR: "R",
-            NGN: "₦",
-            EGP: "E£",
-            ILS: "₪",
-            ISK: "kr",
-            RUB: "₽",
-            UAH: "₴",
-            RON: "lei",
-            BGN: "лв",
-            RSD: "дин"
-
-        };
-
-
-        /* =====================================================
-           EXCHANGE RATES
-           
-           These are fallback rates for display conversion.
-           USD is the internal pricing currency.
-        ===================================================== */
-
-        const exchangeRates = {
-
-            USD: 1,
-
-            INR: 88.00,
-            GBP: 0.74,
-            EUR: 0.85,
-            CAD: 1.37,
-            AUD: 1.52,
-            JPY: 148.00,
-            CNY: 7.15,
-            KRW: 1390.00,
-            SGD: 1.29,
-            NZD: 1.76,
-            AED: 3.67,
-            SAR: 3.75,
-            QAR: 3.64,
-            KWD: 0.31,
-            CHF: 0.80,
-            NOK: 10.20,
-            SEK: 9.50,
-            DKK: 6.35,
-            PLN: 3.65,
-            CZK: 21.20,
-            HUF: 335.00,
-            TRY: 41.00,
-            THB: 32.50,
-            MYR: 4.25,
-            IDR: 16500,
-            PHP: 58.00,
-            VND: 26000,
-            PKR: 283.00,
-            BDT: 121.00,
-            LKR: 323.00,
-            NPR: 140.80,
-            MXN: 18.50,
-            BRL: 5.35,
-            ZAR: 17.50,
-            NGN: 1500.00,
-            EGP: 48.50,
-            ILS: 3.60,
-            ISK: 122.00,
-            RUB: 80.00,
-            UAH: 41.50,
-            RON: 4.35,
-            BGN: 1.66,
-            RSD: 99.00
-
-        };
-
-
-        /* =====================================================
-           DOM ELEMENTS
-        ===================================================== */
-
-        const countrySelect =
-            document.getElementById("customerCountry");
-
-        const productPrice =
-            document.getElementById("productPrice");
-
-        const priceUSD =
-            document.getElementById("priceUSD");
-
-        const shippingText =
-            document.getElementById("shippingText");
-
-        const countryMessage =
-            document.getElementById("countryMessage");
-
-        const quantityInput =
-            document.getElementById("productQuantity");
-
-        const decreaseButton =
-            document.getElementById("decreaseQuantity");
-
-        const increaseButton =
-            document.getElementById("increaseQuantity");
-
-        const addButton =
-            document.getElementById("addProductToCart");
-
-        const buyButton =
-            document.getElementById("buyNowButton");
-
-        const message =
-            document.getElementById("productMessage");
-
-
-        let quantity = 1;
-
-        let selectedCountry = null;
-
-        let selectedPriceUSD = null;
-
-
-        /* =====================================================
-           FORMAT CURRENCY
-        ===================================================== */
-
-        function formatCurrency(
-            amount,
-            currency
-        ) {
-
-            try {
-
-                return new Intl.NumberFormat(
-                    undefined,
-                    {
-                        style: "currency",
-                        currency: currency,
-                        maximumFractionDigits:
-                            currency === "JPY" ||
-                            currency === "KRW" ||
-                            currency === "VND" ||
-                            currency === "IDR"
-                                ? 0
-                                : 2
-                    }
-                ).format(amount);
-
-            } catch (error) {
-
-                const symbol =
-                    currencySymbols[currency] ||
-                    currency + " ";
-
-                return (
-                    symbol +
-                    amount.toFixed(2)
+        </div>
+
+
+        <!-- BUTTONS -->
+        <div class="product-buttons">
+
+            <button
+                type="button"
+                id="addProductToCart"
+                disabled
+            >
+                ADD TO CART
+            </button>
+
+            <button
+                type="button"
+                id="buyNowButton"
+                disabled
+            >
+                BUY NOW
+            </button>
+
+        </div>
+
+
+        <div
+            id="productMessage"
+            class="product-message"
+        ></div>
+
+
+        <!-- PRODUCT DETAILS -->
+        <div class="product-details">
+
+            <h2>
+                Product Details
+            </h2>
+
+            <p>
+                Add a stylish touch to your look with these
+                Light Luxury High-grade Micro Inlaid Zircon Chain Earrings.
+            </p>
+
+            <p>
+                <strong>Material:</strong> Zircon
+            </p>
+
+            <p>
+                <strong>Variant:</strong> Gold Plated
+            </p>
+
+            <p>
+                <strong>Weight:</strong> 18g
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+/* =========================================================
+   PRODUCT SETTINGS
+========================================================= */
+
+const PRODUCT_COST_USD = 1.62;
+
+const PROFIT_USD = 10.00;
+
+const PRODUCT_SKU = "CJLX239765601AZ";
+
+const PRODUCT_NAME =
+    "Light Luxury High-grade Micro Inlaid Zircon Chain Earrings";
+
+
+/* =========================================================
+   BLOCKED COUNTRIES
+========================================================= */
+
+const blockedCountries = [
+
+    "Iraq",
+
+    "Syrian Arab Republic",
+
+    "Yemen",
+
+    "Guinea-Bissau",
+
+    "Micronesia (Federated States of)",
+
+    "Palau",
+
+    "South Sudan"
+
+    "Holy See"
+
+     "Korea (the Democratic People's Republic of)"
+];
+
+
+/* =========================================================
+   CJ SHIPPING RATES
+========================================================= */
+
+const shippingRates = {
+
+    "Afghanistan": 3.72,
+    "Albania": 3.22,
+    "Algeria": 3.35,
+    "American Samoa": 9.11,
+    "Andorra": 6.60,
+    "Angola": 3.53,
+    "Anguilla": 3.82,
+    "Antigua and Barbuda": 3.50,
+    "Argentina": 3.67,
+    "Armenia": 3.32,
+    "Aruba": 3.37,
+    "Australia": 6.48,
+    "Austria": 3.41,
+    "Azerbaijan": 3.19,
+    "Bahamas": 3.57,
+    "Bahrain": 4.71,
+    "Bangladesh": 3.45,
+    "Barbados": 3.53,
+    "Belarus": 4.56,
+    "Belgium": 6.82,
+    "Belize": 3.82,
+    "Benin": 4.61,
+    "Bermuda": 3.53,
+    "Bhutan": 5.67,
+    "Bolivia (Plurinational State of)": 3.86,
+    "Bonaire, Sint Eustatius and Saba": 3.86,
+    "Bosnia and Herzegovina": 4.95,
+    "Botswana": 3.53,
+    "Bouvet Island": 9.86,
+    "Brazil": 6.05,
+    "British Indian Ocean Territory": 5.51,
+    "Brunei Darussalam": 3.14,
+    "Bulgaria": 8.74,
+    "Burkina Faso": 4.80,
+    "Burundi": 3.60,
+    "Cabo Verde": 3.86,
+    "Cambodia": 3.56,
+    "Cameroon": 3.35,
+    "Canada": 5.31,
+    "Cayman Islands": 3.60,
+    "Central African Republic": 3.86,
+    "Chad": 3.64,
+    "Chile": 4.14,
+    "China": 3.05,
+    "Christmas Island": 9.43,
+    "Cocos (Keeling) Islands": 9.43,
+    "Colombia": 2.85,
+    "Comoros": 3.14,
+    "Congo (the Democratic Republic of the)": 1.90,
+    "Congo": 1.88,
+    "Cook Islands": 4.14,
+    "Costa Rica": 1.75,
+    "Côte d’Ivoire": 1.88,
+    "Croatia": 8.71,
+    "Cuba": 3.57,
+    "Curaçao": 3.40,
+    "Cyprus": 6.51,
+    "Czechia": 8.38,
+    "Denmark": 3.37,
+    "Djibouti": 3.86,
+    "Dominica": 3.82,
+    "Dominican Republic": 3.37,
+    "Ecuador": 3.75,
+    "Egypt": 3.68,
+    "El Salvador": 3.52,
+    "Equatorial Guinea": 4.27,
+    "Eritrea": 3.60,
+    "Ethiopia": 3.43,
+    "Falkland Islands": 5.30,
+    "Faroe Islands": 8.38,
+    "Fiji": 3.98,
+    "Finland": 3.36,
+    "France": 5.76,
+    "French Guiana": 3.46,
+    "French Polynesia": 3.46,
+    "French Southern Territories": 8.11,
+    "Gabon": 4.76,
+    "Gambia": 3.60,
+    "Georgia": 3.97,
+    "Germany": 6.17,
+    "Ghana": 3.27,
+    "Gibraltar": 4.11,
+    "Greece": 3.32,
+    "Greenland": 8.54,
+    "Grenada": 3.60,
+    "Guadeloupe": 8.59,
+    "Guam": 9.53,
+    "Guernsey": 7.81,
+    "Guinea": 4.43,
+    "Guyana": 5.51,
+    "Haiti": 3.82,
+    "Heard Island and McDonald Islands": 9.00,
+    "Holy See": 38.81,
+    "Honduras": 3.82,
+    "Hong Kong (China)": 3.92,
+    "Iceland": 3.56,
+    "India": 4.01,
+    "Indonesia": 3.06,
+    "Iran (Islamic Republic of)": 3.43,
+    "Ireland": 6.80,
+    "Isle of Man": 7.81,
+    "Israel": 5.16,
+    "Italy": 7.10,
+    "Jamaica": 3.53,
+    "Japan": 4.96,
+    "Jersey": 7.35,
+    "Jordan": 3.45,
+    "Kazakhstan": 2.88,
+    "Kenya": 3.43,
+    "Kiribati": 4.38,
+    "Korea (the Democratic People's Republic of)": 137.03,
+    "Korea (South Korea)": 3.91,
+    "Kuwait": 9.27,
+    "Kyrgyzstan": 3.25,
+    "Lao peoples Democratic republic": 4.28,
+    "Latvia": 7.60,
+    "Lebanon": 3.25,
+    "Lesotho": 3.86,
+    "Liberia": 3.32,
+    "Libya": 4.80,
+    "Liechtenstein": 7.33,
+    "Lithuania": 7.60,
+    "Luxembourg": 3.25,
+    "Macao (China)": 5.58,
+    "Macedonia (The former Yugoslav Republic of)": 3.32,
+    "Madagascar": 3.60,
+    "Malawi": 3.50,
+    "Malaysia": 3.41,
+    "Maldives": 2.95,
+    "Mali": 4.80,
+    "Malta": 3.31,
+    "Marshall Islands": 8.93,
+    "Martinique": 8.10,
+    "Mauritania": 3.27,
+    "Mauritius": 3.23,
+    "Mayotte": 7.82,
+    "Mexico": 4.18,
+    "Moldova the republic": 3.22,
+    "Monaco": 6.35,
+    "Mongolia": 4.42,
+    "Montenegro": 4.95,
+    "Montserrat": 3.82,
+    "Morocco": 4.04,
+    "Mozambique": 3.23,
+    "Myanmar": 3.53,
+    "Namibia": 4.83,
+    "Nauru": 5.30,
+    "Nepal": 3.15,
+    "Netherlands": 6.36,
+    "New Caledonia": 3.98,
+    "New Zealand": 4.94,
+    "Nicaragua": 3.60,
+    "Niger": 4.76,
+    "Nigeria": 3.50,
+    "Niue": 4.48,
+    "Norfolk Island": 3.38,
+    "Northern Mariana Island": 9.15,
+    "Norway": 5.94,
+    "Oman": 4.17,
+    "Pakistan": 2.94,
+    "Panama": 3.25,
+    "Papua New Guinea": 3.98,
+    "Paraguay": 3.67,
+    "Peru": 3.67,
+    "Philippines": 3.32,
+    "Pitcairn": 5.14,
+    "Poland": 5.27,
+    "Portugal": 6.11,
+    "Puerto Rico": 8.47,
+    "Qatar": 4.04,
+    "Réunion": 5.89,
+    "Romania": 4.91,
+    "Russian Federation": 4.36,
+    "Rwanda": 3.50,
+    "Saint Helena, Ascension and Tristan da Cunha": 5.95,
+    "Saint Kitts and Nevis": 3.82,
+    "Saint Lucia": 3.53,
+    "Saint Martin (French part)": 8.11,
+    "Saint Pierre and Miquelon": 6.10,
+    "Saint Vincent and the Grenadines": 3.82,
+    "Samoa": 4.04,
+    "San Marino": 4.94,
+    "Sao Tome and Principe": 3.86,
+    "Saudi Arabia": 4.32,
+    "Senegal": 3.37,
+    "Serbia": 3.18,
+    "Seychelles": 3.21,
+    "Sierra Leone": 3.86,
+    "Singapore": 3.93,
+    "Sint Maarten (Dutch Part)": 3.86,
+    "Slovakia": 8.72,
+    "Slovenia": 8.90,
+    "Solomon Islands": 4.03,
+    "South Africa": 5.97,
+    "South Georgia and South Sandwich Islands": 8.19,
+    "Spain": 4.87,
+    "Sri Lanka": 3.12,
+    "Sudan": 4.43,
+    "Suriname": 3.86,
+    "Swaziland": 3.87,
+    "Taiwan": 7.37,
+    "Tajikistan": 3.25,
+    "Tanzania, United Republic of)": 3.46,
+    "Thailand": 2.71,
+    "The Republic of Kosovo": 4.25,
+    "Timor-Leste": 5.76,
+    "Togo": 3.38,
+    "Tokelau": 4.40,
+    "Tonga": 4.78,
+    "Trinidad and Tobago": 3.27,
+    "Tunisia": 3.43,
+    "Turkey": 4.64,
+    "Turks and Caicos Islands": 3.86,
+    "Tuvalu": 4.38,
+    "Uganda": 3.35,
+    "Ukraine": 3.23,
+    "United Arab Emirates": 4.03,
+    "United Kingdom": 4.81,
+    "United States": 3.68,
+    "Uruguay": 4.21,
+    "Uzbekistan": 4.21,
+    "Vanuatu": 4.81,
+    "Venezuela (Bolivarian Republic of)": 3.57,
+    "Vietnam": 3.02,
+    "Virgin Islands (British)": 3.53,
+    "Virgin Islands (U.S.)": 9.15,
+    "Wallis and Futuna": 5.24,
+    "Western Sahara": 6.54,
+    "Zambia": 3.46,
+    "Zimbabwe": 4.01
+
+};
+
+
+/* =========================================================
+   COUNTRY CURRENCY
+========================================================= */
+
+const countryCurrency = {
+
+    "India": "INR",
+    "United States": "USD",
+    "Canada": "CAD",
+    "United Kingdom": "GBP",
+    "Australia": "AUD",
+    "New Zealand": "NZD",
+    "China": "CNY",
+    "Japan": "JPY",
+    "Korea (South Korea)": "KRW",
+    "Singapore": "SGD",
+    "Malaysia": "MYR",
+    "Indonesia": "IDR",
+    "Thailand": "THB",
+    "Vietnam": "VND",
+    "Philippines": "PHP",
+    "Pakistan": "PKR",
+    "Bangladesh": "BDT",
+    "Nepal": "NPR",
+    "Sri Lanka": "LKR",
+    "United Arab Emirates": "AED",
+    "Saudi Arabia": "SAR",
+    "Qatar": "QAR",
+    "Kuwait": "KWD",
+    "Bahrain": "BHD",
+    "Oman": "OMR",
+    "Israel": "ILS",
+    "Turkey": "TRY",
+    "Russian Federation": "RUB",
+    "South Africa": "ZAR",
+    "Nigeria": "NGN",
+    "Ghana": "GHS",
+    "Kenya": "KES",
+    "Egypt": "EGP",
+    "Morocco": "MAD",
+    "Switzerland": "CHF",
+    "Norway": "NOK",
+    "Sweden": "SEK",
+    "Denmark": "DKK",
+    "Poland": "PLN",
+    "Czechia": "CZK",
+    "Hungary": "HUF",
+    "Romania": "RON",
+    "Bulgaria": "BGN",
+    "Croatia": "EUR",
+    "France": "EUR",
+    "Germany": "EUR",
+    "Italy": "EUR",
+    "Spain": "EUR",
+    "Portugal": "EUR",
+    "Netherlands": "EUR",
+    "Belgium": "EUR",
+    "Austria": "EUR",
+    "Finland": "EUR",
+    "Ireland": "EUR",
+    "Greece": "EUR",
+    "Luxembourg": "EUR",
+    "Malta": "EUR",
+    "Cyprus": "EUR",
+    "Slovakia": "EUR",
+    "Slovenia": "EUR",
+    "Mexico": "MXN",
+    "Brazil": "BRL",
+    "Argentina": "ARS",
+    "Chile": "CLP",
+    "Colombia": "COP",
+    "Peru": "PEN",
+    "Uruguay": "UYU",
+    "Costa Rica": "CRC",
+    "Panama": "PAB"
+
+};
+
+
+/* =========================================================
+   CURRENCY SYMBOLS
+========================================================= */
+
+const currencySymbols = {
+
+    USD: "$",
+    INR: "₹",
+    GBP: "£",
+    EUR: "€",
+    CAD: "C$",
+    AUD: "A$",
+    NZD: "NZ$",
+    CNY: "¥",
+    JPY: "¥",
+    KRW: "₩",
+    SGD: "S$",
+    MYR: "RM",
+    IDR: "Rp",
+    THB: "฿",
+    VND: "₫",
+    PHP: "₱",
+    PKR: "₨",
+    BDT: "৳",
+    NPR: "रू",
+    LKR: "Rs",
+    AED: "د.إ",
+    SAR: "﷼",
+    QAR: "﷼",
+    KWD: "د.ك",
+    BHD: ".د.ب",
+    OMR: "﷼",
+    ILS: "₪",
+    TRY: "₺",
+    RUB: "₽",
+    ZAR: "R",
+    NGN: "₦",
+    GHS: "₵",
+    KES: "KSh",
+    EGP: "E£",
+    MAD: "د.م.",
+    CHF: "CHF",
+    NOK: "kr",
+    SEK: "kr",
+    DKK: "kr",
+    PLN: "zł",
+    CZK: "Kč",
+    HUF: "Ft",
+    RON: "lei",
+    BGN: "лв",
+    MXN: "$",
+    BRL: "R$",
+    ARS: "$",
+    CLP: "$",
+    COP: "$",
+    PEN: "S/",
+    UYU: "$U",
+    CRC: "₡",
+    PAB: "B/."
+
+};
+
+
+/* =========================================================
+   EXCHANGE RATES
+========================================================= */
+
+const exchangeRates = {
+
+    USD: 1,
+    INR: 88.00,
+    GBP: 0.74,
+    EUR: 0.85,
+    CAD: 1.38,
+    AUD: 1.52,
+    NZD: 1.75,
+    CNY: 7.12,
+    JPY: 147.00,
+    KRW: 1390,
+    SGD: 1.29,
+    MYR: 4.25,
+    IDR: 16500,
+    THB: 32.50,
+    VND: 26400,
+    PHP: 58.00,
+    PKR: 283,
+    BDT: 122,
+    NPR: 140,
+    LKR: 300,
+    AED: 3.67,
+    SAR: 3.75,
+    QAR: 3.64,
+    KWD: 0.31,
+    BHD: 0.38,
+    OMR: 0.38,
+    ILS: 3.40,
+    TRY: 41.00,
+    RUB: 80.00,
+    ZAR: 17.20,
+    NGN: 1500,
+    GHS: 12.00,
+    KES: 129,
+    EGP: 48.50,
+    MAD: 9.20,
+    CHF: 0.81,
+    NOK: 10.00,
+    SEK: 9.50,
+    DKK: 6.35,
+    PLN: 3.65,
+    CZK: 21.00,
+    HUF: 340,
+    RON: 4.35,
+    BGN: 1.66,
+    MXN: 18.50,
+    BRL: 5.40,
+    ARS: 1450,
+    CLP: 950,
+    COP: 3900,
+    PEN: 3.50,
+    UYU: 40,
+    CRC: 500,
+    PAB: 1
+
+};
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+let selectedCountry = "";
+
+let selectedPriceUSD = null;
+
+let quantity = 1;
+
+
+/* =========================================================
+   DOM ELEMENTS
+========================================================= */
+
+const countrySelect =
+    document.getElementById("customerCountry");
+
+const productPrice =
+    document.getElementById("productPrice");
+
+const priceUSD =
+    document.getElementById("priceUSD");
+
+const shippingText =
+    document.getElementById("shippingText");
+
+const countryMessage =
+    document.getElementById("countryMessage");
+
+const productQuantity =
+    document.getElementById("productQuantity");
+
+const decreaseButton =
+    document.getElementById("decreaseQuantity");
+
+const increaseButton =
+    document.getElementById("increaseQuantity");
+
+const addButton =
+    document.getElementById("addProductToCart");
+
+const buyButton =
+    document.getElementById("buyNowButton");
+
+const productMessage =
+    document.getElementById("productMessage");
+
+
+/* =========================================================
+   FORMAT CURRENCY
+========================================================= */
+
+function formatCurrency(amount, currency) {
+
+    const symbol =
+        currencySymbols[currency] || currency;
+
+    let decimals = 2;
+
+    if (
+        currency === "JPY" ||
+        currency === "KRW" ||
+        currency === "VND" ||
+        currency === "IDR"
+    ) {
+
+        decimals = 0;
+
+    }
+
+    return (
+        symbol +
+        Number(amount).toLocaleString(
+            undefined,
+            {
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals
+            }
+        )
+    );
+
+}
+
+
+/* =========================================================
+   CREATE COUNTRY LIST
+   BLOCKED COUNTRIES ARE NOT SHOWN
+========================================================= */
+
+function createCountryList() {
+
+    countrySelect.innerHTML = "";
+
+    const firstOption =
+        document.createElement("option");
+
+    firstOption.value = "";
+
+    firstOption.textContent =
+        "Select your country";
+
+    countrySelect.appendChild(
+        firstOption
+    );
+
+
+    Object.keys(shippingRates)
+        .filter(
+            country =>
+                !blockedCountries.includes(country)
+        )
+        .sort()
+        .forEach(
+            country => {
+
+                const option =
+                    document.createElement("option");
+
+                option.value =
+                    country;
+
+                option.textContent =
+                    country;
+
+                countrySelect.appendChild(
+                    option
                 );
 
             }
+        );
+
+}
+
+
+/* =========================================================
+   CALCULATE PRICE
+========================================================= */
+
+function calculatePrice(country) {
+
+    selectedCountry = country;
+
+    productMessage.textContent = "";
+
+
+    /* NO COUNTRY */
+
+    if (!country) {
+
+        selectedPriceUSD = null;
+
+        productPrice.textContent =
+            "Select your country";
+
+        priceUSD.textContent = "";
+
+        shippingText.textContent = "";
+
+        countryMessage.textContent = "";
+
+        countryMessage.style.display =
+            "none";
+
+        addButton.disabled = true;
+
+        buyButton.disabled = true;
+
+        return;
+
+    }
+
+
+    /* EXTRA SAFETY CHECK FOR BLOCKED COUNTRIES */
+
+    if (
+        blockedCountries.includes(country)
+    ) {
+
+        selectedPriceUSD = null;
+
+        productPrice.textContent =
+            "Unavailable";
+
+        priceUSD.textContent =
+            "This product is not available for shipping to your country.";
+
+        shippingText.textContent =
+            "SHIPPING UNAVAILABLE";
+
+        countryMessage.textContent =
+            "Sorry, we're unable to ship this product to your country.";
+
+        countryMessage.style.display =
+            "block";
+
+        countryMessage.style.color =
+            "#ff5555";
+
+        addButton.disabled = true;
+
+        buyButton.disabled = true;
+
+        return;
+
+    }
+
+
+    /* GET SHIPPING RATE */
+
+    const shipping =
+        shippingRates[country];
+
+
+    /* SHIPPING NOT FOUND */
+
+    if (
+        typeof shipping !== "number"
+    ) {
+
+        selectedPriceUSD = null;
+
+        productPrice.textContent =
+            "Unavailable";
+
+        priceUSD.textContent =
+            "Shipping is currently unavailable.";
+
+        shippingText.textContent =
+            "SHIPPING UNAVAILABLE";
+
+        countryMessage.textContent =
+            "Sorry, we're unable to calculate shipping for this country.";
+
+        countryMessage.style.display =
+            "block";
+
+        countryMessage.style.color =
+            "#ff5555";
+
+        addButton.disabled = true;
+
+        buyButton.disabled = true;
+
+        return;
+
+    }
+
+
+    /* PRICE FORMULA */
+
+    selectedPriceUSD =
+        PRODUCT_COST_USD +
+        shipping +
+        PROFIT_USD;
+
+
+    /* LOCAL CURRENCY */
+
+    const currency =
+        countryCurrency[country] ||
+        "USD";
+
+    const exchangeRate =
+        exchangeRates[currency] ||
+        1;
+
+    const localPrice =
+        selectedPriceUSD *
+        exchangeRate;
+
+
+    /* DISPLAY PRICE */
+
+    productPrice.textContent =
+        formatCurrency(
+            localPrice,
+            currency
+        );
+
+
+    /* USD PRICE */
+
+    priceUSD.textContent =
+        "Internal price: $" +
+        selectedPriceUSD.toFixed(2) +
+        " USD";
+
+
+    /* FREE SHIPPING */
+
+    shippingText.textContent =
+        "FREE SHIPPING";
+
+
+    /* CUSTOMER MESSAGE */
+
+    countryMessage.textContent =
+        "Shipping to " +
+        country +
+        " is included in the price.";
+
+    countryMessage.style.display =
+        "block";
+
+    countryMessage.style.color =
+        "";
+
+
+    /* ENABLE BUTTONS */
+
+    addButton.disabled = false;
+
+    buyButton.disabled = false;
+
+}
+
+
+/* =========================================================
+   COUNTRY CHANGE
+========================================================= */
+
+countrySelect.addEventListener(
+    "change",
+    function () {
+
+        calculatePrice(
+            this.value
+        );
+
+    }
+);
+
+
+/* =========================================================
+   DECREASE QUANTITY
+========================================================= */
+
+decreaseButton.addEventListener(
+    "click",
+    function () {
+
+        if (quantity > 1) {
+
+            quantity--;
+
+            productQuantity.textContent =
+                quantity;
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   INCREASE QUANTITY
+========================================================= */
+
+increaseButton.addEventListener(
+    "click",
+    function () {
+
+        quantity++;
+
+        productQuantity.textContent =
+            quantity;
+
+    }
+);
+
+
+/* =========================================================
+   ADD TO CART
+========================================================= */
+
+addButton.addEventListener(
+    "click",
+    function () {
+
+        if (
+            !selectedCountry ||
+            selectedPriceUSD === null
+        ) {
+
+            return;
 
         }
 
 
-        /* =====================================================
-           CREATE COUNTRY LIST
-        ===================================================== */
+        let cart =
+            JSON.parse(
+                localStorage.getItem("cart")
+            ) || [];
 
-        function createCountryList() {
 
-            countrySelect.innerHTML = "";
-
-            const placeholder =
-                document.createElement("option");
-
-            placeholder.value = "";
-
-            placeholder.textContent =
-                "Select your country";
-
-            countrySelect.appendChild(
-                placeholder
+        const existingProduct =
+            cart.find(
+                item =>
+                    item.sku === PRODUCT_SKU
             );
 
 
-            Object.keys(shippingRates)
-                .sort()
-                .forEach(function(country) {
+        if (existingProduct) {
 
-                    const option =
-                        document.createElement("option");
+            existingProduct.quantity +=
+                quantity;
 
-                    option.value = country;
+            existingProduct.price =
+                selectedPriceUSD;
 
-                    option.textContent =
-                        country;
+            existingProduct.country =
+                selectedCountry;
 
-                    countrySelect.appendChild(
-                        option
-                    );
+        } else {
 
-                });
+            cart.push({
+
+                name: PRODUCT_NAME,
+
+                sku: PRODUCT_SKU,
+
+                price: selectedPriceUSD,
+
+                quantity: quantity,
+
+                country: selectedCountry,
+
+                variant: "Gold Plated"
+
+            });
 
         }
 
 
-        /* =====================================================
-           CALCULATE PRODUCT PRICE
-        ===================================================== */
+        localStorage.setItem(
+            "cart",
+            JSON.stringify(cart)
+        );
 
-        function calculatePrice(
-            country
+
+        productMessage.textContent =
+            "Product added to your cart.";
+
+        productMessage.style.color =
+            "#00ff88";
+
+    }
+);
+
+
+/* =========================================================
+   BUY NOW
+========================================================= */
+
+buyButton.addEventListener(
+    "click",
+    function () {
+
+        if (
+            !selectedCountry ||
+            selectedPriceUSD === null
         ) {
 
-            if (!country) {
-
-                selectedCountry = null;
-
-                selectedPriceUSD = null;
-
-                productPrice.textContent = "—";
-
-                priceUSD.textContent =
-                    "Select your shipping country to see the price.";
-
-                shippingText.textContent =
-                    "FREE SHIPPING";
-
-                countryMessage.textContent =
-                    "";
-
-                addButton.disabled = true;
-
-                buyButton.disabled = true;
-
-                return;
-
-            }
-
-
-            if (
-                blockedCountries.includes(country)
-            ) {
-
-                selectedCountry = country;
-
-                selectedPriceUSD = null;
-
-                productPrice.textContent =
-                    "Unavailable";
-
-                priceUSD.textContent =
-                    "";
-
-                shippingText.textContent =
-                    "";
-
-                countryMessage.textContent =
-                    "Sorry, we currently do not ship to this country.";
-
-                addButton.disabled = true;
-
-                buyButton.disabled = true;
-
-                return;
-
-            }
-
-
-            const shipping =
-                shippingRates[country];
-
-
-            if (
-                typeof shipping !== "number"
-            ) {
-
-                selectedPriceUSD = null;
-
-                productPrice.textContent =
-                    "Unavailable";
-
-                countryMessage.textContent =
-                    "Shipping is currently unavailable for this country.";
-
-                addButton.disabled = true;
-
-                buyButton.disabled = true;
-
-                return;
-
-            }
-
-
-            selectedCountry = country;
-
-
-            /*
-
-                PRODUCT COST
-                +
-                CJ SHIPPING
-                +
-                $10 PROFIT
-
-            */
-
-            selectedPriceUSD =
-                PRODUCT_COST_USD +
-                shipping +
-                PROFIT_USD;
-
-
-            const currency =
-                countryCurrency[country] ||
-                "USD";
-
-
-            const rate =
-                exchangeRates[currency] ||
-                1;
-
-
-            const localPrice =
-                selectedPriceUSD *
-                rate;
-
-
-            productPrice.textContent =
-                formatCurrency(
-                    localPrice,
-                    currency
-                );
-
-
-            priceUSD.textContent =
-                "Price: $" +
-                selectedPriceUSD.toFixed(2) +
-                " USD";
-
-
-            shippingText.textContent =
-                "FREE SHIPPING";
-
-
-            countryMessage.textContent =
-                "Shipping to " +
-                country +
-                " included in the price.";
-
-
-            addButton.disabled = false;
-
-            buyButton.disabled = false;
+            return;
 
         }
 
 
-        /* =====================================================
-           COUNTRY CHANGE
-        ===================================================== */
+        const buyNowItem = {
 
-        countrySelect.addEventListener(
-            "change",
-            function() {
+            name: PRODUCT_NAME,
 
-                calculatePrice(
-                    this.value
-                );
+            sku: PRODUCT_SKU,
 
-            }
+            price: selectedPriceUSD,
+
+            quantity: quantity,
+
+            country: selectedCountry,
+
+            variant: "Gold Plated"
+
+        };
+
+
+        localStorage.setItem(
+            "buyNowItem",
+            JSON.stringify(buyNowItem)
         );
 
 
-        /* =====================================================
-           QUANTITY
-        ===================================================== */
+        window.location.href =
+            "checkout.html";
 
-        decreaseButton.addEventListener(
-            "click",
-            function() {
+    }
+);
 
-                if (quantity > 1) {
 
-                    quantity--;
+/* =========================================================
+   DETECT CUSTOMER COUNTRY
+========================================================= */
 
-                    quantityInput.value =
-                        quantity;
+function detectCountry() {
 
-                }
+    try {
 
-            }
-        );
+        const timezone =
+            Intl.DateTimeFormat()
+                .resolvedOptions()
+                .timeZone;
 
 
-        increaseButton.addEventListener(
-            "click",
-            function() {
+        const timezoneCountryMap = {
 
-                quantity++;
+            "Asia/Kolkata":
+                "India",
 
-                quantityInput.value =
-                    quantity;
+            "Asia/Calcutta":
+                "India",
 
-            }
-        );
+            "America/New_York":
+                "United States",
 
+            "America/Chicago":
+                "United States",
 
-        /* =====================================================
-           ADD TO CART
-        ===================================================== */
+            "America/Denver":
+                "United States",
 
-        addButton.addEventListener(
-            "click",
-            function() {
+            "America/Los_Angeles":
+                "United States",
 
-                if (
-                    !selectedCountry ||
-                    selectedPriceUSD === null
-                ) {
+            "America/Toronto":
+                "Canada",
 
-                    return;
+            "Europe/London":
+                "United Kingdom",
 
-                }
+            "Europe/Paris":
+                "France",
 
+            "Europe/Berlin":
+                "Germany",
 
-                let cart =
-                    JSON.parse(
-                        localStorage.getItem("cart")
-                    ) || [];
+            "Europe/Rome":
+                "Italy",
 
+            "Europe/Madrid":
+                "Spain",
 
-                const existingProduct =
-                    cart.find(
-                        item =>
-                            item.sku === PRODUCT_SKU
-                    );
+            "Europe/Amsterdam":
+                "Netherlands",
 
+            "Asia/Tokyo":
+                "Japan",
 
-                if (existingProduct) {
+            "Asia/Shanghai":
+                "China",
 
-                    existingProduct.quantity +=
-                        quantity;
+            "Asia/Hong_Kong":
+                "Hong Kong (China)",
 
-                    existingProduct.price =
-                        selectedPriceUSD;
+            "Asia/Singapore":
+                "Singapore",
 
-                    existingProduct.country =
-                        selectedCountry;
+            "Australia/Sydney":
+                "Australia",
 
-                } else {
+            "Pacific/Auckland":
+                "New Zealand",
 
-                    cart.push({
+            "Asia/Dubai":
+                "United Arab Emirates",
 
-                        name: PRODUCT_NAME,
+            "Asia/Riyadh":
+                "Saudi Arabia",
 
-                        sku: PRODUCT_SKU,
+            "Asia/Karachi":
+                "Pakistan",
 
-                        price: selectedPriceUSD,
+            "Asia/Dhaka":
+                "Bangladesh",
 
-                        quantity: quantity,
+            "Asia/Kathmandu":
+                "Nepal",
 
-                        country: selectedCountry
+            "Asia/Colombo":
+                "Sri Lanka",
 
-                    });
+            "Asia/Bangkok":
+                "Thailand",
 
-                }
+            "Asia/Kuala_Lumpur":
+                "Malaysia",
 
+            "Asia/Jakarta":
+                "Indonesia",
 
-                localStorage.setItem(
-                    "cart",
-                    JSON.stringify(cart)
-                );
+            "Asia/Manila":
+                "Philippines",
 
+            "Africa/Johannesburg":
+                "South Africa",
 
-                message.textContent =
-                    "Product added to cart.";
+            "Africa/Cairo":
+                "Egypt",
 
-            }
-        );
+            "Africa/Lagos":
+                "Nigeria",
 
+            "America/Sao_Paulo":
+                "Brazil",
 
-        /* =====================================================
-           BUY NOW
-        ===================================================== */
+            "America/Mexico_City":
+                "Mexico"
 
-        buyButton.addEventListener(
-            "click",
-            function() {
+        };
 
-                if (
-                    !selectedCountry ||
-                    selectedPriceUSD === null
-                ) {
 
-                    return;
+        const detectedCountry =
+            timezoneCountryMap[timezone];
 
-                }
 
+        /*
+           Only automatically select a country
+           that is actually available.
+        */
 
-                let cart =
-                    JSON.parse(
-                        localStorage.getItem("cart")
-                    ) || [];
+        if (
+            detectedCountry &&
+            shippingRates[detectedCountry] &&
+            !blockedCountries.includes(
+                detectedCountry
+            )
+        ) {
 
+            countrySelect.value =
+                detectedCountry;
 
-                const existingProduct =
-                    cart.find(
-                        item =>
-                            item.sku === PRODUCT_SKU
-                    );
+            calculatePrice(
+                detectedCountry
+            );
 
+        } else {
 
-                if (existingProduct) {
+            countrySelect.value = "";
 
-                    existingProduct.quantity +=
-                        quantity;
-
-                    existingProduct.price =
-                        selectedPriceUSD;
-
-                    existingProduct.country =
-                        selectedCountry;
-
-                } else {
-
-                    cart.push({
-
-                        name: PRODUCT_NAME,
-
-                        sku: PRODUCT_SKU,
-
-                        price: selectedPriceUSD,
-
-                        quantity: quantity,
-
-                        country: selectedCountry
-
-                    });
-
-                }
-
-
-                localStorage.setItem(
-                    "cart",
-                    JSON.stringify(cart)
-                );
-
-
-                window.location.href =
-                    "checkout.html";
-
-            }
-        );
-
-
-        /* =====================================================
-           TRY TO DETECT CUSTOMER COUNTRY
-           
-           This uses the browser's locale/timezone first.
-           The customer can always manually select another
-           country.
-        ===================================================== */
-
-        function detectCountry() {
-
-            let detectedCountry =
-                null;
-
-
-            const timezone =
-                Intl.DateTimeFormat()
-                    .resolvedOptions()
-                    .timeZone;
-
-
-            const language =
-                navigator.language ||
-                "";
-
-
-            const timezoneCountries = {
-
-                "Asia/Kolkata": "India",
-                "Asia/Calcutta": "India",
-                "America/New_York": "United States",
-                "America/Chicago": "United States",
-                "America/Denver": "United States",
-                "America/Los_Angeles": "United States",
-                "America/Toronto": "Canada",
-                "America/Vancouver": "Canada",
-                "Europe/London": "United Kingdom",
-                "Australia/Sydney": "Australia",
-                "Australia/Melbourne": "Australia",
-                "Asia/Tokyo": "Japan",
-                "Asia/Shanghai": "China",
-                "Asia/Hong_Kong": "Hong Kong (China)",
-                "Asia/Singapore": "Singapore",
-                "Asia/Dubai": "United Arab Emirates",
-                "Asia/Riyadh": "Saudi Arabia",
-                "Europe/Paris": "France",
-                "Europe/Berlin": "Germany",
-                "Europe/Rome": "Italy",
-                "Europe/Madrid": "Spain"
-
-            };
-
-
-            if (
-                timezoneCountries[timezone]
-            ) {
-
-                detectedCountry =
-                    timezoneCountries[timezone];
-
-            }
-
-
-            if (
-                !detectedCountry &&
-                language.includes("-IN")
-            ) {
-
-                detectedCountry =
-                    "India";
-
-            }
-
-
-            if (
-                detectedCountry &&
-                shippingRates[
-                    detectedCountry
-                ] !== undefined
-            ) {
-
-                countrySelect.value =
-                    detectedCountry;
-
-                calculatePrice(
-                    detectedCountry
-                );
-
-            }
+            calculatePrice("");
 
         }
 
+    } catch (error) {
 
-        /* =====================================================
-           START
-        ===================================================== */
+        countrySelect.value = "";
 
-        createCountryList();
+        calculatePrice("");
 
-        detectCountry();
+    }
 
-    </script>
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+createCountryList();
+
+detectCountry();
+
+</script>
 
 </body>
-
 </html>
