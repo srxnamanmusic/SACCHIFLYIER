@@ -1615,3 +1615,25 @@ document.addEventListener(
         updateCheckout();
     }
 );
+
+
+
+
+/* ================= PRODUCT IMAGE GALLERY ================= */
+
+function changeProductImage(imageSrc, thumbnail) {
+
+    const mainImage = document.getElementById("mainProductImage");
+
+    if (!mainImage) return;
+
+    mainImage.src = imageSrc;
+
+    document
+        .querySelectorAll(".product-thumbnail")
+        .forEach(function(button) {
+            button.classList.remove("active");
+        });
+
+    thumbnail.classList.add("active");
+}
