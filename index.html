@@ -157,50 +157,53 @@
 
                 <article class="product-card">
 
-                    <div class="product-image">
+                    <div class="product-image" id="sf-earring-gallery">
 
-                        <div class="product-image">
+    <input type="radio" name="sf-earring" id="sf-img-1" checked>
+    <input type="radio" name="sf-earring" id="sf-img-2">
+    <input type="radio" name="sf-earring" id="sf-img-3">
 
-    <img
-        id="mainProductImage"
-        src="earrings-1.jpg"
-        alt="Light Luxury High-grade Micro Inlaid Zircon Chain Earrings"
-    >
+    <div class="sf-main-images">
 
-    <div class="product-thumbnails">
-
-        <button
-            type="button"
-            class="product-thumbnail active"
-            onclick="changeProductImage('earrings-1.jpg', this)"
+        <img
+            src="earrings-1.jpg"
+            alt="Light Luxury High-grade Micro Inlaid Zircon Chain Earrings"
         >
+
+        <img
+            src="earrings-2.jpg"
+            alt="Light Luxury High-grade Micro Inlaid Zircon Chain Earrings"
+        >
+
+        <img
+            src="earrings-3.jpg"
+            alt="Light Luxury High-grade Micro Inlaid Zircon Chain Earrings"
+        >
+
+    </div>
+
+    <div class="sf-thumbnails">
+
+        <label for="sf-img-1">
             <img
                 src="earrings-1.jpg"
-                alt="Product image 1"
+                alt="Image 1"
             >
-        </button>
+        </label>
 
-        <button
-            type="button"
-            class="product-thumbnail"
-            onclick="changeProductImage('earrings-2.jpg', this)"
-        >
+        <label for="sf-img-2">
             <img
                 src="earrings-2.jpg"
-                alt="Product image 2"
+                alt="Image 2"
             >
-        </button>
+        </label>
 
-        <button
-            type="button"
-            class="product-thumbnail"
-            onclick="changeProductImage('earrings-3.jpg', this)"
-        >
+        <label for="sf-img-3">
             <img
                 src="earrings-3.jpg"
-                alt="Product image 3"
+                alt="Image 3"
             >
-        </button>
+        </label>
 
     </div>
 
