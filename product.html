@@ -979,14 +979,7 @@
 };
 
 
-    /* =====================================================
-   LIVE EXCHANGE RATES
-
-   Rates are loaded automatically from USD.
-   The API returns the latest available rates.
-===================================================== */
-
-let exchangeRates = {
+    let exchangeRates = {
     USD: 1
 };
 
@@ -1013,9 +1006,7 @@ async function loadLiveExchangeRates() {
             data.time_last_update_utc
         );
 
-        // Recalculate the current product price
         if (
-            typeof customerCountry !== "undefined" &&
             customerCountry.value &&
             customerCountry.value !== "Detecting your country..."
         ) {
@@ -1023,19 +1014,14 @@ async function loadLiveExchangeRates() {
         }
 
     } catch (error) {
-        console.error(
-            "Could not load live exchange rates:",
-            error
-        );
+        console.error("Could not load live exchange rates:", error);
 
-        // USD remains available if the API is temporarily unavailable
         exchangeRates = {
             USD: 1
         };
     }
 }
 
-// Load rates when the page opens
 loadLiveExchangeRates();
 
         /* =====================================================
