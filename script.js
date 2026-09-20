@@ -112,6 +112,7 @@ const blockedCountries = [
     "Micronesia (Federated States of)",
     "Palau",
     "South Sudan"
+    "Holy See"
 ];
 
 
@@ -689,9 +690,25 @@ function updateStoreCartUI() {
                     ${escapeHTML(item.name)}
                 </strong>
 
-                <p>
-                    Qty: ${quantity}
-                </p>
+                <div class="cart-quantity">
+    <span>Qty:</span>
+
+    <button
+        type="button"
+        class="cart-quantity-btn"
+        data-index="${index}"
+        data-change="-1"
+    >−</button>
+
+    <span class="cart-quantity-number">${quantity}</span>
+
+    <button
+        type="button"
+        class="cart-quantity-btn"
+        data-index="${index}"
+        data-change="1"
+    >+</button>
+</div>
 
                 <p>
                     ${formatMoney(
