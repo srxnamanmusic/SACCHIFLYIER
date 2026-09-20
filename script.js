@@ -690,25 +690,9 @@ function updateStoreCartUI() {
                     ${escapeHTML(item.name)}
                 </strong>
 
-                <div class="cart-quantity">
-    <span>Qty:</span>
-
-    <button
-        type="button"
-        class="cart-quantity-btn"
-        data-index="${index}"
-        data-change="-1"
-    >−</button>
-
-    <span class="cart-quantity-number">${quantity}</span>
-
-    <button
-        type="button"
-        class="cart-quantity-btn"
-        data-index="${index}"
-        data-change="1"
-    >+</button>
-</div>
+                <p>
+    Qty: ${quantity}
+</p>
 
                 <p>
                     ${formatMoney(
