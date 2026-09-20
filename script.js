@@ -111,7 +111,7 @@ const blockedCountries = [
     "Guinea-Bissau",
     "Micronesia (Federated States of)",
     "Palau",
-    "South Sudan"
+    "South Sudan",
     "Holy See"
 ];
 
@@ -205,7 +205,6 @@ const countryCurrency = {
 
 /* =========================================================
    5. FALLBACK EXCHANGE RATES
-   Approximate display rates
    ========================================================= */
 
 const exchangeRates = {
@@ -569,12 +568,6 @@ function addToCart(productName) {
 
     updateCartCount();
 
-    /*
-       Automatically open the cart panel
-       after the product is added.
-       No popup alert.
-    */
-
     const cartPanel =
         document.getElementById("cartPanel");
 
@@ -690,9 +683,33 @@ function updateStoreCartUI() {
                     ${escapeHTML(item.name)}
                 </strong>
 
-                <p>
-    Qty: ${quantity}
-</p>
+                <div class="cart-quantity">
+
+                    <span>Qty:</span>
+
+                    <button
+                        type="button"
+                        class="quantity-minus"
+                        data-index="${index}"
+                        aria-label="Decrease quantity"
+                    >
+                        −
+                    </button>
+
+                    <span class="quantity-number">
+                        ${quantity}
+                    </span>
+
+                    <button
+                        type="button"
+                        class="quantity-plus"
+                        data-index="${index}"
+                        aria-label="Increase quantity"
+                    >
+                        +
+                    </button>
+
+                </div>
 
                 <p>
                     ${formatMoney(
@@ -764,6 +781,87 @@ function updateStoreCartUI() {
             );
         });
 }
+
+
+/* =========================================================
+   CART QUANTITY + / -
+   ========================================================= */
+
+document.addEventListener(
+    "click",
+    function (event) {
+
+        const minusButton =
+            event.target.closest(
+                ".quantity-minus"
+            );
+
+        const plusButton =
+            event.target.closest(
+                ".quantity-plus"
+            );
+
+        if (
+            !minusButton &&
+            !plusButton
+        ) {
+            return;
+        }
+
+        const button =
+            minusButton || plusButton;
+
+        const index =
+            Number(
+                button.dataset.index
+            );
+
+        if (
+            !Number.isInteger(index)
+        ) {
+            return;
+        }
+
+        const cart =
+            getCart();
+
+        if (!cart[index]) {
+            return;
+        }
+
+        let quantity =
+            Number(
+                cart[index].quantity || 1
+            );
+
+        if (minusButton) {
+
+            quantity--;
+        }
+
+        if (plusButton) {
+
+            quantity++;
+        }
+
+        /* Minimum quantity = 1 */
+
+        quantity =
+            Math.max(
+                1,
+                quantity
+            );
+
+        cart[index].quantity =
+            quantity;
+
+        saveCart(cart);
+
+        updateStoreCartUI();
+
+        updateCartCount();
+    }
+);
 
 
 /* =========================================================
@@ -977,12 +1075,6 @@ function updateCheckout() {
             row
         );
     });
-
-    /*
-       Customer shipping is FREE.
-       CJ shipping is already included
-       inside the product price.
-    */
 
     if (shippingElement) {
 
@@ -1285,13 +1377,6 @@ function setupCheckoutForm() {
                 "lastOrder",
                 JSON.stringify(order)
             );
-
-            /*
-               IMPORTANT:
-               This saves the order locally.
-               It does NOT charge an online payment
-               or send the order to CJ.
-            */
 
             alert(
                 "Order information saved successfully!\n\n" +
@@ -1618,24 +1703,39 @@ document.addEventListener(
 );
 
 
-
-
 /* ================= PRODUCT IMAGE GALLERY ================= */
 
-function changeProductImage(imageSrc, thumbnail) {
+function changeProductImage(
+    imageSrc,
+    thumbnail
+) {
 
-    const mainImage = document.getElementById("mainProductImage");
+    const mainImage =
+        document.getElementById(
+            "mainProductImage"
+        );
 
-    if (!mainImage) return;
+    if (!mainImage) {
+        return;
+    }
 
-    mainImage.src = imageSrc;
+    mainImage.src =
+        imageSrc;
 
     document
-        .querySelectorAll(".product-thumbnail")
-        .forEach(function(button) {
-            button.classList.remove("active");
-        });
+        .querySelectorAll(
+            ".product-thumbnail"
+        )
+        .forEach(
+            function (button) {
 
-    thumbnail.classList.add("active");
+                button.classList.remove(
+                    "active"
+                );
+            }
+        );
+
+    thumbnail.classList.add(
+        "active"
+    );
 }
-
