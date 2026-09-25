@@ -413,6 +413,27 @@ function getProductCost(item) {
         : PRODUCT_COST_USD;
 }
 
+function getProductCost(item) {
+
+    const sku = getProductSKU(item);
+
+    /* PRODUCT 1 */
+    if (sku === MAIN_PRODUCT_SKU) {
+        return PRODUCT_COST_USD;
+    }
+
+    /* PRODUCT 2 */
+    if (sku === "CJYD268159623WD") {
+        return 6.14;
+    }
+
+    /* OTHER PRODUCTS */
+    const price = Number(item.price);
+
+    return Number.isFinite(price)
+        ? price
+        : PRODUCT_COST_USD;
+}
 
 /* =========================================================
    9. COUNTRY / SHIPPING
