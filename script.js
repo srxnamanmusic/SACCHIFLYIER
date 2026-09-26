@@ -282,6 +282,7 @@ const blockedCountries = [
     "Palau",
     "South Sudan",
     "Holy See"
+    "Korea (the Democratic People's Republic of)"
 ];
 
 
