@@ -908,3 +908,63 @@ body {
     }
 }
 ```
+
+/* =========================================================
+   PRODUCT 2 — OVERFLOW FIX
+   ========================================================= */
+
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.product-page,
+.product-container,
+.product-content,
+.product-info {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.product-title,
+.product-info h1 {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+
+@media (max-width: 900px) {
+
+    .product-container {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .product-info {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .product-title,
+    .product-info h1 {
+        font-size: clamp(32px, 7vw, 58px);
+        line-height: 1.05;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .product-title,
+    .product-info h1 {
+        font-size: 32px;
+        line-height: 1.08;
+    }
+
+}
