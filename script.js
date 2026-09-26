@@ -1,6 +1,6 @@
 /* =========================================================
    SACCHI FLYIER
-   CART + CHECKOUT + COUNTRY PRICING
+   CLEAN CART + CHECKOUT + COUNTRY CURRENCY SYSTEM
    ========================================================= */
 
 
@@ -8,17 +8,27 @@
    1. PRODUCT SETTINGS
    ========================================================= */
 
-const PRODUCT_COST_USD = 1.62;
-const PROFIT_USD = 10.00;
+const PRODUCT_1 = {
+    sku: "CJLX239765601AZ",
+    name: "Light Luxury High-grade Micro Inlaid Zircon Chain Earrings",
+    costUSD: 1.62
+};
 
-const MAIN_PRODUCT_SKU = "CJLX239765601AZ";
+const PRODUCT_2 = {
+    sku: "CJYD268159623WD",
+    name: "Fleece Zip Up Jacket Women's Stand Collar Solid Color Loose Fit Casual Long Sleeve Outerwear",
+    costUSD: 6.14
+};
+
+const PROFIT_USD = 10.00;
 
 
 /* =========================================================
-   2. SHIPPING RATES FROM CJ
+   2. PRODUCT 1 SHIPPING RATES
    ========================================================= */
 
 const shippingRates = {
+
     "Afghanistan": 3.72,
     "Albania": 3.22,
     "Algeria": 3.35,
@@ -257,6 +267,8 @@ const shippingRates = {
     "Zambia": 3.46,
     "Zimbabwe": 4.01
 };
+
+
 /* =========================================================
    3. BLOCKED COUNTRIES
    ========================================================= */
@@ -274,330 +286,252 @@ const blockedCountries = [
 
 
 /* =========================================================
-   4. COUNTRY CURRENCY
+   4. COUNTRY → CURRENCY
    ========================================================= */
 
-const countryCurrencySymbols = {
-    "Afghanistan": "؋",
-    "Albania": "Lek",
-    "Algeria": "دج",
-    "American Samoa": "$",
-    "Andorra": "€",
-    "Angola": "Kz",
-    "Anguilla": "$",
-    "Antigua and Barbuda": "$",
-    "Argentina": "$",
-    "Armenia": "֏",
-    "Aruba": "ƒ",
-    "Australia": "$",
-    "Austria": "€",
-    "Azerbaijan": "₼",
-    "Bahamas": "$",
-    "Bahrain": ".د.ب",
-    "Bangladesh": "৳",
-    "Barbados": "$",
-    "Belarus": "Br",
-    "Belgium": "€",
-    "Belize": "BZ$",
-    "Benin": "CFA",
-    "Bermuda": "$",
-    "Bhutan": "Nu.",
-    "Bolivia (Plurinational State of)": "Bs.",
-    "Bonaire, Sint Eustatius and Saba": "$",
-    "Bosnia and Herzegovina": "KM",
-    "Botswana": "P",
-    "Bouvet Island": "kr",
-    "Brazil": "R$",
-    "British Indian Ocean Territory": "$",
-    "Brunei Darussalam": "$",
-    "Bulgaria": "лв",
-    "Burkina Faso": "CFA",
-    "Burundi": "FBu",
-    "Cabo Verde": "$",
-    "Cambodia": "៛",
-    "Cameroon": "FCFA",
-    "Canada": "$",
-    "Cayman Islands": "$",
-    "Central African Republic": "FCFA",
-    "Chad": "FCFA",
-    "Chile": "$",
-    "China": "¥",
-    "Christmas Island": "$",
-    "Cocos (Keeling) Islands": "$",
-    "Colombia": "$",
-    "Comoros": "CF",
-    "Congo (the Democratic Republic of the)": "FC",
-    "Congo": "FCFA",
-    "Cook Islands": "$",
-    "Costa Rica": "₡",
-    "Côte d’Ivoire": "CFA",
-    "Croatia": "€",
-    "Cuba": "$",
-    "Curaçao": "ƒ",
-    "Cyprus": "€",
-    "Czechia": "Kč",
-    "Denmark": "kr",
-    "Djibouti": "Fdj",
-    "Dominica": "$",
-    "Dominican Republic": "RD$",
-    "Ecuador": "$",
-    "Egypt": "£",
-    "El Salvador": "$",
-    "Equatorial Guinea": "FCFA",
-    "Eritrea": "Nfk",
-    "Estonia": "€",
-    "Ethiopia": "Br",
-    "Falkland Islands": "£",
-    "Faroe Islands": "kr",
-    "Fiji": "$",
-    "Finland": "€",
-    "France": "€",
-    "French Guiana": "€",
-    "French Polynesia": "₣",
-    "French Southern Territories": "€",
-    "Gabon": "FCFA",
-    "Gambia": "D",
-    "Georgia": "₾",
-    "Germany": "€",
-    "Ghana": "₵",
-    "Gibraltar": "£",
-    "Greece": "€",
-    "Greenland": "kr",
-    "Grenada": "$",
-    "Guadeloupe": "€",
-    "Guam": "$",
-    "Guatemala": "Q",
-    "Guernsey": "£",
-    "Guinea": "FG",
-    "Guyana": "$",
-    "Haiti": "G",
-    "Hawaii": "",
-    "Heard Island and McDonald Islands": "$",
-    "Honduras": "L",
-    "Hong Kong (China)": "$",
-    "Hungary": "Ft",
-    "Iceland": "kr",
-    "India": "₹",
-    "Indonesia": "Rp",
-    "Iran (Islamic Republic of)": "﷼",
-    "Ireland": "€",
-    "Isle of Man": "£",
-    "Israel": "₪",
-    "Italy": "€",
-    "Jamaica": "J$",
-    "Japan": "¥",
-    "Jersey": "£",
-    "Jordan": "د.ا",
-    "Kazakhstan": "₸",
-    "Kenya": "KSh",
-    "Kiribati": "$",
-    "Korea": "₩",
-    "Kuwait": "د.ك",
-    "Kyrgyzstan": "с",
-    "Lao People’s Democratic Republic": "₭",
-    "Latvia": "€",
-    "Lebanon": "£",
-    "Lesotho": "L",
-    "Liberia": "$",
-    "Libya": "ل.د",
+const countryCurrency = {
+
+    "Afghanistan": "AFN",
+    "Albania": "ALL",
+    "Algeria": "DZD",
+    "American Samoa": "USD",
+    "Andorra": "EUR",
+    "Angola": "AOA",
+    "Anguilla": "XCD",
+    "Antigua and Barbuda": "XCD",
+    "Argentina": "ARS",
+    "Armenia": "AMD",
+    "Aruba": "AWG",
+    "Australia": "AUD",
+    "Austria": "EUR",
+    "Azerbaijan": "AZN",
+    "Bahamas": "BSD",
+    "Bahrain": "BHD",
+    "Bangladesh": "BDT",
+    "Barbados": "BBD",
+    "Belarus": "BYN",
+    "Belgium": "EUR",
+    "Belize": "BZD",
+    "Benin": "XOF",
+    "Bermuda": "BMD",
+    "Bhutan": "BTN",
+    "Bolivia (Plurinational State of)": "BOB",
+    "Bonaire, Sint Eustatius and Saba": "USD",
+    "Bosnia and Herzegovina": "BAM",
+    "Botswana": "BWP",
+    "Bouvet Island": "NOK",
+    "Brazil": "BRL",
+    "British Indian Ocean Territory": "USD",
+    "Brunei Darussalam": "BND",
+    "Bulgaria": "EUR",
+    "Burkina Faso": "XOF",
+    "Burundi": "BIF",
+    "Cabo Verde": "CVE",
+    "Cambodia": "KHR",
+    "Cameroon": "XAF",
+    "Canada": "CAD",
+    "Cayman Islands": "KYD",
+    "Central African Republic": "XAF",
+    "Chad": "XAF",
+    "Chile": "CLP",
+    "China": "CNY",
+    "Christmas Island": "AUD",
+    "Cocos (Keeling) Islands": "AUD",
+    "Colombia": "COP",
+    "Comoros": "KMF",
+    "Congo (the Democratic Republic of the)": "CDF",
+    "Congo": "XAF",
+    "Cook Islands": "NZD",
+    "Costa Rica": "CRC",
+    "Côte d’Ivoire": "XOF",
+    "Croatia": "EUR",
+    "Cuba": "CUP",
+    "Curaçao": "ANG",
+    "Cyprus": "EUR",
+    "Czechia": "CZK",
+    "Denmark": "DKK",
+    "Djibouti": "DJF",
+    "Dominica": "XCD",
+    "Dominican Republic": "DOP",
+    "Ecuador": "USD",
+    "Egypt": "EGP",
+    "El Salvador": "USD",
+    "Equatorial Guinea": "XAF",
+    "Eritrea": "ERN",
+    "Estonia": "EUR",
+    "Ethiopia": "ETB",
+    "Falkland Islands": "FKP",
+    "Faroe Islands": "DKK",
+    "Fiji": "FJD",
+    "Finland": "EUR",
+    "France": "EUR",
+    "French Guiana": "EUR",
+    "French Polynesia": "XPF",
+    "French Southern Territories": "EUR",
+    "Gabon": "XAF",
+    "Gambia": "GMD",
+    "Georgia": "GEL",
+    "Germany": "EUR",
+    "Ghana": "GHS",
+    "Gibraltar": "GIP",
+    "Greece": "EUR",
+    "Greenland": "DKK",
+    "Grenada": "XCD",
+    "Guadeloupe": "EUR",
+    "Guam": "USD",
+    "Guatemala": "GTQ",
+    "Guernsey": "GBP",
+    "Guinea": "GNF",
+    "Guyana": "GYD",
+    "Haiti": "HTG",
+    "Heard Island and McDonald Islands": "AUD",
+    "Honduras": "HNL",
+    "Hong Kong (China)": "HKD",
+    "Hungary": "HUF",
+    "Iceland": "ISK",
+    "India": "INR",
+    "Indonesia": "IDR",
+    "Iran (Islamic Republic of)": "IRR",
+    "Ireland": "EUR",
+    "Isle of Man": "GBP",
+    "Israel": "ILS",
+    "Italy": "EUR",
+    "Jamaica": "JMD",
+    "Japan": "JPY",
+    "Jersey": "GBP",
+    "Jordan": "JOD",
+    "Kazakhstan": "KZT",
+    "Kenya": "KES",
+    "Kiribati": "AUD",
+    "Korea": "KRW",
+    "Kuwait": "KWD",
+    "Kyrgyzstan": "KGS",
+    "Lao People’s Democratic Republic": "LAK",
+    "Latvia": "EUR",
+    "Lebanon": "LBP",
+    "Lesotho": "LSL",
+    "Liberia": "LRD",
+    "Libya": "LYD",
     "Liechtenstein": "CHF",
-    "Lithuania": "€",
-    "Luxembourg": "€",
-    "Macao (China)": "MOP$",
-    "Macedonia (the former Yugoslav Republic of)": "ден",
-    "Madagascar": "Ar",
-    "Malawi": "MK",
-    "Malaysia": "RM",
-    "Maldives": "Rf",
-    "Mali": "CFA",
-    "Malta": "€",
-    "Marshall Islands": "$",
-    "Martinique": "€",
-    "Mauritania": "UM",
-    "Mauritius": "₨",
-    "Mayotte": "€",
-    "Mexico": "$",
-    "Moldova (the Republic of)": "L",
-    "Monaco": "€",
-    "Mongolia": "₮",
-    "Montenegro": "€",
-    "Montserrat": "$",
-    "Morocco": "د.م.",
-    "Mozambique": "MT",
-    "Myanmar": "K",
-    "Namibia": "$",
-    "Nauru": "$",
-    "Nepal": "₨",
-    "Netherlands": "€",
-    "New Caledonia": "₣",
-    "New Zealand": "$",
-    "Nicaragua": "C$",
-    "Niger": "CFA",
-    "Nigeria": "₦",
-    "Niue": "$",
-    "Norfolk Island": "$",
-    "Northern Mariana Islands": "$",
-    "Norway": "kr",
-    "Oman": "﷼",
-    "Pakistan": "₨",
-    "Panama": "B/.",
-    "Papua New Guinea": "K",
-    "Paraguay": "₲",
-    "Peru": "S/",
-    "Philippines": "₱",
-    "Pitcairn": "NZ$",
-    "Poland": "zł",
-    "Portugal": "€",
-    "Puerto Rico": "$",
-    "Qatar": "﷼",
-    "Réunion": "€",
-    "Romania": "lei",
-    "Russia": "₽",
-    "Russian Federation": "₽",
-    "Rwanda": "FRw",
-    "Saint Helena, Ascension and Tristan da Cunha": "£",
-    "Saint Kitts and Nevis": "$",
-    "Saint Lucia": "$",
-    "Saint Martin (French part)": "€",
-    "Saint Pierre and Miquelon": "€",
-    "Saint Vincent and the Grenadines": "$",
-    "Samoa": "T",
-    "San Marino": "€",
-    "São Tomé and Príncipe": "Db",
-    "Saudi Arabia": "﷼",
-    "Senegal": "CFA",
-    "Serbia": "Дин.",
-    "Seychelles": "₨",
-    "Sierra Leone": "Le",
-    "Singapore": "$",
-    "Sint Maarten (Dutch part)": "ƒ",
-    "Slovakia": "€",
-    "Slovenia": "€",
-    "Solomon Islands": "$",
-    "Somalia": "S",
-    "South Africa": "R",
-    "South Georgia and the South Sandwich Islands": "£",
-    "Spain": "€",
-    "Sri Lanka": "₨",
-    "Sudan": "ج.س.",
-    "Suriname": "$",
-    "Eswatini": "L",
-    "Sweden": "kr",
+    "Lithuania": "EUR",
+    "Luxembourg": "EUR",
+    "Macao (China)": "MOP",
+    "Macedonia (the former Yugoslav Republic of)": "MKD",
+    "Madagascar": "MGA",
+    "Malawi": "MWK",
+    "Malaysia": "MYR",
+    "Maldives": "MVR",
+    "Mali": "XOF",
+    "Malta": "EUR",
+    "Marshall Islands": "USD",
+    "Martinique": "EUR",
+    "Mauritania": "MRU",
+    "Mauritius": "MUR",
+    "Mayotte": "EUR",
+    "Mexico": "MXN",
+    "Moldova (the Republic of)": "MDL",
+    "Monaco": "EUR",
+    "Mongolia": "MNT",
+    "Montenegro": "EUR",
+    "Montserrat": "XCD",
+    "Morocco": "MAD",
+    "Mozambique": "MZN",
+    "Myanmar": "MMK",
+    "Namibia": "NAD",
+    "Nauru": "AUD",
+    "Nepal": "NPR",
+    "Netherlands": "EUR",
+    "New Caledonia": "XPF",
+    "New Zealand": "NZD",
+    "Nicaragua": "NIO",
+    "Niger": "XOF",
+    "Nigeria": "NGN",
+    "Niue": "NZD",
+    "Norfolk Island": "AUD",
+    "Northern Mariana Islands": "USD",
+    "Norway": "NOK",
+    "Oman": "OMR",
+    "Pakistan": "PKR",
+    "Panama": "PAB",
+    "Papua New Guinea": "PGK",
+    "Paraguay": "PYG",
+    "Peru": "PEN",
+    "Philippines": "PHP",
+    "Pitcairn": "NZD",
+    "Poland": "PLN",
+    "Portugal": "EUR",
+    "Puerto Rico": "USD",
+    "Qatar": "QAR",
+    "Réunion": "EUR",
+    "Romania": "RON",
+    "Russian Federation": "RUB",
+    "Russia": "RUB",
+    "Rwanda": "RWF",
+    "Saint Helena, Ascension and Tristan da Cunha": "SHP",
+    "Saint Kitts and Nevis": "XCD",
+    "Saint Lucia": "XCD",
+    "Saint Martin (French part)": "EUR",
+    "Saint Pierre and Miquelon": "EUR",
+    "Saint Vincent and the Grenadines": "XCD",
+    "Samoa": "WST",
+    "San Marino": "EUR",
+    "São Tomé and Príncipe": "STN",
+    "Saudi Arabia": "SAR",
+    "Senegal": "XOF",
+    "Serbia": "RSD",
+    "Seychelles": "SCR",
+    "Sierra Leone": "SLE",
+    "Singapore": "SGD",
+    "Sint Maarten (Dutch part)": "ANG",
+    "Slovakia": "EUR",
+    "Slovenia": "EUR",
+    "Solomon Islands": "SBD",
+    "Somalia": "SOS",
+    "South Africa": "ZAR",
+    "South Georgia and the South Sandwich Islands": "GBP",
+    "Spain": "EUR",
+    "Sri Lanka": "LKR",
+    "Sudan": "SDG",
+    "Suriname": "SRD",
+    "Eswatini": "SZL",
+    "Sweden": "SEK",
     "Switzerland": "CHF",
-    "Taiwan": "NT$",
-    "Taiwan (Province of China)": "NT$",
-    "Tajikistan": "SM",
-    "Tanzania, United Republic of": "TSh",
-    "Thailand": "฿",
-    "The Republic of Kosovo": "€",
-    "Timor-Leste": "$",
-    "Togo": "CFA",
-    "Tokelau": "NZ$",
-    "Tonga": "T$",
-    "Trinidad and Tobago": "TT$",
-    "Tunisia": "د.ت",
-    "Turkey": "₺",
-    "Turks and Caicos Islands": "$",
-    "Tuvalu": "$",
-    "Uganda": "USh",
-    "Ukraine": "₴",
-    "United Arab Emirates": "د.إ",
-    "United Kingdom": "£",
-    "United States": "$",
-    "Uruguay": "$U",
-    "Uzbekistan": "лв",
-    "Vanuatu": "VT",
-    "Venezuela (Bolivarian Republic of)": "Bs.",
-    "Vietnam": "₫",
-    "Virgin Islands (British)": "$",
-    "Virgin Islands (U.S.)": "$",
-    "Wallis and Futuna": "₣",
-    "Western Sahara": "د.م.",
-    "Zambia": "ZK",
-    "Zimbabwe": "$"
-};
-
-/* =========================================================
-   5. FALLBACK EXCHANGE RATES
-   ========================================================= */
-
-const exchangeRates = {
-
-    USD: 1,
-
-    INR: 83.50,
-    EUR: 0.92,
-    GBP: 0.78,
-    AUD: 1.52,
-    CAD: 1.36,
-    CNY: 7.25,
-    JPY: 149,
-    KRW: 1380,
-    AED: 3.67,
-    SAR: 3.75,
-    SGD: 1.34,
-    NZD: 1.65,
-    CHF: 0.88,
-    SEK: 10.50,
-    NOK: 10.70,
-    DKK: 6.85,
-    PLN: 3.95,
-    CZK: 23.20,
-    HUF: 360,
-    RON: 4.58,
-    TRY: 33.00,
-    ZAR: 18.20,
-
-    BDT: 117,
-    PKR: 278,
-    NPR: 133,
-    LKR: 300,
-    MYR: 4.70,
-    THB: 36.00,
-    IDR: 16200,
-    PHP: 57.50,
-    VND: 24500,
-
-    BRL: 5.20,
-    MXN: 18.50,
-    ARS: 950,
-    CLP: 930,
-    COP: 4100,
-    PEN: 3.75,
-    CRC: 520,
-
-    EGP: 48,
-    MAD: 10.00,
-    NGN: 1500,
-    KES: 130,
-    GHS: 15,
-
-    ILS: 3.70,
-    GEL: 2.70,
-    KZT: 480,
-    UAH: 41,
-    RUB: 90,
-    AZN: 1.70,
-
-    AFN: 70,
-    ALL: 93,
-    DZD: 135,
-    BGN: 1.80,
-    HRK: 0.92,
-    ISK: 140,
-    MVR: 15.40,
-    RSD: 108,
-    TND: 3.10,
-    OMR: 0.385,
-    QAR: 3.64,
-    KHR: 4100,
-    HKD: 7.80,
-    TWD: 32.00
+    "Taiwan (Province of China)": "TWD",
+    "Taiwan": "TWD",
+    "Tajikistan": "TJS",
+    "Tanzania, United Republic of": "TZS",
+    "Thailand": "THB",
+    "The Republic of Kosovo": "EUR",
+    "Timor-Leste": "USD",
+    "Togo": "XOF",
+    "Tokelau": "NZD",
+    "Tonga": "TOP",
+    "Trinidad and Tobago": "TTD",
+    "Tunisia": "TND",
+    "Turkey": "TRY",
+    "Turks and Caicos Islands": "USD",
+    "Tuvalu": "AUD",
+    "Uganda": "UGX",
+    "Ukraine": "UAH",
+    "United Arab Emirates": "AED",
+    "United Kingdom": "GBP",
+    "United States": "USD",
+    "Uruguay": "UYU",
+    "Uzbekistan": "UZS",
+    "Vanuatu": "VUV",
+    "Venezuela (Bolivarian Republic of)": "VES",
+    "Vietnam": "VND",
+    "Virgin Islands (British)": "USD",
+    "Virgin Islands (U.S.)": "USD",
+    "Wallis and Futuna": "XPF",
+    "Western Sahara": "MAD",
+    "Zambia": "ZMW",
+    "Zimbabwe": "ZWG"
 };
 
 
 /* =========================================================
-   6. CURRENCY SYMBOLS
+   5. CURRENCY SYMBOLS
    ========================================================= */
 
 const currencySymbols = {
@@ -662,26 +596,319 @@ const currencySymbols = {
     QAR: "﷼",
     KHR: "៛",
     HKD: "HK$",
-    TWD: "NT$"
+    TWD: "NT$",
+
+    AOA: "Kz",
+    AMD: "֏",
+    AWG: "ƒ",
+    BSD: "B$",
+    BHD: ".د.ب",
+    BBD: "Bds$",
+    BYN: "Br",
+    BZD: "BZ$",
+    BOB: "Bs.",
+    BAM: "KM",
+    BWP: "P",
+    BND: "B$",
+    BIF: "FBu",
+    CVE: "$",
+    XOF: "CFA",
+    XAF: "FCFA",
+    XCD: "EC$",
+    CUP: "$",
+    ANG: "ƒ",
+    DOP: "RD$",
+    ERN: "Nfk",
+    ETB: "Br",
+    FKP: "£",
+    FJD: "FJ$",
+    GMD: "D",
+    GHS: "₵",
+    GIP: "£",
+    GTQ: "Q",
+    GNF: "FG",
+    GYD: "G$",
+    HTG: "G",
+    HNL: "L",
+    IRR: "﷼",
+    JMD: "J$",
+    JOD: "د.ا",
+    KWD: "د.ك",
+    KGS: "с",
+    LAK: "₭",
+    LBP: "ل.ل",
+    LSL: "L",
+    LRD: "L$",
+    LYD: "ل.د",
+    MOP: "MOP$",
+    MKD: "ден",
+    MGA: "Ar",
+    MWK: "MK",
+    MNT: "₮",
+    MRU: "UM",
+    MUR: "₨",
+    MMK: "K",
+    NAD: "N$",
+    NIO: "C$",
+    PGK: "K",
+    PAB: "B/.",
+    PYG: "₲",
+    RWF: "FRw",
+    SCR: "₨",
+    SLE: "Le",
+    SHP: "£",
+    SBD: "SI$",
+    SOS: "S",
+    SDG: "ج.س.",
+    SRD: "$",
+    SZL: "E",
+    TJS: "SM",
+    TZS: "TSh",
+    TOP: "T$",
+    TTD: "TT$",
+    UGX: "USh",
+    UYU: "$U",
+    UZS: "лв",
+    VUV: "VT",
+    VES: "Bs.",
+    XPF: "₣",
+    ZMW: "ZK",
+    ZWG: "Zi"
 };
 
 
 /* =========================================================
-   7. CART STORAGE
+   6. FALLBACK EXCHANGE RATES
+   ========================================================= */
+
+const exchangeRates = {
+
+    USD: 1,
+
+    INR: 83.50,
+    EUR: 0.92,
+    GBP: 0.78,
+    AUD: 1.52,
+    CAD: 1.36,
+    CNY: 7.25,
+    JPY: 149,
+    KRW: 1380,
+    AED: 3.67,
+    SAR: 3.75,
+    SGD: 1.34,
+    NZD: 1.65,
+    CHF: 0.88,
+    SEK: 10.50,
+    NOK: 10.70,
+    DKK: 6.85,
+    PLN: 3.95,
+    CZK: 23.20,
+    HUF: 360,
+    RON: 4.58,
+    TRY: 33,
+    ZAR: 18.20,
+
+    BDT: 117,
+    PKR: 278,
+    NPR: 133,
+    LKR: 300,
+    MYR: 4.70,
+    THB: 36,
+    IDR: 16200,
+    PHP: 57.50,
+    VND: 24500,
+
+    BRL: 5.20,
+    MXN: 18.50,
+    ARS: 950,
+    CLP: 930,
+    COP: 4100,
+    PEN: 3.75,
+    CRC: 520,
+
+    EGP: 48,
+    MAD: 10,
+    NGN: 1500,
+    KES: 130,
+    GHS: 15,
+
+    ILS: 3.70,
+    GEL: 2.70,
+    KZT: 480,
+    UAH: 41,
+    RUB: 90,
+    AZN: 1.70,
+
+    AFN: 70,
+    ALL: 93,
+    DZD: 135,
+    BGN: 1.80,
+    ISK: 140,
+    MVR: 15.40,
+    RSD: 108,
+    TND: 3.10,
+    OMR: 0.385,
+    QAR: 3.64,
+    KHR: 4100,
+    HKD: 7.80,
+    TWD: 32,
+
+    AOA: 900,
+    AMD: 390,
+    AWG: 1.79,
+    BSD: 1,
+    BHD: 0.376,
+    BBD: 2,
+    BYN: 3.3,
+    BZD: 2,
+    BOB: 6.9,
+    BAM: 1.80,
+    BWP: 13.5,
+    BND: 1.34,
+    BIF: 2900,
+    CVE: 101,
+    XOF: 605,
+    XAF: 605,
+    XCD: 2.70,
+    CUP: 24,
+    ANG: 1.79,
+    DOP: 60,
+    ERN: 15,
+    ETB: 57,
+    FKP: 0.78,
+    FJD: 2.25,
+    GMD: 68,
+    GIP: 0.78,
+    GTQ: 7.75,
+    GNF: 8600,
+    GYD: 209,
+    HTG: 132,
+    HNL: 25,
+    IRR: 42000,
+    JMD: 158,
+    JOD: 0.709,
+    KWD: 0.307,
+    KGS: 87,
+    LAK: 22000,
+    LBP: 89500,
+    LSL: 18.2,
+    LRD: 190,
+    LYD: 4.85,
+    MOP: 8.05,
+    MKD: 56.5,
+    MGA: 4500,
+    MWK: 1740,
+    MNT: 3450,
+    MRU: 39,
+    MUR: 46,
+    MMK: 2100,
+    NAD: 18.2,
+    NIO: 36.7,
+    PAB: 1,
+    PGK: 3.8,
+    PYG: 7900,
+    RWF: 1400,
+    SCR: 13.5,
+    SLE: 22.5,
+    SHP: 0.78,
+    SBD: 8.5,
+    SOS: 570,
+    SDG: 600,
+    SRD: 36,
+    SZL: 18.2,
+    TJS: 10.9,
+    TZS: 2650,
+    TOP: 2.35,
+    TTD: 6.75,
+    UGX: 3500,
+    UYU: 40,
+    UZS: 12600,
+    VUV: 120,
+    VES: 120,
+    XPF: 109,
+    ZMW: 27,
+    ZWG: 13.5
+};
+
+
+/* =========================================================
+   7. LIVE CURRENCY UPDATE
+   ========================================================= */
+
+async function loadLiveExchangeRates() {
+
+    try {
+
+        const response =
+            await fetch(
+                "https://open.er-api.com/v6/latest/USD",
+                {
+                    cache: "no-store"
+                }
+            );
+
+        if (!response.ok) {
+            throw new Error("Currency API error");
+        }
+
+        const data =
+            await response.json();
+
+        if (
+            data &&
+            data.result === "success" &&
+            data.rates
+        ) {
+
+            Object.assign(
+                exchangeRates,
+                data.rates
+            );
+
+            updateStoreCartUI();
+            updateCheckout();
+        }
+
+    } catch (error) {
+
+        console.warn(
+            "Live exchange rates unavailable. Using fallback rates.",
+            error
+        );
+    }
+}
+
+
+/* =========================================================
+   8. CART STORAGE
    ========================================================= */
 
 function getCart() {
 
     try {
 
-        const cart =
-            JSON.parse(localStorage.getItem("cart")) || [];
+        const saved =
+            localStorage.getItem("cart");
 
-        return Array.isArray(cart) ? cart : [];
+        if (!saved) {
+            return [];
+        }
+
+        const cart =
+            JSON.parse(saved);
+
+        if (!Array.isArray(cart)) {
+            return [];
+        }
+
+        return cart;
 
     } catch (error) {
 
-        console.error("Cart error:", error);
+        console.error(
+            "Unable to read cart:",
+            error
+        );
 
         return [];
     }
@@ -698,59 +925,7 @@ function saveCart(cart) {
 
 
 /* =========================================================
-   8. PRODUCT INFORMATION
-   ========================================================= */
-
-function getProductSKU(item) {
-
-    return (
-        item.sku ||
-        item.SKU ||
-        item.productSku ||
-        MAIN_PRODUCT_SKU
-    );
-}
-
-
-function getProductCost(item) {
-
-    const sku = getProductSKU(item);
-
-    if (sku === MAIN_PRODUCT_SKU) {
-        return PRODUCT_COST_USD;
-    }
-
-    const price = Number(item.price);
-
-    return Number.isFinite(price)
-        ? price
-        : PRODUCT_COST_USD;
-}
-
-function getProductCost(item) {
-
-    const sku = getProductSKU(item);
-
-    /* PRODUCT 1 */
-    if (sku === MAIN_PRODUCT_SKU) {
-        return PRODUCT_COST_USD;
-    }
-
-    /* PRODUCT 2 */
-    if (sku === "CJYD268159623WD") {
-        return 6.14;
-    }
-
-    /* OTHER PRODUCTS */
-    const price = Number(item.price);
-
-    return Number.isFinite(price)
-        ? price
-        : PRODUCT_COST_USD;
-}
-
-/* =========================================================
-   9. COUNTRY / SHIPPING
+   9. COUNTRY
    ========================================================= */
 
 function getSelectedCountry() {
@@ -762,6 +937,107 @@ function getSelectedCountry() {
     );
 }
 
+
+function setSelectedCountry(country) {
+
+    if (!country) {
+        return;
+    }
+
+    localStorage.setItem(
+        "customerCountry",
+        country
+    );
+
+    localStorage.setItem(
+        "checkoutCountry",
+        country
+    );
+}
+
+
+/* =========================================================
+   10. CURRENCY FUNCTIONS
+   ========================================================= */
+
+function getCurrency(country) {
+
+    return (
+        countryCurrency[country] ||
+        "USD"
+    );
+}
+
+
+function convertUSDToCurrency(
+    amountUSD,
+    currency
+) {
+
+    const amount =
+        Number(amountUSD) || 0;
+
+    const rate =
+        Number(exchangeRates[currency]);
+
+    if (
+        !Number.isFinite(rate) ||
+        rate <= 0
+    ) {
+        return amount;
+    }
+
+    return amount * rate;
+}
+
+
+function formatMoney(
+    amount,
+    currency
+) {
+
+    const value =
+        Number(amount) || 0;
+
+    const symbol =
+        currencySymbols[currency] ||
+        currency;
+
+    const zeroDecimalCurrencies = [
+        "JPY",
+        "KRW",
+        "VND",
+        "IDR",
+        "CLP",
+        "COP"
+    ];
+
+    const decimals =
+        zeroDecimalCurrencies.includes(
+            currency
+        )
+            ? 0
+            : 2;
+
+    return (
+        symbol +
+        value.toLocaleString(
+            "en-US",
+            {
+                minimumFractionDigits:
+                    decimals,
+
+                maximumFractionDigits:
+                    decimals
+            }
+        )
+    );
+}
+
+
+/* =========================================================
+   11. SHIPPING
+   ========================================================= */
 
 function getShippingRate(country) {
 
@@ -784,80 +1060,110 @@ function getShippingRate(country) {
 
 function isCountryBlocked(country) {
 
-    return blockedCountries.includes(country);
-}
-
-
-/* =========================================================
-   10. CURRENCY
-   ========================================================= */
-
-function getCurrency(country) {
-
-    return countryCurrency[country] || "USD";
-}
-
-
-function convertUSDToCurrency(amountUSD, currency) {
-
-    const rate =
-        exchangeRates[currency] || 1;
-
-    return amountUSD * rate;
-}
-
-
-function formatMoney(amount, currency) {
-
-    const symbol =
-        currencySymbols[currency] || currency;
-
-    let decimals = 2;
-
-    if (
-        [
-            "JPY",
-            "KRW",
-            "VND",
-            "IDR",
-            "CLP",
-            "COP"
-        ].includes(currency)
-    ) {
-        decimals = 0;
-    }
-
-    return (
-        symbol +
-        Number(amount).toLocaleString(
-            "en-US",
-            {
-                minimumFractionDigits: decimals,
-                maximumFractionDigits: decimals
-            }
-        )
+    return blockedCountries.includes(
+        country
     );
 }
 
 
 /* =========================================================
-   11. PRODUCT SELLING PRICE
+   12. PRODUCT INFORMATION
    ========================================================= */
 
-function getItemUSDPrice(item, country) {
+function getProductSKU(item) {
 
-    const productCost =
+    return (
+        item?.sku ||
+        item?.SKU ||
+        item?.productSku ||
+        ""
+    );
+}
+
+
+function getProductCost(item) {
+
+    const sku =
+        getProductSKU(item);
+
+    if (
+        sku === PRODUCT_1.sku
+    ) {
+        return PRODUCT_1.costUSD;
+    }
+
+    if (
+        sku === PRODUCT_2.sku
+    ) {
+        return PRODUCT_2.costUSD;
+    }
+
+    const storedPrice =
+        Number(item?.price);
+
+    if (
+        Number.isFinite(storedPrice)
+    ) {
+        return storedPrice;
+    }
+
+    return PRODUCT_1.costUSD;
+}
+
+
+/* =========================================================
+   13. PRODUCT PRICE
+   ========================================================= */
+
+function getItemUSDPrice(
+    item,
+    country
+) {
+
+    /*
+       If the product page already saved
+       a final USD price, use it.
+
+       This prevents Product 2 from
+       accidentally using Product 1
+       shipping.
+    */
+
+    if (
+        item &&
+        item.finalPriceUSD !== undefined
+    ) {
+
+        const savedFinal =
+            Number(
+                item.finalPriceUSD
+            );
+
+        if (
+            Number.isFinite(savedFinal)
+        ) {
+            return savedFinal;
+        }
+    }
+
+    /*
+       Product 1 fallback calculation.
+    */
+
+    const cost =
         getProductCost(item);
 
     const shipping =
         getShippingRate(country);
 
-    if (shipping === null) {
+    if (
+        shipping === null
+    ) {
         return null;
     }
 
     return (
-        productCost +
+        cost +
         shipping +
         PROFIT_USD
     );
@@ -865,97 +1171,166 @@ function getItemUSDPrice(item, country) {
 
 
 /* =========================================================
-   12. ADD TO CART
+   14. ADD TO CART
    ========================================================= */
 
-function addToCart(productName) {
+function addToCart(
+    productName,
+    sku = PRODUCT_1.sku,
+    priceUSD = null
+) {
 
-    const cart = getCart();
+    const cart =
+        getCart();
 
     const existing =
-        cart.find(item =>
-            item.name === productName
+        cart.find(
+            item =>
+                item.sku === sku
         );
 
     if (existing) {
 
         existing.quantity =
-            Number(existing.quantity || 1) + 1;
+            Number(
+                existing.quantity || 1
+            ) + 1;
 
     } else {
 
+        const product =
+            sku === PRODUCT_2.sku
+                ? PRODUCT_2
+                : PRODUCT_1;
+
         cart.push({
 
-            name: productName,
+            name:
+                productName ||
+                product.name,
 
-            sku: MAIN_PRODUCT_SKU,
+            sku:
+                sku,
 
-            price: PRODUCT_COST_USD,
+            price:
+                Number.isFinite(
+                    Number(priceUSD)
+                )
+                    ? Number(priceUSD)
+                    : product.costUSD,
 
             quantity: 1
-
         });
     }
 
     saveCart(cart);
 
-    updateStoreCartUI();
-
     updateCartCount();
 
-    const cartPanel =
-        document.getElementById("cartPanel");
+    updateStoreCartUI();
 
-    if (cartPanel) {
-
-        cartPanel.classList.add("active");
-
-    }
+    openCart();
 }
 
 
 /* =========================================================
-   13. CART COUNT
+   15. UPDATE CART COUNT
    ========================================================= */
 
 function updateCartCount() {
 
-    const countElement =
-        document.getElementById("cartCount");
+    const elements =
+        document.querySelectorAll(
+            "#cartCount, .cart-count"
+        );
 
-    if (!countElement) {
-        return;
-    }
+    const cart =
+        getCart();
 
-    const cart = getCart();
+    const count =
+        cart.reduce(
+            (total, item) =>
+                total +
+                Math.max(
+                    1,
+                    Number(
+                        item.quantity || 1
+                    )
+                ),
+            0
+        );
 
-    const count = cart.reduce(
-        (total, item) =>
-            total + Number(item.quantity || 1),
-        0
+    elements.forEach(
+        element => {
+            element.textContent =
+                count;
+        }
     );
-
-    countElement.textContent = count;
 }
 
 
 /* =========================================================
-   14. STORE CART UI
+   16. OPEN CART
+   ========================================================= */
+
+function openCart() {
+
+    const cartPanel =
+        document.getElementById(
+            "cartPanel"
+        );
+
+    if (cartPanel) {
+
+        cartPanel.classList.add(
+            "active"
+        );
+    }
+}
+
+
+/* =========================================================
+   17. CLOSE CART
+   ========================================================= */
+
+function closeCartPanel() {
+
+    const cartPanel =
+        document.getElementById(
+            "cartPanel"
+        );
+
+    if (cartPanel) {
+
+        cartPanel.classList.remove(
+            "active"
+        );
+    }
+}
+
+
+/* =========================================================
+   18. CART UI
    ========================================================= */
 
 function updateStoreCartUI() {
 
     const cartItems =
-        document.getElementById("cartItems");
+        document.getElementById(
+            "cartItems"
+        );
 
     const cartTotal =
-        document.getElementById("cartTotal");
+        document.getElementById(
+            "cartTotal"
+        );
 
     if (!cartItems) {
         return;
     }
 
-    const cart = getCart();
+    const cart =
+        getCart();
 
     const country =
         getSelectedCountry();
@@ -965,10 +1340,16 @@ function updateStoreCartUI() {
 
     cartItems.innerHTML = "";
 
-    if (cart.length === 0) {
+    if (
+        cart.length === 0
+    ) {
 
         cartItems.innerHTML =
-            '<p class="empty-cart">Your cart is empty.</p>';
+            `
+            <p class="empty-cart">
+                Your cart is empty.
+            </p>
+            `;
 
         if (cartTotal) {
 
@@ -984,93 +1365,106 @@ function updateStoreCartUI() {
 
     let totalUSD = 0;
 
-    cart.forEach((item, index) => {
+    cart.forEach(
+        (item, index) => {
 
-        const quantity =
-            Number(item.quantity || 1);
+            const quantity =
+                Math.max(
+                    1,
+                    Number(
+                        item.quantity || 1
+                    )
+                );
 
-        const itemPrice =
-            getItemUSDPrice(
-                item,
-                country
-            );
+            const unitPrice =
+                getItemUSDPrice(
+                    item,
+                    country
+                );
 
-        if (itemPrice === null) {
-            return;
-        }
+            if (
+                unitPrice === null
+            ) {
+                return;
+            }
 
-        const itemTotal =
-            itemPrice * quantity;
+            const itemTotalUSD =
+                unitPrice * quantity;
 
-        totalUSD += itemTotal;
+            totalUSD +=
+                itemTotalUSD;
 
-        const itemElement =
-            document.createElement("div");
+            const itemElement =
+                document.createElement(
+                    "div"
+                );
 
-        itemElement.className =
-            "cart-item";
+            itemElement.className =
+                "cart-item";
 
-        itemElement.innerHTML = `
+            itemElement.innerHTML =
+                `
+                <div class="cart-item-info">
 
-            <div>
+                    <strong>
+                        ${escapeHTML(
+                            item.name ||
+                            "Product"
+                        )}
+                    </strong>
 
-                <strong>
-                    ${escapeHTML(item.name)}
-                </strong>
+                    <div class="cart-quantity">
 
-                <div class="cart-quantity">
+                        <span>Qty:</span>
 
-                    <span>Qty:</span>
+                        <button
+                            type="button"
+                            class="quantity-minus"
+                            data-index="${index}"
+                        >
+                            −
+                        </button>
 
-                    <button
-                        type="button"
-                        class="quantity-minus"
-                        data-index="${index}"
-                        aria-label="Decrease quantity"
-                    >
-                        −
-                    </button>
+                        <span class="quantity-number">
+                            ${quantity}
+                        </span>
 
-                    <span class="quantity-number">
-                        ${quantity}
-                    </span>
+                        <button
+                            type="button"
+                            class="quantity-plus"
+                            data-index="${index}"
+                        >
+                            +
+                        </button>
 
-                    <button
-                        type="button"
-                        class="quantity-plus"
-                        data-index="${index}"
-                        aria-label="Increase quantity"
-                    >
-                        +
-                    </button>
+                    </div>
+
+                    <p>
+                        ${formatMoney(
+                            convertUSDToCurrency(
+                                itemTotalUSD,
+                                currency
+                            ),
+                            currency
+                        )}
+                    </p>
 
                 </div>
 
-                <p>
-                    ${formatMoney(
-                        convertUSDToCurrency(
-                            itemTotal,
-                            currency
-                        ),
-                        currency
-                    )}
-                </p>
+                <button
+                    type="button"
+                    class="remove-cart-item"
+                    data-index="${index}"
+                >
+                    Remove
+                </button>
+                `;
 
-            </div>
-
-            <button
-                type="button"
-                class="remove-cart-item"
-                data-index="${index}"
-            >
-                Remove
-            </button>
-        `;
-
-        cartItems.appendChild(
-            itemElement
-        );
-    });
+            cartItems.appendChild(
+                itemElement
+            );
+        }
+    );
 
     if (cartTotal) {
 
@@ -1083,68 +1477,77 @@ function updateStoreCartUI() {
                 currency
             );
     }
-
-    document
-        .querySelectorAll(".remove-cart-item")
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                function () {
-
-                    const index =
-                        Number(
-                            this.dataset.index
-                        );
-
-                    const updatedCart =
-                        getCart();
-
-                    updatedCart.splice(
-                        index,
-                        1
-                    );
-
-                    saveCart(
-                        updatedCart
-                    );
-
-                    updateStoreCartUI();
-
-                    updateCartCount();
-                }
-            );
-        });
 }
 
 
 /* =========================================================
-   CART QUANTITY + / -
+   19. CART BUTTON ACTIONS
    ========================================================= */
 
 document.addEventListener(
     "click",
     function (event) {
 
-        const minusButton =
-            event.target.closest(
-                ".quantity-minus"
-            );
-
-        const plusButton =
+        const plus =
             event.target.closest(
                 ".quantity-plus"
             );
 
+        const minus =
+            event.target.closest(
+                ".quantity-minus"
+            );
+
+        const remove =
+            event.target.closest(
+                ".remove-cart-item"
+            );
+
+        /* REMOVE */
+
+        if (remove) {
+
+            const index =
+                Number(
+                    remove.dataset.index
+                );
+
+            const cart =
+                getCart();
+
+            if (
+                Number.isInteger(index) &&
+                cart[index]
+            ) {
+
+                cart.splice(
+                    index,
+                    1
+                );
+
+                saveCart(cart);
+
+                updateCartCount();
+
+                updateStoreCartUI();
+
+                updateCheckout();
+            }
+
+            return;
+        }
+
+        /* PLUS / MINUS */
+
         if (
-            !minusButton &&
-            !plusButton
+            !plus &&
+            !minus
         ) {
             return;
         }
 
         const button =
-            minusButton || plusButton;
+            plus || minus;
 
         const index =
             Number(
@@ -1169,17 +1572,17 @@ document.addEventListener(
                 cart[index].quantity || 1
             );
 
-        if (minusButton) {
-
-            quantity--;
-        }
-
-        if (plusButton) {
-
+        if (plus) {
             quantity++;
         }
 
-        /* Minimum quantity = 1 */
+        if (minus) {
+            quantity--;
+        }
+
+        /*
+           Minimum quantity = 1
+        */
 
         quantity =
             Math.max(
@@ -1192,15 +1595,17 @@ document.addEventListener(
 
         saveCart(cart);
 
+        updateCartCount();
+
         updateStoreCartUI();
 
-        updateCartCount();
+        updateCheckout();
     }
 );
 
 
 /* =========================================================
-   15. CHECKOUT
+   20. CHECKOUT PAGE
    ========================================================= */
 
 function updateCheckout() {
@@ -1209,6 +1614,10 @@ function updateCheckout() {
         document.getElementById(
             "checkoutItems"
         );
+
+    if (!checkoutItems) {
+        return;
+    }
 
     const subtotalElement =
         document.getElementById(
@@ -1230,14 +1639,14 @@ function updateCheckout() {
             "checkoutCurrency"
         );
 
-    const placeOrderButton =
-        document.getElementById(
-            "placeOrderButton"
-        );
-
     const countryError =
         document.getElementById(
             "countryError"
+        );
+
+    const placeOrderButton =
+        document.getElementById(
+            "placeOrderButton"
         );
 
     const countrySelect =
@@ -1245,24 +1654,12 @@ function updateCheckout() {
             "checkoutCountry"
         );
 
-    if (!checkoutItems) {
-        return;
-    }
-
     const cart =
         getCart();
 
-    let country =
+    const country =
         countrySelect?.value ||
         getSelectedCountry();
-
-    if (
-        countrySelect &&
-        country
-    ) {
-        countrySelect.value =
-            country;
-    }
 
     const currency =
         getCurrency(country);
@@ -1273,7 +1670,17 @@ function updateCheckout() {
             currency;
     }
 
-    checkoutItems.innerHTML = "";
+    checkoutItems.innerHTML =
+        "";
+
+    if (countryError) {
+
+        countryError.textContent =
+            "";
+
+        countryError.style.display =
+            "none";
+    }
 
     if (placeOrderButton) {
 
@@ -1281,19 +1688,16 @@ function updateCheckout() {
             true;
     }
 
-    if (countryError) {
-
-        countryError.style.display =
-            "none";
-
-        countryError.textContent =
-            "";
-    }
-
-    if (cart.length === 0) {
+    if (
+        cart.length === 0
+    ) {
 
         checkoutItems.innerHTML =
-            '<div class="empty-cart">Your cart is empty.</div>';
+            `
+            <div class="empty-cart">
+                Your cart is empty.
+            </div>
+            `;
 
         setCheckoutTotals(
             0,
@@ -1303,10 +1707,16 @@ function updateCheckout() {
         return;
     }
 
-    if (!country) {
+    if (
+        !country
+    ) {
 
         checkoutItems.innerHTML =
-            '<div class="empty-cart">Please select your country.</div>';
+            `
+            <div class="empty-cart">
+                Please select your country.
+            </div>
+            `;
 
         return;
     }
@@ -1316,7 +1726,11 @@ function updateCheckout() {
     ) {
 
         checkoutItems.innerHTML =
-            '<div class="empty-cart">Shipping is unavailable to this country.</div>';
+            `
+            <div class="empty-cart">
+                Shipping is unavailable to this country.
+            </div>
+            `;
 
         if (countryError) {
 
@@ -1330,13 +1744,16 @@ function updateCheckout() {
         return;
     }
 
-    const shipping =
-        getShippingRate(country);
-
-    if (shipping === null) {
+    if (
+        getShippingRate(country) === null
+    ) {
 
         checkoutItems.innerHTML =
-            '<div class="empty-cart">Shipping is currently unavailable for this country.</div>';
+            `
+            <div class="empty-cart">
+                Shipping is currently unavailable for this country.
+            </div>
+            `;
 
         if (countryError) {
 
@@ -1352,75 +1769,85 @@ function updateCheckout() {
 
     let subtotalUSD = 0;
 
-    cart.forEach(item => {
+    cart.forEach(
+        item => {
 
-        const quantity =
-            Number(item.quantity || 1);
+            const quantity =
+                Math.max(
+                    1,
+                    Number(
+                        item.quantity || 1
+                    )
+                );
 
-        const price =
-            getItemUSDPrice(
-                item,
-                country
-            );
+            const unitPrice =
+                getItemUSDPrice(
+                    item,
+                    country
+                );
 
-        if (price === null) {
-            return;
-        }
+            if (
+                unitPrice === null
+            ) {
+                return;
+            }
 
-        const itemTotal =
-            price * quantity;
+            const itemTotalUSD =
+                unitPrice * quantity;
 
-        subtotalUSD +=
-            itemTotal;
+            subtotalUSD +=
+                itemTotalUSD;
 
-        const row =
-            document.createElement(
-                "div"
-            );
+            const row =
+                document.createElement(
+                    "div"
+                );
 
-        row.className =
-            "summary-item";
+            row.className =
+                "summary-item";
 
-        row.innerHTML = `
+            row.innerHTML =
+                `
+                <span class="summary-item-name">
 
-            <span class="summary-item-name">
+                    ${escapeHTML(
+                        item.name ||
+                        "Product"
+                    )}
 
-                ${escapeHTML(
-                    item.name
-                )}
+                    × ${quantity}
 
-                × ${quantity}
+                </span>
 
-            </span>
+                <strong class="summary-item-price">
 
-            <strong class="summary-item-price">
-
-                ${formatMoney(
-                    convertUSDToCurrency(
-                        itemTotal,
+                    ${formatMoney(
+                        convertUSDToCurrency(
+                            itemTotalUSD,
+                            currency
+                        ),
                         currency
-                    ),
-                    currency
-                )}
+                    )}
 
-            </strong>
-        `;
+                </strong>
+                `;
 
-        checkoutItems.appendChild(
-            row
-        );
-    });
+            checkoutItems.appendChild(
+                row
+            );
+        }
+    );
+
+    setCheckoutTotals(
+        subtotalUSD,
+        currency
+    );
 
     if (shippingElement) {
 
         shippingElement.textContent =
             "FREE";
     }
-
-    setCheckoutTotals(
-        subtotalUSD,
-        currency
-    );
 
     if (placeOrderButton) {
 
@@ -1431,7 +1858,7 @@ function updateCheckout() {
 
 
 /* =========================================================
-   16. CHECKOUT TOTALS
+   21. CHECKOUT TOTALS
    ========================================================= */
 
 function setCheckoutTotals(
@@ -1444,14 +1871,14 @@ function setCheckoutTotals(
             "checkoutSubtotal"
         );
 
-    const totalElement =
-        document.getElementById(
-            "checkoutTotal"
-        );
-
     const shippingElement =
         document.getElementById(
             "checkoutShipping"
+        );
+
+    const totalElement =
+        document.getElementById(
+            "checkoutTotal"
         );
 
     const converted =
@@ -1487,35 +1914,46 @@ function setCheckoutTotals(
 
 
 /* =========================================================
-   17. CHECKOUT COUNTRY
+   22. CHECKOUT COUNTRY
    ========================================================= */
 
 function setupCheckoutCountry() {
 
-    const countrySelect =
+    const select =
         document.getElementById(
             "checkoutCountry"
         );
 
-    if (!countrySelect) {
+    if (!select) {
         return;
     }
 
-    countrySelect.addEventListener(
+    const saved =
+        getSelectedCountry();
+
+    if (saved) {
+
+        const option =
+            Array.from(
+                select.options
+            ).find(
+                option =>
+                    option.value === saved
+            );
+
+        if (option) {
+
+            select.value =
+                saved;
+        }
+    }
+
+    select.addEventListener(
         "change",
         function () {
 
-            const country =
-                this.value;
-
-            localStorage.setItem(
-                "customerCountry",
-                country
-            );
-
-            localStorage.setItem(
-                "checkoutCountry",
-                country
+            setSelectedCountry(
+                this.value
             );
 
             updateCheckout();
@@ -1527,40 +1965,7 @@ function setupCheckoutCountry() {
 
 
 /* =========================================================
-   18. SAVED COUNTRY
-   ========================================================= */
-
-function setupSavedCountry() {
-
-    const countrySelect =
-        document.getElementById(
-            "checkoutCountry"
-        );
-
-    if (!countrySelect) {
-        return;
-    }
-
-    const savedCountry =
-        localStorage.getItem(
-            "checkoutCountry"
-        );
-
-    if (
-        savedCountry &&
-        countrySelect.querySelector(
-            `option[value="${CSS.escape(savedCountry)}"]`
-        )
-    ) {
-
-        countrySelect.value =
-            savedCountry;
-    }
-}
-
-
-/* =========================================================
-   19. CHECKOUT FORM
+   23. CHECKOUT FORM
    ========================================================= */
 
 function setupCheckoutForm() {
@@ -1619,7 +2024,9 @@ function setupCheckoutForm() {
             const cart =
                 getCart();
 
-            if (cart.length === 0) {
+            if (
+                cart.length === 0
+            ) {
 
                 alert(
                     "Your cart is empty."
@@ -1628,7 +2035,9 @@ function setupCheckoutForm() {
                 return;
             }
 
-            if (!form.checkValidity()) {
+            if (
+                !form.checkValidity()
+            ) {
 
                 form.reportValidity();
 
@@ -1638,7 +2047,8 @@ function setupCheckoutForm() {
             const paymentMethod =
                 document.querySelector(
                     'input[name="paymentMethod"]:checked'
-                )?.value || "cod";
+                )?.value ||
+                "cod";
 
             const order = {
 
@@ -1651,22 +2061,22 @@ function setupCheckoutForm() {
                     name:
                         document.getElementById(
                             "checkoutName"
-                        )?.value.trim(),
+                        )?.value.trim() || "",
 
                     email:
                         document.getElementById(
                             "checkoutEmail"
-                        )?.value.trim(),
+                        )?.value.trim() || "",
 
                     countryCode:
                         document.getElementById(
                             "checkoutCountryCode"
-                        )?.value,
+                        )?.value || "",
 
                     phone:
                         document.getElementById(
                             "checkoutPhone"
-                        )?.value.trim()
+                        )?.value.trim() || ""
                 },
 
                 address: {
@@ -1674,35 +2084,35 @@ function setupCheckoutForm() {
                     address:
                         document.getElementById(
                             "checkoutAddress"
-                        )?.value.trim(),
+                        )?.value.trim() || "",
 
                     city:
                         document.getElementById(
                             "checkoutCity"
-                        )?.value.trim(),
+                        )?.value.trim() || "",
 
                     state:
                         document.getElementById(
                             "checkoutState"
-                        )?.value.trim(),
-
-                    country:
-                        country,
+                        )?.value.trim() || "",
 
                     postalCode:
                         document.getElementById(
                             "checkoutPostalCode"
-                        )?.value.trim()
+                        )?.value.trim() || "",
+
+                    country:
+                        country
                 },
 
                 paymentMethod:
                     paymentMethod,
 
-                items:
-                    cart,
-
                 currency:
                     getCurrency(country),
+
+                items:
+                    cart,
 
                 createdAt:
                     new Date().toISOString()
@@ -1718,14 +2128,13 @@ function setupCheckoutForm() {
                 "Order ID: " +
                 order.orderId
             );
-
         }
     );
 }
 
 
 /* =========================================================
-   20. CART BUTTON
+   24. CART OPEN / CLOSE BUTTON
    ========================================================= */
 
 function setupCartButton() {
@@ -1735,46 +2144,31 @@ function setupCartButton() {
             "cartButton"
         );
 
-    const cartPanel =
-        document.getElementById(
-            "cartPanel"
-        );
-
-    const closeCart =
+    const closeButton =
         document.getElementById(
             "closeCart"
         );
 
-    if (
-        cartButton &&
-        cartPanel
-    ) {
+    if (cartButton) {
 
         cartButton.addEventListener(
             "click",
             function () {
 
-                cartPanel.classList.add(
-                    "active"
-                );
+                openCart();
 
                 updateStoreCartUI();
             }
         );
     }
 
-    if (
-        closeCart &&
-        cartPanel
-    ) {
+    if (closeButton) {
 
-        closeCart.addEventListener(
+        closeButton.addEventListener(
             "click",
             function () {
 
-                cartPanel.classList.remove(
-                    "active"
-                );
+                closeCartPanel();
             }
         );
     }
@@ -1782,28 +2176,30 @@ function setupCartButton() {
 
 
 /* =========================================================
-   21. CHECKOUT BUTTON
+   25. CHECKOUT BUTTON
    ========================================================= */
 
 function setupCheckoutButton() {
 
-    const checkoutButton =
+    const button =
         document.getElementById(
             "checkoutButton"
         );
 
-    if (!checkoutButton) {
+    if (!button) {
         return;
     }
 
-    checkoutButton.addEventListener(
+    button.addEventListener(
         "click",
         function () {
 
             const cart =
                 getCart();
 
-            if (cart.length === 0) {
+            if (
+                cart.length === 0
+            ) {
 
                 alert(
                     "Your cart is empty."
@@ -1820,7 +2216,52 @@ function setupCheckoutButton() {
 
 
 /* =========================================================
-   22. SEARCH
+   26. ADD-TO-CART BUTTONS
+   ========================================================= */
+
+function setupAddCartButtons() {
+
+    document
+        .querySelectorAll(
+            ".add-cart"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        const name =
+                            this.dataset.product ||
+                            this.dataset.name ||
+                            "Product";
+
+                        const sku =
+                            this.dataset.sku ||
+                            PRODUCT_1.sku;
+
+                        const price =
+                            this.dataset.price
+                                ? Number(
+                                    this.dataset.price
+                                )
+                                : null;
+
+                        addToCart(
+                            name,
+                            sku,
+                            price
+                        );
+                    }
+                );
+            }
+        );
+}
+
+
+/* =========================================================
+   27. SEARCH
    ========================================================= */
 
 function setupSearch() {
@@ -1830,37 +2271,38 @@ function setupSearch() {
             "searchButton"
         );
 
-    const searchOverlay =
+    const overlay =
         document.getElementById(
             "searchOverlay"
         );
 
-    const closeSearch =
+    const closeButton =
         document.getElementById(
             "closeSearch"
         );
 
-    const searchInput =
+    const input =
         document.getElementById(
             "searchInput"
         );
 
     if (
         searchButton &&
-        searchOverlay
+        overlay
     ) {
 
         searchButton.addEventListener(
             "click",
             function () {
 
-                searchOverlay.classList.add(
+                overlay.classList.add(
                     "active"
                 );
 
                 setTimeout(
-                    () =>
-                        searchInput?.focus(),
+                    () => {
+                        input?.focus();
+                    },
                     100
                 );
             }
@@ -1868,45 +2310,45 @@ function setupSearch() {
     }
 
     if (
-        closeSearch &&
-        searchOverlay
+        closeButton &&
+        overlay
     ) {
 
-        closeSearch.addEventListener(
+        closeButton.addEventListener(
             "click",
             function () {
 
-                searchOverlay.classList.remove(
+                overlay.classList.remove(
                     "active"
                 );
             }
         );
     }
 
-    if (searchInput) {
+    if (input) {
 
-        searchInput.addEventListener(
+        input.addEventListener(
             "keydown",
             function (event) {
 
                 if (
-                    event.key === "Enter"
+                    event.key !== "Enter"
                 ) {
-
-                    const search =
-                        this.value
-                            .trim()
-                            .toLowerCase();
-
-                    if (!search) {
-                        return;
-                    }
-
-                    alert(
-                        "Searching for: " +
-                        search
-                    );
+                    return;
                 }
+
+                const value =
+                    this.value
+                        .trim();
+
+                if (!value) {
+                    return;
+                }
+
+                alert(
+                    "Searching for: " +
+                    value
+                );
             }
         );
     }
@@ -1914,7 +2356,7 @@ function setupSearch() {
 
 
 /* =========================================================
-   23. MOBILE MENU
+   28. MOBILE MENU
    ========================================================= */
 
 function setupMobileMenu() {
@@ -1949,34 +2391,7 @@ function setupMobileMenu() {
 
 
 /* =========================================================
-   24. ADD CART BUTTONS
-   ========================================================= */
-
-function setupAddCartButtons() {
-
-    document
-        .querySelectorAll(".add-cart")
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                function () {
-
-                    const productName =
-                        this.dataset.product ||
-                        "Product";
-
-                    addToCart(
-                        productName
-                    );
-                }
-            );
-        });
-}
-
-
-/* =========================================================
-   25. HTML SAFETY
+   29. ESCAPE HTML
    ========================================================= */
 
 function escapeHTML(value) {
@@ -2006,39 +2421,8 @@ function escapeHTML(value) {
 
 
 /* =========================================================
-   26. INITIALIZE WEBSITE
+   30. PRODUCT IMAGE GALLERY
    ========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        setupAddCartButtons();
-
-        setupCartButton();
-
-        setupCheckoutButton();
-
-        setupCheckoutCountry();
-
-        setupSavedCountry();
-
-        setupCheckoutForm();
-
-        setupSearch();
-
-        setupMobileMenu();
-
-        updateCartCount();
-
-        updateStoreCartUI();
-
-        updateCheckout();
-    }
-);
-
-
-/* ================= PRODUCT IMAGE GALLERY ================= */
 
 function changeProductImage(
     imageSrc,
@@ -2062,16 +2446,56 @@ function changeProductImage(
             ".product-thumbnail"
         )
         .forEach(
-            function (button) {
+            element => {
 
-                button.classList.remove(
+                element.classList.remove(
                     "active"
                 );
             }
         );
 
-    thumbnail.classList.add(
-        "active"
-    );
+    if (thumbnail) {
+
+        thumbnail.classList.add(
+            "active"
+        );
+    }
 }
-g
+
+
+/* =========================================================
+   31. INITIALIZE
+   ========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        setupAddCartButtons();
+
+        setupCartButton();
+
+        setupCheckoutButton();
+
+        setupCheckoutCountry();
+
+        setupCheckoutForm();
+
+        setupSearch();
+
+        setupMobileMenu();
+
+        updateCartCount();
+
+        updateStoreCartUI();
+
+        updateCheckout();
+
+        /*
+           Load live currency rates after
+           the website has loaded.
+        */
+
+        loadLiveExchangeRates();
+    }
+);
