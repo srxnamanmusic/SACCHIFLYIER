@@ -1061,3 +1061,7 @@ body {
         font-size: 27px;
     }
 }
+
+body {
+    outline: 5px solid red !important;
+}
