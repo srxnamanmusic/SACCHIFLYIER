@@ -2074,3 +2074,4 @@ function changeProductImage(
         "active"
     );
 }
+g
