@@ -234,75 +234,212 @@
 
 
         /* =====================================================
-           ORDER SUMMARY
-           ===================================================== */
+   ORDER SUMMARY — UPDATED
+   ===================================================== */
 
-        .order-summary {
-            position: sticky;
-            top: 20px;
-        }
+.order-summary {
+    position: sticky;
+    top: 20px;
 
-        .currency-display {
-            font-size: 13px;
-            color: #999999;
-            margin-bottom: 20px;
-        }
+    background: #111111;
+    border: 1px solid #292929;
+    border-radius: 16px;
+    padding: 25px;
+}
 
-        #checkoutItems {
-            border-top: 1px solid #292929;
-            border-bottom: 1px solid #292929;
-            padding: 15px 0;
-            margin-bottom: 18px;
-        }
-
-        .checkout-item {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            margin-bottom: 14px;
-        }
-
-        .checkout-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .checkout-item-name {
-            font-size: 14px;
-            line-height: 1.5;
-            color: #eeeeee;
-        }
-
-        .checkout-item-price {
-            white-space: nowrap;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            margin-bottom: 14px;
-
-            font-size: 14px;
-            color: #cccccc;
-        }
-
-        .summary-row.total {
-            border-top: 1px solid #292929;
-            padding-top: 18px;
-            margin-top: 10px;
-
-            font-size: 19px;
-            font-weight: 800;
-            color: #ffffff;
-        }
-
-        .free-shipping {
-            color: #ffffff;
-        }
+.order-summary h2 {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 25px;
+    color: #ffffff;
+}
 
 
+/* =====================================================
+   CURRENCY
+   ===================================================== */
+
+.currency-display {
+    width: 100%;
+
+    background: #1a1a1a;
+    border-radius: 12px;
+
+    padding: 16px 18px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    font-size: 15px;
+    color: #999999;
+
+    margin-bottom: 25px;
+}
+
+
+/* =====================================================
+   CHECKOUT ITEMS
+   ===================================================== */
+
+#checkoutItems {
+    border-top: 1px solid #292929;
+    border-bottom: 1px solid #292929;
+
+    padding: 20px 0;
+
+    margin-bottom: 22px;
+}
+
+.checkout-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    gap: 20px;
+
+    margin-bottom: 18px;
+}
+
+.checkout-item:last-child {
+    margin-bottom: 0;
+}
+
+.checkout-item-name {
+    flex: 1;
+
+    font-size: 15px;
+    line-height: 1.45;
+
+    color: #eeeeee;
+}
+
+.checkout-item-price {
+    white-space: nowrap;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    color: #ffffff;
+}
+
+
+/* =====================================================
+   SUBTOTAL / SHIPPING
+   ===================================================== */
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 18px;
+
+    font-size: 15px;
+    color: #cccccc;
+}
+
+.summary-row strong {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.free-shipping {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+
+/* =====================================================
+   TOTAL
+   ===================================================== */
+
+.summary-row.total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-top: 1px solid #292929;
+
+    padding-top: 20px;
+    margin-top: 8px;
+    margin-bottom: 0;
+
+    font-size: 22px;
+    font-weight: 800;
+
+    color: #ffffff;
+}
+
+.summary-row.total strong {
+    font-size: 22px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+
+/* =====================================================
+   PLACE ORDER BUTTON
+   ===================================================== */
+
+#placeOrderButton {
+    width: 100%;
+    height: 58px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: #ffffff;
+    color: #000000;
+
+    font-size: 16px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    margin-top: 25px;
+
+    transition: 0.25s ease;
+}
+
+#placeOrderButton:hover {
+    background: #dddddd;
+    transform: translateY(-2px);
+}
+
+#placeOrderButton:active {
+    transform: translateY(0);
+}
+
+#placeOrderButton:disabled {
+    background: #444444;
+    color: #999999;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =====================================================
+   PRODUCT INFORMATION
+   ===================================================== */
+
+.product-info-small {
+    margin-top: 20px;
+    padding-top: 18px;
+
+    border-top: 1px solid #292929;
+
+    font-size: 12px;
+    line-height: 1.7;
+
+    color: #777777;
+}
+        
+        
         /* =====================================================
            PLACE ORDER
            ===================================================== */
