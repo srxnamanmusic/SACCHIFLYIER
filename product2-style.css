@@ -1062,29 +1062,7 @@ body {
     }
 }
 
-body {
-    outline: 5px solid red !important;
-}
 
-/* =========================================================
-   PRODUCT 2 — BUTTON CLICK FIX
-   ========================================================= */
-
-.product-actions {
-    position: relative;
-    z-index: 50;
-    pointer-events: auto;
-}
-
-.product-actions button {
-    position: relative;
-    z-index: 51;
-    pointer-events: auto !important;
-    cursor: pointer;
-}
-
-.add-cart-button,
-.buy-now-button {
     pointer-events: auto !important;
     cursor: pointer;
 }
