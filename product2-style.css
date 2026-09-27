@@ -1,7 +1,7 @@
 /* =========================================================
    SACCHI FLYIER
    PRODUCT 2 — FLEECE ZIP-UP JACKET
-   CLEAN PRODUCT 2 STYLESHEET
+   CLEAN CSS — MATCHES CURRENT PRODUCT 2 HTML
    ========================================================= */
 
 
@@ -17,14 +17,13 @@
 
 html {
     width: 100%;
-    max-width: 100%;
+    min-width: 100%;
     scroll-behavior: smooth;
     overflow-x: hidden;
 }
 
 body {
     width: 100%;
-    max-width: 100%;
     min-height: 100vh;
 
     font-family:
@@ -37,18 +36,7 @@ body {
 
     color: #ffffff;
 
-    background:
-        radial-gradient(
-            circle at 15% 10%,
-            rgba(255, 255, 255, 0.06),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 90% 80%,
-            rgba(255, 255, 255, 0.04),
-            transparent 30%
-        ),
-        #080808;
+    background: #080808;
 
     overflow-x: hidden;
 }
@@ -58,44 +46,47 @@ body {
    HEADER
    ========================================================= */
 
-.product-header {
+.site-header {
     position: sticky;
     top: 0;
     z-index: 1000;
 
     width: 100%;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 20px;
-
-    padding: 20px 6%;
-
     background: rgba(8, 8, 8, 0.94);
 
-    border-bottom:
-        1px solid
-        rgba(255, 255, 255, 0.10);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
 
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
 }
 
+.header-inner {
+    width: 100%;
+    max-width: 1500px;
+
+    margin: 0 auto;
+
+    padding: 24px 5.5%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
 
 /* =========================================================
-   LOGO
+   BRAND LOGO
    ========================================================= */
 
-.product-logo {
-    min-width: 0;
-
+.brand-logo {
     color: #ffffff;
 
     text-decoration: none;
 
-    font-size: 20px;
+    font-size: 27px;
     font-weight: 900;
 
     letter-spacing: 2px;
@@ -107,37 +98,35 @@ body {
         transform 0.25s ease;
 }
 
-.product-logo:hover {
+.brand-logo:hover {
     opacity: 0.75;
+
     transform: translateY(-1px);
 }
 
 
 /* =========================================================
-   BACK TO SHOP
+   BACK BUTTON
    ========================================================= */
 
-.back-shop {
-    flex-shrink: 0;
-
+.back-link {
     display: inline-flex;
+
     align-items: center;
     justify-content: center;
 
-    padding: 10px 16px;
+    padding: 11px 18px;
 
     color: #ffffff;
 
     text-decoration: none;
 
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
 
     white-space: nowrap;
 
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.20);
+    border: 1px solid rgba(255, 255, 255, 0.22);
 
     border-radius: 10px;
 
@@ -147,11 +136,10 @@ body {
         transform 0.25s ease;
 }
 
-.back-shop:hover {
+.back-link:hover {
     background: rgba(255, 255, 255, 0.08);
 
-    border-color:
-        rgba(255, 255, 255, 0.40);
+    border-color: rgba(255, 255, 255, 0.45);
 
     transform: translateY(-2px);
 }
@@ -163,79 +151,92 @@ body {
 
 .product-page {
     width: 100%;
-    max-width: 1400px;
+
+    max-width: 1500px;
 
     margin: 0 auto;
 
     padding:
-        55px 5%
-        90px;
+        60px 5.5%
+        100px;
 }
 
 
 /* =========================================================
-   PRODUCT LAYOUT
+   PRODUCT CONTAINER
    ========================================================= */
 
-.product-details {
+.product-container {
     width: 100%;
 
     display: grid;
 
     grid-template-columns:
-        minmax(0, 1fr)
-        minmax(0, 0.9fr);
+        minmax(0, 1.05fr)
+        minmax(0, 0.95fr);
 
-    gap: 60px;
+    gap: 70px;
 
     align-items: start;
 }
 
-.product-details > * {
+
+/* =========================================================
+   IMAGE SECTION
+   ========================================================= */
+
+.product-image-section {
+    width: 100%;
+
     min-width: 0;
 }
 
 
 /* =========================================================
-   PRODUCT IMAGE
+   IMAGE WRAPPER
    ========================================================= */
 
-.product-photo {
+.product-image-wrapper {
     width: 100%;
-
-    position: sticky;
-    top: 110px;
 
     overflow: hidden;
 
     background: #111111;
 
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.12);
 
-    border-radius: 22px;
+    border-radius: 24px;
 
     box-shadow:
         0 25px 70px
         rgba(0, 0, 0, 0.45);
+
+    position: sticky;
+
+    top: 115px;
 }
 
-.product-photo img {
+
+/* =========================================================
+   MAIN PRODUCT IMAGE
+   ========================================================= */
+
+.product-main-image {
     display: block;
 
     width: 100%;
-    height: auto;
 
     max-width: 100%;
 
-    object-fit: contain;
+    height: auto;
+
+    object-fit: cover;
 
     transition:
         transform 0.45s ease;
 }
 
-.product-photo:hover img {
+.product-image-wrapper:hover .product-main-image {
     transform: scale(1.015);
 }
 
@@ -244,9 +245,10 @@ body {
    PRODUCT INFORMATION
    ========================================================= */
 
-.product-information {
+.product-info {
     width: 100%;
-    max-width: 620px;
+
+    max-width: 650px;
 
     min-width: 0;
 
@@ -255,15 +257,16 @@ body {
 
 
 /* =========================================================
-   BRAND LABEL
+   PRODUCT CATEGORY / BRAND
    ========================================================= */
 
-.product-label {
+.product-category {
     margin-bottom: 14px;
 
     color: #a8a8a8;
 
     font-size: 12px;
+
     font-weight: 800;
 
     letter-spacing: 3px;
@@ -274,7 +277,7 @@ body {
    PRODUCT TITLE
    ========================================================= */
 
-.product-information h1 {
+.product-title {
     width: 100%;
 
     margin-bottom: 18px;
@@ -283,8 +286,8 @@ body {
 
     font-size:
         clamp(
-            30px,
-            3.8vw,
+            32px,
+            3.5vw,
             50px
         );
 
@@ -292,7 +295,7 @@ body {
 
     font-weight: 850;
 
-    letter-spacing: -1.4px;
+    letter-spacing: -1.5px;
 
     overflow-wrap: anywhere;
 }
@@ -305,7 +308,7 @@ body {
 .product-variant {
     width: 100%;
 
-    margin-bottom: 28px;
+    margin-bottom: 30px;
 
     color: #9d9d9d;
 
@@ -316,98 +319,32 @@ body {
 
 
 /* =========================================================
-   COUNTRY SECTION
+   PRICE AREA
    ========================================================= */
 
-.country-section {
+.product-price-area {
     width: 100%;
 
-    margin-bottom: 24px;
-}
-
-.country-section label {
-    display: block;
-
-    margin-bottom: 9px;
-
-    color: #eeeeee;
-
-    font-size: 14px;
-    font-weight: 700;
-}
-
-.country-section select {
-    display: block;
-
-    width: 100%;
-
-    padding: 15px 16px;
-
-    color: #ffffff;
-
-    background: #111111;
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.20);
-
-    border-radius: 12px;
-
-    outline: none;
-
-    font-size: 15px;
-
-    cursor: pointer;
-
-    transition:
-        border-color 0.25s ease,
-        box-shadow 0.25s ease,
-        background 0.25s ease;
-}
-
-.country-section select:hover {
-    background: #151515;
-
-    border-color:
-        rgba(255, 255, 255, 0.35);
-}
-
-.country-section select:focus {
-    border-color: #ffffff;
-
-    box-shadow:
-        0 0 0 3px
-        rgba(255, 255, 255, 0.08);
-}
-
-.country-section select option {
-    color: #ffffff;
-    background: #111111;
+    margin-bottom: 20px;
 }
 
 
 /* =========================================================
-   PRICE
+   MAIN PRICE
    ========================================================= */
 
 .product-price {
     width: 100%;
 
-    margin-bottom: 5px;
-}
-
-#productPrice {
-    display: block;
-
-    width: 100%;
+    margin-bottom: 6px;
 
     color: #ffffff;
 
     font-size:
         clamp(
-            32px,
+            34px,
             4vw,
-            45px
+            46px
         );
 
     line-height: 1.1;
@@ -419,12 +356,116 @@ body {
     overflow-wrap: anywhere;
 }
 
+
+/* =========================================================
+   USD PRICE
+   ========================================================= */
+
 .price-usd {
+    color: #8f8f8f;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   COUNTRY SECTION
+   ========================================================= */
+
+.country-section {
     width: 100%;
+
+    margin-bottom: 22px;
+}
+
+
+/* =========================================================
+   COUNTRY LABEL
+   ========================================================= */
+
+.country-label {
+    display: block;
 
     margin-bottom: 9px;
 
-    color: #8f8f8f;
+    color: #eeeeee;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   COUNTRY SELECT
+   ========================================================= */
+
+.country-select {
+    display: block;
+
+    width: 100%;
+
+    padding: 15px 16px;
+
+    color: #ffffff;
+
+    background: #111111;
+
+    border: 1px solid rgba(255, 255, 255, 0.20);
+
+    border-radius: 12px;
+
+    outline: none;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    appearance: auto;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.country-select:hover {
+    background: #151515;
+
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+.country-select:focus {
+    background: #111111;
+
+    border-color: #ffffff;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(255, 255, 255, 0.08);
+}
+
+.country-select option {
+    color: #ffffff;
+
+    background: #111111;
+}
+
+
+/* =========================================================
+   COUNTRY MESSAGE
+   ========================================================= */
+
+.country-message {
+    width: 100%;
+
+    min-height: 20px;
+
+    margin-top: 9px;
+
+    color: #a6a6a6;
 
     font-size: 13px;
 
@@ -436,62 +477,41 @@ body {
    SHIPPING
    ========================================================= */
 
-.shipping-text {
-    display: inline-block;
-
-    max-width: 100%;
-
-    margin:
-        7px 0
-        10px;
-
-    padding: 7px 11px;
-
-    color: #ffffff;
-
-    background:
-        rgba(255, 255, 255, 0.05);
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.20);
-
-    border-radius: 999px;
-
-    font-size: 12px;
-    font-weight: 800;
-
-    letter-spacing: 1.2px;
-}
-
-
-/* =========================================================
-   COUNTRY MESSAGE
-   ========================================================= */
-
-.country-message {
+.shipping-section {
     width: 100%;
-
-    min-height: 22px;
 
     margin-bottom: 28px;
 
-    color: #a6a6a6;
+    color: #ffffff;
 
     font-size: 13px;
 
-    line-height: 1.5;
+    line-height: 1.6;
+}
+
+.shipping-label {
+    color: #a6a6a6;
+
+    margin-right: 5px;
+}
+
+#shippingText {
+    color: #ffffff;
+
+    font-weight: 800;
+
+    letter-spacing: 0.8px;
 }
 
 
 /* =========================================================
-   DESCRIPTION
+   PRODUCT DESCRIPTION
    ========================================================= */
 
 .product-description {
     width: 100%;
 
-    margin-top: 32px;
+    margin-top: 30px;
 
     padding-top: 28px;
 
@@ -513,7 +533,7 @@ body {
 }
 
 .product-description p {
-    margin-bottom: 12px;
+    margin-bottom: 13px;
 
     color: #b5b5b5;
 
@@ -522,15 +542,19 @@ body {
     line-height: 1.8;
 }
 
+.product-description p:last-child {
+    margin-bottom: 0;
+}
+
 
 /* =========================================================
-   PRODUCT SPECIFICATIONS
+   PURCHASE NOTES
    ========================================================= */
 
-.product-specifications {
+.purchase-notes {
     width: 100%;
 
-    margin-top: 32px;
+    margin-top: 30px;
 
     padding-top: 28px;
 
@@ -539,7 +563,7 @@ body {
         rgba(255, 255, 255, 0.10);
 }
 
-.product-specifications h2 {
+.purchase-notes h2 {
     margin-bottom: 16px;
 
     color: #ffffff;
@@ -551,37 +575,44 @@ body {
     font-weight: 800;
 }
 
-.product-specifications ul {
-    display: flex;
-
-    flex-direction: column;
-
-    width: 100%;
-
-    list-style: none;
-}
-
-.product-specifications li {
-    width: 100%;
-
-    padding: 11px 0;
+.purchase-notes p {
+    margin-bottom: 13px;
 
     color: #b5b5b5;
 
     font-size: 14px;
 
+    line-height: 1.8;
+}
+
+.purchase-notes p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   SKU
+   ========================================================= */
+
+.product-sku {
+    width: 100%;
+
+    margin-top: 28px;
+
+    padding-top: 20px;
+
+    color: #8f8f8f;
+
+    font-size: 13px;
+
     line-height: 1.6;
 
-    border-bottom:
+    border-top:
         1px solid
-        rgba(255, 255, 255, 0.06);
+        rgba(255, 255, 255, 0.08);
 }
 
-.product-specifications li:last-child {
-    border-bottom: none;
-}
-
-.product-specifications strong {
+.product-sku span {
     color: #ffffff;
 
     font-weight: 700;
@@ -595,10 +626,10 @@ body {
 .quantity-section {
     width: 100%;
 
-    margin-top: 34px;
+    margin-top: 30px;
 }
 
-.quantity-section label {
+.quantity-label {
     display: block;
 
     margin-bottom: 10px;
@@ -606,8 +637,14 @@ body {
     color: #ffffff;
 
     font-size: 14px;
+
     font-weight: 700;
 }
+
+
+/* =========================================================
+   QUANTITY CONTROL
+   ========================================================= */
 
 .quantity-control {
     display: flex;
@@ -632,11 +669,10 @@ body {
    QUANTITY BUTTONS
    ========================================================= */
 
-.quantity-control button {
+.quantity-button {
     width: 48px;
-    height: 48px;
 
-    flex-shrink: 0;
+    height: 48px;
 
     padding: 0;
 
@@ -654,14 +690,14 @@ body {
         background 0.20s ease;
 }
 
-.quantity-control button:hover {
+.quantity-button:hover {
     background:
         rgba(255, 255, 255, 0.10);
 }
 
-.quantity-control button:active {
+.quantity-button:active {
     background:
-        rgba(255, 255, 255, 0.16);
+        rgba(255, 255, 255, 0.18);
 }
 
 
@@ -669,11 +705,10 @@ body {
    QUANTITY INPUT
    ========================================================= */
 
-.quantity-control input {
+.quantity-input {
     width: 58px;
-    height: 48px;
 
-    flex-shrink: 0;
+    height: 48px;
 
     padding: 0;
 
@@ -696,14 +731,16 @@ body {
     text-align: center;
 
     font-size: 16px;
+
     font-weight: 700;
 
     appearance: textfield;
+
     -moz-appearance: textfield;
 }
 
-.quantity-control input::-webkit-inner-spin-button,
-.quantity-control input::-webkit-outer-spin-button {
+.quantity-input::-webkit-inner-spin-button,
+.quantity-input::-webkit-outer-spin-button {
     margin: 0;
 
     -webkit-appearance: none;
@@ -726,12 +763,20 @@ body {
     gap: 12px;
 
     margin-top: 24px;
+
+    position: relative;
+
+    z-index: 10;
 }
 
-.product-button {
+
+/* =========================================================
+   ADD TO CART
+   ========================================================= */
+
+.add-cart-button {
     width: 100%;
 
-    min-width: 0;
     min-height: 54px;
 
     padding: 15px 20px;
@@ -745,9 +790,12 @@ body {
     border-radius: 13px;
 
     font-size: 14px;
+
     font-weight: 800;
 
     cursor: pointer;
+
+    pointer-events: auto;
 
     transition:
         transform 0.20s ease,
@@ -755,7 +803,7 @@ body {
         opacity 0.20s ease;
 }
 
-.product-button:hover:not(:disabled) {
+.add-cart-button:hover {
     transform: translateY(-2px);
 
     box-shadow:
@@ -763,37 +811,22 @@ body {
         rgba(255, 255, 255, 0.12);
 }
 
-.product-button:active:not(:disabled) {
+.add-cart-button:active {
     transform: translateY(0);
 }
 
-.product-button:disabled {
-    opacity: 0.35;
-
-    cursor: not-allowed;
-
-    transform: none;
-
-    box-shadow: none;
-}
-
 
 /* =========================================================
-   ADD TO CART BUTTON
-   ========================================================= */
-
-.add-cart-button {
-    color: #050505;
-
-    background: #ffffff;
-}
-
-
-/* =========================================================
-   BUY NOW BUTTON
+   BUY NOW
    ========================================================= */
 
 .buy-now-button {
+    width: 100%;
+
+    min-height: 54px;
+
+    padding: 15px 20px;
+
     color: #ffffff;
 
     background: transparent;
@@ -801,14 +834,49 @@ body {
     border:
         1px solid
         rgba(255, 255, 255, 0.35);
+
+    border-radius: 13px;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    pointer-events: auto;
+
+    transition:
+        transform 0.20s ease,
+        background 0.20s ease,
+        border-color 0.20s ease;
 }
 
-.buy-now-button:hover:not(:disabled) {
+.buy-now-button:hover {
     background:
         rgba(255, 255, 255, 0.08);
 
     border-color:
         rgba(255, 255, 255, 0.65);
+
+    transform: translateY(-2px);
+}
+
+.buy-now-button:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   BUTTON FOCUS
+   ========================================================= */
+
+.add-cart-button:focus-visible,
+.buy-now-button:focus-visible,
+.quantity-button:focus-visible,
+.country-select:focus-visible {
+    outline: 2px solid #ffffff;
+
+    outline-offset: 3px;
 }
 
 
@@ -837,23 +905,41 @@ body {
 
 @media (max-width: 950px) {
 
-    .product-details {
+    .header-inner {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .product-page {
+        padding:
+            45px 5%
+            80px;
+    }
+
+    .product-container {
         grid-template-columns:
             minmax(0, 1fr);
 
         gap: 45px;
     }
 
-    .product-photo {
+    .product-image-wrapper {
         position: relative;
 
         top: auto;
     }
 
-    .product-information {
-        width: 100%;
-
+    .product-info {
         max-width: none;
+    }
+
+    .product-title {
+        font-size:
+            clamp(
+                30px,
+                5vw,
+                44px
+            );
     }
 }
 
@@ -864,20 +950,22 @@ body {
 
 @media (max-width: 600px) {
 
-    .product-header {
+    .header-inner {
         padding:
             17px 5%;
+
+        gap: 12px;
     }
 
-    .product-logo {
-        font-size: 16px;
+    .brand-logo {
+        font-size: 17px;
 
         letter-spacing: 1.5px;
     }
 
-    .back-shop {
+    .back-link {
         padding:
-            8px 11px;
+            8px 12px;
 
         font-size: 12px;
     }
@@ -888,16 +976,18 @@ body {
             60px;
     }
 
-    .product-details {
+    .product-container {
         gap: 32px;
     }
 
-    .product-photo {
+    .product-image-wrapper {
         border-radius: 18px;
     }
 
-    .product-information h1 {
+    .product-title {
         font-size: 30px;
+
+        line-height: 1.10;
 
         letter-spacing: -0.8px;
     }
@@ -908,29 +998,31 @@ body {
         font-size: 14px;
     }
 
-    #productPrice {
+    .product-price {
         font-size: 34px;
     }
 
-    .country-section select {
+    .country-select {
         padding: 14px;
     }
 
     .product-description,
-    .product-specifications {
+    .purchase-notes {
         margin-top: 28px;
 
         padding-top: 25px;
     }
 
     .product-description h2,
-    .product-specifications h2 {
+    .purchase-notes h2 {
         font-size: 18px;
     }
 
     .product-description p,
-    .product-specifications li {
+    .purchase-notes p {
         font-size: 13px;
+
+        line-height: 1.75;
     }
 
     .product-actions {
@@ -940,12 +1032,13 @@ body {
         gap: 10px;
     }
 
-    .quantity-control button {
+    .quantity-button {
         width: 46px;
+
         height: 46px;
     }
 
-    .quantity-control input {
+    .quantity-input {
         height: 46px;
     }
 }
@@ -957,22 +1050,20 @@ body {
 
 @media (max-width: 380px) {
 
-    .product-header {
+    .header-inner {
         padding-left: 4%;
         padding-right: 4%;
-
-        gap: 10px;
     }
 
-    .product-logo {
+    .brand-logo {
         font-size: 14px;
     }
 
-    .back-shop {
-        font-size: 11px;
-
+    .back-link {
         padding:
             8px 9px;
+
+        font-size: 11px;
     }
 
     .product-page {
@@ -980,7 +1071,7 @@ body {
         padding-right: 4%;
     }
 
-    .product-information h1 {
+    .product-title {
         font-size: 27px;
     }
 }
