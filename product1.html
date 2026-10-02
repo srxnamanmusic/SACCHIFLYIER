@@ -1012,6 +1012,65 @@ shippingDisplay.textContent = "Shipping included";
 
 
     /*
+      SHARED CART HELPERS
+      These keys are the same ones used by Product 2.
+    */
+    function getCart() {
+
+      try {
+
+        return JSON.parse(
+          localStorage.getItem("sacchiFlyierCart")
+        ) || [];
+
+      } catch (error) {
+
+        return [];
+      }
+    }
+
+
+    function saveCart(cart) {
+
+      localStorage.setItem(
+        "sacchiFlyierCart",
+        JSON.stringify(cart)
+      );
+    }
+
+
+    /*
+      CREATE THE SAME ITEM FORMAT USED BY PRODUCT 2
+    */
+    function createCartItem() {
+
+      const country =
+        document.getElementById("country").value;
+
+      const quantity =
+        parseInt(document.getElementById("quantity").textContent, 10);
+
+      const shippingCost =
+        shippingRates[country];
+
+      const unitPriceUSD =
+        productCost + shippingCost + profit;
+
+      return {
+        id: "product1",
+        name: "LIGHT LUXURY HIGH GRADE MICRO INLIAD CHAIN EARNING",
+        sku: "CJLX239765601AZ",
+        image: "product1.jpg",
+        quantity: quantity,
+        country: country,
+        currency: "USD",
+        unitPriceUSD: Number(unitPriceUSD.toFixed(2)),
+        unitPriceLocal: Number(unitPriceUSD.toFixed(2))
+      };
+    }
+
+
+    /*
       ADD TO CART
     */
     function addToCart() {
@@ -1037,14 +1096,36 @@ shippingDisplay.textContent = "Shipping included";
         return;
       }
 
+      const item = createCartItem();
+      const cart = getCart();
+
+      const existingItem = cart.find(existing =>
+        existing.id === item.id &&
+        existing.country === item.country
+      );
+
+      if (existingItem) {
+
+        existingItem.quantity += item.quantity;
+        existingItem.unitPriceUSD = item.unitPriceUSD;
+        existingItem.unitPriceLocal = item.unitPriceLocal;
+
+      } else {
+
+        cart.push(item);
+      }
+
+      saveCart(cart);
+
       alert(
-        "Product added to cart!"
+        "Product added to your cart."
       );
     }
 
 
     /*
       BUY NOW
+      Uses the same universal checkout.html as Product 2.
     */
     function buyNow() {
 
@@ -1069,9 +1150,14 @@ shippingDisplay.textContent = "Shipping included";
         return;
       }
 
-      alert(
-        "Buy Now selected!"
+      const item = createCartItem();
+
+      localStorage.setItem(
+        "sacchiFlyierBuyNow",
+        JSON.stringify(item)
       );
+
+      window.location.href = "checkout.html";
     }
 
   </script>
