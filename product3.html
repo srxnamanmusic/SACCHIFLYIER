@@ -1121,41 +1121,81 @@ countrySelect.addEventListener("change", function () {
 
 /* COLOR AND MODEL SELECTION */
 
+/* COLOR AND MODEL SELECTION */
+
 const colorButtons = document.querySelectorAll(".color-button");
+
+const allModels = [
+    "iPhone 12 series",
+    "iPhone 13 series",
+    "iPhone 14 series",
+    "iPhone 15 series",
+    "iPhone 16 series",
+    "iPhone 17 series"
+];
+
+function isModelAvailable(color, model) {
+    if (color === "Black") {
+        return model === "iPhone 15 Pro Max";
+    }
+
+    if (color === "Blue") {
+        return allModels.includes(model);
+    }
+
+    if (color === "Pink") {
+        return model !== "iPhone 12 series" &&
+               allModels.includes(model);
+    }
+
+    if (color === "White") {
+        return model !== "iPhone 12 series" &&
+               allModels.includes(model);
+    }
+
+    return false;
+}
 
 function updateModels() {
     modelSelect.innerHTML = "";
 
-    const models = selectedColor === "White"
+    const models = selectedColor === "Black"
         ? [
+            "iPhone 12 series",
             "iPhone 13 series",
             "iPhone 14 series",
+            "iPhone 15 Pro Max",
             "iPhone 15 series",
             "iPhone 16 series",
             "iPhone 17 series"
         ]
-        : [
-            "iPhone 12 series",
-            "iPhone 13 series",
-            "iPhone 14 series",
-            "iPhone 15 series",
-            "iPhone 16 series",
-            "iPhone 17 series"
-        ];
+        : allModels;
 
-    modelSelect.add(
-        new Option("Select iPhone model", "")
-    );
+    modelSelect.add(new Option("Select iPhone model", ""));
 
     models.forEach(model => {
-        modelSelect.add(new Option(model, model));
+        const available = isModelAvailable(selectedColor, model);
+
+        const option = new Option(
+            available ? model : model + " — Not Available",
+            model
+        );
+
+        option.disabled = !available;
+        modelSelect.add(option);
     });
 
     selectedModel = "";
+    modelSelect.value = "";
 
-    variantMessage.textContent = selectedColor === "White"
-        ? "White is unavailable for iPhone 12 series; shown for iPhone 13–17 series."
-        : selectedColor + " is listed for iPhone 12–17 series. Confirm the exact model variant on CJ.";
+    variantMessage.textContent =
+        selectedColor === "Black"
+            ? "Black is available only for iPhone 15 Pro Max."
+            : selectedColor === "Blue"
+                ? "Blue is available for iPhone 12–17 series."
+                : selectedColor === "Pink"
+                    ? "Pink is unavailable for iPhone 12 series. iPhone 13–17 are available."
+                    : "White is unavailable for iPhone 12 series. iPhone 13–17 are available.";
 }
 
 colorButtons.forEach(button => {
@@ -1173,8 +1213,16 @@ colorButtons.forEach(button => {
 
 modelSelect.addEventListener("change", function () {
     selectedModel = this.value;
-});
 
+    if (
+        selectedModel &&
+        !isModelAvailable(selectedColor, selectedModel)
+    ) {
+        selectedModel = "";
+        modelSelect.value = "";
+        variantMessage.textContent = "This combination is not available.";
+    }
+});
 
 /* INCREASE QUANTITY */
 
@@ -1253,7 +1301,12 @@ function validateSelection() {
     }
 
     if (!selectedModel) {
-        alert("Please select your iPhone model.");
+        alert("Please select an available iPhone model.");
+        return false;
+    }
+
+    if (!isModelAvailable(selectedColor, selectedModel)) {
+        alert("Sorry, this colour and iPhone model combination is not available.");
         return false;
     }
 
