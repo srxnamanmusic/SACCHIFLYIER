@@ -1,0 +1,1261 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NARY Mechanical Watch | Sacchi Flyier</title>
+    <meta name="description" content="NARY fashionable mechanical watch from Sacchi Flyier.">
+    <meta name="author" content="Sacchi Flyier">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+        }
+
+        button, select { font-family: inherit; }
+
+        /* HEADER */
+        .product-header {
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5.5%;
+            background: #000;
+            border-bottom: 1px solid #202020;
+        }
+
+        .brand-name {
+            color: #fff;
+            text-decoration: none;
+            font-size: 27px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .back-store {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 157px;
+            height: 45px;
+            padding: 0 20px;
+            border: 1px solid #3b3b3b;
+            border-radius: 30px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 15px;
+            transition: 0.25s ease;
+        }
+
+        .back-store:hover {
+            background: #111;
+            border-color: #777;
+        }
+
+        /* MAIN */
+        .product-page {
+            width: 100%;
+            padding: 52px 5.5% 70px;
+        }
+
+        .product-container {
+            width: 100%;
+            max-width: 1260px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 58px;
+            align-items: start;
+        }
+
+        /* PRODUCT IMAGE */
+        .product-image-section { width: 100%; }
+
+        .product-image-wrapper {
+            width: 100%;
+            max-width: 580px;
+            aspect-ratio: 1 / 1;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 29px;
+            background: #111;
+        }
+
+        .product-main-image {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            transition: transform 0.35s ease;
+        }
+
+        .product-image-wrapper:hover .product-main-image {
+            transform: scale(1.025);
+        }
+
+        /* PRODUCT INFORMATION */
+        .product-info {
+            width: 100%;
+            max-width: 590px;
+            padding-top: 1px;
+        }
+
+        .product-label {
+            color: #a7a7a7;
+            font-size: 14px;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+        }
+
+        .product-title {
+            color: #fff;
+            font-size: 43px;
+            line-height: 1.17;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 17px;
+        }
+
+        .product-description {
+            color: #bdbdbd;
+            font-size: 18px;
+            line-height: 1.5;
+            margin-bottom: 22px;
+        }
+
+        .product-sku {
+            color: #666;
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+
+        /* COUNTRY */
+        .country-heading {
+            color: #fff;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 13px;
+        }
+
+        .product-option {
+            width: 100%;
+            margin-bottom: 12px;
+        }
+
+        .option-label {
+            display: block;
+            color: #fff;
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .country-select {
+            width: 100%;
+            height: 57px;
+            padding: 0 20px;
+            border: 1px solid #3d3d3d;
+            border-radius: 13px;
+            background: #111;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+        .country-select:hover,
+        .country-select:focus {
+            border-color: #666;
+        }
+
+        .country-select option {
+            background: #111;
+            color: #fff;
+        }
+
+        /* SHIPPING MESSAGE */
+        .shipping-message {
+            min-height: 24px;
+            color: #bdbdbd;
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .shipping-message.unavailable { color: #ff7676; }
+
+        /* PRICE */
+        .price-display {
+            display: none;
+            margin-bottom: 22px;
+            padding: 16px 20px;
+            border: 1px solid #2e2e2e;
+            border-radius: 13px;
+            background: #080808;
+        }
+
+        .price-display.visible { display: block; }
+
+        .price-label {
+            display: block;
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .product-price {
+            color: #fff;
+            font-size: 27px;
+            font-weight: 700;
+        }
+
+        .free-shipping {
+            display: block;
+            color: #aaa;
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            margin-top: 5px;
+        }
+
+        /* QUANTITY */
+        .quantity-section { margin-bottom: 27px; }
+
+        .quantity-label {
+            display: block;
+            color: #fff;
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .quantity-control {
+            display: flex;
+            width: 160px;
+            height: 55px;
+            overflow: hidden;
+            border: 1px solid #3d3d3d;
+            border-radius: 13px;
+        }
+
+        .quantity-button {
+            width: 53px;
+            border: none;
+            background: #111;
+            color: #fff;
+            font-size: 22px;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .quantity-button:hover { background: #202020; }
+
+        .quantity-number {
+            width: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            color: #fff;
+            font-size: 17px;
+        }
+
+        /* ACTION BUTTONS */
+        .product-buttons {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 3px;
+        }
+
+        .add-cart-button,
+        .buy-now-button {
+            height: 57px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.25s ease, color 0.25s ease,
+                        border-color 0.25s ease, transform 0.15s ease;
+        }
+
+        .add-cart-button {
+            background: #000;
+            color: #fff;
+            border: 1px solid #fff;
+        }
+
+        .add-cart-button:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        .buy-now-button {
+            background: #fff;
+            color: #000;
+            border: 1px solid #fff;
+        }
+
+        .buy-now-button:hover {
+            background: #ddd;
+            border-color: #ddd;
+        }
+
+        .add-cart-button:active,
+        .buy-now-button:active {
+            transform: scale(0.98);
+        }
+
+        /* FOOTER */
+        .product-footer {
+            padding: 30px 5.5% 35px;
+            border-top: 1px solid #202020;
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+        }
+
+        .footer-brand {
+            color: #aaa;
+            font-size: 15px;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        /* TABLET */
+        @media (max-width: 1000px) {
+            .product-container {
+                grid-template-columns: 1fr;
+                gap: 45px;
+            }
+
+            .product-info { max-width: 100%; }
+            .product-image-wrapper { max-width: 650px; }
+            .product-title { font-size: 38px; }
+        }
+
+        /* MOBILE */
+        @media (max-width: 600px) {
+            .product-header {
+                height: 76px;
+                padding: 0 20px;
+            }
+
+            .brand-name {
+                font-size: 19px;
+                letter-spacing: 1.5px;
+            }
+
+            .back-store {
+                min-width: auto;
+                height: 40px;
+                padding: 0 15px;
+                font-size: 13px;
+            }
+
+            .product-page { padding: 30px 20px 50px; }
+            .product-container { gap: 32px; }
+            .product-image-wrapper { border-radius: 20px; }
+
+            .product-label {
+                font-size: 11px;
+                letter-spacing: 4px;
+                margin-bottom: 15px;
+            }
+
+            .product-title {
+                font-size: 30px;
+                line-height: 1.15;
+            }
+
+            .product-description { font-size: 16px; }
+            .country-heading { font-size: 27px; }
+
+            .product-buttons {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header class="product-header">
+        <a href="index.html" class="brand-name">SACCHI FLYIER</a>
+        <a href="index.html" class="back-store">← Back to Shop</a>
+    </header>
+
+    <!-- PRODUCT PAGE -->
+    <main class="product-page">
+        <section class="product-container">
+
+            <!-- PRODUCT IMAGE -->
+            <div class="product-image-section">
+                <div class="product-image-wrapper">
+                    <img
+                        src="product4-main.jpeg"
+                        alt="NARY fashionable mechanical watch"
+                        class="product-main-image"
+                    >
+                </div>
+            </div>
+
+            <!-- PRODUCT INFORMATION -->
+            <div class="product-info">
+                <div class="product-label">SACCHI FLYIER</div>
+
+                <h1 class="product-title">
+                    NARY MECHANICAL WATCH
+                </h1>
+
+                <p class="product-description">
+                    Fashionable men's mechanical watch, supplied directly
+                    from the manufacturer.
+                </p>
+
+                <p class="product-sku">SKU: CJZBNSJX00017-1</p>
+
+                <!-- COUNTRY -->
+                <h2 class="country-heading">Select country</h2>
+
+                <div class="product-option">
+                    <label for="countrySelect" class="option-label">
+                        Shipping Country
+                    </label>
+
+                    <select id="countrySelect" class="country-select">
+                        <option value="">Select your country</option>
+                    </select>
+                </div>
+
+                <!-- SHIPPING MESSAGE -->
+                <div id="shippingMessage" class="shipping-message">
+                    Select your country to calculate the final price.
+                </div>
+
+                <!-- PRICE -->
+                <div id="priceDisplay" class="price-display">
+                    <span class="price-label">Price</span>
+                    <span id="productPrice" class="product-price">—</span>
+                    <span class="free-shipping">SHIPPING INCLUDED IN PRICE</span>
+                </div>
+
+                <!-- QUANTITY -->
+                <div class="quantity-section">
+                    <span class="quantity-label">Quantity</span>
+
+                    <div class="quantity-control">
+                        <button type="button" id="decreaseQuantity"
+                            class="quantity-button" aria-label="Decrease quantity">−</button>
+
+                        <span id="quantity" class="quantity-number">1</span>
+
+                        <button type="button" id="increaseQuantity"
+                            class="quantity-button" aria-label="Increase quantity">+</button>
+                    </div>
+                </div>
+
+                <!-- BUTTONS -->
+                <div class="product-buttons">
+                    <button type="button" id="addToCart" class="add-cart-button">
+                        Add to Cart
+                    </button>
+
+                    <button type="button" id="buyNow" class="buy-now-button">
+                        Buy Now
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="product-footer">
+        <div class="footer-brand">SACCHI FLYIER</div>
+        <div>FLY-BEYOND LIMITS.</div>
+        <div style="margin-top: 8px;">
+            © 2026 Sacchi Flyier. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        /* PRODUCT INFORMATION */
+        const PRODUCT = {
+            id: "product4",
+            name: "NARY Mechanical Watch",
+            sku: "CJZBNSJX00017-1",
+            image: "product4-main.jpeg",
+            productCostUSD: 13.27,
+            profitUSD: 10.00
+        };
+
+        /*
+         * WATCH SHIPPING RATES (USD)
+         * null means shipping is unavailable.
+         */
+        const shippingRates = {
+            "Afghanistan": 10.16,
+            "Albania": 8.64,
+            "Algeria": 9.84,
+            "American Samoa": 13.33,
+            "Andorra": 9.53,
+            "Angola": 9.98,
+            "Anguilla": 11.60,
+            "Antigua and Barbuda": 9.49,
+            "Argentina": 11.88,
+            "Armenia": 13.66,
+            "Aruba": 12.25,
+            "Australia": 8.53,
+            "Austria": 10.38,
+            "Azerbaijan": 8.54,
+            "Bahamas": 10.45,
+            "Bahrain": 9.40,
+            "Bangladesh": 8.83,
+            "Barbados": 9.98,
+            "Belarus": 9.75,
+            "Belgium": 9.72,
+            "Belize": 11.60,
+            "Benin": 10.61,
+            "Bermuda": 9.98,
+            "Bhutan": 8.55,
+            "Bolivia (Plurinational State of)": 12.07,
+            "Bonaire, Sint Eustatius and Saba": 12.07,
+            "Bosnia and Herzegovina": 9.12,
+            "Botswana": 9.98,
+            "Bouvet Island": 12.77,
+            "Brazil": 9.83,
+            "British Indian Ocean Territory": 13.60,
+            "Brunei Darussalam": 5.24,
+            "Bulgaria": 10.92,
+            "Burkina Faso": 10.79,
+            "Burundi": 10.93,
+            "Cabo Verde": 12.07,
+            "Cambodia": 2.87,
+            "Cameroon": 10.30,
+            "Canada": 6.48,
+            "Cayman Islands": 10.93,
+            "Central African Republic": 12.07,
+            "Chad": 11.40,
+            "Chile": 6.40,
+            "China": 1.43,
+            "Christmas Island": 15.33,
+            "Cocos (Keeling) Islands": 15.33,
+            "Colombia": 8.50,
+            "Comoros": 10.31,
+            "Congo (The Democratic Republic of the)": 12.07,
+            "Congo": 9.40,
+            "Cook Islands": 15.79,
+            "Costa Rica": 10.73,
+            "Côte d’Ivoire": 9.49,
+            "Croatia": 10.35,
+            "Cuba": 10.45,
+            "Curaçao": 10.93,
+            "Cyprus": 12.45,
+            "Czechia": 10.37,
+            "Denmark": 10.70,
+            "Djibouti": 12.07,
+            "Dominica": 11.60,
+            "Dominican Republic": 10.45,
+            "Ecuador": 13.13,
+            "Egypt": 6.11,
+            "El Salvador": 10.93,
+            "Equatorial Guinea": 10.71,
+            "Eritrea": 10.93,
+            "Estonia": 9.19,
+            "Ethiopia": 8.54,
+            "Falkland Islands": 11.16,
+            "Faroe Islands": 12.15,
+            "Fiji": 13.99,
+            "Finland": 12.64,
+            "France": 9.24,
+            "French Guiana": 15.15,
+            "French Polynesia": 13.99,
+            "French Southern Territories": 11.21,
+            "Gabon": 10.31,
+            "Gambia": 10.93,
+            "Georgia": 6.41,
+            "Germany": 9.23,
+            "Ghana": 10.45,
+            "Gibraltar": 10.00,
+            "Greece": 10.02,
+            "Greenland": 19.88,
+            "Grenada": 10.93,
+            "Guadeloupe": 13.25,
+            "Guam": 14.17,
+            "Guatemala": 13.80,
+            "Guernsey": 9.06,
+            "Guinea": 10.42,
+            "Guinea-Bissau": null,
+            "Guyana": 13.64,
+            "Haiti": 11.60,
+            "Hawaii": null,
+            "Heard Island and McDonald Islands": 16.60,
+            "Holy See": null,
+            "Honduras": 11.60,
+            "Hong Kong (China)": 5.15,
+            "Hungary": 10.35,
+            "Iceland": 9.61,
+            "India": 6.15,
+            "Indonesia": 5.08,
+            "Iran (Islamic Republic of)": null,
+            "Iraq": null,
+            "Ireland": 11.08,
+            "Isle of Man": 9.06,
+            "Israel": 8.53,
+            "Italy": 9.75,
+            "Jamaica": 9.98,
+            "Japan": 5.17,
+            "Jersey": 9.06,
+            "Jordan": 8.54,
+            "Kazakhstan": 3.09,
+            "Kenya": 8.54,
+            "Kiribati": 14.84,
+            "Korea (The Democratic People's Republic of)": null,
+            "Korea": 3.24,
+            "Kuwait": 15.53,
+            "Kyrgyzstan": 8.40,
+            "Lao People's Democratic Republic": 7.25,
+            "Latvia": 9.19,
+            "Lebanon": 8.40,
+            "Lesotho": 12.07,
+            "Liberia": 11.40,
+            "Libya": 10.79,
+            "Liechtenstein": 12.42,
+            "Lithuania": 9.19,
+            "Luxembourg": 11.45,
+            "Macao (China)": 6.30,
+            "Macedonia (The Former Yugoslav Republic of)": 9.35,
+            "Madagascar": 10.93,
+            "Malawi": 9.49,
+            "Malaysia": 3.02,
+            "Maldives": 4.04,
+            "Mali": 10.79,
+            "Malta": 12.85,
+            "Marshall Islands": 13.14,
+            "Martinique": 13.66,
+            "Mauritania": null,
+            "Mauritius": 8.63,
+            "Mayotte": 10.93,
+            "Mexico": 6.86,
+            "Micronesia (Federated States of)": null,
+            "Moldova, The Republic of": 7.96,
+            "Monaco": 9.53,
+            "Mongolia": 4.25,
+            "Montenegro": 7.91,
+            "Montserrat": 11.60,
+            "Morocco": 7.36,
+            "Mozambique": 9.98,
+            "Myanmar": 5.08,
+            "Namibia": 11.27,
+            "Nauru": 17.97,
+            "Nepal": 8.54,
+            "Netherlands": 9.66,
+            "New Caledonia": 13.99,
+            "New Zealand": 7.86,
+            "Nicaragua": 10.93,
+            "Niger": 10.31,
+            "Nigeria": 9.49,
+            "Niue": 15.79,
+            "Norfolk Island": 13.80,
+            "Northern Mariana Islands": 13.80,
+            "Norway": 7.87,
+            "Oman": 6.64,
+            "Pakistan": 2.94,
+            "Palau": null,
+            "Palestine, State of": null,
+            "Panama": 10.45,
+            "Papua New Guinea": 13.99,
+            "Paraguay": 11.88,
+            "Peru": 11.88,
+            "Philippines": 4.32,
+            "Pitcairn": 18.20,
+            "Poland": 8.47,
+            "Portugal": 9.68,
+            "Puerto Rico": 13.22,
+            "Qatar": 12.31,
+            "Réunion": 13.92,
+            "Romania": 11.78,
+            "Russian Federation": 7.34,
+            "Rwanda": 9.49,
+            "Saint Helena, Ascension and Tristan da Cunha": 12.38,
+            "Saint Kitts and Nevis": 11.60,
+            "Saint Lucia": 9.98,
+            "Saint Martin (French part)": 11.21,
+            "Saint Pierre and Miquelon": 12.09,
+            "Saint Vincent and the Grenadines": 11.60,
+            "Samoa": 15.79,
+            "San Marino": 12.70,
+            "Sao Tome and Principe": 12.07,
+            "Saudi Arabia": 6.30,
+            "Senegal": 9.01,
+            "Serbia": 8.39,
+            "Seychelles": 7.87,
+            "Sierra Leone": 12.07,
+            "Singapore": 3.66,
+            "Sint Maarten (Dutch part)": 12.07,
+            "Slovakia": 10.53,
+            "Slovenia": 10.53,
+            "Solomon Islands": 9.57,
+            "Somalia": 12.07,
+            "South Africa": 10.55,
+            "South Georgia and the South Sandwich Islands": 11.16,
+            "South Sudan": null,
+            "Spain": 8.05,
+            "Sri Lanka": 7.59,
+            "Sudan": 10.42,
+            "Suriname": 12.07,
+            "Swaziland": 9.86,
+            "Sweden": 8.17,
+            "Switzerland": 9.06,
+            "Syrian Arab Republic": null,
+            "Taiwan (Province of China)": 8.07,
+            "Tajikistan": 8.40,
+            "Tanzania, United Republic of": 9.01,
+            "Thailand": 1.89,
+            "The Republic of Kosovo": 10.24,
+            "Timor-Leste": 24.67,
+            "Togo": 10.79,
+            "Tokelau": 15.79,
+            "Tonga": 13.00,
+            "Trinidad and Tobago": 12.07,
+            "Tunisia": 8.54,
+            "Turkey": 11.79,
+            "Turks and Caicos Islands": 12.07,
+            "Tuvalu": 14.84,
+            "Uganda": 8.54,
+            "Ukraine": 5.75,
+            "United Arab Emirates": 5.25,
+            "United Kingdom": 5.95,
+            "United States": 8.26,
+            "Uruguay": 9.76,
+            "Uzbekistan": 9.76,
+            "Vanuatu": 13.47,
+            "Venezuela (Bolivarian Republic of)": 10.45,
+            "Vietnam": 1.89,
+            "Virgin Islands (British)": 9.98,
+            "Virgin Islands (U.S.)": 13.80,
+            "Wallis and Futuna": 15.79,
+            "Western Sahara": 13.46,
+            "Yemen": null,
+            "Zambia": 9.01,
+            "Zimbabwe": 6.88
+        };
+
+        /*
+         * Country-to-currency map.
+         * Countries not listed here use USD as a safe fallback.
+         */
+        const countryCurrencies = {
+            "Afghanistan": "AFN",
+            "Albania": "ALL",
+            "Algeria": "DZD",
+            "American Samoa": "USD",
+            "Andorra": "EUR",
+            "Angola": "AOA",
+            "Anguilla": "XCD",
+            "Antigua and Barbuda": "XCD",
+            "Argentina": "ARS",
+            "Armenia": "AMD",
+            "Aruba": "AWG",
+            "Australia": "AUD",
+            "Austria": "EUR",
+            "Azerbaijan": "AZN",
+            "Bahamas": "BSD",
+            "Bahrain": "BHD",
+            "Bangladesh": "BDT",
+            "Barbados": "BBD",
+            "Belarus": "BYN",
+            "Belgium": "EUR",
+            "Belize": "BZD",
+            "Benin": "XOF",
+            "Bermuda": "BMD",
+            "Bhutan": "BTN",
+            "Bolivia (Plurinational State of)": "BOB",
+            "Bonaire, Sint Eustatius and Saba": "USD",
+            "Bosnia and Herzegovina": "BAM",
+            "Botswana": "BWP",
+            "Bouvet Island": "NOK",
+            "Brazil": "BRL",
+            "British Indian Ocean Territory": "USD",
+            "Brunei Darussalam": "BND",
+            "Bulgaria": "BGN",
+            "Burkina Faso": "XOF",
+            "Burundi": "BIF",
+            "Cabo Verde": "CVE",
+            "Cambodia": "KHR",
+            "Cameroon": "XAF",
+            "Canada": "CAD",
+            "Cayman Islands": "KYD",
+            "Central African Republic": "XAF",
+            "Chad": "XAF",
+            "Chile": "CLP",
+            "China": "CNY",
+            "Christmas Island": "AUD",
+            "Cocos (Keeling) Islands": "AUD",
+            "Colombia": "COP",
+            "Comoros": "KMF",
+            "Congo (The Democratic Republic of the)": "CDF",
+            "Congo": "XAF",
+            "Cook Islands": "NZD",
+            "Costa Rica": "CRC",
+            "Côte d’Ivoire": "XOF",
+            "Croatia": "EUR",
+            "Cuba": "CUP",
+            "Curaçao": "ANG",
+            "Cyprus": "EUR",
+            "Czechia": "CZK",
+            "Denmark": "DKK",
+            "Djibouti": "DJF",
+            "Dominica": "XCD",
+            "Dominican Republic": "DOP",
+            "Ecuador": "USD",
+            "Egypt": "EGP",
+            "El Salvador": "USD",
+            "Equatorial Guinea": "XAF",
+            "Eritrea": "ERN",
+            "Estonia": "EUR",
+            "Ethiopia": "ETB",
+            "Falkland Islands": "FKP",
+            "Faroe Islands": "DKK",
+            "Fiji": "FJD",
+            "Finland": "EUR",
+            "France": "EUR",
+            "French Guiana": "EUR",
+            "French Polynesia": "XPF",
+            "French Southern Territories": "EUR",
+            "Gabon": "XAF",
+            "Gambia": "GMD",
+            "Georgia": "GEL",
+            "Germany": "EUR",
+            "Ghana": "GHS",
+            "Gibraltar": "GIP",
+            "Greece": "EUR",
+            "Greenland": "DKK",
+            "Grenada": "XCD",
+            "Guadeloupe": "EUR",
+            "Guam": "USD",
+            "Guatemala": "GTQ",
+            "Guernsey": "GBP",
+            "Guinea": "GNF",
+            "Guinea-Bissau": "XOF",
+            "Guyana": "GYD",
+            "Haiti": "HTG",
+            "Hawaii": "USD",
+            "Heard Island and McDonald Islands": "AUD",
+            "Holy See": "EUR",
+            "Honduras": "HNL",
+            "Hong Kong (China)": "HKD",
+            "Hungary": "HUF",
+            "Iceland": "ISK",
+            "India": "INR",
+            "Indonesia": "IDR",
+            "Iran (Islamic Republic of)": "IRR",
+            "Iraq": "IQD",
+            "Ireland": "EUR",
+            "Isle of Man": "GBP",
+            "Israel": "ILS",
+            "Italy": "EUR",
+            "Jamaica": "JMD",
+            "Japan": "JPY",
+            "Jersey": "GBP",
+            "Jordan": "JOD",
+            "Kazakhstan": "KZT",
+            "Kenya": "KES",
+            "Kiribati": "AUD",
+            "Korea (The Democratic People's Republic of)": "KPW",
+            "Korea": "KRW",
+            "Kuwait": "KWD",
+            "Kyrgyzstan": "KGS",
+            "Lao People's Democratic Republic": "LAK",
+            "Latvia": "EUR",
+            "Lebanon": "LBP",
+            "Lesotho": "LSL",
+            "Liberia": "LRD",
+            "Libya": "LYD",
+            "Liechtenstein": "CHF",
+            "Lithuania": "EUR",
+            "Luxembourg": "EUR",
+            "Macao (China)": "MOP",
+            "Macedonia (The Former Yugoslav Republic of)": "MKD",
+            "Madagascar": "MGA",
+            "Malawi": "MWK",
+            "Malaysia": "MYR",
+            "Maldives": "MVR",
+            "Mali": "XOF",
+            "Malta": "EUR",
+            "Marshall Islands": "USD",
+            "Martinique": "EUR",
+            "Mauritania": "MRU",
+            "Mauritius": "MUR",
+            "Mayotte": "EUR",
+            "Mexico": "MXN",
+            "Micronesia (Federated States of)": "USD",
+            "Moldova, The Republic of": "MDL",
+            "Monaco": "EUR",
+            "Mongolia": "MNT",
+            "Montenegro": "EUR",
+            "Montserrat": "XCD",
+            "Morocco": "MAD",
+            "Mozambique": "MZN",
+            "Myanmar": "MMK",
+            "Namibia": "NAD",
+            "Nauru": "AUD",
+            "Nepal": "NPR",
+            "Netherlands": "EUR",
+            "New Caledonia": "XPF",
+            "New Zealand": "NZD",
+            "Nicaragua": "NIO",
+            "Niger": "XOF",
+            "Nigeria": "NGN",
+            "Niue": "NZD",
+            "Norfolk Island": "AUD",
+            "Northern Mariana Islands": "USD",
+            "Norway": "NOK",
+            "Oman": "OMR",
+            "Pakistan": "PKR",
+            "Palau": "USD",
+            "Palestine, State of": "ILS",
+            "Panama": "USD",
+            "Papua New Guinea": "PGK",
+            "Paraguay": "PYG",
+            "Peru": "PEN",
+            "Philippines": "PHP",
+            "Pitcairn": "NZD",
+            "Poland": "PLN",
+            "Portugal": "EUR",
+            "Puerto Rico": "USD",
+            "Qatar": "QAR",
+            "Réunion": "EUR",
+            "Romania": "RON",
+            "Russian Federation": "RUB",
+            "Rwanda": "RWF",
+            "Saint Helena, Ascension and Tristan da Cunha": "SHP",
+            "Saint Kitts and Nevis": "XCD",
+            "Saint Lucia": "XCD",
+            "Saint Martin (French part)": "EUR",
+            "Saint Pierre and Miquelon": "EUR",
+            "Saint Vincent and the Grenadines": "XCD",
+            "Samoa": "WST",
+            "San Marino": "EUR",
+            "Sao Tome and Principe": "STN",
+            "Saudi Arabia": "SAR",
+            "Senegal": "XOF",
+            "Serbia": "RSD",
+            "Seychelles": "SCR",
+            "Sierra Leone": "SLE",
+            "Singapore": "SGD",
+            "Sint Maarten (Dutch part)": "ANG",
+            "Slovakia": "EUR",
+            "Slovenia": "EUR",
+            "Solomon Islands": "SBD",
+            "Somalia": "SOS",
+            "South Africa": "ZAR",
+            "South Georgia and the South Sandwich Islands": "GBP",
+            "South Sudan": "SSP",
+            "Spain": "EUR",
+            "Sri Lanka": "LKR",
+            "Sudan": "SDG",
+            "Suriname": "SRD",
+            "Swaziland": "SZL",
+            "Sweden": "SEK",
+            "Switzerland": "CHF",
+            "Syrian Arab Republic": "SYP",
+            "Taiwan (Province of China)": "TWD",
+            "Tajikistan": "TJS",
+            "Tanzania, United Republic of": "TZS",
+            "Thailand": "THB",
+            "The Republic of Kosovo": "EUR",
+            "Timor-Leste": "USD",
+            "Togo": "XOF",
+            "Tokelau": "NZD",
+            "Tonga": "TOP",
+            "Trinidad and Tobago": "TTD",
+            "Tunisia": "TND",
+            "Turkey": "TRY",
+            "Turks and Caicos Islands": "USD",
+            "Tuvalu": "AUD",
+            "Uganda": "UGX",
+            "Ukraine": "UAH",
+            "United Arab Emirates": "AED",
+            "United Kingdom": "GBP",
+            "United States": "USD",
+            "Uruguay": "UYU",
+            "Uzbekistan": "UZS",
+            "Vanuatu": "VUV",
+            "Venezuela (Bolivarian Republic of)": "VES",
+            "Vietnam": "VND",
+            "Virgin Islands (British)": "USD",
+            "Virgin Islands (U.S.)": "USD",
+            "Wallis and Futuna": "XPF",
+            "Western Sahara": "MAD",
+            "Yemen": "YER",
+            "Zambia": "ZMW",
+            "Zimbabwe": "ZWL"
+        };
+
+        /* LIVE EXCHANGE RATES */
+        let liveExchangeRates = { USD: 1 };
+
+        /* PRODUCT STATE */
+        let selectedCountry = "";
+        let quantity = 1;
+
+        /* ELEMENTS */
+        const countrySelect = document.getElementById("countrySelect");
+        const shippingMessage = document.getElementById("shippingMessage");
+        const priceDisplay = document.getElementById("priceDisplay");
+        const productPrice = document.getElementById("productPrice");
+        const quantityElement = document.getElementById("quantity");
+
+        /* LOAD COUNTRY OPTIONS */
+        Object.keys(shippingRates)
+            .sort((a, b) => a.localeCompare(b))
+            .forEach(country => {
+                const option = document.createElement("option");
+                option.value = country;
+                option.textContent = country;
+                countrySelect.appendChild(option);
+            });
+
+        /* FORMAT PRICE */
+        function formatPrice(amount, currency) {
+            try {
+                return new Intl.NumberFormat(undefined, {
+                    style: "currency",
+                    currency,
+                    maximumFractionDigits: 2
+                }).format(amount);
+            } catch (error) {
+                return `${currency} ${amount.toFixed(2)}`;
+            }
+        }
+
+        /* LOAD LIVE EXCHANGE RATES
+           Frankfurter returns an array of { date, base, quote, rate }. */
+        async function loadLiveExchangeRates() {
+            try {
+                const response = await fetch(
+                    "https://api.frankfurter.dev/v2/rates?base=USD"
+                );
+
+                if (!response.ok) {
+                    throw new Error("Exchange rate request failed");
+                }
+
+                const data = await response.json();
+                const rates = { USD: 1 };
+
+                data.forEach(item => {
+                    rates[item.quote] = Number(item.rate);
+                });
+
+                liveExchangeRates = rates;
+                updatePrice();
+            } catch (error) {
+                console.error("Exchange rates unavailable; using USD.", error);
+                liveExchangeRates = { USD: 1 };
+                updatePrice();
+            }
+        }
+
+        /* CALCULATE TOTAL PRICE IN USD */
+        function calculateUSDPrice() {
+            if (!selectedCountry) return null;
+
+            const shipping = shippingRates[selectedCountry];
+
+            if (shipping === null || shipping === undefined) {
+                return null;
+            }
+
+            return PRODUCT.productCostUSD + shipping + PRODUCT.profitUSD;
+        }
+
+        /* GET PRICE IN LOCAL CURRENCY, OR USD FALLBACK */
+        function getLocalPrice() {
+            const finalUSDPrice = calculateUSDPrice();
+            if (finalUSDPrice === null) return null;
+
+            const currency = countryCurrencies[selectedCountry] || "USD";
+            const exchangeRate = liveExchangeRates[currency];
+
+            if (!exchangeRate || !Number.isFinite(exchangeRate)) {
+                return {
+                    amount: finalUSDPrice,
+                    currency: "USD",
+                    usedFallback: currency !== "USD"
+                };
+            }
+
+            return {
+                amount: finalUSDPrice * exchangeRate,
+                currency,
+                usedFallback: false
+            };
+        }
+
+        /* UPDATE PRICE AND SHIPPING STATUS */
+        function updatePrice() {
+            if (!selectedCountry) {
+                priceDisplay.classList.remove("visible");
+                shippingMessage.textContent =
+                    "Select your country to calculate the final price.";
+                shippingMessage.classList.remove("unavailable");
+                return;
+            }
+
+            const shipping = shippingRates[selectedCountry];
+
+            if (shipping === null || shipping === undefined) {
+                priceDisplay.classList.remove("visible");
+                shippingMessage.textContent = "Shipping is not available.";
+                shippingMessage.classList.add("unavailable");
+                return;
+            }
+
+            const localPrice = getLocalPrice();
+
+            if (!localPrice) return;
+
+            productPrice.textContent = formatPrice(
+                localPrice.amount,
+                localPrice.currency
+            );
+
+            priceDisplay.classList.add("visible");
+            shippingMessage.textContent = "Shipping is included in the price.";
+            shippingMessage.classList.remove("unavailable");
+        }
+
+        /* COUNTRY CHANGE */
+        countrySelect.addEventListener("change", function () {
+            selectedCountry = this.value;
+            updatePrice();
+        });
+
+        /* QUANTITY */
+        document.getElementById("increaseQuantity").addEventListener("click", () => {
+            quantity++;
+            quantityElement.textContent = quantity;
+        });
+
+        document.getElementById("decreaseQuantity").addEventListener("click", () => {
+            if (quantity > 1) quantity--;
+            quantityElement.textContent = quantity;
+        });
+
+        /* CART FUNCTIONS */
+        function getCart() {
+            try {
+                const stored = JSON.parse(
+                    localStorage.getItem("sacchiFlyierCart")
+                );
+                return Array.isArray(stored) ? stored : [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem("sacchiFlyierCart", JSON.stringify(cart));
+        }
+
+        /* CREATE CART ITEM */
+        function createProductItem() {
+            const finalUSDPrice = calculateUSDPrice();
+            const localPrice = getLocalPrice();
+
+            if (finalUSDPrice === null || !localPrice) return null;
+
+            return {
+                id: PRODUCT.id,
+                name: PRODUCT.name,
+                sku: PRODUCT.sku,
+                image: PRODUCT.image,
+                quantity,
+                country: selectedCountry,
+                currency: localPrice.currency,
+                unitPriceUSD: finalUSDPrice,
+                unitPriceLocal: localPrice.amount
+            };
+        }
+
+        /* VALIDATE COUNTRY AND SHIPPING */
+        function validateSelection() {
+            if (!selectedCountry) {
+                alert("Please select your country first.");
+                return false;
+            }
+
+            const shipping = shippingRates[selectedCountry];
+
+            if (shipping === null || shipping === undefined) {
+                alert("Shipping is not available for this location.");
+                return false;
+            }
+
+            return true;
+        }
+
+        /* ADD TO CART */
+        document.getElementById("addToCart").addEventListener("click", () => {
+            if (!validateSelection()) return;
+
+            const item = createProductItem();
+            if (!item) {
+                alert("Unable to calculate the price. Please try again.");
+                return;
+            }
+
+            const cart = getCart();
+
+            const existingItem = cart.find(product =>
+                product.id === item.id &&
+                product.country === item.country
+            );
+
+            if (existingItem) {
+                existingItem.quantity += item.quantity;
+                existingItem.color = item.color;
+            } else {
+                cart.push(item);
+            }
+
+            saveCart(cart);
+            alert("Product added to your cart.");
+        });
+
+        /* BUY NOW */
+        document.getElementById("buyNow").addEventListener("click", () => {
+            if (!validateSelection()) return;
+
+            const item = createProductItem();
+            if (!item) {
+                alert("Unable to calculate the price. Please try again.");
+                return;
+            }
+
+            localStorage.setItem("sacchiFlyierBuyNow", JSON.stringify(item));
+            window.location.href = "checkout.html";
+        });
+
+        /* INITIALIZE */
+        updatePrice();
+        loadLiveExchangeRates();
+    </script>
+</body>
+</html>
