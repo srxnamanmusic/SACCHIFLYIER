@@ -1,0 +1,20 @@
+
+{
+  "id": "/",
+  "name": "Sacchi Flyier",
+  "short_name": "Sacchi",
+  "description": "Move Different. Shop Sacchi Flyier.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
