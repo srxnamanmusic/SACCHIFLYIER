@@ -8,6 +8,7 @@ const APP_FILES = [
   "./logo.png",
   "./style.css",
   "./script.js"
+  "./offline.html"
 ];
 
 self.addEventListener("install", (event) => {
