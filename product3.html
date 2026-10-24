@@ -340,9 +340,10 @@
             </h1>
 
             <p class="product-description">
-                Personalized battery-free E-ink screen phone case.
-                Available in Black for iPhone 15 Pro Max.
-            </p>
+    Personalized battery-free E-ink screen phone case.
+    Available in Black, Blue, Grey, Pink, and White for compatible
+    iPhone 12–17 models. White is unavailable for iPhone 12 models.
+</p>
 
             <p class="product-sku">SKU: CJJT196419841OL</p>
 
@@ -365,31 +366,37 @@
             </div>
 
             <div class="color-section">
-                <span class="color-label">Color</span>
-                <div class="color-options">
-                    <button type="button" class="color-button active" disabled>
-                        Black
-                    </button>
-                    <button type="button" class="color-button" disabled>
-                        Blue — Unavailable
-                    </button>
-                    <button type="button" class="color-button" disabled>
-                        Pink — Unavailable
-                    </button>
-                    <button type="button" class="color-button" disabled>
-                        White — Unavailable
-                    </button>
-                </div>
-            </div>
+    <span class="color-label">Color</span>
 
-            <div class="product-option">
-                <label class="option-label" for="modelSelect">Phone model</label>
-                <select id="modelSelect" class="country-select">
-                    <option value="">Select phone model</option>
-                    <option value="iPhone 15 Pro Max">iPhone 15 Pro Max — Available</option>
-                    <option disabled>Other models — Unavailable</option>
-                </select>
-            </div>
+    <div class="color-options" id="colorOptions">
+        <button type="button" class="color-button active"
+            data-color="Black" aria-pressed="true">Black</button>
+
+        <button type="button" class="color-button"
+            data-color="Blue" aria-pressed="false">Blue</button>
+
+        <button type="button" class="color-button"
+            data-color="Grey" aria-pressed="false">Grey</button>
+
+        <button type="button" class="color-button"
+            data-color="Pink" aria-pressed="false">Pink</button>
+
+        <button type="button" class="color-button"
+            data-color="White" aria-pressed="false">White</button>
+    </div>
+</div>
+
+<div class="product-option">
+    <label class="option-label" for="modelSelect">Phone model</label>
+
+    <select id="modelSelect" class="country-select">
+        <option value="">Select phone model</option>
+    </select>
+
+    <p id="modelMessage" class="shipping-message" aria-live="polite">
+        Select a colour, then choose your iPhone model.
+    </p>
+</div>
 
             <div class="quantity-section">
                 <span class="quantity-label">Quantity</span>
@@ -925,29 +932,187 @@
         }
     });
 
-        // Quantity controls
+    // Product colour and phone-model availability
+    const modelSelect = document.getElementById("modelSelect");
+    const modelMessage = document.getElementById("modelMessage");
+    const colorButtons = Array.from(
+        document.querySelectorAll(".color-button")
+    );
+
+    const modelsBySeries = {
+        "iPhone 12": [
+            "iPhone 12",
+            "iPhone 12 mini",
+            "iPhone 12 Pro",
+            "iPhone 12 Pro Max"
+        ],
+        "iPhone 13": [
+            "iPhone 13",
+            "iPhone 13 mini",
+            "iPhone 13 Pro",
+            "iPhone 13 Pro Max"
+        ],
+        "iPhone 14": [
+            "iPhone 14",
+            "iPhone 14 Plus",
+            "iPhone 14 Pro",
+            "iPhone 14 Pro Max"
+        ],
+        "iPhone 15": [
+            "iPhone 15",
+            "iPhone 15 Plus",
+            "iPhone 15 Pro",
+            "iPhone 15 Pro Max"
+        ],
+        "iPhone 16": [
+            "iPhone 16",
+            "iPhone 16 Plus",
+            "iPhone 16 Pro",
+            "iPhone 16 Pro Max"
+        ],
+        "iPhone 17": [
+            "iPhone 17",
+            "iPhone 17 Pro",
+            "iPhone 17 Pro Max",
+        ]
+    };
+
+    const availableColors = [
+        "Black", "Blue", "Grey", "Pink", "White"
+    ];
+
+    let selectedColor = "Black";
+    let selectedModel = "";
+
+    function isModelAvailable(color, model) {
+        if (!availableColors.includes(color) || !model) {
+            return false;
+        }
+
+        const modelExists = Object.values(modelsBySeries)
+            .some(models => models.includes(model));
+
+        if (!modelExists) return false;
+
+        // White is not available for any iPhone 12 model.
+        if (color === "White" && model.startsWith("iPhone 12")) {
+            return false;
+        }
+
+        // All other colours support iPhone 12–17.
+        return true;
+    }
+
+    function populateModels() {
+        const previousModel = selectedModel;
+
+        modelSelect.innerHTML =
+            '<option value="">Select phone model</option>';
+
+        Object.entries(modelsBySeries).forEach(([series, models]) => {
+            const group = document.createElement("optgroup");
+            group.label = series + " series";
+
+            models.forEach(model => {
+                const option = document.createElement("option");
+                option.value = model;
+
+                const available = isModelAvailable(
+                    selectedColor,
+                    model
+                );
+
+                option.textContent = model +
+                    (available ? " — Available" : " — Unavailable");
+
+                option.disabled = !available;
+                group.appendChild(option);
+            });
+
+            modelSelect.appendChild(group);
+        });
+
+        if (isModelAvailable(selectedColor, previousModel)) {
+            modelSelect.value = previousModel;
+            selectedModel = previousModel;
+        } else {
+            modelSelect.value = "";
+            selectedModel = "";
+        }
+
+        modelMessage.classList.remove("unavailable");
+
+        if (selectedColor === "White") {
+            modelMessage.textContent =
+                "White is available for iPhone 13–17 models. " +
+                "iPhone 12 models are unavailable in White.";
+        } else {
+            modelMessage.textContent =
+                selectedColor +
+                " is available for iPhone 12–17 models.";
+        }
+    }
+
+    function chooseColor(color) {
+        if (!availableColors.includes(color)) return;
+
+        selectedColor = color;
+
+        colorButtons.forEach(button => {
+            const active = button.dataset.color === color;
+            button.classList.toggle("active", active);
+            button.setAttribute("aria-pressed", String(active));
+        });
+
+        populateModels();
+    }
+
+    colorButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            chooseColor(button.dataset.color);
+        });
+    });
+
+    modelSelect.addEventListener("change", () => {
+        selectedModel = modelSelect.value;
+
+        if (
+            selectedModel &&
+            !isModelAvailable(selectedColor, selectedModel)
+        ) {
+            modelSelect.value = "";
+            selectedModel = "";
+            modelMessage.textContent =
+                "That model is unavailable in " + selectedColor + ".";
+            modelMessage.classList.add("unavailable");
+        }
+    });
+
+    // Quantity controls
     const quantityNumber = document.getElementById("quantityNumber");
 
-    document.getElementById("decreaseQuantity").addEventListener("click", function () {
-        if (quantity > 1) {
-            quantity--;
-            quantityNumber.textContent = quantity;
-        }
-    });
+    document.getElementById("decreaseQuantity")
+        .addEventListener("click", () => {
+            if (quantity > 1) {
+                quantity--;
+                quantityNumber.textContent = quantity;
+            }
+        });
 
-    document.getElementById("increaseQuantity").addEventListener("click", function () {
-        if (quantity < 99) {
-            quantity++;
-            quantityNumber.textContent = quantity;
-        }
-    });
+    document.getElementById("increaseQuantity")
+        .addEventListener("click", () => {
+            if (quantity < 99) {
+                quantity++;
+                quantityNumber.textContent = quantity;
+            }
+        });
 
-    // Available product option
-    const modelSelect = document.getElementById("modelSelect");
-
+    // Validate the selected options and destination.
     function validateProduct() {
-        if (modelSelect.value !== "iPhone 15 Pro Max") {
-            alert("Please select the available model: iPhone 15 Pro Max.");
+        if (!isModelAvailable(selectedColor, selectedModel)) {
+            alert("Please select a phone model available in " +
+                selectedColor + ".");
+            modelSelect.focus();
             return false;
         }
 
@@ -958,14 +1123,17 @@
         }
 
         if (unitPriceUSD === null || unitPriceLocal === null) {
-            alert("Shipping or currency conversion is unavailable for this destination.");
+            alert(
+                "Shipping or currency conversion is unavailable " +
+                "for this destination."
+            );
             return false;
         }
 
         return true;
     }
 
-    // Keep the existing Sacchi Flyier cart storage format.
+    // Keep the existing Sacchi Flyier cart format.
     function getCart() {
         try {
             const savedCart = JSON.parse(
@@ -979,9 +1147,7 @@
     }
 
     function createProductItem() {
-        if (!validateProduct()) {
-            return null;
-        }
+        if (!validateProduct()) return null;
 
         return {
             id: "product3",
@@ -989,8 +1155,8 @@
             name: PRODUCT_NAME,
             sku: PRODUCT_SKU,
             image: "product3-main.jpg",
-            color: "Black",
-            model: "iPhone 15 Pro Max",
+            color: selectedColor,
+            model: selectedModel,
             country: selectedCountry,
             currency: selectedCurrency,
             quantity: quantity,
@@ -1003,52 +1169,68 @@
     }
 
     // Add to cart
-    document.getElementById("addToCart").addEventListener("click", function () {
-        const item = createProductItem();
+    document.getElementById("addToCart")
+        .addEventListener("click", () => {
+            const item = createProductItem();
+            if (!item) return;
 
-        if (!item) {
-            return;
-        }
+            const cart = getCart();
 
-        const cart = getCart();
+            const existingIndex = cart.findIndex(cartItem =>
+                cartItem.id === item.id &&
+                cartItem.model === item.model &&
+                cartItem.color === item.color &&
+                cartItem.country === item.country
+            );
 
-        const existingIndex = cart.findIndex(function (cartItem) {
-            return cartItem.id === item.id &&
-                   cartItem.model === item.model &&
-                   cartItem.color === item.color &&
-                   cartItem.country === item.country;
+            if (existingIndex !== -1) {
+                cart[existingIndex].quantity =
+                    Number(cart[existingIndex].quantity || 0) +
+                    item.quantity;
+            } else {
+                cart.push(item);
+            }
+
+            try {
+                localStorage.setItem(
+                    "sacchiFlyierCart",
+                    JSON.stringify(cart)
+                );
+
+                alert("Product added to your cart!");
+                window.location.href = "index.html";
+            } catch (error) {
+                alert(
+                    "Your cart could not be saved. " +
+                    "Please enable browser storage and try again."
+                );
+            }
         });
 
-        if (existingIndex !== -1) {
-            cart[existingIndex].quantity =
-                Number(cart[existingIndex].quantity || 0) + item.quantity;
-        } else {
-            cart.push(item);
-        }
-
-        localStorage.setItem("sacchiFlyierCart", JSON.stringify(cart));
-
-        alert("Product added to your cart!");
-
-        // Return to your main store page to view the cart.
-        window.location.href = "index.html";
-    });
-
     // Buy now
-    document.getElementById("buyNow").addEventListener("click", function () {
-        const item = createProductItem();
+    document.getElementById("buyNow")
+        .addEventListener("click", () => {
+            const item = createProductItem();
+            if (!item) return;
 
-        if (!item) {
-            return;
-        }
+            try {
+                localStorage.setItem(
+                    "sacchiFlyierBuyNow",
+                    JSON.stringify([item])
+                );
 
-        localStorage.setItem(
-            "sacchiFlyierBuyNow",
-            JSON.stringify([item])
-        );
+                window.location.href = "checkout.html";
+            } catch (error) {
+                alert(
+                    "Your selection could not be saved. " +
+                    "Please enable browser storage and try again."
+                );
+            }
+        });
 
-        window.location.href = "checkout.html";
-    });
+    // Set up the default colour and compatible models.
+    populateModels();
+
 
 </script>
 </body>
