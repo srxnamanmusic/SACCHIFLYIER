@@ -2077,29 +2077,76 @@ img {
 
 
 
+/* SACCHI FLYIER - 3D BUY NOW BUTTON */
+
 .buy-now-btn {
     display: block;
     width: 100%;
-    padding: 13px 20px;
-    margin-top: 15px;
-    background: #ffffff;
+    min-height: 58px;
+    padding: 16px 24px;
+    margin-top: 20px;
+
+    background: linear-gradient(
+        145deg,
+        #ffffff 0%,
+        #e8e8e8 45%,
+        #cfcfcf 100%
+    );
+
     color: #000000;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 1px;
+
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
     cursor: pointer;
-    transition: 0.3s ease;
+
+    box-shadow:
+        0 7px 0 #888888,
+        0 10px 15px rgba(0, 0, 0, 0.65),
+        inset 0 2px 3px rgba(255, 255, 255, 0.9);
+
+    transition: all 0.2s ease;
+    position: relative;
 }
 
+/* HOVER EFFECT */
 .buy-now-btn:hover {
-    background: #d4af37;
+    background: linear-gradient(
+        145deg,
+        #ffe9a3,
+        #d4af37,
+        #b8860b
+    );
+
     color: #000000;
+
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 10px 0 #80651b,
+        0 15px 22px rgba(0, 0, 0, 0.7),
+        inset 0 2px 4px rgba(255, 255, 255, 0.7);
 }
 
+/* CLICK EFFECT */
+.buy-now-btn:active {
+    transform: translateY(5px);
 
+    box-shadow:
+        0 2px 0 #888888,
+        0 4px 8px rgba(0, 0, 0, 0.6);
+}
 
-
-  
-   
+/* MOBILE */
+@media (max-width: 600px) {
+    .buy-now-btn {
+        min-height: 55px;
+        font-size: 16px;
+        letter-spacing: 1.5px;
+    }
+}
