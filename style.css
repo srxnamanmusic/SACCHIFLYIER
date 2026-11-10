@@ -2150,3 +2150,176 @@ img {
         letter-spacing: 1.5px;
     }
 }
+
+
+
+
+/* ==========================================
+   SACCHI FLYIER
+   POLICY PAGE — ORIGINAL WEBSITE THEME
+   BLACK / WHITE / SILVER
+========================================== */
+
+.policy-page {
+    background: #050505;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.8;
+    min-height: 100vh;
+}
+
+.policy-container {
+    width: min(100% - 36px, 1000px);
+    margin: 55px auto;
+    padding: 45px;
+    background: linear-gradient(145deg, #151515, #080808);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 16px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.55);
+}
+
+.policy-back {
+    display: inline-block;
+    color: #bdbdbd;
+    font-size: 13px;
+    transition: 0.3s ease;
+}
+
+.policy-back:hover {
+    color: #ffffff;
+    transform: translateX(-4px);
+}
+
+.policy-logo {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    margin: 25px auto;
+    border-radius: 50%;
+}
+
+.policy-container h1 {
+    color: #ffffff;
+    font-size: clamp(28px, 5vw, 40px);
+    font-weight: 900;
+    text-align: center;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+.policy-updated {
+    display: block;
+    text-align: center;
+    color: #888888;
+    font-size: 13px;
+    margin-bottom: 35px;
+}
+
+.policy-container p {
+    color: #c4c4c4;
+    font-size: 15px;
+    margin-bottom: 18px;
+}
+
+.policy-container h2 {
+    color: #ffffff;
+    font-size: 19px;
+    font-weight: 800;
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.18);
+}
+
+.policy-container ul {
+    padding-left: 25px;
+    margin-bottom: 22px;
+}
+
+.policy-container li {
+    color: #c4c4c4;
+    font-size: 15px;
+    margin-bottom: 9px;
+}
+
+.policy-container li::marker {
+    color: #ffffff;
+}
+
+.policy-container strong {
+    color: #ffffff;
+}
+
+.policy-container a {
+    color: #ffffff;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
+
+.policy-container a:hover {
+    color: #bdbdbd;
+    text-decoration: underline;
+}
+
+.policy-contact {
+    margin-top: 25px;
+    padding: 25px;
+    background: #0d0d0d;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+}
+
+.policy-footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 25px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    color: #888888;
+    font-size: 13px;
+}
+
+.policy-footer .brand-tagline {
+    display: block;
+    color: #ffffff;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+/* MOBILE RESPONSIVE */
+
+@media (max-width: 768px) {
+    .policy-container {
+        width: calc(100% - 24px);
+        margin: 25px auto;
+        padding: 25px 18px;
+    }
+
+    .policy-container h1 {
+        font-size: 27px;
+    }
+
+    .policy-container h2 {
+        font-size: 17px;
+    }
+
+    .policy-container p,
+    .policy-container li {
+        font-size: 14px;
+    }
+
+    .policy-logo {
+        width: 75px;
+        height: 75px;
+    }
+}
+
+@media (max-width: 380px) {
+    .policy-container {
+        padding: 20px 14px;
+    }
+
+    .policy-container h1 {
+        font-size: 23px;
+    }
+}
