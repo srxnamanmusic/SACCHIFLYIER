@@ -20,15 +20,17 @@
       min-height: 100vh;
     }
 
-    header {
-      width: 100%;
-      padding: 20px 6%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #222;
-    }
-
+   header {
+  width: 100%;
+  min-height: 90px;
+  padding: 20px 5.5%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #222;
+}
     .logo {
       font-size: 22px;
       font-weight: 700;
@@ -257,14 +259,10 @@
 
 <body>
 
-
-      <div class="logo">SACCHI FLYIER</div>
-
-    <a href="index.html" class="back">
-      ← Back to Shop
-    </a>
-  </header>
-
+<header>
+  <div class="logo">SACCHI FLYIER</div>
+  <a href="index.html" class="back">← Back to Shop</a>
+</header>
 
   <main>
 
