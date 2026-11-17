@@ -2,554 +2,421 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Shopping Cart | Sacchi Flyier</title>
-<meta name="description" content="Your Sacchi Flyier shopping cart.">
+  <title>Your Cart | Sacchi Flyier</title>
+  <meta name="theme-color" content="#000000">
 
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-body {
-    background: #050505;
-    color: #fff;
-    font-family: Arial, Helvetica, sans-serif;
-    min-height: 100vh;
-}
+    body {
+      background: #050505;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+    }
 
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
-header {
-    width: 100%;
-    min-height: 90px;
-    padding: 20px 5.5%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #222;
-}
-
-.logo {
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: 2px;
-}
-
-.back {
-    border: 1px solid #444;
-    padding: 12px 20px;
-    border-radius: 30px;
-    font-size: 14px;
-}
-
-.back:hover {
-    background: #fff;
-    color: #000;
-}
-
-main {
-    max-width: 1100px;
-    margin: auto;
-    padding: 50px 20px 80px;
-}
-
-.heading {
-    margin-bottom: 35px;
-}
-
-.heading p {
-    color: #999;
-    font-size: 12px;
-    letter-spacing: 3px;
-    margin-bottom: 12px;
-}
-
-.heading h1 {
-    font-size: 38px;
-}
-
-.cart-layout {
-    display: grid;
-    grid-template-columns: 1.5fr 0.8fr;
-    gap: 25px;
-    align-items: start;
-}
-
-.panel {
-    background: #101010;
-    border: 1px solid #292929;
-    border-radius: 16px;
-    padding: 25px;
-}
-
-.panel h2 {
-    font-size: 19px;
-    margin-bottom: 20px;
-}
-
-.cart-item {
-    display: grid;
-    grid-template-columns: 105px 1fr auto;
-    gap: 18px;
-    padding: 20px 0;
-    border-bottom: 1px solid #292929;
-    align-items: center;
-}
-
-.cart-item:first-child {
-    padding-top: 0;
-}
-
-.product-image {
-    width: 105px;
-    height: 105px;
-    object-fit: cover;
-    border-radius: 12px;
-    background: #181818;
-}
-
-.product-name {
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 1.5;
-    margin-bottom: 7px;
-}
-
-.product-detail {
-    color: #888;
-    font-size: 12px;
-    line-height: 1.7;
-}
-
-.product-price {
-    font-size: 15px;
-    font-weight: 700;
-    margin-bottom: 12px;
-}
-
-.quantity-box {
-    display: flex;
-    align-items: center;
-    width: fit-content;
-    border: 1px solid #444;
-    border-radius: 9px;
-    overflow: hidden;
-}
-
-.quantity-box button {
-    width: 34px;
-    height: 34px;
-    border: none;
-    background: #181818;
-    color: #fff;
-    font-size: 18px;
-    cursor: pointer;
-}
-
-.quantity-box button:hover {
-    background: #333;
-}
-
-.quantity-box span {
-    width: 38px;
-    text-align: center;
-    font-size: 13px;
-}
-
-.remove-button {
-    display: inline-block;
-    margin-top: 10px;
-    border: none;
-    background: transparent;
-    color: #999;
-    text-decoration: underline;
-    font-size: 12px;
-    cursor: pointer;
-}
-
-.remove-button:hover {
-    color: #fff;
-}
-
-.summary-line {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    padding: 15px 0;
-    color: #aaa;
-    font-size: 14px;
-}
-
-.summary-total {
-    border-top: 1px solid #444;
-    margin-top: 10px;
-    padding-top: 20px;
-    color: #fff;
-    font-size: 20px;
-    font-weight: 800;
-}
-
-.checkout-button {
-    width: 100%;
-    padding: 16px;
-    margin-top: 20px;
-    border: 1px solid #fff;
-    border-radius: 30px;
-    background: #fff;
-    color: #000;
-    font-size: 14px;
-    font-weight: 800;
-    cursor: pointer;
-}
-
-.checkout-button:hover {
-    background: #ddd;
-}
-
-.continue-link {
-    display: block;
-    text-align: center;
-    margin-top: 20px;
-    color: #aaa;
-    font-size: 13px;
-    text-decoration: underline;
-}
-
-.empty-state {
-    text-align: center;
-    padding: 55px 20px;
-    color: #aaa;
-    line-height: 1.8;
-}
-
-.empty-state h2 {
-    color: #fff;
-    margin-bottom: 10px;
-}
-
-.empty-state a {
-    display: inline-block;
-    margin-top: 18px;
-    color: #fff;
-    text-decoration: underline;
-}
-
-footer {
-    border-top: 1px solid #222;
-    text-align: center;
-    padding: 25px;
-    color: #777;
-    font-size: 12px;
-}
-
-@media (max-width: 760px) {
     header {
-        padding: 18px;
-        min-height: 75px;
+      width: 100%;
+      padding: 22px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #252525;
     }
 
     .logo {
-        font-size: 17px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: 2px;
     }
 
-    .back {
-        padding: 10px 14px;
-        font-size: 12px;
+    .back-link {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .back-link:hover {
+      color: #fff;
     }
 
     main {
-        padding: 30px 15px 50px;
+      width: 86%;
+      max-width: 1100px;
+      margin: 55px auto;
     }
 
-    .heading h1 {
-        font-size: 30px;
+    h1 {
+      font-size: 34px;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    .subtitle {
+      color: #888;
+      margin-bottom: 35px;
+      font-size: 14px;
     }
 
     .cart-layout {
-        grid-template-columns: 1fr;
+      display: grid;
+      grid-template-columns: 1.7fr 1fr;
+      gap: 30px;
+      align-items: start;
     }
 
-    .panel {
-        padding: 18px;
+    .cart-items,
+    .summary {
+      background: #101010;
+      border: 1px solid #292929;
+      border-radius: 12px;
+      padding: 24px;
     }
 
     .cart-item {
-        grid-template-columns: 80px 1fr;
-        gap: 12px;
+      display: grid;
+      grid-template-columns: 105px 1fr;
+      gap: 18px;
+      padding: 18px 0;
+      border-bottom: 1px solid #292929;
     }
 
-    .product-image {
-        width: 80px;
-        height: 80px;
+    .cart-item:first-child {
+      padding-top: 0;
     }
 
-    .item-total {
-        grid-column: 2;
-    }
-}
-
-@media (max-width: 380px) {
-    .logo {
-        font-size: 15px;
+    .cart-item:last-child {
+      border-bottom: none;
     }
 
-    .back {
-        font-size: 11px;
-        padding: 9px 10px;
+    .cart-item img {
+      width: 105px;
+      height: 115px;
+      object-fit: cover;
+      border-radius: 8px;
+      background: #1c1c1c;
     }
-}
-</style>
+
+    .item-name {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    .item-price {
+      color: #ccc;
+      font-size: 14px;
+      margin-bottom: 13px;
+    }
+
+    .item-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .quantity-btn {
+      width: 30px;
+      height: 30px;
+      background: #222;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 17px;
+    }
+
+    .quantity {
+      min-width: 18px;
+      text-align: center;
+    }
+
+    .remove-btn {
+      background: transparent;
+      border: none;
+      color: #aaa;
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 12px;
+      margin-left: 8px;
+    }
+
+    .remove-btn:hover {
+      color: #fff;
+    }
+
+    .summary h2 {
+      font-size: 20px;
+      margin-bottom: 22px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      color: #aaa;
+      font-size: 14px;
+      margin-bottom: 17px;
+    }
+
+    .summary-row.total {
+      border-top: 1px solid #333;
+      padding-top: 18px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .shipping-note {
+      color: #777;
+      font-size: 12px;
+      line-height: 1.5;
+      margin: 15px 0 22px;
+    }
+
+    .checkout-btn {
+      width: 100%;
+      padding: 16px;
+      background: #fff;
+      color: #000;
+      border: none;
+      border-radius: 7px;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+
+    .checkout-btn:hover {
+      background: #ccc;
+      transform: translateY(-2px);
+    }
+
+    .empty-cart {
+      text-align: center;
+      padding: 55px 15px;
+    }
+
+    .empty-cart h2 {
+      font-size: 23px;
+      margin-bottom: 12px;
+    }
+
+    .empty-cart p {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 25px;
+    }
+
+    .shop-btn {
+      display: inline-block;
+      padding: 13px 25px;
+      background: #fff;
+      color: #000;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    @media (max-width: 750px) {
+      header {
+        padding: 18px 5%;
+      }
+
+      .logo {
+        font-size: 17px;
+      }
+
+      main {
+        width: 90%;
+        margin: 35px auto;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .cart-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .cart-items,
+      .summary {
+        padding: 18px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
+  <header>
     <a href="index.html" class="logo">SACCHI FLYIER</a>
-    <a href="index.html" class="back">← Back to Shop</a>
-</header>
+    <a href="index.html" class="back-link">← Back to Shop</a>
+  </header>
 
-<main>
+  <main>
+    <h1>YOUR CART</h1>
+    <p class="subtitle">Review your selected products before checkout.</p>
 
-    <div class="heading">
-        <p>SACCHI FLYIER</p>
-        <h1>Your Shopping Cart</h1>
-    </div>
+    <div id="cartContent"></div>
+  </main>
 
-    <div id="emptyState" class="panel empty-state" hidden>
-        <h2>Your cart is empty.</h2>
-        <p>Discover something you love at Sacchi Flyier.</p>
-        <a href="index.html">Continue Shopping</a>
-    </div>
+  <script src="cart.js"></script>
 
-    <div class="cart-layout" id="cartContent">
-
-        <section class="panel">
-            <h2>Shopping Items</h2>
-            <div id="cartItems"></div>
-        </section>
-
-        <aside class="panel">
-            <h2>Order Summary</h2>
-
-            <div class="summary-line">
-                <span>Items</span>
-                <span id="itemCount">0</span>
-            </div>
-
-            <div class="summary-line">
-                <span>Subtotal</span>
-                <span id="subtotal">$0.00</span>
-            </div>
-
-            <div class="summary-line">
-                <span>Shipping</span>
-                <span>Included</span>
-            </div>
-
-            <div class="summary-line summary-total">
-                <span>Total</span>
-                <span id="total">$0.00</span>
-            </div>
-
-            <button
-                type="button"
-                class="checkout-button"
-                id="checkoutButton">
-                PROCEED TO CHECKOUT
-            </button>
-
-            <a href="index.html" class="continue-link">
-                Continue Shopping
-            </a>
-        </aside>
-
-    </div>
-
-</main>
-
-<footer>
-    © 2026 Sacchi Flyier. All rights reserved.
-</footer>
-
-<script src="cart.js"></script>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-    "use strict";
-
-    const cartItemsElement = document.getElementById("cartItems");
-    const emptyState = document.getElementById("emptyState");
+  <script>
     const cartContent = document.getElementById("cartContent");
 
-    const itemCountElement = document.getElementById("itemCount");
-    const subtotalElement = document.getElementById("subtotal");
-    const totalElement = document.getElementById("total");
-
-    const checkoutButton = document.getElementById("checkoutButton");
-
-    if (!window.SacchiCart) {
-        cartContent.style.display = "none";
-        emptyState.hidden = false;
-        emptyState.innerHTML =
-            "<h2>Cart system unavailable.</h2>" +
-            "<p>Please check that cart.js is in the correct folder.</p>";
-        return;
-    }
-
-    function money(value) {
-        return new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD"
-        }).format(value);
+    function formatUSD(amount) {
+      return "$" + Number(amount).toFixed(2);
     }
 
     function renderCart() {
+      const items = SacchiCart.getCart();
 
-        const cart = SacchiCart.getCart();
+      if (!items.length) {
+        cartContent.innerHTML = `
+          <div class="empty-cart">
+            <h2>Your cart is empty</h2>
+            <p>You haven't added any products yet.</p>
+            <a href="index.html" class="shop-btn">CONTINUE SHOPPING</a>
+          </div>
+        `;
+        return;
+      }
 
-        cartItemsElement.innerHTML = "";
+      const subtotal = SacchiCart.getTotalUSD(items);
 
-        if (!cart.length) {
-            emptyState.hidden = false;
-            cartContent.style.display = "none";
-            return;
-        }
+      cartContent.innerHTML = `
+        <div class="cart-layout">
 
-        emptyState.hidden = true;
-        cartContent.style.display = "grid";
+          <section class="cart-items">
+            ${items.map((item, index) => `
+              <article class="cart-item">
 
-        let subtotal = 0;
-        let itemCount = 0;
+                <img
+                  src="${escapeHTML(item.image)}"
+                  alt="${escapeHTML(item.name)}"
+                  onerror="this.style.display='none'"
+                >
 
-        cart.forEach((item, index) => {
+                <div>
+                  <div class="item-name">
+                    ${escapeHTML(item.name)}
+                  </div>
 
-            const price = Number(
-                item.unitPriceUSD ?? item.price ?? 0
-            );
+                  <div class="item-price">
+                    ${formatUSD(item.unitPriceUSD)} each
+                  </div>
 
-            const quantity = Math.max(
-                1,
-                Number(item.quantity) || 1
-            );
+                  <div class="item-controls">
+                    <button
+                      class="quantity-btn"
+                      onclick="changeQuantity(${index}, -1)"
+                      aria-label="Decrease quantity"
+                    >−</button>
 
-            const lineTotal = price * quantity;
+                    <span class="quantity">${item.quantity}</span>
 
-            subtotal += lineTotal;
-            itemCount += quantity;
+                    <button
+                      class="quantity-btn"
+                      onclick="changeQuantity(${index}, 1)"
+                      aria-label="Increase quantity"
+                    >+</button>
 
-            const row = document.createElement("article");
-            row.className = "cart-item";
+                    <button
+                      class="remove-btn"
+                      onclick="removeItem(${index})"
+                    >Remove</button>
+                  </div>
+                </div>
 
-            const image = document.createElement("img");
-            image.className = "product-image";
-            image.src = item.image || "logo.png";
-            image.alt = item.name || "Product";
-            image.onerror = () => {
-                image.onerror = null;
-                image.src = "logo.png";
-            };
+              </article>
+            `).join("")}
+          </section>
 
-            const details = document.createElement("div");
+          <aside class="summary">
+            <h2>ORDER SUMMARY</h2>
 
-            const name = document.createElement("p");
-            name.className = "product-name";
-            name.textContent = item.name || "Sacchi Flyier Product";
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <span>${formatUSD(subtotal)}</span>
+            </div>
 
-            const detail = document.createElement("p");
-            detail.className = "product-detail";
-            detail.textContent =
-                (item.sku ? "SKU: " + item.sku + " | " : "") +
-                (item.country || "Destination not selected");
+            <div class="summary-row">
+              <span>Shipping</span>
+              <span>Included*</span>
+            </div>
 
-            const quantityBox = document.createElement("div");
-            quantityBox.className = "quantity-box";
+            <div class="summary-row total">
+              <span>Total</span>
+              <span>${formatUSD(subtotal)}</span>
+            </div>
 
-            const minus = document.createElement("button");
-            minus.type = "button";
-            minus.textContent = "−";
-            minus.setAttribute("aria-label", "Decrease quantity");
+            <p class="shipping-note">
+              *Shipping is shown as included in this cart preview.
+              Confirm your final shipping and payment arrangements
+              before accepting real customer orders.
+            </p>
 
-            const quantityText = document.createElement("span");
-            quantityText.textContent = quantity;
+            <button class="checkout-btn" onclick="goToCheckout()">
+              PROCEED TO CHECKOUT
+            </button>
+          </aside>
 
-            const plus = document.createElement("button");
-            plus.type = "button";
-            plus.textContent = "+";
-            plus.setAttribute("aria-label", "Increase quantity");
-
-            minus.addEventListener("click", () => {
-                SacchiCart.updateQuantity(index, quantity - 1);
-                renderCart();
-            });
-
-            plus.addEventListener("click", () => {
-                SacchiCart.updateQuantity(index, quantity + 1);
-                renderCart();
-            });
-
-            quantityBox.append(minus, quantityText, plus);
-
-            const remove = document.createElement("button");
-            remove.type = "button";
-            remove.className = "remove-button";
-            remove.textContent = "Remove";
-
-            remove.addEventListener("click", () => {
-                SacchiCart.remove(index);
-                renderCart();
-            });
-
-            details.append(name, detail, quantityBox, remove);
-
-            const totalBox = document.createElement("div");
-            totalBox.className = "item-total";
-
-            const priceText = document.createElement("p");
-            priceText.className = "product-price";
-            priceText.textContent = money(lineTotal);
-
-            totalBox.appendChild(priceText);
-
-            row.append(image, details, totalBox);
-            cartItemsElement.appendChild(row);
-
-        });
-
-        itemCountElement.textContent = itemCount;
-        subtotalElement.textContent = money(subtotal);
-        totalElement.textContent = money(subtotal);
+        </div>
+      `;
     }
 
-    checkoutButton.addEventListener("click", () => {
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      })[char]);
+    }
 
-        const cart = SacchiCart.getCart();
+    function changeQuantity(index, change) {
+      const items = SacchiCart.getCart();
+      if (!items[index]) return;
 
-        if (!cart.length) {
-            renderCart();
-            return;
-        }
+      SacchiCart.updateQuantity(
+        index,
+        items[index].quantity + change
+      );
 
-        // Clear an old Buy Now selection so normal cart checkout is used.
-        localStorage.removeItem("sacchiFlyierBuyNow");
+      renderCart();
+    }
 
-        window.location.href = "checkout.html";
-    });
+    function removeItem(index) {
+      SacchiCart.remove(index);
+      renderCart();
+    }
+
+    function goToCheckout() {
+      SacchiCart.clearBuyNow();
+      window.location.href = "checkout.html";
+    }
 
     window.addEventListener("sacchi:cart-updated", renderCart);
 
     renderCart();
-
-});
-</script>
+  </script>
 
 </body>
 </html>
