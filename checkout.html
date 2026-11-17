@@ -479,16 +479,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // BUY NOW takes priority over the normal cart.
-    const buyNowItem = readStorage(BUY_NOW_KEY);
-    const savedCart = readStorage(CART_KEY);
+const buyNowItem = readStorage(BUY_NOW_KEY);
+const savedCart = readStorage(CART_KEY);
 
-    let items = [];
+let items = [];
 
-    if (buyNowItem && typeof buyNowItem === "object") {
-        items = [buyNowItem];
-    } else if (Array.isArray(savedCart)) {
-        items = savedCart;
-    }
+if (Array.isArray(buyNowItem) && buyNowItem.length > 0) {
+    items = buyNowItem;
+} else if (Array.isArray(savedCart)) {
+    items = savedCart;
+}
 
     // Normalize supported product price formats.
     items = items.map(item => {
