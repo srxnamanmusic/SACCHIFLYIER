@@ -1,264 +1,243 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000">
 
   <title>Checkout | Sacchi Flyier</title>
-  <meta name="theme-color" content="#000000">
 
   <style>
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
 
     body {
-      background: #050505;
+      background: #080808;
       color: #fff;
       font-family: Arial, sans-serif;
-      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
     }
 
     header {
-      padding: 22px 7%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #252525;
+      flex-wrap: wrap;
+      gap: 15px;
+      padding: 20px 0;
+      border-bottom: 1px solid #292929;
+      margin-bottom: 35px;
     }
 
     .logo {
-      color: #fff;
-      text-decoration: none;
-      font-size: 21px;
+      font-size: 22px;
       font-weight: 800;
       letter-spacing: 2px;
     }
 
-    .back-link {
-      color: #ccc;
+    .back-link,
+    .shop-link {
+      color: #fff;
       text-decoration: none;
-      font-size: 14px;
-    }
-
-    main {
-      width: 86%;
-      max-width: 1100px;
-      margin: 50px auto;
+      border: 1px solid #555;
+      padding: 11px 16px;
+      display: inline-block;
+      border-radius: 6px;
     }
 
     h1 {
-      font-size: 34px;
+      font-size: 32px;
       margin-bottom: 10px;
     }
 
     .subtitle {
-      color: #888;
-      font-size: 14px;
-      margin-bottom: 35px;
+      color: #aaa;
+      margin-bottom: 30px;
     }
 
     .checkout-layout {
       display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 30px;
-      align-items: start;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 25px;
     }
 
     .panel {
-      background: #101010;
+      background: #111;
       border: 1px solid #292929;
       border-radius: 12px;
       padding: 25px;
     }
 
     .panel h2 {
-      font-size: 19px;
+      font-size: 18px;
+      letter-spacing: 1px;
       margin-bottom: 22px;
     }
 
     .form-group {
-      margin-bottom: 18px;
+      margin-bottom: 17px;
     }
 
     label {
       display: block;
-      color: #bbb;
-      font-size: 13px;
       margin-bottom: 8px;
+      font-size: 13px;
+      color: #ccc;
     }
 
     input,
-    textarea,
-    select {
+    textarea {
       width: 100%;
-      padding: 14px;
       background: #080808;
-      color: #fff;
       border: 1px solid #383838;
+      color: #fff;
+      padding: 13px;
       border-radius: 6px;
-      outline: none;
-      font-size: 14px;
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: #aaa;
+      font-size: 15px;
     }
 
     textarea {
-      min-height: 95px;
+      min-height: 90px;
       resize: vertical;
     }
 
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #fff;
+    }
+
+    .place-order-btn {
+      width: 100%;
+      background: #fff;
+      color: #000;
+      border: none;
+      padding: 16px;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
     .order-item {
-      display: grid;
-      grid-template-columns: 65px 1fr;
+      display: flex;
       gap: 14px;
       padding: 15px 0;
       border-bottom: 1px solid #292929;
     }
 
-    .order-item:first-child {
-      padding-top: 0;
-    }
-
     .order-item img {
-      width: 65px;
-      height: 70px;
+      width: 75px;
+      height: 75px;
       object-fit: cover;
-      border-radius: 6px;
+      border-radius: 7px;
       background: #222;
     }
 
     .order-name {
-      font-size: 13px;
-      font-weight: 700;
-      line-height: 1.5;
-      margin-bottom: 7px;
+      font-weight: bold;
+      margin-bottom: 8px;
     }
 
     .order-details {
-      color: #999;
-      font-size: 12px;
+      color: #aaa;
+      font-size: 13px;
+      margin-top: 5px;
     }
 
     .summary-row {
       display: flex;
       justify-content: space-between;
       gap: 12px;
-      margin: 17px 0;
-      color: #aaa;
-      font-size: 14px;
+      padding: 14px 0;
+      color: #ccc;
+      border-bottom: 1px solid #292929;
     }
 
     .summary-row.total {
-      border-top: 1px solid #333;
-      padding-top: 18px;
       color: #fff;
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-    .place-order-btn {
-      width: 100%;
-      padding: 16px;
-      background: #fff;
-      color: #000;
-      border: none;
-      border-radius: 7px;
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: 1px;
-      cursor: pointer;
-      margin-top: 15px;
-    }
-
-    .place-order-btn:hover {
-      background: #ccc;
+      font-size: 20px;
+      font-weight: bold;
+      border-bottom: none;
     }
 
     .notice {
-      margin-top: 18px;
-      color: #888;
+      color: #999;
       font-size: 12px;
       line-height: 1.6;
+      margin-top: 15px;
+    }
+
+    .empty-message {
+      color: #ccc;
+      line-height: 1.6;
+      margin-bottom: 20px;
     }
 
     .message {
       display: none;
+      background: #17251a;
+      border: 1px solid #315b39;
+      color: #c8f0ce;
+      padding: 15px;
+      border-radius: 7px;
       margin-top: 18px;
-      padding: 14px;
-      background: #172117;
-      border: 1px solid #355335;
-      color: #c8edc8;
-      border-radius: 6px;
-      font-size: 13px;
       line-height: 1.5;
     }
 
-    .empty-message {
-      color: #aaa;
-      line-height: 1.6;
-    }
-
-    .shop-link {
-      display: inline-block;
-      margin-top: 15px;
-      color: #fff;
-    }
-
     @media (max-width: 750px) {
-      header {
-        padding: 18px 5%;
-      }
-
-      .logo {
-        font-size: 17px;
-      }
-
-      main {
-        width: 90%;
-        margin: 35px auto;
-      }
-
-      h1 {
-        font-size: 28px;
+      body {
+        padding: 14px;
       }
 
       .checkout-layout {
         grid-template-columns: 1fr;
       }
 
+      h1 {
+        font-size: 26px;
+      }
+
       .panel {
-        padding: 19px;
+        padding: 18px;
       }
     }
   </style>
 </head>
 
 <body>
+  <div class="container">
 
-  <header>
-    <a href="index.html" class="logo">SACCHI FLYIER</a>
-    <a href="cart.html" class="back-link">← Back to Cart</a>
-  </header>
+    <header>
+      <div class="logo">SACCHI FLYIER</div>
+      <a class="back-link" href="cart.html">← Back to Cart</a>
+    </header>
 
-  <main>
     <h1>CHECKOUT</h1>
-    <p class="subtitle">Enter your details to review your order.</p>
+    <p class="subtitle">Complete your customer information.</p>
 
-    <div id="checkoutContent"></div>
-  </main>
+    <main id="checkoutContent">
+      <div class="panel">Loading your order...</div>
+    </main>
 
+  </div>
+
+  <!-- Load cart system first -->
   <script src="cart.js"></script>
 
   <script>
-    const checkoutContent =
-      document.getElementById("checkoutContent");
+    const checkoutContent = document.getElementById("checkoutContent");
 
     function formatUSD(amount) {
       return "$" + Number(amount).toFixed(2);
@@ -274,125 +253,104 @@
       })[char]);
     }
 
+    function handleTestSubmit(event) {
+      event.preventDefault();
+
+      const message = document.getElementById("successMessage");
+      message.style.display = "block";
+      message.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+    }
+
     function renderCheckout() {
-      const items = SacchiCart.getCheckoutItems();
+      try {
+        if (!window.SacchiCart) {
+          throw new Error("cart.js could not be loaded.");
+        }
 
-      if (!items.length) {
-        checkoutContent.innerHTML = `
-          <div class="panel">
-            <p class="empty-message">
-              Your cart is empty. Add a product before checkout.
-            </p>
-            <a class="shop-link" href="index.html">
-              Continue shopping
-            </a>
-          </div>
-        `;
-        return;
-      }
+        const items = SacchiCart.getCheckoutItems();
 
-      const subtotal = SacchiCart.getTotalUSD(items);
-
-      checkoutContent.innerHTML = `
-        <div class="checkout-layout">
-
-          <section class="panel">
-            <h2>CUSTOMER INFORMATION</h2>
-
-            <form id="customerForm">
-
-              <div class="form-group">
-                <label for="fullName">Full Name</label>
-                <input
-                  id="fullName"
-                  name="fullName"
-                  type="text"
-                  autocomplete="name"
-                  required
-                >
-              </div>
-
-              <div class="form-group">
-                <label for="email">Email Address</label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autocomplete="email"
-                  required
-                >
-              </div>
-
-              <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  autocomplete="tel"
-                  required
-                >
-              </div>
-
-              <div class="form-group">
-                <label for="country">Country</label>
-                <input
-                  id="country"
-                  name="country"
-                  type="text"
-                  autocomplete="country-name"
-                  required
-                >
-              </div>
-
-              <div class="form-group">
-                <label for="address">Street Address</label>
-                <textarea
-                  id="address"
-                  name="address"
-                  autocomplete="street-address"
-                  required
-                ></textarea>
-              </div>
-
-              <div class="form-group">
-                <label for="city">City</label>
-                <input
-                  id="city"
-                  name="city"
-                  type="text"
-                  autocomplete="address-level2"
-                  required
-                >
-              </div>
-
-              <div class="form-group">
-                <label for="postalCode">Postal / ZIP Code</label>
-                <input
-                  id="postalCode"
-                  name="postalCode"
-                  type="text"
-                  autocomplete="postal-code"
-                  required
-                >
-              </div>
-
-              <button class="place-order-btn" type="submit">
-                SUBMIT TEST ORDER
-              </button>
-
-            </form>
-
-            <div class="message" id="successMessage">
-              Your test form was submitted. No payment was collected
-              and no real order was created.
+        if (!Array.isArray(items) || items.length === 0) {
+          checkoutContent.innerHTML = `
+            <div class="panel">
+              <p class="empty-message">
+                Your cart is empty. Please add a product first.
+              </p>
+              <a class="shop-link" href="index.html">
+                Continue shopping
+              </a>
             </div>
-          </section>
+          `;
+          return;
+        }
 
-          <aside class="panel">
-            <h2>YOUR ORDER</h2>
+        const subtotal = SacchiCart.getTotalUSD(items);
 
-            <div>
+        checkoutContent.innerHTML = `
+          <div class="checkout-layout">
+
+            <section class="panel">
+              <h2>CUSTOMER INFORMATION</h2>
+
+              <form id="customerForm">
+                <div class="form-group">
+                  <label for="fullName">Full Name</label>
+                  <input id="fullName" name="fullName"
+                    type="text" autocomplete="name" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="email">Email Address</label>
+                  <input id="email" name="email"
+                    type="email" autocomplete="email" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="phone">Phone Number</label>
+                  <input id="phone" name="phone"
+                    type="tel" autocomplete="tel" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="country">Country</label>
+                  <input id="country" name="country"
+                    type="text" autocomplete="country-name" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="address">Street Address</label>
+                  <textarea id="address" name="address"
+                    autocomplete="street-address" required></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="city">City</label>
+                  <input id="city" name="city"
+                    type="text" autocomplete="address-level2" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="postalCode">Postal / ZIP Code</label>
+                  <input id="postalCode" name="postalCode"
+                    type="text" autocomplete="postal-code" required>
+                </div>
+
+                <button class="place-order-btn" type="submit">
+                  SUBMIT TEST ORDER
+                </button>
+              </form>
+
+              <div class="message" id="successMessage">
+                Test form submitted. No payment was collected
+                and no real order was created.
+              </div>
+            </section>
+
+            <aside class="panel">
+              <h2>YOUR ORDER</h2>
+
               ${items.map(item => `
                 <div class="order-item">
                   <img
@@ -416,253 +374,53 @@
                   </div>
                 </div>
               `).join("")}
-            </div>
 
-            <div class="summary-row">
-              <span>Subtotal</span>
-              <span>${formatUSD(subtotal)}</span>
-            </div>
+              <div class="summary-row">
+                <span>Subtotal</span>
+                <span>${formatUSD(subtotal)}</span>
+              </div>
 
-            <div class="summary-row">
-              <span>Shipping</span>
-              <span>Included*</span>
-            </div>
+              <div class="summary-row">
+                <span>Shipping</span>
+                <span>Included*</span>
+              </div>
 
-            <div class="summary-row total">
-              <span>Total</span>
-              <span>${formatUSD(subtotal)}</span>
-            </div>
+              <div class="summary-row total">
+                <span>Total</span>
+                <span>${formatUSD(subtotal)}</span>
+              </div>
 
-            <p class="notice">
-              *Shipping is displayed as included for this test checkout.
-              Actual shipping charges and payment processing are not
-              connected yet.
-            </p>
-          </aside>
+              <p class="notice">
+                *Shipping is displayed as included for this test checkout.
+                Actual shipping and payment processing are not connected.
+              </p>
+            </aside>
 
-        </div>
-      `;
+          </div>
+        `;
 
-      document
-        .getElementById("customerForm")
-        .addEventListener("submit", handleTestSubmit);
-    }
+        document.getElementById("customerForm")
+          .addEventListener("submit", handleTestSubmit);
 
-    function handleTestSubmit(event) {
-      event.preventDefault();
+      } catch (error) {
+        console.error("Checkout error:", error);
 
-      const message =
-        document.getElementById("successMessage");
-
-      message.style.display = "block";
-      message.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest"
-      });
-    }
-
-    renderCheckout();
-  
-<script>
-  const checkoutContent =
-    document.getElementById("checkoutContent");
-
-  function formatUSD(amount) {
-    return "$" + Number(amount).toFixed(2);
-  }
-
-  function escapeHTML(value) {
-    return String(value ?? "").replace(/[&<>"']/g, char => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#039;"
-    })[char]);
-  }
-
-  function renderCheckout() {
-    try {
-      if (!window.SacchiCart) {
-        throw new Error(
-          "Cart system not loaded. Check the cart.js file path."
-        );
-      }
-
-      let items = SacchiCart.getCheckoutItems();
-
-      if (!Array.isArray(items)) {
-        items = [];
-      }
-
-      items = items.filter(item =>
-        item && typeof item === "object"
-      );
-
-      if (items.length === 0) {
         checkoutContent.innerHTML = `
           <div class="panel">
             <p class="empty-message">
-              Your cart is empty. Please add a product first.
+              Checkout could not load your order.
             </p>
-            <a class="shop-link" href="index.html">
-              Continue shopping
+            <p class="notice">${escapeHTML(error.message)}</p>
+            <a class="shop-link" href="cart.html">
+              Return to Cart
             </a>
           </div>
         `;
-        return;
       }
-
-      const subtotal = SacchiCart.getTotalUSD(items);
-
-      checkoutContent.innerHTML = `
-        <div class="checkout-layout">
-
-          <section class="panel">
-            <h2>CUSTOMER INFORMATION</h2>
-
-            <form id="customerForm">
-
-              <div class="form-group">
-                <label for="fullName">Full Name</label>
-                <input id="fullName" name="fullName"
-                  type="text" autocomplete="name" required>
-              </div>
-
-              <div class="form-group">
-                <label for="email">Email Address</label>
-                <input id="email" name="email"
-                  type="email" autocomplete="email" required>
-              </div>
-
-              <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input id="phone" name="phone"
-                  type="tel" autocomplete="tel" required>
-              </div>
-
-              <div class="form-group">
-                <label for="country">Country</label>
-                <input id="country" name="country"
-                  type="text" autocomplete="country-name" required>
-              </div>
-
-              <div class="form-group">
-                <label for="address">Street Address</label>
-                <textarea id="address" name="address"
-                  autocomplete="street-address" required></textarea>
-              </div>
-
-              <div class="form-group">
-                <label for="city">City</label>
-                <input id="city" name="city"
-                  type="text" autocomplete="address-level2" required>
-              </div>
-
-              <div class="form-group">
-                <label for="postalCode">Postal / ZIP Code</label>
-                <input id="postalCode" name="postalCode"
-                  type="text" autocomplete="postal-code" required>
-              </div>
-
-              <button class="place-order-btn" type="submit">
-                SUBMIT TEST ORDER
-              </button>
-
-            </form>
-
-            <div class="message" id="successMessage">
-              Test form submitted. No payment was collected
-              and no real order was created.
-            </div>
-          </section>
-
-          <aside class="panel">
-            <h2>YOUR ORDER</h2>
-
-            ${items.map(item => `
-              <div class="order-item">
-                <img
-                  src="${escapeHTML(item.image)}"
-                  alt="${escapeHTML(item.name)}"
-                  onerror="this.style.display='none'"
-                >
-
-                <div>
-                  <div class="order-name">
-                    ${escapeHTML(item.name)}
-                  </div>
-
-                  <div class="order-details">
-                    Quantity: ${Number(item.quantity) || 1}
-                  </div>
-
-                  <div class="order-details">
-                    ${formatUSD(item.unitPriceUSD)} each
-                  </div>
-                </div>
-              </div>
-            `).join("")}
-
-            <div class="summary-row">
-              <span>Subtotal</span>
-              <span>${formatUSD(subtotal)}</span>
-            </div>
-
-            <div class="summary-row">
-              <span>Shipping</span>
-              <span>Included*</span>
-            </div>
-
-            <div class="summary-row total">
-              <span>Total</span>
-              <span>${formatUSD(subtotal)}</span>
-            </div>
-
-            <p class="notice">
-              *Shipping is displayed as included for this test checkout.
-              Actual shipping and payment processing are not connected.
-            </p>
-          </aside>
-
-        </div>
-      `;
-
-      document
-        .getElementById("customerForm")
-        .addEventListener("submit", handleTestSubmit);
-
-    } catch (error) {
-      console.error("Sacchi Flyier checkout error:", error);
-
-      checkoutContent.innerHTML = `
-        <div class="panel">
-          <p class="empty-message">
-            Checkout could not load your order.
-          </p>
-          <p class="notice">${escapeHTML(error.message)}</p>
-          <a class="shop-link" href="cart.html">
-            Return to Cart
-          </a>
-        </div>
-      `;
     }
-  }
 
-  function handleTestSubmit(event) {
-    event.preventDefault();
-
-    const message =
-      document.getElementById("successMessage");
-
-    message.style.display = "block";
-    message.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest"
-    });
-  }
-
-  renderCheckout();
-</script>
+    renderCheckout();
+  </script>
 </body>
 </html>
+
