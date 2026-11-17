@@ -901,264 +901,150 @@
     };
 
 
+    <script src="cart.js"></script>
+
+<script>
+    /*
+      PRODUCT 1 PRICE DETAILS
+    */
+    const productCost = 1.62;
+    const profit = 10.00;
+
+    /*
+      KEEP YOUR EXISTING shippingRates OBJECT HERE.
+      Do not remove or change your country shipping rates.
+    */
+
     /*
       CALCULATE FINAL SELLING PRICE
     */
     function updateShipping() {
+        const country = document.getElementById("country").value;
+        const priceDisplay = document.getElementById("productPrice");
+        const shippingDisplay = document.getElementById("shippingPrice");
 
-      const country =
-        document.getElementById("country").value;
+        if (!country) {
+            priceDisplay.textContent = "Select country";
+            shippingDisplay.textContent =
+                "Select your country to calculate the final price.";
+            return;
+        }
 
-      const priceDisplay =
-        document.getElementById("productPrice");
+        const shippingCost = shippingRates[country];
 
-      const shippingDisplay =
-        document.getElementById("shippingPrice");
+        if (shippingCost === undefined) {
+            priceDisplay.textContent = "Price unavailable";
+            shippingDisplay.textContent =
+                "CJ shipping rate is not available for this destination.";
+            return;
+        }
 
+        const finalPrice = productCost + shippingCost + profit;
 
-      if (!country) {
-
-        priceDisplay.textContent =
-          "Select country";
-
-        shippingDisplay.textContent =
-          "Select your country to calculate the final price.";
-
-        return;
-      }
-
-
-      const shippingCost =
-        shippingRates[country];
-
-
-      /*
-        No CJ rate supplied for Hawaii
-        or Palestine State of.
-      */
-      if (shippingCost === undefined) {
-
-        priceDisplay.textContent =
-          "Price unavailable";
-
-        shippingDisplay.textContent =
-          "CJ shipping rate is not available for this destination.";
-
-        return;
-      }
-
-
-      /*
-        FINAL PRICE
-
-        $1.62 product cost
-        + CJ shipping
-        + $10 profit
-      */
-      const finalPrice =
-        productCost +
-        shippingCost +
-        profit;
-
-
-      priceDisplay.textContent =
-        "$" + finalPrice.toFixed(2) + " USD";
-
-
-shippingDisplay.textContent = "Shipping included";
-
+        priceDisplay.textContent = "$" + finalPrice.toFixed(2) + " USD";
+        shippingDisplay.textContent = "Shipping included";
     }
-
 
     /*
       QUANTITY +1
     */
     function increaseQuantity() {
+        const quantity = document.getElementById("quantity");
+        let value = parseInt(quantity.textContent, 10) || 1;
 
-      const quantity =
-        document.getElementById("quantity");
-
-      let value =
-        parseInt(quantity.textContent);
-
-      value++;
-
-      quantity.textContent =
-        value;
+        quantity.textContent = value + 1;
     }
-
 
     /*
       QUANTITY -1
     */
     function decreaseQuantity() {
+        const quantity = document.getElementById("quantity");
+        let value = parseInt(quantity.textContent, 10) || 1;
 
-      const quantity =
-        document.getElementById("quantity");
-
-      let value =
-        parseInt(quantity.textContent);
-
-      if (value > 1) {
-
-        value--;
-
-        quantity.textContent =
-          value;
-      }
+        if (value > 1) {
+            quantity.textContent = value - 1;
+        }
     }
-
 
     /*
-      SHARED CART HELPERS
-      These keys are the same ones used by Product 2.
-    */
-    function getCart() {
-
-      try {
-
-        return JSON.parse(
-          localStorage.getItem("sacchiFlyierCart")
-        ) || [];
-
-      } catch (error) {
-
-        return [];
-      }
-    }
-
-
-    function saveCart(cart) {
-
-      localStorage.setItem(
-        "sacchiFlyierCart",
-        JSON.stringify(cart)
-      );
-    }
-
-
-    /*
-      CREATE THE SAME ITEM FORMAT USED BY PRODUCT 2
+      CREATE PRODUCT 1 CART ITEM
     */
     function createCartItem() {
+        const country = document.getElementById("country").value;
 
-      const country =
-        document.getElementById("country").value;
+        if (!country || shippingRates[country] === undefined) {
+            return null;
+        }
 
-      const quantity =
-        parseInt(document.getElementById("quantity").textContent, 10);
+        const quantity =
+            Math.max(1, parseInt(
+                document.getElementById("quantity").textContent,
+                10
+            ) || 1);
 
-      const shippingCost =
-        shippingRates[country];
+        const shippingCost = shippingRates[country];
+        const unitPriceUSD = productCost + shippingCost + profit;
 
-      const unitPriceUSD =
-        productCost + shippingCost + profit;
-
-      return {
-        id: "product1",
-        name: "LIGHT LUXURY HIGH GRADE MICRO INLIAD CHAIN EARNING",
-        sku: "CJLX239765601AZ",
-        image: "product1.jpg",
-        quantity: quantity,
-        country: country,
-        currency: "USD",
-        unitPriceUSD: Number(unitPriceUSD.toFixed(2)),
-        unitPriceLocal: Number(unitPriceUSD.toFixed(2))
-      };
+        return {
+            id: "product1",
+            name: "LIGHT LUXURY HIGH GRADE MICRO INLIAD CHAIN EARNING",
+            sku: "CJLX239765601AZ",
+            image: "product1.jpg",
+            quantity: quantity,
+            country: country,
+            currency: "USD",
+            unitPriceUSD: Number(unitPriceUSD.toFixed(2)),
+            unitPriceLocal: Number(unitPriceUSD.toFixed(2))
+        };
     }
-
 
     /*
       ADD TO CART
     */
     function addToCart() {
+        if (!window.SacchiCart) {
+            alert("Cart system not loaded. Please refresh the page.");
+            return;
+        }
 
-      const country =
-        document.getElementById("country").value;
+        const item = createCartItem();
 
-      if (!country) {
+        if (!item) {
+            alert("Please select a country with available shipping.");
+            return;
+        }
 
-        alert(
-          "Please select your shipping country first."
-        );
-
-        return;
-      }
-
-      if (shippingRates[country] === undefined) {
-
-        alert(
-          "CJ shipping is currently unavailable for this destination."
-        );
-
-        return;
-      }
-
-      const item = createCartItem();
-      const cart = getCart();
-
-      const existingItem = cart.find(existing =>
-        existing.id === item.id &&
-        existing.country === item.country
-      );
-
-      if (existingItem) {
-
-        existingItem.quantity += item.quantity;
-        existingItem.unitPriceUSD = item.unitPriceUSD;
-        existingItem.unitPriceLocal = item.unitPriceLocal;
-
-      } else {
-
-        cart.push(item);
-      }
-
-      saveCart(cart);
-
-      alert(
-        "Product added to your cart."
-      );
+        try {
+            window.SacchiCart.add(item);
+            alert("Product added to your cart.");
+        } catch (error) {
+            alert(error.message || "Could not add this product to your cart.");
+        }
     }
-
 
     /*
       BUY NOW
-      Uses the same universal checkout.html as Product 2.
     */
     function buyNow() {
+        if (!window.SacchiCart) {
+            alert("Cart system not loaded. Please refresh the page.");
+            return;
+        }
 
-      const country =
-        document.getElementById("country").value;
+        const item = createCartItem();
 
-      if (!country) {
+        if (!item) {
+            alert("Please select a country with available shipping.");
+            return;
+        }
 
-        alert(
-          "Please select your shipping country first."
-        );
-
-        return;
-      }
-
-      if (shippingRates[country] === undefined) {
-
-        alert(
-          "CJ shipping is currently unavailable for this destination."
-        );
-
-        return;
-      }
-
-      const item = createCartItem();
-
-      localStorage.setItem(
-        "sacchiFlyierBuyNow",
-        JSON.stringify(item)
-      );
-
-      window.location.href = "checkout.html";
+        try {
+            window.SacchiCart.buyNow(item);
+        } catch (error) {
+            alert(error.message || "Could not continue to checkout.");
+        }
     }
-
-  </script>
-
+</script>
 </body>
 </html>
