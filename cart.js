@@ -1,201 +1,246 @@
+/* =====================================================
+   SACCHI FLYIER — CART SYSTEM
+   Version: 1.0
+   Internal currency: USD
+   Delivery: Worldwide except India
+===================================================== */
 
-/* =========================================
-   SACCHI FLYIER — UNIVERSAL CART
-   Shared cart system for all product pages
-========================================= */
-
-(function () {
+(() => {
   "use strict";
 
   const CART_KEY = "sacchiFlyierCart";
   const BUY_NOW_KEY = "sacchiFlyierBuyNow";
+  const COUNTRY_KEY = "sacchiFlyierCountry";
+  const CURRENCY_KEY = "sacchiFlyierCurrency";
 
-  function read(key) {
+  const DEFAULT_COUNTRY = "US";
+  const DEFAULT_CURRENCY = "USD";
+
+  const COUNTRIES = {
+    US: { name: "United States", currency: "USD", symbol: "$" },
+    GB: { name: "United Kingdom", currency: "GBP", symbol: "£" },
+    CA: { name: "Canada", currency: "CAD", symbol: "$" },
+    AU: { name: "Australia", currency: "AUD", symbol: "$" },
+    DE: { name: "Germany", currency: "EUR", symbol: "€" },
+    FR: { name: "France", currency: "EUR", symbol: "€" },
+    IT: { name: "Italy", currency: "EUR", symbol: "€" },
+    ES: { name: "Spain", currency: "EUR", symbol: "€" },
+    NL: { name: "Netherlands", currency: "EUR", symbol: "€" },
+    JP: { name: "Japan", currency: "JPY", symbol: "¥" },
+    CN: { name: "China", currency: "CNY", symbol: "¥" },
+    SG: { name: "Singapore", currency: "SGD", symbol: "$" },
+    NZ: { name: "New Zealand", currency: "NZD", symbol: "$" },
+    CH: { name: "Switzerland", currency: "CHF", symbol: "CHF " },
+    AE: { name: "United Arab Emirates", currency: "AED", symbol: "د.إ " },
+    SA: { name: "Saudi Arabia", currency: "SAR", symbol: "﷼" },
+    ZA: { name: "South Africa", currency: "ZAR", symbol: "R" },
+    BR: { name: "Brazil", currency: "BRL", symbol: "R$" },
+    MX: { name: "Mexico", currency: "MXN", symbol: "$" },
+    KR: { name: "South Korea", currency: "KRW", symbol: "₩" }
+  };
+
+  function readJSON(key, fallback) {
     try {
-      return JSON.parse(localStorage.getItem(key));
-    } catch (error) {
-      console.error("Cart storage error:", error);
-      return null;
+      const value = localStorage.getItem(key);
+      return value ? JSON.parse(value) : fallback;
+    } catch {
+      return fallback;
     }
+  }
+
+  function writeJSON(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
   }
 
   function getCart() {
-    const value = read(CART_KEY);
-    return Array.isArray(value) ? value : [];
+    const cart = readJSON(CART_KEY, []);
+    return Array.isArray(cart) ? cart : [];
   }
 
-  function saveCart(items) {
-    if (!Array.isArray(items)) {
-      throw new TypeError("Cart must be an array.");
+  function saveCart(cart) {
+    if (!Array.isArray(cart)) {
+      throw new Error("Invalid cart data.");
     }
 
-    localStorage.setItem(CART_KEY, JSON.stringify(items));
+    writeJSON(CART_KEY, cart);
+    window.dispatchEvent(new CustomEvent("sacchi:cart-updated", {
+      detail: { cart }
+    }));
 
-    window.dispatchEvent(
-      new CustomEvent("sacchi:cart-updated", {
-        detail: { cart: items }
-      })
-    );
-
-    return items;
+    return cart;
   }
 
-  function normalize(item) {
-    if (!item || typeof item !== "object") {
-      throw new Error("Product information is missing.");
+  function getCountry() {
+    const code = localStorage.getItem(COUNTRY_KEY) || DEFAULT_COUNTRY;
+
+    if (code === "IN" || !COUNTRIES[code]) {
+      return DEFAULT_COUNTRY;
     }
 
-    const id = String(item.id || item.sku || "").trim();
-    const price = Number(item.unitPriceUSD ?? item.price);
-    const quantity = Math.max(
-      1,
-      Math.floor(Number(item.quantity) || 1)
-    );
+    return code;
+  }
 
-    if (!id) {
-      throw new Error("Product ID is missing.");
+  function setCountry(code) {
+    code = String(code || "").toUpperCase();
+
+    if (code === "IN" || !COUNTRIES[code]) {
+      throw new Error("Delivery is not available for this country.");
     }
+
+    localStorage.setItem(COUNTRY_KEY, code);
+    localStorage.setItem(CURRENCY_KEY, COUNTRIES[code].currency);
+
+    window.dispatchEvent(new CustomEvent("sacchi:country-updated", {
+      detail: {
+        country: code,
+        currency: COUNTRIES[code].currency
+      }
+    }));
+
+    return COUNTRIES[code];
+  }
+
+  function getCurrency() {
+    return COUNTRIES[getCountry()].currency;
+  }
+
+  function getProductPrice(product) {
+    const price = Number(product.unitPriceUSD);
 
     if (!Number.isFinite(price) || price < 0) {
-      throw new Error("Product USD price is invalid.");
+      throw new Error("Invalid product price.");
     }
 
+    return price;
+  }
+
+  function normalizeProduct(product) {
+    if (!product || !product.id || !product.name) {
+      throw new Error("Product information is incomplete.");
+    }
+
+    const price = getProductPrice(product);
+
     return {
-      id,
-      sku: String(item.sku || ""),
-      name: String(item.name || "Sacchi Flyier Product"),
-      image: String(item.image || ""),
-      quantity,
-      country: String(item.country || ""),
-      currency: String(item.currency || "USD"),
-      unitPriceUSD: Number(price.toFixed(2)),
-      unitPriceLocal: Number(
-        (Number(item.unitPriceLocal ?? price) || 0).toFixed(2)
-      ),
-      color: String(item.color || ""),
-      size: String(item.size || ""),
-      variant: String(item.variant || "")
+      id: String(product.id),
+      name: String(product.name),
+      sku: String(product.sku || ""),
+      image: String(product.image || ""),
+      unitPriceUSD: price,
+      quantity: Math.max(1, Math.floor(Number(product.quantity) || 1))
     };
   }
 
-  function variantKey(item) {
-    return [
-      item.id,
-      item.country,
-      item.color,
-      item.size,
-      item.variant
-    ].join("|");
-  }
-
-  function add(item) {
-    const product = normalize(item);
+  function add(product) {
+    const item = normalizeProduct(product);
     const cart = getCart();
 
-    const existing = cart.find(
-      entry => variantKey(entry) === variantKey(product)
-    );
+    const existing = cart.find((p) => p.id === item.id);
 
     if (existing) {
-      existing.quantity += product.quantity;
+      existing.quantity += item.quantity;
     } else {
-      cart.push(product);
+      cart.push(item);
     }
 
     saveCart(cart);
     return cart;
   }
 
-  function buyNow(item) {
-    const product = normalize(item);
+  function buyNow(product) {
+    const item = normalizeProduct(product);
 
-    localStorage.setItem(
-      BUY_NOW_KEY,
-      JSON.stringify([product])
-    );
+    writeJSON(BUY_NOW_KEY, [item]);
 
-    window.location.href = "checkout.html?mode=buy-now";
+    window.location.href = "/checkout.html?mode=buy-now";
   }
 
-  function updateQuantity(index, quantity) {
-    const cart = getCart();
+  function getBuyNow() {
+    const items = readJSON(BUY_NOW_KEY, []);
+    return Array.isArray(items) ? items : [];
+  }
 
-    if (!cart[index]) return cart;
+  function getCheckoutItems() {
+    const params = new URLSearchParams(window.location.search);
+    const isBuyNow = params.get("mode") === "buy-now";
 
-    const next = Math.floor(Number(quantity));
-
-    if (!Number.isFinite(next) || next < 1) {
-      cart.splice(index, 1);
-    } else {
-      cart[index].quantity = next;
+    if (isBuyNow) {
+      return getBuyNow();
     }
 
+    return getCart();
+  }
+
+  function updateQuantity(id, quantity) {
+    const cart = getCart();
+    const item = cart.find((p) => p.id === String(id));
+
+    if (!item) return cart;
+
+    const newQuantity = Math.floor(Number(quantity));
+
+    if (!Number.isFinite(newQuantity) || newQuantity < 1) {
+      return remove(id);
+    }
+
+    item.quantity = Math.min(newQuantity, 99);
     return saveCart(cart);
   }
 
-  function remove(index) {
-    const cart = getCart();
-
-    if (
-      Number.isInteger(index) &&
-      index >= 0 &&
-      index < cart.length
-    ) {
-      cart.splice(index, 1);
-    }
-
+  function remove(id) {
+    const cart = getCart().filter((p) => p.id !== String(id));
     return saveCart(cart);
   }
 
   function clearCart() {
     localStorage.removeItem(CART_KEY);
-    return saveCart([]);
+    saveCart([]);
   }
 
   function clearBuyNow() {
     localStorage.removeItem(BUY_NOW_KEY);
   }
 
-  function getCheckoutItems() {
-    const buyNow = read(BUY_NOW_KEY);
-
-    if (Array.isArray(buyNow) && buyNow.length) {
-      return buyNow;
-    }
-
-    return getCart();
-  }
-
-  function getTotalUSD(items) {
-    const list = Array.isArray(items) ? items : getCart();
-
-    return list.reduce((sum, item) => {
-      const price = Number(
-        item.unitPriceUSD ?? item.price ?? 0
-      );
-
-      const quantity = Math.max(
-        1,
-        Number(item.quantity) || 1
-      );
-
-      return sum + price * quantity;
+  function getSubtotalUSD(items = getCart()) {
+    return items.reduce((total, item) => {
+      return total + getProductPrice(item) * item.quantity;
     }, 0);
   }
 
-  window.SacchiCart = {
+  function getTotalQuantity(items = getCart()) {
+    return items.reduce((total, item) => {
+      return total + item.quantity;
+    }, 0);
+  }
+
+  function formatUSD(amount) {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD"
+    }).format(Number(amount) || 0);
+  }
+
+  window.SacchiCart = Object.freeze({
     CART_KEY,
     BUY_NOW_KEY,
+    COUNTRY_KEY,
+    COUNTRIES,
     getCart,
     saveCart,
     add,
     buyNow,
+    getBuyNow,
+    getCheckoutItems,
     updateQuantity,
     remove,
     clearCart,
     clearBuyNow,
-    getCheckoutItems,
-    getTotalUSD
-  };
+    getCountry,
+    setCountry,
+    getCurrency,
+    getSubtotalUSD,
+    getTotalQuantity,
+    formatUSD
+  });
 
 })();
