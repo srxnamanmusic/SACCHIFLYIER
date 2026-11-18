@@ -1,481 +1,195 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#000000">
-
   <title>Checkout | Sacchi Flyier</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+  <link rel="stylesheet" href="/checkout.css">
 
-    body {
-      background: #080808;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      padding: 20px 0;
-      border-bottom: 1px solid #292929;
-      margin-bottom: 35px;
-    }
-
-    .logo {
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: 2px;
-    }
-
-    .back-link,
-    .shop-link {
-      color: #fff;
-      text-decoration: none;
-      border: 1px solid #555;
-      padding: 11px 16px;
-      display: inline-block;
-      border-radius: 6px;
-    }
-
-    h1 {
-      font-size: 32px;
-      margin-bottom: 10px;
-    }
-
-    .subtitle {
-      color: #aaa;
-      margin-bottom: 30px;
-    }
-
-    .checkout-layout {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 25px;
-    }
-
-    .panel {
-      background: #111;
-      border: 1px solid #292929;
-      border-radius: 12px;
-      padding: 25px;
-    }
-
-    .panel h2 {
-      font-size: 18px;
-      letter-spacing: 1px;
-      margin-bottom: 22px;
-    }
-
-    .form-group {
-      margin-bottom: 17px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 13px;
-      color: #ccc;
-    }
-
-    input,
-    textarea {
-      width: 100%;
-      background: #080808;
-      border: 1px solid #383838;
-      color: #fff;
-      padding: 13px;
-      border-radius: 6px;
-      font-size: 15px;
-    }
-
-    textarea {
-      min-height: 90px;
-      resize: vertical;
-    }
-
-    input:focus,
-    textarea:focus {
-      outline: none;
-      border-color: #fff;
-    }
-
-    .place-order-btn {
-      width: 100%;
-      background: #fff;
-      color: #000;
-      border: none;
-      padding: 16px;
-      font-size: 14px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    .order-item {
-      display: flex;
-      gap: 14px;
-      padding: 15px 0;
-      border-bottom: 1px solid #292929;
-    }
-
-    .order-item img {
-      width: 75px;
-      height: 75px;
-      object-fit: cover;
-      border-radius: 7px;
-      background: #222;
-      flex-shrink: 0;
-    }
-
-    .order-name {
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-
-    .order-details {
-      color: #aaa;
-      font-size: 13px;
-      margin-top: 5px;
-    }
-
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 14px 0;
-      color: #ccc;
-      border-bottom: 1px solid #292929;
-    }
-
-    .summary-row.total {
-      color: #fff;
-      font-size: 20px;
-      font-weight: bold;
-      border-bottom: none;
-    }
-
-    .notice {
-      color: #999;
-      font-size: 12px;
-      line-height: 1.6;
-      margin-top: 15px;
-    }
-
-    .empty-message {
-      color: #ccc;
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
-
-    .message {
-      display: none;
-      background: #17251a;
-      border: 1px solid #315b39;
-      color: #c8f0ce;
-      padding: 15px;
-      border-radius: 7px;
-      margin-top: 18px;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 750px) {
-      body {
-        padding: 14px;
-      }
-
-      .checkout-layout {
-        grid-template-columns: 1fr;
-      }
-
-      h1 {
-        font-size: 26px;
-      }
-
-      .panel {
-        padding: 18px;
-      }
-    }
-  </style>
+  <script src="/cart.js" defer></script>
+  <script src="/checkout.js" defer></script>
 </head>
 
 <body>
-  <div class="container">
 
-    <header>
-      <div class="logo">SACCHI FLYIER</div>
-      <a class="back-link" href="cart.html">← Back to Cart</a>
-    </header>
+<header class="checkout-header">
+  <a href="/" class="checkout-logo">SACCHI FLYIER</a>
+  <span class="secure-label">SECURE CHECKOUT</span>
+</header>
 
-    <h1>CHECKOUT</h1>
-    <p class="subtitle">Complete your customer information.</p>
+<main class="checkout-container">
 
-    <main id="checkoutContent">
-      <div class="panel">Loading your order...</div>
-    </main>
+  <div class="checkout-title">
+    <p class="eyebrow">ALMOST YOURS</p>
+    <h1>Checkout</h1>
+    <p>Complete your delivery information below.</p>
+  </div>
+
+  <div id="checkout-message" class="checkout-message" role="status" aria-live="polite"></div>
+
+  <div class="checkout-layout">
+
+    <section class="checkout-form-section">
+
+      <form id="checkout-form">
+
+        <section class="form-section">
+          <h2>01. Contact Information</h2>
+
+          <label for="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            autocomplete="email"
+            placeholder="you@example.com"
+            required
+          >
+
+          <label for="phone">Phone Number</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            autocomplete="tel"
+            placeholder="Your phone number"
+            required
+          >
+        </section>
+
+        <section class="form-section">
+          <h2>02. Delivery Address</h2>
+
+          <label for="country">Country / Region</label>
+          <select id="country" name="country" required>
+            <option value="">Select your country</option>
+          </select>
+
+          <label for="full-name">Full Name</label>
+          <input
+            type="text"
+            id="full-name"
+            name="fullName"
+            autocomplete="name"
+            placeholder="Full name"
+            required
+          >
+
+          <label for="address">Street Address</label>
+          <input
+            type="text"
+            id="address"
+            name="address"
+            autocomplete="street-address"
+            placeholder="House number and street"
+            required
+          >
+
+          <label for="apartment">Apartment, Suite, etc. (Optional)</label>
+          <input
+            type="text"
+            id="apartment"
+            name="apartment"
+            autocomplete="address-line2"
+            placeholder="Apartment, suite, unit"
+          >
+
+          <div class="form-grid">
+
+            <div>
+              <label for="city">City</label>
+              <input
+                type="text"
+                id="city"
+                name="city"
+                autocomplete="address-level2"
+                placeholder="City"
+                required
+              >
+            </div>
+
+            <div>
+              <label for="state">State / Province</label>
+              <input
+                type="text"
+                id="state"
+                name="state"
+                autocomplete="address-level1"
+                placeholder="State"
+                required
+              >
+            </div>
+
+          </div>
+
+          <label for="postal-code">Postal / ZIP Code</label>
+          <input
+            type="text"
+            id="postal-code"
+            name="postalCode"
+            autocomplete="postal-code"
+            placeholder="Postal code"
+            required
+          >
+
+        </section>
+
+        <div class="checkout-disclaimer">
+          Payment processing will be connected after the checkout system
+          and order validation have been tested.
+        </div>
+
+        <button type="submit" id="place-order-button">
+          CONTINUE TO ORDER REVIEW →
+        </button>
+
+      </form>
+
+    </section>
+
+    <aside class="order-summary">
+
+      <h2>Your Order</h2>
+
+      <div id="checkout-items">
+        <p class="loading">Loading your order...</p>
+      </div>
+
+      <div class="summary-line">
+        <span>Total Items</span>
+        <span id="checkout-quantity">0</span>
+      </div>
+
+      <div class="summary-line">
+        <span>Subtotal</span>
+        <strong id="checkout-subtotal">$0.00</strong>
+      </div>
+
+      <div class="summary-line">
+        <span>Shipping</span>
+        <span id="checkout-shipping">Calculated after availability check</span>
+      </div>
+
+      <div class="summary-total">
+        <span>Product Subtotal</span>
+        <strong id="checkout-total">$0.00</strong>
+      </div>
+
+      <a href="/cart.html" class="return-cart">← Return to Cart</a>
+
+    </aside>
 
   </div>
 
-  <!-- Load the cart system exactly once -->
-  <script src="/cart.js?v=4"></script>
+</main>
 
-  <script>
-    const checkoutContent =
-      document.getElementById("checkoutContent");
-
-    function formatUSD(amount) {
-      return "$" + Number(amount).toFixed(2);
-    }
-
-    function escapeHTML(value) {
-      return String(value ?? "").replace(/[&<>"']/g, char => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;"
-      })[char]);
-    }
-
-    function handleTestSubmit(event) {
-      event.preventDefault();
-
-      const message =
-        document.getElementById("successMessage");
-
-      message.style.display = "block";
-
-      message.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest"
-      });
-    }
-
-    function renderCheckout() {
-      try {
-        if (
-          !window.SacchiCart ||
-          typeof window.SacchiCart.getCheckoutItems !== "function"
-        ) {
-          throw new Error(
-            "Cart system did not load correctly. Please check cart.js."
-          );
-        }
-
-        const items = window.SacchiCart.getCheckoutItems();
-
-        if (!Array.isArray(items) || items.length === 0) {
-          checkoutContent.innerHTML = `
-            <div class="panel">
-              <p class="empty-message">
-                Your cart is empty. Please add a product first.
-              </p>
-
-              <a class="shop-link" href="index.html">
-                Continue shopping
-              </a>
-            </div>
-          `;
-          return;
-        }
-
-        const subtotal =
-          window.SacchiCart.getTotalUSD(items);
-
-        checkoutContent.innerHTML = `
-          <div class="checkout-layout">
-
-            <section class="panel">
-              <h2>CUSTOMER INFORMATION</h2>
-
-              <form id="customerForm">
-
-                <div class="form-group">
-                  <label for="fullName">Full Name</label>
-                  <input
-                    id="fullName"
-                    name="fullName"
-                    type="text"
-                    autocomplete="name"
-                    required
-                  >
-                </div>
-
-                <div class="form-group">
-                  <label for="email">Email Address</label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autocomplete="email"
-                    required
-                  >
-                </div>
-
-                <div class="form-group">
-                  <label for="phone">Phone Number</label>
-                  <input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    autocomplete="tel"
-                    required
-                  >
-                </div>
-
-                <div class="form-group">
-                  <label for="country">Country</label>
-                  <input
-                    id="country"
-                    name="country"
-                    type="text"
-                    autocomplete="country-name"
-                    required
-                  >
-                </div>
-
-                <div class="form-group">
-                  <label for="address">Street Address</label>
-                  <textarea
-                    id="address"
-                    name="address"
-                    autocomplete="street-address"
-                    required
-                  ></textarea>
-                </div>
-
-                <div class="form-group">
-                  <label for="city">City</label>
-                  <input
-                    id="city"
-                    name="city"
-                    type="text"
-                    autocomplete="address-level2"
-                    required
-                  >
-                </div>
-
-                <div class="form-group">
-                  <label for="postalCode">Postal / ZIP Code</label>
-                  <input
-                    id="postalCode"
-                    name="postalCode"
-                    type="text"
-                    autocomplete="postal-code"
-                    required
-                  >
-                </div>
-
-                <button class="place-order-btn" type="submit">
-                  SUBMIT TEST ORDER
-                </button>
-
-              </form>
-
-              <div class="message" id="successMessage">
-                Test form submitted. No payment was collected
-                and no real order was created.
-              </div>
-            </section>
-
-            <aside class="panel">
-              <h2>YOUR ORDER</h2>
-
-              ${items.map(item => `
-                <div class="order-item">
-
-                  <img
-                    src="${escapeHTML(item.image)}"
-                    alt="${escapeHTML(item.name)}"
-                    onerror="this.style.display='none'"
-                  >
-
-                  <div>
-                    <div class="order-name">
-                      ${escapeHTML(item.name)}
-                    </div>
-
-                    <div class="order-details">
-                      Quantity: ${Number(item.quantity) || 1}
-                    </div>
-
-                    <div class="order-details">
-                      ${formatUSD(item.unitPriceUSD)} each
-                    </div>
-                  </div>
-
-                </div>
-              `).join("")}
-
-              <div class="summary-row">
-                <span>Subtotal</span>
-                <span>${formatUSD(subtotal)}</span>
-              </div>
-
-              <div class="summary-row">
-                <span>Shipping</span>
-                <span>Included*</span>
-              </div>
-
-              <div class="summary-row total">
-                <span>Total</span>
-                <span>${formatUSD(subtotal)}</span>
-              </div>
-
-              <p class="notice">
-                *Shipping is displayed as included for this test checkout.
-                Actual shipping and payment processing are not connected.
-              </p>
-
-            </aside>
-
-          </div>
-        `;
-
-        document.getElementById("customerForm")
-          .addEventListener("submit", handleTestSubmit);
-
-      } catch (error) {
-        console.error("Checkout error:", error);
-
-        checkoutContent.innerHTML = `
-          <div class="panel">
-            <p class="empty-message">
-              Checkout could not load your order.
-            </p>
-
-            <p class="notice">
-              ${escapeHTML(error.message)}
-            </p>
-
-            <a class="shop-link" href="cart.html">
-              Return to Cart
-            </a>
-          </div>
-        `;
-      }
-    }
-
-    // Run after the cart.js script has loaded.
-    renderCheckout();
-  </script>
+<footer class="checkout-footer">
+  <p>© <span id="checkout-year"></span> SACCHI FLYIER</p>
+  <p>FLY BEYOND LIMIT</p>
+</footer>
 
 </body>
 </html>
