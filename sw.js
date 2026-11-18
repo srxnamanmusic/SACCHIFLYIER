@@ -1,5 +1,5 @@
 
-const CACHE_NAME = "sacchi-flyier-v2";
+const CACHE_NAME = "sacchi-flyier-v3";
 
 const APP_FILES = [
   "/",
@@ -13,90 +13,131 @@ const APP_FILES = [
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(async (cache) => {
-      // Cache files individually so one missing file
-      // doesn't prevent the other files from caching.
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
+
       await Promise.all(
         APP_FILES.map(async (url) => {
           try {
-            const response = await fetch(url);
+            const response = await fetch(url, { cache: "no-cache" });
 
             if (response.ok) {
               await cache.put(url, response);
             }
           } catch (error) {
-            console.warn("Could not cache:", url);
+            console.warn("Could not cache:", url, error);
           }
         })
       );
-    })
-  );
 
-  self.skipWaiting();
+      await self.skipWaiting();
+    })()
+  );
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(
-        keys
-          .filter((key) => key.startsWith("sacchi-flyier-") &&
-                           key !== CACHE_NAME)
-          .map((key) => caches.delete(key))
-      )
-    )
-  );
+    (async () => {
+      const keys = await caches.keys();
 
-  self.clients.claim();
+      await Promise.all(
+        keys
+          .filter(
+            (key) =>
+              key.startsWith("sacchi-flyier-") &&
+              key !== CACHE_NAME
+          )
+          .map((key) => caches.delete(key))
+      );
+
+      await self.clients.claim();
+    })()
+  );
 });
 
 self.addEventListener("fetch", (event) => {
   const request = event.request;
   const url = new URL(request.url);
 
-  if (request.method !== "GET" ||
-      url.origin !== self.location.origin) {
+  if (
+    request.method !== "GET" ||
+    url.origin !== self.location.origin
+  ) {
     return;
   }
 
-  // Always try the network first for HTML pages.
+  // HTML pages: network first, cached page as offline fallback.
   if (request.mode === "navigate") {
     event.respondWith(
-      fetch(request)
-        .then((response) => {
+      (async () => {
+        try {
+          const response = await fetch(request);
+
           if (response.ok) {
-            const copy = response.clone();
-            caches.open(CACHE_NAME).then((cache) =>
-              cache.put(request, copy)
-            );
+            const cache = await caches.open(CACHE_NAME);
+            await cache.put(request, response.clone());
           }
+
           return response;
-        })
-        .catch(async () =>
-          (await caches.match(request)) ||
-          (await caches.match("/index.html")) ||
-          new Response("You are offline.", { status: 503 })
-        )
+        } catch (error) {
+          return (
+            (await caches.match(request)) ||
+            (await caches.match("/index.html")) ||
+            new Response("You are offline.", { status: 503 })
+          );
+        }
+      })()
     );
+
     return;
   }
 
-  // For CSS, JS, images and other assets:
-  // use cached files first, then fetch and cache.
+  // JavaScript and CSS: network first, to avoid outdated checkout code.
+  if (
+    request.destination === "script" ||
+    request.destination === "style"
+  ) {
+    event.respondWith(
+      (async () => {
+        try {
+          const response = await fetch(request);
+
+          if (response.ok) {
+            const cache = await caches.open(CACHE_NAME);
+            await cache.put(request, response.clone());
+          }
+
+          return response;
+        } catch (error) {
+          const cached = await caches.match(request);
+
+          if (cached) return cached;
+
+          return new Response("This file is unavailable offline.", {
+            status: 503
+          });
+        }
+      })()
+    );
+
+    return;
+  }
+
+  // Other assets: cache first, then network.
   event.respondWith(
-    caches.match(request).then(async (cached) => {
+    (async () => {
+      const cached = await caches.match(request);
+
       if (cached) return cached;
 
       const response = await fetch(request);
 
       if (response.ok) {
-        const copy = response.clone();
-        caches.open(CACHE_NAME).then((cache) =>
-          cache.put(request, copy)
-        );
+        const cache = await caches.open(CACHE_NAME);
+        await cache.put(request, response.clone());
       }
 
       return response;
-    })
+    })()
   );
 });
