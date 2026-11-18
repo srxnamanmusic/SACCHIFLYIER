@@ -4,227 +4,304 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#080808">
+
   <title>Checkout | Sacchi Flyier</title>
+
   <link rel="stylesheet" href="/checkout.css">
+
   <script src="/cart.js" defer></script>
   <script src="/checkout.js" defer></script>
 </head>
-<body>
 
-<header class="checkout-header">
-  <a href="/" class="checkout-logo">SACCHI FLYIER</a>
-  <span class="checkout-secure">SECURE CHECKOUT</span>
-</header>
+<body id="top">
 
-<main class="checkout-container">
+  <!-- HEADER -->
+  <header class="checkout-header">
+    <a href="/" class="checkout-logo">SACCHI FLYIER</a>
+    <span class="checkout-secure">SECURE CHECKOUT</span>
+  </header>
 
-  <section class="checkout-main">
+  <!-- MAIN CHECKOUT -->
+  <main class="checkout-container">
 
-    <div class="checkout-intro">
-      <span class="checkout-eyebrow">ALMOST YOURS</span>
-      <h1>Checkout</h1>
-      <p>Complete your delivery information below.</p>
-    </div>
+    <!-- LEFT SIDE -->
+    <section class="checkout-main">
 
-    <div id="checkout-message" class="checkout-message"></div>
+      <div class="checkout-intro">
+        <span class="checkout-eyebrow">ALMOST YOURS</span>
+        <h1>Checkout</h1>
+        <p>Complete your delivery information below.</p>
+      </div>
 
-    <form id="checkout-form" class="checkout-form">
+      <!-- MESSAGE -->
+      <div
+        id="checkout-message"
+        class="checkout-message"
+        aria-live="polite">
+      </div>
 
-      <section class="checkout-section">
-        <div class="section-heading">
-          <span class="section-number">01</span>
-          <div>
-            <h2>Contact Information</h2>
-            <p>Where should we contact you?</p>
+      <!-- RETURN TO HEADER -->
+      <a href="#top" class="checkout-back-top">
+        ↑ Return to Secure Checkout
+      </a>
+
+      <!-- FORM -->
+      <form id="checkout-form" class="checkout-form">
+
+        <!-- CONTACT INFORMATION -->
+        <section class="checkout-section">
+
+          <div class="section-heading">
+            <span class="section-number">01</span>
+
+            <div>
+              <h2>Contact Information</h2>
+              <p>Where should we contact you?</p>
+            </div>
           </div>
-        </div>
 
-        <div class="checkout-field">
-          <label for="email">Email Address</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="you@example.com"
-            autocomplete="email"
-            required>
-        </div>
-
-        <div class="checkout-field">
-          <label for="phone">Phone Number</label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            placeholder="Your phone number"
-            autocomplete="tel"
-            required>
-        </div>
-      </section>
-
-      <section class="checkout-section">
-
-        <div class="section-heading">
-          <span class="section-number">02</span>
-          <div>
-            <h2>Delivery Address</h2>
-            <p>Enter your delivery details.</p>
-          </div>
-        </div>
-
-        <div class="checkout-field">
-          <label for="country">Country / Region</label>
-          <select id="country" name="country" required>
-            <option value="">Select your country</option>
-          </select>
-        </div>
-
-        <div class="checkout-field">
-          <label for="fullname">Full Name</label>
-          <input
-            type="text"
-            id="fullname"
-            name="fullname"
-            placeholder="Full name"
-            autocomplete="name"
-            required>
-        </div>
-
-        <div class="checkout-field">
-          <label for="address">Street Address</label>
-          <input
-            type="text"
-            id="address"
-            name="address"
-            placeholder="House number and street"
-            autocomplete="address-line1"
-            required>
-        </div>
-
-        <div class="checkout-field">
-          <label for="apartment">Apartment, Suite, etc. <span class="optional-label">Optional</span></label>
-          <input
-            type="text"
-            id="apartment"
-            name="apartment"
-            placeholder="Apartment, suite, unit"
-            autocomplete="address-line2">
-        </div>
-
-        <div class="checkout-row">
           <div class="checkout-field">
-            <label for="city">City</label>
+            <label for="email">Email Address</label>
+
             <input
-              type="text"
-              id="city"
-              name="city"
-              placeholder="City"
-              autocomplete="address-level2"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="you@example.com"
+              autocomplete="email"
               required>
           </div>
 
           <div class="checkout-field">
-            <label for="state">State / Province</label>
+            <label for="phone">Phone Number</label>
+
             <input
-              type="text"
-              id="state"
-              name="state"
-              placeholder="State"
-              autocomplete="address-level1"
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="Your phone number"
+              autocomplete="tel"
               required>
           </div>
+
+        </section>
+
+        <!-- DELIVERY ADDRESS -->
+        <section class="checkout-section">
+
+          <div class="section-heading">
+            <span class="section-number">02</span>
+
+            <div>
+              <h2>Delivery Address</h2>
+              <p>Enter your delivery details.</p>
+            </div>
+          </div>
+
+          <div class="checkout-field">
+            <label for="country">Country / Region</label>
+
+            <select
+              id="country"
+              name="country"
+              autocomplete="country"
+              required>
+
+              <option value="">Select your country</option>
+
+            </select>
+          </div>
+
+          <div class="checkout-field">
+            <label for="fullname">Full Name</label>
+
+            <input
+              type="text"
+              id="fullname"
+              name="fullname"
+              placeholder="Full name"
+              autocomplete="name"
+              required>
+          </div>
+
+          <div class="checkout-field">
+            <label for="address">Street Address</label>
+
+            <input
+              type="text"
+              id="address"
+              name="address"
+              placeholder="House number and street"
+              autocomplete="address-line1"
+              required>
+          </div>
+
+          <div class="checkout-field">
+            <label for="apartment">
+              Apartment, Suite, etc.
+              <span class="optional-label">Optional</span>
+            </label>
+
+            <input
+              type="text"
+              id="apartment"
+              name="apartment"
+              placeholder="Apartment, suite, unit"
+              autocomplete="address-line2">
+          </div>
+
+          <div class="checkout-row">
+
+            <div class="checkout-field">
+              <label for="city">City</label>
+
+              <input
+                type="text"
+                id="city"
+                name="city"
+                placeholder="City"
+                autocomplete="address-level2"
+                required>
+            </div>
+
+            <div class="checkout-field">
+              <label for="state">State / Province</label>
+
+              <input
+                type="text"
+                id="state"
+                name="state"
+                placeholder="State"
+                autocomplete="address-level1"
+                required>
+            </div>
+
+          </div>
+
+          <div class="checkout-field">
+            <label for="postal">Postal / ZIP Code</label>
+
+            <input
+              type="text"
+              id="postal"
+              name="postal"
+              placeholder="Postal code"
+              autocomplete="postal-code"
+              required>
+          </div>
+
+        </section>
+
+        <!-- NOTICE -->
+        <div class="checkout-notice">
+          Payment processing will be connected after the checkout
+          system and order validation have been tested.
         </div>
 
-        <div class="checkout-field">
-          <label for="postal">Postal / ZIP Code</label>
-          <input
-            type="text"
-            id="postal"
-            name="postal"
-            placeholder="Postal code"
-            autocomplete="postal-code"
-            required>
+        <!-- BUTTON -->
+        <button
+          type="submit"
+          id="place-order-button"
+          class="checkout-button">
+
+          <span>CONTINUE TO ORDER REVIEW</span>
+          <span aria-hidden="true">→</span>
+
+        </button>
+
+      </form>
+
+      <!-- BACK TO CART -->
+      <a href="/cart.html" class="checkout-back-link">
+        ← Return to Cart
+      </a>
+
+    </section>
+
+    <!-- RIGHT SIDE -->
+    <aside class="checkout-summary">
+
+      <div class="summary-header">
+
+        <div>
+          <span class="checkout-eyebrow">ORDER DETAILS</span>
+          <h2>Your Order</h2>
         </div>
 
-      </section>
+        <span class="summary-badge">
+          <span id="checkout-quantity">0</span> ITEMS
+        </span>
 
-      <div class="checkout-notice">
-        Payment processing will be connected after checkout
-        and order validation have been tested.
       </div>
 
-      <button
-        type="submit"
-        id="place-order-button"
-        class="checkout-button">
-
-        CONTINUE TO ORDER REVIEW
-        <span aria-hidden="true">→</span>
-
-      </button>
-
-    </form>
-
-    <a href="/cart.html" class="checkout-back-link">
-      ← Return to Cart
-    </a>
-
-  </section>
-
-  <aside class="checkout-summary">
-
-    <div class="summary-header">
-      <div>
-        <span class="checkout-eyebrow">ORDER DETAILS</span>
-        <h2>Your Order</h2>
+      <!-- PRODUCTS -->
+      <div
+        id="checkout-items"
+        class="checkout-items">
       </div>
 
-      <span class="summary-badge"> <span id="checkout-quantity">0</span> ITEMS</span>
-    </div>
+      <div class="summary-divider"></div>
 
-    <div id="checkout-items" class="checkout-items"></div>
+      <!-- TOTAL ITEMS -->
+      <div class="checkout-summary-line">
+        <span>Total Items</span>
 
-    <div class="summary-divider"></div>
+        <strong id="checkout-quantity-summary">0</strong>
+      </div>
 
-    <div class="checkout-summary-line">
-      <span>Total Items</span>
-      <strong id="checkout-quantity-summary">0</strong>
-    </div>
+      <!-- SUBTOTAL -->
+      <div class="checkout-summary-line">
+        <span>Subtotal</span>
 
-    <div class="checkout-summary-line">
-      <span>Subtotal</span>
-      <strong id="checkout-subtotal">$0.00</strong>
-    </div>
+        <strong id="checkout-subtotal">$0.00</strong>
+      </div>
 
-    <div class="checkout-summary-line">
-      <span>Shipping</span>
-      <strong id="checkout-shipping">Pending availability check</strong>
-    </div>
+      <!-- SHIPPING -->
+      <div class="checkout-summary-line">
+        <span>Shipping</span>
 
-    <div class="checkout-summary-total">
-      <span>Product Subtotal</span>
-      <strong id="checkout-total">Pending shipping calculation</strong>
-    </div>
+        <strong id="checkout-shipping">
+          Pending availability check
+        </strong>
+      </div>
 
-    <p class="checkout-shipping-note">
-      Shipping and final order total will be confirmed after
-      destination and shipping availability are verified.
+      <!-- TOTAL -->
+      <div class="checkout-summary-total">
+        <span>Product Subtotal</span>
+
+        <strong id="checkout-total">
+          Pending shipping calculation
+        </strong>
+      </div>
+
+      <!-- SHIPPING NOTE -->
+      <p class="checkout-shipping-note">
+        Shipping availability and final order total will be
+        confirmed after the destination and shipping options
+        have been verified.
+      </p>
+
+    </aside>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="checkout-footer">
+
+    <p>
+      © <span data-current-year></span> SACCHI FLYIER
     </p>
 
-  </aside>
+    <p>FLY BEYOND LIMIT</p>
 
-</main>
+  </footer>
 
-<footer class="checkout-footer">
-  <p>© <span data-current-year></span> SACCHI FLYIER</p>
-  <p>FLY BEYOND LIMIT</p>
-</footer>
-
-<script>
-  document.querySelectorAll("[data-current-year]").forEach(element => {
-    element.textContent = new Date().getFullYear();
-  });
-</script>
+  <!-- YEAR -->
+  <script>
+    document.querySelectorAll("[data-current-year]").forEach(element => {
+      element.textContent = new Date().getFullYear();
+    });
+  </script>
 
 </body>
 </html>
