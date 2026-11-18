@@ -1,6 +1,6 @@
 /* =====================================================
    SACCHI FLYIER — CART SYSTEM
-   Version: 1.0
+   Version: 1.1
    Internal currency: USD
    Delivery: Worldwide except India
 ===================================================== */
@@ -14,7 +14,6 @@
   const CURRENCY_KEY = "sacchiFlyierCurrency";
 
   const DEFAULT_COUNTRY = "US";
-  const DEFAULT_CURRENCY = "USD";
 
   const COUNTRIES = {
     US: { name: "United States", currency: "USD", symbol: "$" },
@@ -63,6 +62,7 @@
     }
 
     writeJSON(CART_KEY, cart);
+
     window.dispatchEvent(new CustomEvent("sacchi:cart-updated", {
       detail: { cart }
     }));
@@ -119,34 +119,42 @@
       throw new Error("Product information is incomplete.");
     }
 
-    const price = getProductPrice(product);
-
     return {
       id: String(product.id),
       name: String(product.name),
       sku: String(product.sku || ""),
       image: String(product.image || ""),
-      unitPriceUSD: price,
-      quantity: Math.max(1, Math.floor(Number(product.quantity) || 1))
+      unitPriceUSD: getProductPrice(product),
+      quantity: Math.min(
+        99,
+        Math.max(1, Math.floor(Number(product.quantity) || 1))
+      )
     };
   }
 
+  // ADD TO CART → SAVE PRODUCT → CHECKOUT
   function add(product) {
     const item = normalizeProduct(product);
     const cart = getCart();
-
-    const existing = cart.find((p) => p.id === item.id);
+    const existing = cart.find(p => p.id === item.id);
 
     if (existing) {
-      existing.quantity += item.quantity;
+      existing.quantity = Math.min(99, existing.quantity + item.quantity);
     } else {
       cart.push(item);
     }
 
     saveCart(cart);
+
+    // Remove Buy Now mode so checkout uses the complete cart.
+    clearBuyNow();
+
+    window.location.href = "/checkout.html";
+
     return cart;
   }
 
+  // BUY NOW → CHECKOUT WITH ONLY THIS PRODUCT
   function buyNow(product) {
     const item = normalizeProduct(product);
 
@@ -162,9 +170,8 @@
 
   function getCheckoutItems() {
     const params = new URLSearchParams(window.location.search);
-    const isBuyNow = params.get("mode") === "buy-now";
 
-    if (isBuyNow) {
+    if (params.get("mode") === "buy-now") {
       return getBuyNow();
     }
 
@@ -173,7 +180,7 @@
 
   function updateQuantity(id, quantity) {
     const cart = getCart();
-    const item = cart.find((p) => p.id === String(id));
+    const item = cart.find(p => p.id === String(id));
 
     if (!item) return cart;
 
@@ -188,7 +195,7 @@
   }
 
   function remove(id) {
-    const cart = getCart().filter((p) => p.id !== String(id));
+    const cart = getCart().filter(p => p.id !== String(id));
     return saveCart(cart);
   }
 
@@ -208,9 +215,7 @@
   }
 
   function getTotalQuantity(items = getCart()) {
-    return items.reduce((total, item) => {
-      return total + item.quantity;
-    }, 0);
+    return items.reduce((total, item) => total + item.quantity, 0);
   }
 
   function formatUSD(amount) {
