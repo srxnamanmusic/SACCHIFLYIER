@@ -235,6 +235,13 @@
 
   <!-- Load cart system first -->
   <script src="cart.js"></script>
+  <script>
+  document.getElementById("checkoutContent").innerHTML =
+    "<div class='panel'>" +
+    "Cart script loaded: " +
+    (typeof window.SacchiCart) +
+    "</div>";
+</script>
 
   <script>
     const checkoutContent = document.getElementById("checkoutContent");
