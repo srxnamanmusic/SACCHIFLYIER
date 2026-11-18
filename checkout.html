@@ -587,6 +587,47 @@
     }
   }
 
+<script>
+  const checkoutContent = document.getElementById("checkoutContent");
+
+  function loadCartAndCheckout() {
+    const script = document.createElement("script");
+
+    script.src = "/cart.js?v=4";
+
+    script.onload = function () {
+      if (
+        window.SacchiCart &&
+        typeof window.SacchiCart.getCheckoutItems === "function"
+      ) {
+        renderCheckout();
+      } else {
+        checkoutContent.textContent =
+          "Cart system loaded, but its functions are unavailable.";
+      }
+    };
+
+    script.onerror = function () {
+      checkoutContent.textContent =
+        "Unable to load the cart. Please try again.";
+    };
+
+    document.body.appendChild(script);
+  }
+
+  // Keep your existing formatUSD, escapeHTML,
+  // handleTestSubmit and renderCheckout functions here.
+
+  loadCartAndCheckout();
+</script>
+</body>
+</html>
+
+ 
+  
+  
+  
+  
   renderCheckout();
 </script>
 </body>
