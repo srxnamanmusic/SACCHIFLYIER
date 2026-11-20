@@ -1,5 +1,5 @@
 
-const CACHE_NAME = "sacchi-flyier-v4";
+const CACHE_NAME = "sacchi-flyier-v5";
 
 const APP_FILES = [
   "/",
