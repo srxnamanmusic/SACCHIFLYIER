@@ -1,275 +1,75 @@
-
-/* SACCHI FLYIER — CHECKOUT SYSTEM
-   Front-end validation only.
-   This file does NOT process payments or submit real orders.
+/* SACCHI FLYIER — TEST CHECKOUT
+   No order is created and no payment is collected.
 */
-
 (() => {
-  "use strict";
-
-  const cartAPI = window.SacchiCart;
-
-  const form = document.getElementById("checkout-form");
-  const countrySelect = document.getElementById("country");
-  const itemsContainer = document.getElementById("checkout-items");
-  const quantityElement = document.getElementById("checkout-quantity");
-  const subtotalElement = document.getElementById("checkout-subtotal");
-  const shippingElement = document.getElementById("checkout-shipping");
-  const totalElement = document.getElementById("checkout-total");
-  const messageElement = document.getElementById("checkout-message");
-  const submitButton = document.getElementById("place-order-button");
-
-  if (!cartAPI || !form) {
-    console.error("Sacchi Flyier checkout could not initialize.");
-    return;
-  }
-
-  let checkoutItems = [];
-
-  function formatMoney(amount) {
-    return cartAPI.formatUSD(amount);
-  }
-
-  function showMessage(message, type = "info") {
-    if (!messageElement) return;
-
-    messageElement.textContent = message;
-    messageElement.className = `checkout-message show ${type}`;
-    messageElement.setAttribute("role", "alert");
-  }
-
-  function clearMessage() {
-    if (!messageElement) return;
-
-    messageElement.textContent = "";
-    messageElement.className = "checkout-message";
-  }
-
-  function populateCountries() {
-    if (!countrySelect) return;
-
-    const countries = cartAPI.COUNTRIES;
-    const currentCountry = cartAPI.getCountry();
-
-    countrySelect.innerHTML = '<option value="">Select your country</option>';
-
-    Object.entries(countries)
-      .sort((a, b) => a[1].name.localeCompare(b[1].name))
-      .forEach(([code, country]) => {
-        if (code === "IN") return;
-
-        const option = document.createElement("option");
-        option.value = code;
-        option.textContent = country.name;
-        countrySelect.appendChild(option);
-      });
-
-    if (countries[currentCountry]) {
-      countrySelect.value = currentCountry;
-    }
-  }
-
-  function getItemPrice(item) {
-    const price = Number(item.unitPriceUSD);
-
-    if (!Number.isFinite(price) || price < 0) {
-      throw new Error("A product has an invalid price.");
-    }
-
-    return price;
-  }
-
-  function renderItems() {
-    checkoutItems = cartAPI.getCheckoutItems();
-
-    if (!Array.isArray(checkoutItems) || checkoutItems.length === 0) {
-      if (itemsContainer) {
-        itemsContainer.textContent = "Your checkout is empty.";
-      }
-
-      if (quantityElement) quantityElement.textContent = "0";
-      if (subtotalElement) subtotalElement.textContent = formatMoney(0);
-      if (shippingElement) shippingElement.textContent = "Not calculated";
-      if (totalElement) totalElement.textContent = "Not calculated";
-
-      if (submitButton) submitButton.disabled = true;
-
-      showMessage("Your cart is empty. Add a product before checkout.", "error");
-      return;
-    }
-
-    if (itemsContainer) {
-      itemsContainer.replaceChildren();
-
-      checkoutItems.forEach((item) => {
-        const article = document.createElement("article");
-        article.className = "checkout-item";
-
-        if (item.image) {
-          const image = document.createElement("img");
-          image.src = item.image;
-          image.alt = item.name || "Product";
-          image.loading = "lazy";
-
-          image.addEventListener("error", () => {
-            image.style.display = "none";
-          });
-
-          article.appendChild(image);
-        }
-
-        const details = document.createElement("div");
-        details.className = "checkout-item-details";
-
-        const name = document.createElement("h3");
-        name.textContent = item.name || "Product";
-
-        const quantity = document.createElement("p");
-        quantity.textContent = `Quantity: ${item.quantity}`;
-
-        details.append(name, quantity);
-
-        const price = document.createElement("div");
-        price.className = "checkout-item-price";
-        price.textContent = formatMoney(
-          getItemPrice(item) * Number(item.quantity)
-        );
-
-        article.append(details, price);
-        itemsContainer.appendChild(article);
-      });
-    }
-
-    const subtotal = cartAPI.getSubtotalUSD(checkoutItems);
-    const totalQuantity = cartAPI.getTotalQuantity(checkoutItems);
-
-    if (quantityElement) {
-      quantityElement.textContent = String(totalQuantity);
-    }
-
-    if (subtotalElement) {
-      subtotalElement.textContent = formatMoney(subtotal);
-    }
-
-    // Shipping has not been checked with the supplier.
-    // Therefore, do not show a guessed shipping price or final total.
-    if (shippingElement) {
-      shippingElement.textContent = "Pending availability check";
-    }
-
-    if (totalElement) {
-      totalElement.textContent = "Pending shipping calculation";
-    }
-
-    if (submitButton) submitButton.disabled = false;
-  }
-
-  function validateCountry() {
-    if (!countrySelect) {
-      showMessage("The country field could not be found.", "error");
-      return false;
-    }
-
-    const countryCode = countrySelect.value;
-
-    if (!countryCode) {
-      showMessage("Please select your delivery country.", "error");
-      countrySelect.focus();
-      return false;
-    }
-
-    if (countryCode === "IN" || !cartAPI.COUNTRIES[countryCode]) {
-      showMessage("Delivery to this country is not enabled.", "error");
-      countrySelect.focus();
-      return false;
-    }
-
-    try {
-      cartAPI.setCountry(countryCode);
-      return true;
-    } catch (error) {
-      showMessage(error.message, "error");
-      return false;
-    }
-  }
-
-  function validateCheckoutItems() {
-    if (!Array.isArray(checkoutItems) || checkoutItems.length === 0) {
-      showMessage("Your checkout is empty.", "error");
-      return false;
-    }
-
-    try {
-      checkoutItems.forEach((item) => {
-        if (!item.id || !item.name || !Number.isInteger(Number(item.quantity)) ||
-            Number(item.quantity) < 1 || Number(item.quantity) > 99) {
-          throw new Error("A product in your checkout has invalid information.");
-        }
-
-        getItemPrice(item);
-      });
-    } catch (error) {
-      showMessage(error.message, "error");
-      return false;
-    }
-
-    return true;
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    clearMessage();
-
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      return;
-    }
-
-    if (!validateCountry()) return;
-    if (!validateCheckoutItems()) return;
-
-    const subtotal = cartAPI.getSubtotalUSD(checkoutItems);
-
-    if (!Number.isFinite(subtotal) || subtotal <= 0) {
-      showMessage("The order subtotal is invalid.", "error");
-      return;
-    }
-
-    /*
-      IMPORTANT:
-      This is only a front-end checkout validation.
-      No customer details are sent or saved.
-      No order is created.
-      No payment is collected.
-    */
-
-    showMessage(
-      "Your checkout details passed the browser validation. This is a test only: shipping availability and cost still need to be confirmed, and payment processing is not connected. No order has been placed.",
-      "success"
-    );
-  }
-
-  if (countrySelect) {
-    countrySelect.addEventListener("change", () => {
-      clearMessage();
-
-      const code = countrySelect.value;
-
-      if (!code) return;
-
-      try {
-        cartAPI.setCountry(code);
-      } catch (error) {
-        showMessage(error.message, "error");
-        countrySelect.value = "";
-      }
-    });
-  }
-
-  form.addEventListener("submit", handleSubmit);
-
-  populateCountries();
-  renderItems();
-
-  window.addEventListener("sacchi:cart-updated", renderItems);
+ "use strict";
+ const api=window.SacchiCart,form=document.getElementById("checkout-form");
+ const countrySelect=document.getElementById("country"),itemsBox=document.getElementById("checkout-items");
+ const quantityEl=document.getElementById("checkout-quantity"),subtotalEl=document.getElementById("checkout-subtotal");
+ const shippingEl=document.getElementById("checkout-shipping"),totalEl=document.getElementById("checkout-total");
+ const message=document.getElementById("checkout-message"),submit=document.getElementById("place-order-button");
+ if(!api||!form)return;
+ let items=[],currency="USD";
+ const say=(s,type="info")=>{if(message){message.textContent=s;message.className="checkout-message show "+type;message.setAttribute("role","alert")}};
+ const clear=()=>{if(message){message.textContent="";message.className="checkout-message"}};
+ function populate(){
+  const list=api.COUNTRIES,selected=api.getCountry();
+  countrySelect.innerHTML='<option value="">Select your country</option>';
+  Object.entries(list).sort((a,b)=>a[1].name.localeCompare(b[1].name)).forEach(([code,c])=>{
+   if(code==="IN")return;const o=document.createElement("option");o.value=code;o.textContent=c.name+" ("+c.currency+")";countrySelect.appendChild(o);
+  });
+  if(list[selected])countrySelect.value=selected;
+ }
+ function render(){
+  items=api.getCheckoutItems();
+  if(!items.length){itemsBox.textContent="Your checkout is empty.";quantityEl.textContent="0";subtotalEl.textContent="—";shippingEl.textContent="Not calculated";totalEl.textContent="Not calculated";submit.disabled=true;say("Your cart is empty. Add a product before checkout.","error");return}
+  itemsBox.replaceChildren();
+  items.forEach(item=>{
+   const article=document.createElement("article");article.className="checkout-item";
+   if(item.image){const img=document.createElement("img");img.src=item.image;img.alt=item.name||"Product";img.loading="lazy";img.onerror=()=>img.style.display="none";article.appendChild(img)}
+   const details=document.createElement("div");details.className="checkout-item-details";
+   const name=document.createElement("h3");name.textContent=item.name||"Product";
+   const meta=document.createElement("p");meta.textContent=["Quantity: "+item.quantity,item.color?"Colour: "+item.color:"",item.model?"Model: "+item.model:""].filter(Boolean).join(" · ");
+   details.append(name,meta);
+   const price=document.createElement("div");price.className="checkout-item-price";price.textContent=api.formatMoney(Number(item.unitPriceUSD)*Number(item.quantity),"USD");
+   article.append(details,price);itemsBox.appendChild(article);
+  });
+  quantityEl.textContent=String(api.getTotalQuantity(items));
+  subtotalEl.textContent=api.formatMoney(api.getSubtotalUSD(items),"USD");
+  shippingEl.textContent="Included in the product prices shown on product pages";
+  totalEl.textContent=api.formatMoney(api.getSubtotalUSD(items),"USD");
+  submit.disabled=false;
+ }
+ async function renderLocal(){
+  await api.refreshCurrencyData();
+  const code=countrySelect.value||api.getCountry(),c=api.COUNTRIES[code];
+  if(!c)return;
+  currency=c.currency;
+  const totalUSD=api.getSubtotalUSD(items),local=api.convertUSD(totalUSD,currency);
+  if(local===null){subtotalEl.textContent="Currency not supported";totalEl.textContent="Currency not supported";say("Live conversion for "+currency+" is unavailable. Please select a supported currency or try again later.","error");return}
+  subtotalEl.textContent=api.formatMoney(local,currency);
+  totalEl.textContent=api.formatMoney(local,currency);
+  itemsBox.querySelectorAll(".checkout-item").forEach((article,i)=>{
+   const item=items[i],converted=api.convertUSD(Number(item.unitPriceUSD)*Number(item.quantity),currency);
+   const price=article.querySelector(".checkout-item-price");
+   price.textContent=converted===null?"Price unavailable":api.formatMoney(converted,currency);
+  });
+  if(api.rateDate)say("Prices shown in "+currency+". Reference exchange rate date: "+api.rateDate+". Shipping is included in each product price.","info");
+ }
+ function validate(){
+  if(!countrySelect.value||countrySelect.value==="IN"||!api.COUNTRIES[countrySelect.value]){say("Please select a valid delivery country outside India.","error");return false}
+  if(!items.length){say("Your checkout is empty.","error");return false}
+  if(new Set(items.map(x=>x.country).filter(Boolean)).size>1){say("Your cart contains different delivery countries. Please use one destination per checkout.","error");return false}
+  return true;
+ }
+ countrySelect.addEventListener("change",async()=>{clear();try{api.setCountry(countrySelect.value);await renderLocal()}catch(e){say(e.message,"error")}});
+ form.addEventListener("submit",async e=>{
+  e.preventDefault();clear();if(!form.checkValidity()){form.reportValidity();return}
+  if(!validate())return;
+  await renderLocal();
+  if(submit.disabled)return;
+  say("Test only: your checkout passed browser validation. Shipping and payment are not connected. No order has been placed and no payment has been collected.","success");
+ });
+ (async()=>{await api.refreshCurrencyData();populate();render();await renderLocal()})();
+ window.addEventListener("sacchi:cart-updated",render);
 })();
