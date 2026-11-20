@@ -1264,22 +1264,9 @@
 
     <!-- ================= JAVASCRIPT ================= -->
 
+    <script src="cart.js"></script>
     <script src="script.js"></script>
 
-
-<script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("/sw.js")
-        .then((registration) => {
-          console.log("Sacchi Flyier service worker registered.");
-        })
-        .catch((error) => {
-          console.error("Service worker registration failed:", error);
-        });
-    });
-  }
-</script>
     
 </body>
 </html>
