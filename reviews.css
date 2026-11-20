@@ -1,0 +1,25 @@
+/* SACCHI FLYIER — CUSTOMER REVIEWS (MONOCHROME) */
+.sf-reviews{background:#050505;color:#fff;padding:76px 5.5%;border-top:1px solid #242424}
+.sf-reviews-inner{max-width:1180px;margin:0 auto}
+.sf-reviews .section-label{color:#999;letter-spacing:3px;font-size:12px}
+.sf-reviews h2{color:#fff;font-size:clamp(28px,4vw,42px);margin:10px 0 14px}
+.sf-reviews-intro{color:#aaa;max-width:650px;line-height:1.7}
+.sf-review-summary{display:flex;align-items:center;gap:18px;margin:28px 0;padding:22px 0;border-top:1px solid #292929;border-bottom:1px solid #292929}
+.sf-review-score{font-size:38px;font-weight:800;line-height:1}
+.sf-review-stars{letter-spacing:3px;font-size:20px;color:#fff}
+.sf-review-count{font-size:13px;color:#999;margin-top:6px}
+.sf-review-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:24px 0}
+.sf-review-empty{border:1px solid #292929;border-radius:12px;padding:24px;color:#aaa;line-height:1.6}
+.sf-review-empty strong{display:block;color:#fff;margin-bottom:8px}
+.sf-review-form-wrap{margin-top:34px;padding:26px;border:1px solid #303030;border-radius:14px;background:#0b0b0b}
+.sf-review-form-wrap h3{font-size:22px;margin:0 0 8px;color:#fff}
+.sf-review-form-wrap p{color:#aaa;font-size:14px;line-height:1.6}
+.sf-review-form{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+.sf-review-form label{display:block;color:#ddd;font-size:13px;margin-bottom:7px}
+.sf-review-form input,.sf-review-form textarea,.sf-review-form select{width:100%;background:#050505;color:#fff;border:1px solid #444;border-radius:7px;padding:13px;font:inherit}
+.sf-review-form textarea{min-height:120px;resize:vertical}
+.sf-review-form .sf-full{grid-column:1/-1}
+.sf-review-form button{background:#fff;color:#000;border:1px solid #fff;padding:14px 22px;font-weight:800;letter-spacing:1px;cursor:pointer;border-radius:7px}
+.sf-review-form button:hover{background:#ddd}
+.sf-review-note{font-size:12px!important;color:#888!important}
+@media(max-width:700px){.sf-reviews{padding:54px 20px}.sf-review-grid{grid-template-columns:1fr}.sf-review-form{grid-template-columns:1fr}.sf-review-form .sf-full{grid-column:auto}.sf-review-form-wrap{padding:20px}}
