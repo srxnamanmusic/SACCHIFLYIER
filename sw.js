@@ -1,5 +1,5 @@
 
-const CACHE_NAME = "sacchi-flyier-v3";
+const CACHE_NAME = "sacchi-flyier-v4";
 
 const APP_FILES = [
   "/",
@@ -7,6 +7,13 @@ const APP_FILES = [
   "/manifest.json",
   "/style.css",
   "/script.js",
+  "/cart.js",
+  "/checkout.js",
+  "/checkout.css",
+  "/product1.html",
+  "/product2.html",
+  "/product3.html",
+  "/product4.html",
   "/pwa-192x192.png",
   "/pwa-512x512.png"
 ];
