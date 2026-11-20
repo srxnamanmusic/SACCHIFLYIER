@@ -133,7 +133,7 @@
   }
 
   // ADD TO CART → SAVE PRODUCT → CHECKOUT
-  function add(product) {
+function add(product) {
     const item = normalizeProduct(product);
     const cart = getCart();
     const existing = cart.find(p => p.id === item.id);
@@ -152,16 +152,20 @@
     window.location.href = "/checkout.html";
 
     return cart;
-  }
-
-  // BUY NOW → CHECKOUT WITH ONLY THIS PRODUCT
-  function buyNow(product) {
+}
+ // BUY NOW → CHECKOUT WITH ONLY THIS PRODUCT
+function buyNow(product) {
     const item = normalizeProduct(product);
 
     writeJSON(BUY_NOW_KEY, [item]);
 
+    localStorage.setItem(
+        "sacchiFlyierReturnPage",
+        window.location.pathname
+    );
+
     window.location.href = "/checkout.html?mode=buy-now";
-  }
+}
 
   function getBuyNow() {
     const items = readJSON(BUY_NOW_KEY, []);
