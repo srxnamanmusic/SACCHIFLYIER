@@ -651,6 +651,7 @@ function normalizeName(s){return String(s||"").normalize("NFD").replace(/[\\u030
 const aliases={"KR":"Korea","CD":"Congo (the Democratic Republic of the)","CG":"Congo","MD":"Moldova, Republic of","MK":"Macedonia (the former Yugoslav Republic of)","ST":"Sao Tome and Principe","SZ":"Swaziland","TR":"Turkey","CZ":"Czechia","BO":"Bolivia (Plurinational State of)","CI":"Côte d’Ivoire","PS":"Palestine State of"};
 function resolveShippingName(country){const candidates=[country.name.common,aliases[country.cca2]].filter(Boolean);for(const n of candidates){const key=Object.keys(shippingRates).find(k=>normalizeName(k)===normalizeName(n));if(key)return key}return null}
 function setUnavailable(message){unitPriceUSD=null;unitPriceLocal=null;setPriceVisible(false);productPrice.textContent="Price unavailable";shippingMessage.textContent=message;shippingMessage.classList.add("unavailable")}
+function updateShipping(){updatePrice();}
 function updatePrice(){
  selectedCountry=countrySelect.value;
  unitPriceUSD=null;unitPriceLocal=null;setPriceVisible(false);shippingMessage.classList.remove("unavailable");
