@@ -697,7 +697,6 @@ const shippingMessage=document.getElementById("shippingMessage");
 const priceWrap=document.getElementById("priceDisplay");
 const quantityElement=document.getElementById("quantityNumber");
 let quantity=1,selectedCountry="",selectedCurrency="USD",unitPriceUSD=null,unitPriceLocal=null,shippingCountryName="";
-let selectedColor=;
 function setPriceVisible(visible){if(priceWrap===productPrice)return;if(priceWrap)priceWrap.classList.toggle("visible",visible)}
 function normalizeName(s){return String(s||"").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"")}
 const aliases={"KR":"Korea","CD":"Congo (the Democratic Republic of the)","CG":"Congo","MD":"Moldova, Republic of","MK":"Macedonia (the former Yugoslav Republic of)","ST":"Sao Tome and Principe","SZ":"Swaziland","TR":"Turkey","CZ":"Czechia","BO":"Bolivia (Plurinational State of)","CI":"Côte d’Ivoire","PS":"Palestine State of"};
