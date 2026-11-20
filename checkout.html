@@ -20,9 +20,10 @@
   <a href="/" class="checkout-logo">SACCHI FLYIER</a>
 
   <div class="checkout-header-right">
-    <a href="product1.html">Return to Product</a>
-      ← RETURN TO CART
-    </a>
+    <a href="#" id="returnToProduct">
+    ← Return to Product
+</a>
+    
 
   </div>
 </header>
@@ -300,6 +301,12 @@
       element.textContent = new Date().getFullYear();
     });
   </script>
+  <script>
+const returnPage = localStorage.getItem("sacchiFlyierReturnPage");
+
+document.getElementById("returnToProduct").href =
+    returnPage || "index.html";
+</script>
 
 </body>
 </html>
