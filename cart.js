@@ -1,255 +1,112 @@
-/* =====================================================
-   SACCHI FLYIER — CART SYSTEM
-   Version: 1.1
-   Internal currency: USD
-   Delivery: Worldwide except India
-===================================================== */
-
+/* SACCHI FLYIER — SHARED CART + CURRENCY
+   USD is the internal calculation currency.
+   Exchange rates are reference rates, refreshed automatically when stale.
+*/
 (() => {
   "use strict";
+  const CART_KEY="sacchiFlyierCart", BUY_NOW_KEY="sacchiFlyierBuyNow";
+  const COUNTRY_KEY="sacchiFlyierCountry";
+  const FX_KEY="sacchiFlyierFxCache", COUNTRY_CACHE_KEY="sacchiFlyierCountryCache";
+  const DEFAULT_COUNTRY="US";
+  let countries={}, rates={}, fxDate="", countriesPromise=null, ratesPromise=null;
 
-  const CART_KEY = "sacchiFlyierCart";
-  const BUY_NOW_KEY = "sacchiFlyierBuyNow";
-  const COUNTRY_KEY = "sacchiFlyierCountry";
-  const CURRENCY_KEY = "sacchiFlyierCurrency";
-
-  const DEFAULT_COUNTRY = "US";
-
-  const COUNTRIES = {
-    US: { name: "United States", currency: "USD", symbol: "$" },
-    GB: { name: "United Kingdom", currency: "GBP", symbol: "£" },
-    CA: { name: "Canada", currency: "CAD", symbol: "$" },
-    AU: { name: "Australia", currency: "AUD", symbol: "$" },
-    DE: { name: "Germany", currency: "EUR", symbol: "€" },
-    FR: { name: "France", currency: "EUR", symbol: "€" },
-    IT: { name: "Italy", currency: "EUR", symbol: "€" },
-    ES: { name: "Spain", currency: "EUR", symbol: "€" },
-    NL: { name: "Netherlands", currency: "EUR", symbol: "€" },
-    JP: { name: "Japan", currency: "JPY", symbol: "¥" },
-    CN: { name: "China", currency: "CNY", symbol: "¥" },
-    SG: { name: "Singapore", currency: "SGD", symbol: "$" },
-    NZ: { name: "New Zealand", currency: "NZD", symbol: "$" },
-    CH: { name: "Switzerland", currency: "CHF", symbol: "CHF " },
-    AE: { name: "United Arab Emirates", currency: "AED", symbol: "د.إ " },
-    SA: { name: "Saudi Arabia", currency: "SAR", symbol: "﷼" },
-    ZA: { name: "South Africa", currency: "ZAR", symbol: "R" },
-    BR: { name: "Brazil", currency: "BRL", symbol: "R$" },
-    MX: { name: "Mexico", currency: "MXN", symbol: "$" },
-    KR: { name: "South Korea", currency: "KRW", symbol: "₩" }
-  };
-
-  function readJSON(key, fallback) {
-    try {
-      const value = localStorage.getItem(key);
-      return value ? JSON.parse(value) : fallback;
-    } catch {
-      return fallback;
-    }
+  function read(key,fallback){try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}}
+  function write(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{}}
+  function getCart(){const x=read(CART_KEY,[]);return Array.isArray(x)?x:[]}
+  function saveCart(items){
+    if(!Array.isArray(items)) throw new Error("Invalid cart data.");
+    write(CART_KEY,items);
+    window.dispatchEvent(new CustomEvent("sacchi:cart-updated",{detail:{cart:items}}));
+    return items;
   }
-
-  function writeJSON(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
+  function getCountry(){const code=localStorage.getItem(COUNTRY_KEY)||DEFAULT_COUNTRY;return code==="IN"||!countries[code]&&Object.keys(countries).length?DEFAULT_COUNTRY:code}
+  function setCountry(code){
+    code=String(code||"").toUpperCase();
+    if(code==="IN"||(Object.keys(countries).length&&!countries[code])) throw new Error("Delivery to this country is not available.");
+    localStorage.setItem(COUNTRY_KEY,code);
+    window.dispatchEvent(new CustomEvent("sacchi:country-updated",{detail:{country:code,currency:getCurrency()}}));
+    return countries[code]||null;
   }
-
-  function getCart() {
-    const cart = readJSON(CART_KEY, []);
-    return Array.isArray(cart) ? cart : [];
-  }
-
-  function saveCart(cart) {
-    if (!Array.isArray(cart)) {
-      throw new Error("Invalid cart data.");
-    }
-
-    writeJSON(CART_KEY, cart);
-
-    window.dispatchEvent(new CustomEvent("sacchi:cart-updated", {
-      detail: { cart }
-    }));
-
-    return cart;
-  }
-
-  function getCountry() {
-    const code = localStorage.getItem(COUNTRY_KEY) || DEFAULT_COUNTRY;
-
-    if (code === "IN" || !COUNTRIES[code]) {
-      return DEFAULT_COUNTRY;
-    }
-
-    return code;
-  }
-
-  function setCountry(code) {
-    code = String(code || "").toUpperCase();
-
-    if (code === "IN" || !COUNTRIES[code]) {
-      throw new Error("Delivery is not available for this country.");
-    }
-
-    localStorage.setItem(COUNTRY_KEY, code);
-    localStorage.setItem(CURRENCY_KEY, COUNTRIES[code].currency);
-
-    window.dispatchEvent(new CustomEvent("sacchi:country-updated", {
-      detail: {
-        country: code,
-        currency: COUNTRIES[code].currency
+  function getCurrency(){return countries[getCountry()]?.currency||"USD"}
+  async function loadCountries(force=false){
+    if(countriesPromise&&!force)return countriesPromise;
+    countriesPromise=(async()=>{
+      const cached=read(COUNTRY_CACHE_KEY,null);
+      if(!force&&cached&&Date.now()-cached.savedAt<7*864e5){countries=cached.data;return countries}
+      try{
+        const res=await fetch("https://restcountries.com/v3.1/all?fields=name,cca2,currencies");
+        if(!res.ok)throw Error("Country list unavailable");
+        const data=await res.json(), next={};
+        data.forEach(c=>{
+          const code=c.cca2, currency=Object.keys(c.currencies||{})[0];
+          if(code&&code!=="IN"&&currency)next[code]={name:c.name?.common||code,currency};
+        });
+        countries=next;write(COUNTRY_CACHE_KEY,{savedAt:Date.now(),data:next});return countries;
+      }catch(error){
+        if(cached?.data){countries=cached.data;return countries}
+        countries={US:{name:"United States",currency:"USD"}};
+        return countries;
       }
-    }));
-
-    return COUNTRIES[code];
+    })();
+    return countriesPromise;
   }
-
-  function getCurrency() {
-    return COUNTRIES[getCountry()].currency;
+  async function loadRates(force=false){
+    if(ratesPromise&&!force)return ratesPromise;
+    ratesPromise=(async()=>{
+      const cached=read(FX_KEY,null);
+      if(!force&&cached&&Date.now()-cached.savedAt<6*36e5){rates=cached.rates;fxDate=cached.date;return rates}
+      try{
+        const res=await fetch("https://api.frankfurter.dev/v2/rates?base=USD");
+        if(!res.ok)throw Error("Exchange rates unavailable");
+        const rows=await res.json(), next={USD:1};
+        rows.forEach(row=>{if(row.quote&&Number(row.rate)>0)next[row.quote]=Number(row.rate)});
+        rates=next;fxDate=rows[0]?.date||new Date().toISOString().slice(0,10);
+        write(FX_KEY,{savedAt:Date.now(),date:fxDate,rates});return rates;
+      }catch(error){
+        if(cached?.rates){rates=cached.rates;fxDate=cached.date;return rates}
+        rates={USD:1};fxDate="";return rates;
+      }
+    })();
+    return ratesPromise;
   }
-
-  function getProductPrice(product) {
-    const price = Number(product.unitPriceUSD);
-
-    if (!Number.isFinite(price) || price < 0) {
-      throw new Error("Invalid product price.");
-    }
-
-    return price;
+  async function refreshCurrencyData(){await Promise.all([loadCountries(),loadRates()]);return {countries,rates,date:fxDate}}
+  function currencyForCountryName(name){
+    const normalized=String(name||"").trim().toLowerCase();
+    const match=Object.values(countries).find(c=>c.name.toLowerCase()===normalized);
+    return match?.currency||null;
   }
-
-  function normalizeProduct(product) {
-    if (!product || !product.id || !product.name) {
-      throw new Error("Product information is incomplete.");
-    }
-
-    return {
-      id: String(product.id),
-      name: String(product.name),
-      sku: String(product.sku || ""),
-      image: String(product.image || ""),
-      unitPriceUSD: getProductPrice(product),
-      quantity: Math.min(
-        99,
-        Math.max(1, Math.floor(Number(product.quantity) || 1))
-      )
-    };
+  function convertUSD(amount,currency){
+    const value=Number(amount), code=String(currency||"").toUpperCase();
+    if(!Number.isFinite(value)||!rates[code])return null;
+    return value*rates[code];
   }
-
-  // ADD TO CART → SAVE PRODUCT → CHECKOUT
-function add(product) {
-    const item = normalizeProduct(product);
-    const cart = getCart();
-    const existing = cart.find(p => p.id === item.id);
-
-    if (existing) {
-      existing.quantity = Math.min(99, existing.quantity + item.quantity);
-    } else {
-      cart.push(item);
-    }
-
-    saveCart(cart);
-
-    // Remove Buy Now mode so checkout uses the complete cart.
-    clearBuyNow();
-
-    window.location.href = "/checkout.html";
-
-    return cart;
-}
- // BUY NOW → CHECKOUT WITH ONLY THIS PRODUCT
-function buyNow(product) {
-    const item = normalizeProduct(product);
-
-    writeJSON(BUY_NOW_KEY, [item]);
-
-    localStorage.setItem(
-        "sacchiFlyierReturnPage",
-        window.location.pathname
-    );
-
-    window.location.href = "/checkout.html?mode=buy-now";
-}
-
-  function getBuyNow() {
-    const items = readJSON(BUY_NOW_KEY, []);
-    return Array.isArray(items) ? items : [];
+  function formatMoney(amount,currency){
+    if(amount===null||amount===undefined||!Number.isFinite(Number(amount)))return "Price unavailable";
+    try{return new Intl.NumberFormat(undefined,{style:"currency",currency:currency||"USD"}).format(Number(amount))}
+    catch{return Number(amount).toFixed(2)+" "+currency}
   }
-
-  function getCheckoutItems() {
-    const params = new URLSearchParams(window.location.search);
-
-    if (params.get("mode") === "buy-now") {
-      return getBuyNow();
-    }
-
-    return getCart();
+  function normalizeProduct(p){
+    if(!p||!p.id||!p.name)throw Error("Product information is incomplete.");
+    const price=Number(p.unitPriceUSD);
+    if(!Number.isFinite(price)||price<0)throw Error("Invalid product price.");
+    return {...p,id:String(p.id),name:String(p.name),sku:String(p.sku||""),image:String(p.image||""),unitPriceUSD:price,quantity:Math.min(99,Math.max(1,Math.floor(Number(p.quantity)||1)))};
   }
-
-  function updateQuantity(id, quantity) {
-    const cart = getCart();
-    const item = cart.find(p => p.id === String(id));
-
-    if (!item) return cart;
-
-    const newQuantity = Math.floor(Number(quantity));
-
-    if (!Number.isFinite(newQuantity) || newQuantity < 1) {
-      return remove(id);
-    }
-
-    item.quantity = Math.min(newQuantity, 99);
-    return saveCart(cart);
+  function add(p){
+    const item=normalizeProduct(p), items=getCart();
+    const same=items.find(x=>x.id===item.id&&x.country===item.country&&x.color===item.color&&x.model===item.model);
+    if(same)same.quantity=Math.min(99,Number(same.quantity||0)+item.quantity);else items.push(item);
+    saveCart(items);localStorage.removeItem(BUY_NOW_KEY);return items;
   }
-
-  function remove(id) {
-    const cart = getCart().filter(p => p.id !== String(id));
-    return saveCart(cart);
-  }
-
-  function clearCart() {
-    localStorage.removeItem(CART_KEY);
-    saveCart([]);
-  }
-
-  function clearBuyNow() {
-    localStorage.removeItem(BUY_NOW_KEY);
-  }
-
-  function getSubtotalUSD(items = getCart()) {
-    return items.reduce((total, item) => {
-      return total + getProductPrice(item) * item.quantity;
-    }, 0);
-  }
-
-  function getTotalQuantity(items = getCart()) {
-    return items.reduce((total, item) => total + item.quantity, 0);
-  }
-
-  function formatUSD(amount) {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD"
-    }).format(Number(amount) || 0);
-  }
-
-  window.SacchiCart = Object.freeze({
-    CART_KEY,
-    BUY_NOW_KEY,
-    COUNTRY_KEY,
-    COUNTRIES,
-    getCart,
-    saveCart,
-    add,
-    buyNow,
-    getBuyNow,
-    getCheckoutItems,
-    updateQuantity,
-    remove,
-    clearCart,
-    clearBuyNow,
-    getCountry,
-    setCountry,
-    getCurrency,
-    getSubtotalUSD,
-    getTotalQuantity,
-    formatUSD
-  });
-
+  function buyNow(p){write(BUY_NOW_KEY,[normalizeProduct(p)]);localStorage.setItem("sacchiFlyierReturnPage",location.pathname);location.href="checkout.html?mode=buy-now"}
+  function getBuyNow(){const x=read(BUY_NOW_KEY,[]);return Array.isArray(x)?x:[]}
+  function getCheckoutItems(){return new URLSearchParams(location.search).get("mode")==="buy-now"?getBuyNow():getCart()}
+  function updateQuantity(id,q){const items=getCart(),item=items.find(x=>x.id===String(id));if(!item)return items;const n=Math.floor(Number(q));if(!Number.isFinite(n)||n<1)return remove(id);item.quantity=Math.min(99,n);return saveCart(items)}
+  function remove(id){return saveCart(getCart().filter(x=>x.id!==String(id)))}
+  function clearCart(){localStorage.removeItem(CART_KEY);saveCart([])}
+  function clearBuyNow(){localStorage.removeItem(BUY_NOW_KEY)}
+  function getSubtotalUSD(items=getCart()){return items.reduce((sum,x)=>sum+Number(x.unitPriceUSD||0)*Number(x.quantity||0),0)}
+  function getTotalQuantity(items=getCart()){return items.reduce((sum,x)=>sum+Number(x.quantity||0),0)}
+  const api={CART_KEY,BUY_NOW_KEY,COUNTRY_KEY,get COUNTRIES(){return countries},get rates(){return rates},get rateDate(){return fxDate},getCart,saveCart,add,buyNow,getBuyNow,getCheckoutItems,updateQuantity,remove,clearCart,clearBuyNow,getCountry,setCountry,getCurrency,getSubtotalUSD,getTotalQuantity,loadCountries,loadRates,refreshCurrencyData,currencyForCountryName,convertUSD,formatMoney,formatUSD:n=>formatMoney(n,"USD")};
+  window.SacchiCart=Object.freeze(api);
+  refreshCurrencyData();
 })();
