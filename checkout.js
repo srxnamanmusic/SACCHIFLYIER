@@ -45,11 +45,18 @@
   await api.refreshCurrencyData();
   const code=countrySelect.value||api.getCountry(),c=api.COUNTRIES[code];
   if(!c)return;
+  const destinations=items.map(x=>x.country);
+  if(destinations.some(x=>!x)||destinations.some(x=>x!==code)){
+   submit.disabled=true;
+   say("Your selected delivery country must match the country used for shipping calculations on every product. Return to the product page and choose the same destination, or start a new cart.","error");
+   return;
+  }
   currency=c.currency;
   if(currencyNote)currencyNote.textContent="Prices are displayed in "+currency+" when a current or cached reference rate is available.";
   if(rateDateEl)rateDateEl.textContent=api.rateDate?"Reference exchange-rate date: "+api.rateDate+".":"Exchange-rate date unavailable; converted prices may be unavailable.";
   const totalUSD=api.getSubtotalUSD(items),local=api.convertUSD(totalUSD,currency);
-  if(local===null){subtotalEl.textContent="Currency not supported";totalEl.textContent="Currency not supported";say("Live conversion for "+currency+" is unavailable. Please select a supported currency or try again later.","error");return}
+  if(local===null){submit.disabled=true;subtotalEl.textContent="Currency not supported";totalEl.textContent="Currency not supported";say("Reference conversion for "+currency+" is unavailable. Please select a supported currency or try again later.","error");return}
+  submit.disabled=false;
   subtotalEl.textContent=api.formatMoney(local,currency);
   totalEl.textContent=api.formatMoney(local,currency);
   itemsBox.querySelectorAll(".checkout-item").forEach((article,i)=>{
@@ -62,7 +69,9 @@
  function validate(){
   if(!countrySelect.value||countrySelect.value==="IN"||!api.COUNTRIES[countrySelect.value]){say("Please select a valid delivery country outside India.","error");return false}
   if(!items.length){say("Your checkout is empty.","error");return false}
-  if(new Set(items.map(x=>x.country).filter(Boolean)).size>1){say("Your cart contains different delivery countries. Please use one destination per checkout.","error");return false}
+  if(items.some(x=>!x.country)){say("A product is missing its delivery-country selection. Please return to the product page and add it again.","error");return false}
+  if(new Set(items.map(x=>x.country)).size>1){say("Your cart contains different delivery countries. Please use one destination per checkout.","error");return false}
+  if(items.some(x=>x.country!==countrySelect.value)){say("The checkout country must match the delivery country selected on the product page. Please return and select the same destination.","error");return false}
   return true;
  }
  countrySelect.addEventListener("change",async()=>{clear();try{api.setCountry(countrySelect.value);await renderLocal()}catch(e){say(e.message,"error")}});
