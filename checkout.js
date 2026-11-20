@@ -5,7 +5,8 @@
  "use strict";
  const api=window.SacchiCart,form=document.getElementById("checkout-form");
  const countrySelect=document.getElementById("country"),itemsBox=document.getElementById("checkout-items");
- const quantityEl=document.getElementById("checkout-quantity"),subtotalEl=document.getElementById("checkout-subtotal");
+ const quantityEl=document.getElementById("checkout-quantity"),quantitySummary=document.getElementById("checkout-quantity-summary"),subtotalEl=document.getElementById("checkout-subtotal");
+ const currencyNote=document.getElementById("checkout-currency-note"),rateDateEl=document.getElementById("checkout-rate-date");
  const shippingEl=document.getElementById("checkout-shipping"),totalEl=document.getElementById("checkout-total");
  const message=document.getElementById("checkout-message"),submit=document.getElementById("place-order-button");
  if(!api||!form)return;
@@ -22,7 +23,7 @@
  }
  function render(){
   items=api.getCheckoutItems();
-  if(!items.length){itemsBox.textContent="Your checkout is empty.";quantityEl.textContent="0";subtotalEl.textContent="—";shippingEl.textContent="Not calculated";totalEl.textContent="Not calculated";submit.disabled=true;say("Your cart is empty. Add a product before checkout.","error");return}
+  if(!items.length){itemsBox.textContent="Your checkout is empty.";quantityEl.textContent="0";if(quantitySummary)quantitySummary.textContent="0";subtotalEl.textContent="—";shippingEl.textContent="Not calculated";totalEl.textContent="Not calculated";submit.disabled=true;say("Your cart is empty. Add a product before checkout.","error");return}
   itemsBox.replaceChildren();
   items.forEach(item=>{
    const article=document.createElement("article");article.className="checkout-item";
@@ -34,7 +35,7 @@
    const price=document.createElement("div");price.className="checkout-item-price";price.textContent=api.formatMoney(Number(item.unitPriceUSD)*Number(item.quantity),"USD");
    article.append(details,price);itemsBox.appendChild(article);
   });
-  quantityEl.textContent=String(api.getTotalQuantity(items));
+  quantityEl.textContent=String(api.getTotalQuantity(items));if(quantitySummary)quantitySummary.textContent=String(api.getTotalQuantity(items));
   subtotalEl.textContent=api.formatMoney(api.getSubtotalUSD(items),"USD");
   shippingEl.textContent="Included in the product prices shown on product pages";
   totalEl.textContent=api.formatMoney(api.getSubtotalUSD(items),"USD");
@@ -45,6 +46,8 @@
   const code=countrySelect.value||api.getCountry(),c=api.COUNTRIES[code];
   if(!c)return;
   currency=c.currency;
+  if(currencyNote)currencyNote.textContent="Prices are displayed in "+currency+" when a current or cached reference rate is available.";
+  if(rateDateEl)rateDateEl.textContent=api.rateDate?"Reference exchange-rate date: "+api.rateDate+".":"Exchange-rate date unavailable; converted prices may be unavailable.";
   const totalUSD=api.getSubtotalUSD(items),local=api.convertUSD(totalUSD,currency);
   if(local===null){subtotalEl.textContent="Currency not supported";totalEl.textContent="Currency not supported";say("Live conversion for "+currency+" is unavailable. Please select a supported currency or try again later.","error");return}
   subtotalEl.textContent=api.formatMoney(local,currency);
