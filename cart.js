@@ -32,7 +32,7 @@
     if(countriesPromise&&!force)return countriesPromise;
     countriesPromise=(async()=>{
       const cached=read(COUNTRY_CACHE_KEY,null);
-      if(!force&&cached&&Date.now()-cached.savedAt<7*864e5){countries=cached.data;return countries}
+      if(!force&&cached&&cached.data&&Object.keys(cached.data).length>100&&!cached.data.IN&&Date.now()-cached.savedAt<7*864e5){countries=cached.data;return countries}
       try{
         const res=await fetch("https://restcountries.com/v3.1/all?fields=name,cca2,currencies");
         if(!res.ok)throw Error("Country list unavailable");
@@ -43,7 +43,7 @@
         });
         countries=next;write(COUNTRY_CACHE_KEY,{savedAt:Date.now(),data:next});return countries;
       }catch(error){
-        if(cached?.data){countries=cached.data;return countries}
+        if(cached?.data&&Object.keys(cached.data).length>100&&!cached.data.IN){countries=cached.data;return countries}
         countries={US:{name:"United States",currency:"USD"}};
         return countries;
       }
