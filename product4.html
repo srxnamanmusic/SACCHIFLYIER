@@ -492,22 +492,11 @@
         </div>
     </footer>
 
-    <script>
-        /* PRODUCT INFORMATION */
-        const PRODUCT = {
-            id: "product4",
-            name: "NARY Mechanical Watch",
-            sku: "CJZBNSJX00017-1",
-            image: "product4-main.jpeg",
-            productCostUSD: 13.27,
-            profitUSD: 10.00
-        };
-
-        /*
-         * WATCH SHIPPING RATES (USD)
-         * null means shipping is unavailable.
-         */
-        const shippingRates = {
+    <script src="cart.js"></script>
+<script>
+"use strict";
+const PRODUCT={id:"product4",name:"NARY Mechanical Watch",sku:"CJZBNSJX00017-1",image:"product4-main.jpeg",productCostUSD:13.27,profitUSD:10};
+const shippingRates = {
             "Afghanistan": 10.16,
             "Albania": 8.64,
             "Algeria": 9.84,
@@ -753,507 +742,66 @@
             "Zambia": 9.01,
             "Zimbabwe": 6.88
         };
+const api=window.SacchiCart;
+const countrySelect=document.getElementById("countrySelect");
+const productPrice=document.getElementById("productPrice");
+const shippingMessage=document.getElementById("shippingMessage");
+const priceWrap=document.getElementById("priceDisplay");
+const quantityElement=document.getElementById("quantity");
+let quantity=1,selectedCountry="",selectedCurrency="USD",unitPriceUSD=null,unitPriceLocal=null,shippingCountryName="";
+let selectedColor=;
+function setPriceVisible(visible){if(priceWrap===productPrice)return;if(priceWrap)priceWrap.classList.toggle("visible",visible)}
+function normalizeName(s){return String(s||"").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"")}
+const aliases={"KR":"Korea","CD":"Congo (the Democratic Republic of the)","CG":"Congo","MD":"Moldova, Republic of","MK":"Macedonia (the former Yugoslav Republic of)","ST":"Sao Tome and Principe","SZ":"Swaziland","TR":"Turkey","CZ":"Czechia","BO":"Bolivia (Plurinational State of)","CI":"Côte d’Ivoire","PS":"Palestine State of"};
+function resolveShippingName(country){const candidates=[country.name.common,aliases[country.cca2]].filter(Boolean);for(const n of candidates){const key=Object.keys(shippingRates).find(k=>normalizeName(k)===normalizeName(n));if(key)return key}return null}
+function setUnavailable(message){unitPriceUSD=null;unitPriceLocal=null;setPriceVisible(false);productPrice.textContent="Price unavailable";shippingMessage.textContent=message;shippingMessage.classList.add("unavailable")}
+function updatePrice(){
+ selectedCountry=countrySelect.value;
+ unitPriceUSD=null;unitPriceLocal=null;setPriceVisible(false);shippingMessage.classList.remove("unavailable");
+ if(!selectedCountry){productPrice.textContent="Select country";shippingMessage.textContent="Select your country to calculate the final price.";return}
+ const c=api.COUNTRIES[selectedCountry];if(!c){setUnavailable("Country information is unavailable. Please refresh and try again.");return}
+ shippingCountryName=resolveShippingName({name:{common:c.name},cca2:selectedCountry});
+ if(!shippingCountryName||shippingRates[shippingCountryName]===null||shippingRates[shippingCountryName]===undefined){setUnavailable("CJ shipping is unavailable for this destination.");return}
+ selectedCurrency=c.currency;
+ const ratePrice=api.convertUSD(PRODUCT.productCostUSD+Number(shippingRates[shippingCountryName])+PRODUCT.profitUSD,selectedCurrency);
+ if(ratePrice===null){setUnavailable("Reference conversion for "+selectedCurrency+" is unavailable. Please try again later.");return}
+ unitPriceUSD=Number((PRODUCT.productCostUSD+Number(shippingRates[shippingCountryName])+PRODUCT.profitUSD).toFixed(2));
+ unitPriceLocal=ratePrice;
+ productPrice.textContent=api.formatMoney(ratePrice,selectedCurrency);
+ setPriceVisible(true);
+ shippingMessage.textContent="Shipping included. Local price converted from USD using reference exchange rates.";
+}
+function populateCountries(){
+ const previous=api.getCountry();countrySelect.innerHTML='<option value="">Select your country</option>';
+ Object.entries(api.COUNTRIES).sort((a,b)=>a[1].name.localeCompare(b[1].name)).forEach(([code,c])=>{
+  if(code==="IN")return;const option=document.createElement("option");option.value=code;option.textContent=c.name+" ("+c.currency+")";countrySelect.appendChild(option);
+ });
+ if(api.COUNTRIES[previous])countrySelect.value=previous;
+ updatePrice();
+}
+function createProductItem(){
+ if(unitPriceUSD===null||unitPriceLocal===null)return null;
+ const item={id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:PRODUCT.sku,image:PRODUCT.image,quantity,country:selectedCountry,countryName:api.COUNTRIES[selectedCountry]?.name||"",currency:selectedCurrency,unitPriceUSD,unitPriceLocal:Number(unitPriceLocal.toFixed(2)),shippingCostUSD:Number(shippingRates[shippingCountryName]),productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD};
+ if(selectedColor)item.color=selectedColor;
+ 
+ return item;
+}
+function validateSelection(){
+ if(!selectedCountry){alert("Please select your shipping country first.");return false}
+ if(unitPriceUSD===null||unitPriceLocal===null){alert("Shipping or currency conversion is unavailable for this destination.");return false}
+ 
+ return true;
+}
+function addToCart(){if(!validateSelection())return;try{api.add(createProductItem());alert("Product added to your cart.");}catch(e){alert(e.message||"Unable to add this product.");}}
+function buyNow(){if(!validateSelection())return;try{api.buyNow(createProductItem());}catch(e){alert(e.message||"Unable to continue to checkout.");}}
+document.getElementById("increaseQuantity").addEventListener("click",()=>{quantity=Math.min(99,quantity+1);quantityElement.textContent=quantity});
+document.getElementById("decreaseQuantity").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);quantityElement.textContent=quantity});
+document.getElementById("addToCart").addEventListener("click",addToCart);
+document.getElementById("buyNow").addEventListener("click",buyNow);
 
-        /*
-         * Country-to-currency map.
-         * Countries not listed here use USD as a safe fallback.
-         */
-        const countryCurrencies = {
-            "Afghanistan": "AFN",
-            "Albania": "ALL",
-            "Algeria": "DZD",
-            "American Samoa": "USD",
-            "Andorra": "EUR",
-            "Angola": "AOA",
-            "Anguilla": "XCD",
-            "Antigua and Barbuda": "XCD",
-            "Argentina": "ARS",
-            "Armenia": "AMD",
-            "Aruba": "AWG",
-            "Australia": "AUD",
-            "Austria": "EUR",
-            "Azerbaijan": "AZN",
-            "Bahamas": "BSD",
-            "Bahrain": "BHD",
-            "Bangladesh": "BDT",
-            "Barbados": "BBD",
-            "Belarus": "BYN",
-            "Belgium": "EUR",
-            "Belize": "BZD",
-            "Benin": "XOF",
-            "Bermuda": "BMD",
-            "Bhutan": "BTN",
-            "Bolivia (Plurinational State of)": "BOB",
-            "Bonaire, Sint Eustatius and Saba": "USD",
-            "Bosnia and Herzegovina": "BAM",
-            "Botswana": "BWP",
-            "Bouvet Island": "NOK",
-            "Brazil": "BRL",
-            "British Indian Ocean Territory": "USD",
-            "Brunei Darussalam": "BND",
-            "Bulgaria": "BGN",
-            "Burkina Faso": "XOF",
-            "Burundi": "BIF",
-            "Cabo Verde": "CVE",
-            "Cambodia": "KHR",
-            "Cameroon": "XAF",
-            "Canada": "CAD",
-            "Cayman Islands": "KYD",
-            "Central African Republic": "XAF",
-            "Chad": "XAF",
-            "Chile": "CLP",
-            "China": "CNY",
-            "Christmas Island": "AUD",
-            "Cocos (Keeling) Islands": "AUD",
-            "Colombia": "COP",
-            "Comoros": "KMF",
-            "Congo (The Democratic Republic of the)": "CDF",
-            "Congo": "XAF",
-            "Cook Islands": "NZD",
-            "Costa Rica": "CRC",
-            "Côte d’Ivoire": "XOF",
-            "Croatia": "EUR",
-            "Cuba": "CUP",
-            "Curaçao": "ANG",
-            "Cyprus": "EUR",
-            "Czechia": "CZK",
-            "Denmark": "DKK",
-            "Djibouti": "DJF",
-            "Dominica": "XCD",
-            "Dominican Republic": "DOP",
-            "Ecuador": "USD",
-            "Egypt": "EGP",
-            "El Salvador": "USD",
-            "Equatorial Guinea": "XAF",
-            "Eritrea": "ERN",
-            "Estonia": "EUR",
-            "Ethiopia": "ETB",
-            "Falkland Islands": "FKP",
-            "Faroe Islands": "DKK",
-            "Fiji": "FJD",
-            "Finland": "EUR",
-            "France": "EUR",
-            "French Guiana": "EUR",
-            "French Polynesia": "XPF",
-            "French Southern Territories": "EUR",
-            "Gabon": "XAF",
-            "Gambia": "GMD",
-            "Georgia": "GEL",
-            "Germany": "EUR",
-            "Ghana": "GHS",
-            "Gibraltar": "GIP",
-            "Greece": "EUR",
-            "Greenland": "DKK",
-            "Grenada": "XCD",
-            "Guadeloupe": "EUR",
-            "Guam": "USD",
-            "Guatemala": "GTQ",
-            "Guernsey": "GBP",
-            "Guinea": "GNF",
-            "Guinea-Bissau": "XOF",
-            "Guyana": "GYD",
-            "Haiti": "HTG",
-            "Hawaii": "USD",
-            "Heard Island and McDonald Islands": "AUD",
-            "Holy See": "EUR",
-            "Honduras": "HNL",
-            "Hong Kong (China)": "HKD",
-            "Hungary": "HUF",
-            "Iceland": "ISK",
-            "Indonesia": "IDR",
-            "Iran (Islamic Republic of)": "IRR",
-            "Iraq": "IQD",
-            "Ireland": "EUR",
-            "Isle of Man": "GBP",
-            "Israel": "ILS",
-            "Italy": "EUR",
-            "Jamaica": "JMD",
-            "Japan": "JPY",
-            "Jersey": "GBP",
-            "Jordan": "JOD",
-            "Kazakhstan": "KZT",
-            "Kenya": "KES",
-            "Kiribati": "AUD",
-            "Korea (The Democratic People's Republic of)": "KPW",
-            "Korea": "KRW",
-            "Kuwait": "KWD",
-            "Kyrgyzstan": "KGS",
-            "Lao People's Democratic Republic": "LAK",
-            "Latvia": "EUR",
-            "Lebanon": "LBP",
-            "Lesotho": "LSL",
-            "Liberia": "LRD",
-            "Libya": "LYD",
-            "Liechtenstein": "CHF",
-            "Lithuania": "EUR",
-            "Luxembourg": "EUR",
-            "Macao (China)": "MOP",
-            "Macedonia (The Former Yugoslav Republic of)": "MKD",
-            "Madagascar": "MGA",
-            "Malawi": "MWK",
-            "Malaysia": "MYR",
-            "Maldives": "MVR",
-            "Mali": "XOF",
-            "Malta": "EUR",
-            "Marshall Islands": "USD",
-            "Martinique": "EUR",
-            "Mauritania": "MRU",
-            "Mauritius": "MUR",
-            "Mayotte": "EUR",
-            "Mexico": "MXN",
-            "Micronesia (Federated States of)": "USD",
-            "Moldova, The Republic of": "MDL",
-            "Monaco": "EUR",
-            "Mongolia": "MNT",
-            "Montenegro": "EUR",
-            "Montserrat": "XCD",
-            "Morocco": "MAD",
-            "Mozambique": "MZN",
-            "Myanmar": "MMK",
-            "Namibia": "NAD",
-            "Nauru": "AUD",
-            "Nepal": "NPR",
-            "Netherlands": "EUR",
-            "New Caledonia": "XPF",
-            "New Zealand": "NZD",
-            "Nicaragua": "NIO",
-            "Niger": "XOF",
-            "Nigeria": "NGN",
-            "Niue": "NZD",
-            "Norfolk Island": "AUD",
-            "Northern Mariana Islands": "USD",
-            "Norway": "NOK",
-            "Oman": "OMR",
-            "Pakistan": "PKR",
-            "Palau": "USD",
-            "Palestine, State of": "ILS",
-            "Panama": "USD",
-            "Papua New Guinea": "PGK",
-            "Paraguay": "PYG",
-            "Peru": "PEN",
-            "Philippines": "PHP",
-            "Pitcairn": "NZD",
-            "Poland": "PLN",
-            "Portugal": "EUR",
-            "Puerto Rico": "USD",
-            "Qatar": "QAR",
-            "Réunion": "EUR",
-            "Romania": "RON",
-            "Russian Federation": "RUB",
-            "Rwanda": "RWF",
-            "Saint Helena, Ascension and Tristan da Cunha": "SHP",
-            "Saint Kitts and Nevis": "XCD",
-            "Saint Lucia": "XCD",
-            "Saint Martin (French part)": "EUR",
-            "Saint Pierre and Miquelon": "EUR",
-            "Saint Vincent and the Grenadines": "XCD",
-            "Samoa": "WST",
-            "San Marino": "EUR",
-            "Sao Tome and Principe": "STN",
-            "Saudi Arabia": "SAR",
-            "Senegal": "XOF",
-            "Serbia": "RSD",
-            "Seychelles": "SCR",
-            "Sierra Leone": "SLE",
-            "Singapore": "SGD",
-            "Sint Maarten (Dutch part)": "ANG",
-            "Slovakia": "EUR",
-            "Slovenia": "EUR",
-            "Solomon Islands": "SBD",
-            "Somalia": "SOS",
-            "South Africa": "ZAR",
-            "South Georgia and the South Sandwich Islands": "GBP",
-            "South Sudan": "SSP",
-            "Spain": "EUR",
-            "Sri Lanka": "LKR",
-            "Sudan": "SDG",
-            "Suriname": "SRD",
-            "Swaziland": "SZL",
-            "Sweden": "SEK",
-            "Switzerland": "CHF",
-            "Syrian Arab Republic": "SYP",
-            "Taiwan (Province of China)": "TWD",
-            "Tajikistan": "TJS",
-            "Tanzania, United Republic of": "TZS",
-            "Thailand": "THB",
-            "The Republic of Kosovo": "EUR",
-            "Timor-Leste": "USD",
-            "Togo": "XOF",
-            "Tokelau": "NZD",
-            "Tonga": "TOP",
-            "Trinidad and Tobago": "TTD",
-            "Tunisia": "TND",
-            "Turkey": "TRY",
-            "Turks and Caicos Islands": "USD",
-            "Tuvalu": "AUD",
-            "Uganda": "UGX",
-            "Ukraine": "UAH",
-            "United Arab Emirates": "AED",
-            "United Kingdom": "GBP",
-            "United States": "USD",
-            "Uruguay": "UYU",
-            "Uzbekistan": "UZS",
-            "Vanuatu": "VUV",
-            "Venezuela (Bolivarian Republic of)": "VES",
-            "Vietnam": "VND",
-            "Virgin Islands (British)": "USD",
-            "Virgin Islands (U.S.)": "USD",
-            "Wallis and Futuna": "XPF",
-            "Western Sahara": "MAD",
-            "Yemen": "YER",
-            "Zambia": "ZMW",
-            "Zimbabwe": "ZWL"
-        };
 
-        /* LIVE EXCHANGE RATES */
-        let liveExchangeRates = { USD: 1 };
-
-        /* PRODUCT STATE */
-        let selectedCountry = "";
-        let quantity = 1;
-
-        /* ELEMENTS */
-        const countrySelect = document.getElementById("countrySelect");
-        const shippingMessage = document.getElementById("shippingMessage");
-        const priceDisplay = document.getElementById("priceDisplay");
-        const productPrice = document.getElementById("productPrice");
-        const quantityElement = document.getElementById("quantity");
-
-        /* LOAD COUNTRY OPTIONS */
-        Object.keys(shippingRates)
-            .sort((a, b) => a.localeCompare(b))
-            .forEach(country => {
-                const option = document.createElement("option");
-                option.value = country;
-                option.textContent = country;
-                countrySelect.appendChild(option);
-            });
-
-        /* FORMAT PRICE */
-        function formatPrice(amount, currency) {
-            try {
-                return new Intl.NumberFormat(undefined, {
-                    style: "currency",
-                    currency,
-                    maximumFractionDigits: 2
-                }).format(amount);
-            } catch (error) {
-                return `${currency} ${amount.toFixed(2)}`;
-            }
-        }
-
-        /* LOAD LIVE EXCHANGE RATES
-           Frankfurter returns an array of { date, base, quote, rate }. */
-        async function loadLiveExchangeRates() {
-            try {
-                const response = await fetch(
-                    "https://api.frankfurter.dev/v2/rates?base=USD"
-                );
-
-                if (!response.ok) {
-                    throw new Error("Exchange rate request failed");
-                }
-
-                const data = await response.json();
-                const rates = { USD: 1 };
-
-                data.forEach(item => {
-                    rates[item.quote] = Number(item.rate);
-                });
-
-                liveExchangeRates = rates;
-                updatePrice();
-            } catch (error) {
-                console.error("Exchange rates unavailable; using USD.", error);
-                liveExchangeRates = { USD: 1 };
-                updatePrice();
-            }
-        }
-
-        /* CALCULATE TOTAL PRICE IN USD */
-        function calculateUSDPrice() {
-            if (!selectedCountry) return null;
-
-            const shipping = shippingRates[selectedCountry];
-
-            if (shipping === null || shipping === undefined) {
-                return null;
-            }
-
-            return PRODUCT.productCostUSD + shipping + PRODUCT.profitUSD;
-        }
-
-        /* GET PRICE IN LOCAL CURRENCY, OR USD FALLBACK */
-        function getLocalPrice() {
-            const finalUSDPrice = calculateUSDPrice();
-            if (finalUSDPrice === null) return null;
-
-            const currency = countryCurrencies[selectedCountry] || "USD";
-            const exchangeRate = liveExchangeRates[currency];
-
-            if (!exchangeRate || !Number.isFinite(exchangeRate)) {
-                return {
-                    amount: finalUSDPrice,
-                    currency: "USD",
-                    usedFallback: currency !== "USD"
-                };
-            }
-
-            return {
-                amount: finalUSDPrice * exchangeRate,
-                currency,
-                usedFallback: false
-            };
-        }
-
-        /* UPDATE PRICE AND SHIPPING STATUS */
-        function updatePrice() {
-            if (!selectedCountry) {
-                priceDisplay.classList.remove("visible");
-                shippingMessage.textContent =
-                    "Select your country to calculate the final price.";
-                shippingMessage.classList.remove("unavailable");
-                return;
-            }
-
-            const shipping = shippingRates[selectedCountry];
-
-            if (shipping === null || shipping === undefined) {
-                priceDisplay.classList.remove("visible");
-                shippingMessage.textContent = "Shipping is not available.";
-                shippingMessage.classList.add("unavailable");
-                return;
-            }
-
-            const localPrice = getLocalPrice();
-
-            if (!localPrice) return;
-
-            productPrice.textContent = formatPrice(
-                localPrice.amount,
-                localPrice.currency
-            );
-
-            priceDisplay.classList.add("visible");
-            shippingMessage.textContent = "Shipping is included in the price.";
-            shippingMessage.classList.remove("unavailable");
-        }
-
-        /* COUNTRY CHANGE */
-        countrySelect.addEventListener("change", function () {
-            selectedCountry = this.value;
-            updatePrice();
-        });
-
-        /* QUANTITY */
-        document.getElementById("increaseQuantity").addEventListener("click", () => {
-            quantity++;
-            quantityElement.textContent = quantity;
-        });
-
-        document.getElementById("decreaseQuantity").addEventListener("click", () => {
-            if (quantity > 1) quantity--;
-            quantityElement.textContent = quantity;
-        });
-
-        /* CART FUNCTIONS */
-        function getCart() {
-            try {
-                const stored = JSON.parse(
-                    localStorage.getItem("sacchiFlyierCart")
-                );
-                return Array.isArray(stored) ? stored : [];
-            } catch (error) {
-                return [];
-            }
-        }
-
-        function saveCart(cart) {
-            localStorage.setItem("sacchiFlyierCart", JSON.stringify(cart));
-        }
-
-        /* CREATE CART ITEM */
-        function createProductItem() {
-            const finalUSDPrice = calculateUSDPrice();
-            const localPrice = getLocalPrice();
-
-            if (finalUSDPrice === null || !localPrice) return null;
-
-            return {
-                id: PRODUCT.id,
-                name: PRODUCT.name,
-                sku: PRODUCT.sku,
-                image: PRODUCT.image,
-                quantity,
-                country: selectedCountry,
-                currency: localPrice.currency,
-                unitPriceUSD: finalUSDPrice,
-                unitPriceLocal: localPrice.amount
-            };
-        }
-
-        /* VALIDATE COUNTRY AND SHIPPING */
-        function validateSelection() {
-            if (!selectedCountry) {
-                alert("Please select your country first.");
-                return false;
-            }
-
-            const shipping = shippingRates[selectedCountry];
-
-            if (shipping === null || shipping === undefined) {
-                alert("Shipping is not available for this location.");
-                return false;
-            }
-
-            return true;
-        }
-
-        /* ADD TO CART */
-        document.getElementById("addToCart").addEventListener("click", () => {
-            if (!validateSelection()) return;
-
-            const item = createProductItem();
-            if (!item) {
-                alert("Unable to calculate the price. Please try again.");
-                return;
-            }
-
-            const cart = getCart();
-
-            const existingItem = cart.find(product =>
-                product.id === item.id &&
-                product.country === item.country
-            );
-
-            if (existingItem) {
-                existingItem.quantity += item.quantity;
-                existingItem.color = item.color;
-            } else {
-                cart.push(item);
-            }
-
-            saveCart(cart);
-            alert("Product added to your cart.");
-        });
-
-        /* BUY NOW */
-        document.getElementById("buyNow").addEventListener("click", () => {
-            if (!validateSelection()) return;
-
-            const item = createProductItem();
-            if (!item) {
-                alert("Unable to calculate the price. Please try again.");
-                return;
-            }
-
-            localStorage.setItem("sacchiFlyierBuyNow", JSON.stringify(item));
-            window.location.href = "checkout.html";
-        });
-
-        /* INITIALIZE */
-        updatePrice();
-        loadLiveExchangeRates();
-    </script>
+countrySelect.addEventListener("change",()=>{try{api.setCountry(countrySelect.value)}catch(e){}updatePrice()});
+(async()=>{await api.refreshCurrencyData();populateCountries();})();
+</script>
 </body>
 </html>
