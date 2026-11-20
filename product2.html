@@ -1395,7 +1395,7 @@ document.getElementById("increaseQuantity").addEventListener("click",()=>{quanti
 document.getElementById("decreaseQuantity").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);quantityElement.textContent=quantity});
 document.getElementById("addToCart").addEventListener("click",addToCart);
 document.getElementById("buyNow").addEventListener("click",buyNow);
-document.querySelectorAll(".color-button").forEach(button=>{if(button.classList.contains("active"))selectedColor=button.dataset.color;button.addEventListener("click",()=>{selectedColor=button.dataset.color;});});
+document.querySelectorAll(".color-button").forEach(button=>{if(button.classList.contains("active"))selectedColor=button.dataset.color;button.addEventListener("click",()=>{selectedColor=button.dataset.color;document.querySelectorAll(".color-button").forEach(b=>{const active=b===button;b.classList.toggle("active",active);b.setAttribute("aria-pressed",String(active));});});});
 
 countrySelect.addEventListener("change",()=>{try{api.setCountry(countrySelect.value)}catch(e){}updatePrice()});
 (async()=>{await api.refreshCurrencyData();populateCountries();})();
