@@ -14,7 +14,10 @@
  const say=(s,type="info")=>{if(message){message.textContent=s;message.className="checkout-message show "+type;message.setAttribute("role","alert")}};
  const clear=()=>{if(message){message.textContent="";message.className="checkout-message"}};
  function populate(){
-  const list=api.COUNTRIES,selected=api.getCountry();
+  const list=api.COUNTRIES;
+  const cartItems=api.getCheckoutItems();
+  const destinations=[...new Set(cartItems.map(item=>item.country).filter(Boolean))];
+  const selected=destinations.length===1?destinations[0]:api.getCountry();
   countrySelect.innerHTML='<option value="">Select your country</option>';
   Object.entries(list).sort((a,b)=>a[1].name.localeCompare(b[1].name)).forEach(([code,c])=>{
    if(code==="IN")return;const o=document.createElement("option");o.value=code;o.textContent=c.name+" ("+c.currency+")";countrySelect.appendChild(o);
