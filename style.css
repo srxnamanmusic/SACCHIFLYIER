@@ -2363,3 +2363,15 @@ img {
     outline: 2px solid #ffffff;
     outline-offset: 4px;
 }
+
+/* COMPACT SOCIAL ICONS ON MOBILE */
+@media (max-width: 600px) {
+ .social-section .social-links { flex-direction:row; gap:8px; }
+ .social-section .social-links a { min-width:0; min-height:62px; flex:1 1 0; padding:9px 5px; gap:6px; border-radius:7px; }
+ .social-section .social-links a svg { width:20px; height:20px; }
+ .social-section .social-links a span { font-size:8px; letter-spacing:1px; }
+}
+.footer-social-links { flex-direction:row !important; justify-content:flex-start; gap:7px; }
+.footer-social-links a { min-width:0; min-height:40px; padding:7px !important; flex:0 0 40px; border-radius:6px; }
+.footer-social-links a svg { width:18px; height:18px; }
+.footer-social-links a span { display:none; }
