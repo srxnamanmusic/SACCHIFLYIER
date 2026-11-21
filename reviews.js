@@ -1,6 +1,4 @@
-/* SACCHI FLYIER — REVIEW SUBMISSION
-   Static-site version: submissions are emailed for manual moderation.
-   Shared public review publishing requires a database/backend connection. */
+/* SACCHI FLYIER — REVIEW SUBMISSION */
 (function(){
   "use strict";
   document.querySelectorAll("[data-rating-picker]").forEach(function(picker){
@@ -42,8 +40,7 @@
         data.get("reviewText"),
         "",
         "Please verify the order before marking this review as a verified purchase."
-      ].join("
-");
+      ].join("\\n");
       const mailto="mailto:info@sacchiflyier.in?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
       window.location.href=mailto;
       const status=form.querySelector("[data-sf-review-status]");
