@@ -23,3 +23,11 @@
 .sf-review-form button:hover{background:#ddd}
 .sf-review-note{font-size:12px!important;color:#888!important}
 @media(max-width:700px){.sf-reviews{padding:54px 20px}.sf-review-grid{grid-template-columns:1fr}.sf-review-form{grid-template-columns:1fr}.sf-review-form .sf-full{grid-column:auto}.sf-review-form-wrap{padding:20px}}
+
+/* Clickable customer review stars */
+.sf-star-picker{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin:6px 0 10px}
+.sf-star-picker .sf-star{background:transparent!important;border:0!important;color:#666!important;padding:2px 4px!important;font-size:30px!important;line-height:1;cursor:pointer;letter-spacing:0!important;transition:color .15s,transform .15s}
+.sf-star-picker .sf-star:hover{transform:scale(1.15);color:#f5c542!important}
+.sf-star-picker .sf-star.is-selected{color:#f5c542!important}
+.sf-star-label{font-size:13px;color:#aaa;margin-left:8px}
+.sf-star-picker .sf-star:focus-visible{outline:2px solid white;outline-offset:3px;border-radius:4px}
