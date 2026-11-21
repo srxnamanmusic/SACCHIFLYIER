@@ -22,7 +22,13 @@
   document.querySelectorAll("[data-sf-review-form]").forEach(function(form){
     form.addEventListener("submit",function(event){
       event.preventDefault();
-      const rating=form.querySelector('input[name="rating"]');\n      if(!rating || !rating.value){\n        const picker=form.querySelector("[data-rating-picker]");\n        if(picker) picker.querySelector(".sf-star-label").textContent="Please select a star rating";\n        return;\n      }\n      if(!form.reportValidity()) return;
+      const rating=form.querySelector('input[name="rating"]');
+      if(!rating || !rating.value){
+        const picker=form.querySelector("[data-rating-picker]");
+        if(picker) picker.querySelector(".sf-star-label").textContent="Please select a star rating";
+        return;
+      }
+      if(!form.reportValidity()) return;
       const data=new FormData(form);
       const product=form.dataset.product || "Sacchi Flyier";
       const subject="Customer review — "+product;
@@ -36,7 +42,8 @@
         data.get("reviewText"),
         "",
         "Please verify the order before marking this review as a verified purchase."
-      ].join("\n");
+      ].join("
+");
       const mailto="mailto:info@sacchiflyier.in?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
       window.location.href=mailto;
       const status=form.querySelector("[data-sf-review-status]");
