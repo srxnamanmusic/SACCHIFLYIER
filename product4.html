@@ -88,7 +88,12 @@
         <div class="hero-frame">
           <img id="productMainImage" class="hero-image" src="product4-main.jpeg" alt="NARY mechanical watch" fetchpriority="high">
         </div>
-        <p class="gallery-note">NARY MECHANICAL WATCH · FIVE COLOUR OPTIONS</p>
+        <div class="thumbs" aria-label="Choose product photo">
+          <button class="thumb active" type="button" data-image="product4-main.jpeg" aria-label="Show photo 1"><img src="product4-main.jpeg" alt=""></button>
+          <button class="thumb" type="button" data-image="product4-angle-1.jpg" aria-label="Show photo 2"><img src="product4-angle-1.jpg" alt=""></button>
+          <button class="thumb" type="button" data-image="product4-angle-2.jpg" aria-label="Show photo 3"><img src="product4-angle-2.jpg" alt=""></button>
+        </div>
+        <p class="gallery-note">SELECT AN IMAGE TO VIEW THE WATCH FROM ANOTHER ANGLE</p>
       </div>
 
       <div class="details">
@@ -448,6 +453,13 @@ const priceWrap=null;
 const quantityElement=document.getElementById("quantity");
 let quantity=1,selectedCountry="",selectedCurrency="USD",unitPriceUSD=null,unitPriceLocal=null,shippingCountryName="";
 let selectedColor="",selectedVariant=null;
+document.querySelectorAll(".thumb").forEach(button=>{
+  button.addEventListener("click",()=>{
+    document.getElementById("productMainImage").src=button.dataset.image;
+    document.querySelectorAll(".thumb").forEach(item=>item.classList.toggle("active",item===button));
+  });
+});
+
 colorSelect.addEventListener("change",()=>{
  selectedColor=colorSelect.value;
  selectedVariant=WATCH_VARIANTS[selectedColor]||null;
