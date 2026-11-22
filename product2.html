@@ -454,10 +454,10 @@ function updatePrice(){
  shippingCountryName=resolveShippingName({name:country.name,code:selectedCountry});
  const variant=variantShipping[selectedColor]?.[selectedSize];
  const isUS=selectedCountry==="US";
- if(isUS&&variant===undefined){showUnavailable("CJ shipping is unavailable for this variant.");return}
+ if(isUS&&variant===undefined&&(!shippingCountryName||shippingRates[shippingCountryName]===null||shippingRates[shippingCountryName]===undefined)){showUnavailable("CJ shipping is unavailable for this variant.");return}
  if(!isUS&&(!shippingCountryName||shippingRates[shippingCountryName]===null||shippingRates[shippingCountryName]===undefined)){showUnavailable("CJ shipping is unavailable for this destination.");return}
  selectedCurrency=country.currency;
- shippingUSD=isUS?Number(variant):Number(shippingRates[shippingCountryName]);
+ shippingUSD=isUS&&variant!==undefined?Number(variant):Number(shippingRates[shippingCountryName]);
  const total=Number((PRODUCT.productCostUSD+shippingUSD+PRODUCT.profitUSD).toFixed(2));
  const converted=api.convertUSD(total,selectedCurrency);if(converted===null){showUnavailable("Currency conversion is temporarily unavailable.");return}
  unitPriceUSD=total;unitPriceLocal=Number(converted.toFixed(2));priceEl.textContent=api.formatMoney(unitPriceLocal,selectedCurrency);
@@ -476,10 +476,8 @@ const variantSkus={
  "Black":{S:"CJYD268159619SH",M:"CJYD268159620TG",L:"CJYD268159621UF",XL:"CJYD268159622VE","2XL":"CJYD268159623WD","3XL":"CJYD268159624XC"}
 };
 const variantShipping={
- "Dark Blue":{S:10.67,M:10.90,L:11.04,XL:11.20,"2XL":11.81,"3XL":11.81},
- "Pink":{S:10.67,M:10.90,L:11.04,XL:11.20,"2XL":11.81,"3XL":11.81},
- "Brown":{S:10.67,M:10.90,L:11.04,XL:11.20,"2XL":11.81,"3XL":11.81},
- "Black":{S:10.67,M:10.90,L:11.04,XL:11.20,"2XL":11.81,"3XL":11.81}
+ "Pink":{S:10.67,XL:11.20},
+ "Brown":{S:10.67,M:10.90,L:11.04,XL:11.20,"2XL":11.81,"3XL":11.81}
 };
 function createCartItem(){if(unitPriceUSD===null||unitPriceLocal===null||shippingUSD===null||!selectedSize)return null;const variantSku=variantSkus[selectedColor]?.[selectedSize];if(!variantSku)return null;return {id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:variantSku,variantSku,image:PRODUCT.image,quantity,country:selectedCountry,countryName:api.COUNTRIES[selectedCountry]?.name||"",currency:selectedCurrency,unitPriceUSD,unitPriceLocal,shippingCostUSD:shippingUSD,productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD,color:selectedColor,size:selectedSize}}
 function addToCart(){const item=createCartItem();if(!item)return;try{api.add(item);alert("Product added to your cart.")}catch(error){alert(error.message||"Unable to add this product.")}}
