@@ -97,7 +97,7 @@ footer{border-top:1px solid #222;text-align:center;padding:25px 15px;color:#777;
 <p class="eyebrow">SACCHI FLYIER / STREETWEAR</p>
 <h1>FLEECE ZIP UP JACKET</h1>
 <p class="subtitle">Women's stand-collar fleece zip-up jacket with a solid-colour design, loose fit and casual long sleeves.</p>
-<p class="product-code">PRODUCT CODE: CJYD268159623WD</p>
+<p class="product-code" id="productCode">SELECT COLOUR AND SIZE</p>
 <div class="rule"></div>
 <p class="price-label">Your price</p>
 <div class="price" id="productPrice" aria-live="polite">Loading price…</div>
@@ -150,7 +150,7 @@ footer{border-top:1px solid #222;text-align:center;padding:25px 15px;color:#777;
 <div class="spec">FIT<strong>Loose fit</strong></div>
 <div class="spec">SLEEVE<strong>Long sleeve</strong></div>
 <div class="spec">DESIGN<strong>Solid colour</strong></div>
-<div class="spec">SUPPLIER SKU<strong>CJYD268159623WD</strong></div>
+<div class="spec">SUPPLIER SKU<strong id="supplierSku">Select a size</strong></div>
 </div>
 <a class="reviews-anchor" href="#customer-reviews">READ / WRITE CUSTOMER REVIEWS ↓</a>
 </section>
@@ -438,17 +438,30 @@ function normalizeName(s){return String(s||"").normalize("NFD").replace(/[\u0300
 const aliases={"KR":"Korea","KP":"Korea (the Democratic People's Republic of)","CD":"Congo (the Democratic Republic of the)","CG":"Congo","MD":"Moldova, Republic of","MK":"Macedonia (the former Yugoslav Republic of)","ST":"Sao Tome and Principe","SZ":"Swaziland","TR":"Turkey","CZ":"Czechia","BO":"Bolivia (Plurinational State of)","CI":"Côte d'Ivoire","PS":"Palestine State of","FM":"Micronesia (Federated States of)","VA":"Holy See","RU":"Russian Federation","TW":"Taiwan (Province of China)","TZ":"Tanzania, United Republic of","SY":"Syrian Arab Republic","IR":"Iran (Islamic Republic of)","LA":"Lao People's Democratic Republic","VE":"Venezuela (Bolivarian Republic of)","BN":"Brunei Darussalam","CV":"Cabo Verde"};
 function resolveShippingName(country){const candidates=[country.name,aliases[country.code]].filter(Boolean);for(const n of candidates){const key=Object.keys(shippingRates).find(k=>normalizeName(k)===normalizeName(n));if(key)return key}return null}
 function showUnavailable(message){unitPriceUSD=null;unitPriceLocal=null;shippingUSD=null;priceEl.textContent="Price unavailable";shippingEl.textContent=message;addButton.disabled=true;buyButton.disabled=true}
+function updateVariantDisplay(){
+ const sku=variantSkus[selectedColor]?.[selectedSize]||"";
+ const code=document.getElementById("productCode");
+ const supplierSku=document.getElementById("supplierSku");
+ if(code)code.textContent=sku?"PRODUCT CODE: "+sku:"SELECT COLOUR AND SIZE";
+ if(supplierSku)supplierSku.textContent=sku||"Select a size";
+}
 function updatePrice(){
  selectedCountry=countrySelect.value;unitPriceUSD=null;unitPriceLocal=null;shippingUSD=null;addButton.disabled=true;buyButton.disabled=true;
+ updateVariantDisplay();
  if(!selectedCountry){priceEl.textContent="Select destination";shippingEl.textContent="Choose your shipping destination to calculate the final price.";return}
+ if(!selectedSize){priceEl.textContent="Select size";shippingEl.textContent="Choose a size to see the exact CJ shipping cost for this colour and size.";return}
  const country=api.COUNTRIES[selectedCountry];if(!country){showUnavailable("Destination information could not be loaded. Please refresh the page.");return}
  shippingCountryName=resolveShippingName({name:country.name,code:selectedCountry});
- if(!shippingCountryName||shippingRates[shippingCountryName]===null||shippingRates[shippingCountryName]===undefined){showUnavailable("CJ shipping is unavailable for this destination.");return}
- selectedCurrency=country.currency;shippingUSD=Number(shippingRates[shippingCountryName]);
+ const variant=variantShipping[selectedColor]?.[selectedSize];
+ const isUS=selectedCountry==="US";
+ if(isUS&&variant===undefined){showUnavailable("CJ shipping is unavailable for this variant.");return}
+ if(!isUS&&(!shippingCountryName||shippingRates[shippingCountryName]===null||shippingRates[shippingCountryName]===undefined)){showUnavailable("CJ shipping is unavailable for this destination.");return}
+ selectedCurrency=country.currency;
+ shippingUSD=isUS?Number(variant):Number(shippingRates[shippingCountryName]);
  const total=Number((PRODUCT.productCostUSD+shippingUSD+PRODUCT.profitUSD).toFixed(2));
  const converted=api.convertUSD(total,selectedCurrency);if(converted===null){showUnavailable("Currency conversion is temporarily unavailable.");return}
  unitPriceUSD=total;unitPriceLocal=Number(converted.toFixed(2));priceEl.textContent=api.formatMoney(unitPriceLocal,selectedCurrency);
- shippingEl.textContent="Shipping included ("+api.formatMoney(shippingUSD,"USD")+") · Processing: 1–3 days for 90% of orders · Delivery: 5–11 days for 62% of orders.";
+ shippingEl.textContent="Shipping included ("+api.formatMoney(shippingUSD,"USD")+") · Processing: 1–5 days for 73% of orders · Delivery: 5–11 days for 62% of orders.";
  addButton.disabled=!selectedSize;buyButton.disabled=!selectedSize;
 }
 function populateCountries(){
@@ -462,11 +475,17 @@ const variantSkus={
  "Brown":{S:"CJYD268159613MN",M:"CJYD268159614NM",L:"CJYD268159615OL",XL:"CJYD268159616PK","2XL":"CJYD268159617QJ","3XL":"CJYD268159618RI"},
  "Black":{S:"CJYD268159619SH",M:"CJYD268159620TG",L:"CJYD268159621UF",XL:"CJYD268159622VE","2XL":"CJYD268159623WD","3XL":"CJYD268159624XC"}
 };
+const variantShipping={
+ "Dark Blue":{S:10.67,M:10.90,L:11.04,XL:11.20,"2XL":11.81,"3XL":11.81},
+ "Pink":{S:10.67,M:10.90,L:11.04,XL:11.20,"2XL":11.81,"3XL":11.81},
+ "Brown":{S:10.67,M:10.90,L:11.04,XL:11.20,"2XL":11.81,"3XL":11.81},
+ "Black":{S:10.67,M:10.90,L:11.04,XL:11.20,"2XL":11.81,"3XL":11.81}
+};
 function createCartItem(){if(unitPriceUSD===null||unitPriceLocal===null||shippingUSD===null||!selectedSize)return null;const variantSku=variantSkus[selectedColor]?.[selectedSize];if(!variantSku)return null;return {id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:variantSku,variantSku,image:PRODUCT.image,quantity,country:selectedCountry,countryName:api.COUNTRIES[selectedCountry]?.name||"",currency:selectedCurrency,unitPriceUSD,unitPriceLocal,shippingCostUSD:shippingUSD,productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD,color:selectedColor,size:selectedSize}}
 function addToCart(){const item=createCartItem();if(!item)return;try{api.add(item);alert("Product added to your cart.")}catch(error){alert(error.message||"Unable to add this product.")}}
 function buyNow(){const item=createCartItem();if(!item)return;try{api.buyNow(item)}catch(error){alert(error.message||"Unable to continue to checkout.")}}
-document.querySelectorAll(".color-button").forEach(button=>button.addEventListener("click",()=>{selectedColor=button.dataset.color;document.querySelectorAll(".color-button").forEach(b=>{const active=b===button;b.classList.toggle("active",active);b.setAttribute("aria-pressed",String(active))})}));
-sizeSelect.addEventListener("change",()=>{selectedSize=sizeSelect.value;const valid=!!selectedSize&&!!variantSkus[selectedColor]?.[selectedSize];addButton.disabled=!valid||unitPriceUSD===null;buyButton.disabled=!valid||unitPriceUSD===null;});
+document.querySelectorAll(".color-button").forEach(button=>button.addEventListener("click",()=>{selectedColor=button.dataset.color;document.querySelectorAll(".color-button").forEach(b=>{const active=b===button;b.classList.toggle("active",active);b.setAttribute("aria-pressed",String(active))});updatePrice()}));
+sizeSelect.addEventListener("change",()=>{selectedSize=sizeSelect.value;updatePrice()});
 document.getElementById("increaseQty").addEventListener("click",()=>{quantity=Math.min(99,quantity+1);quantityEl.textContent=quantity});
 document.getElementById("decreaseQty").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);quantityEl.textContent=quantity});
 countrySelect.addEventListener("change",()=>{try{api.setCountry(countrySelect.value)}catch(error){}updatePrice()});
