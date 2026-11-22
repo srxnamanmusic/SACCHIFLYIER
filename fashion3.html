@@ -39,7 +39,7 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <p class="subtitle">Distressed cotton streetwear essential</p>
 <p class="sku">SKU: CJYH149565224XC</p>
 <div class="price" id="productPrice">Select country</div>
-<p class="price-note">Your local price includes shipping and is converted from USD using reference exchange rates.</p>
+<p class="price-note">Your local price includes the currently checked US shipping estimate and is converted from USD using reference exchange rates.</p>
 <label for="country">Shipping Country</label>
 <select id="country"><option value="">Loading countries…</option></select>
 <div class="shipping-price" id="shippingPrice">Choose your country to see the final price in your currency.</div>
@@ -47,7 +47,7 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <div class="quantity-box"><button type="button" id="decreaseQty" aria-label="Decrease quantity">−</button><span id="quantity">1</span><button type="button" id="increaseQty" aria-label="Increase quantity">+</button></div>
 <div class="buttons"><button type="button" class="add-cart" id="addCart" disabled>Add to Cart</button><button type="button" class="buy-now" id="buyNow" disabled>Buy Now</button></div>
 <p class="setup-note" id="orderNote">Select a supported destination to calculate the price. Checkout will be enabled only when a shipping rate and currency conversion are available.</p>
-<div class="description"><h2>Product Description</h2><p>A cotton half-sleeve graphic T-shirt with a relaxed hip-hop look. CJ lists sizes M, L, XL and XXL; its size chart advises customers that Asian sizing may run 1–2 sizes smaller.</p></div>
+<div class="description"><h2>Product Description</h2><p>A relaxed-fit, short-sleeve cotton graphic T-shirt with a distressed high-street hip-hop style. CJ lists sizes M, L, XL and XXL, with several graphic styles. The selected variant SKU is CJYH149565224XC (TKPA711 style, 2XL). CJ advises that Asian sizing may run 1–2 sizes smaller than European and US sizing; check the size chart carefully.</p></div>
 </div>
 </section>
 </main>
@@ -89,7 +89,7 @@ function updatePrice(){
  if(converted===null){showUnavailable("Live reference exchange rate for "+selectedCurrency+" is unavailable.");return}
  unitUSD=total;unitLocal=Number(converted.toFixed(2));
  priceEl.textContent=api.formatMoney(unitLocal,selectedCurrency);
- shipEl.textContent="Shipping included via LuWei Ordinary US. Estimated delivery: 5–11 days. Price shown in "+selectedCurrency+" using reference exchange rates.";
+ shipEl.textContent="Shipping included via LuWei Ordinary US (CJ packing-weight range up to 414 g). Estimated delivery: 5–11 days. Price shown in "+selectedCurrency+" using reference exchange rates.";
  addBtn.disabled=buyBtn.disabled=false;
 }
 function populateCountries(){
