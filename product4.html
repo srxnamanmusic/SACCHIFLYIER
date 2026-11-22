@@ -428,7 +428,20 @@
                     from the manufacturer.
                 </p>
 
-                <p class="product-sku">SKU: CJZBNSJX00017-1</p>
+                <p class="product-sku">SKU: <span id="displaySku">Select a colour</span></p>
+
+                <!-- WATCH COLOUR -->
+                <div class="product-option">
+                    <label for="colorSelect" class="option-label">Watch Colour</label>
+                    <select id="colorSelect" class="country-select">
+                        <option value="">Select colour</option>
+                        <option value="1">Colour 1</option>
+                        <option value="2">Colour 2</option>
+                        <option value="3">Colour 3</option>
+                        <option value="4">Colour 4</option>
+                        <option value="5">Colour 5</option>
+                    </select>
+                </div>
 
                 <!-- COUNTRY -->
                 <h2 class="country-heading">Select country</h2>
@@ -522,7 +535,14 @@
 <script src="reviews.js"></script>
 <script>
 "use strict";
-const PRODUCT={id:"product4",name:"NARY Mechanical Watch",sku:"CJZBNSJX00017-1",image:"product4-main.jpeg",productCostUSD:13.27,profitUSD:20};
+const PRODUCT={id:"product4",name:"NARY Mechanical Watch",image:"product4-main.jpeg",productCostUSD:13.27,profitUSD:20};
+const WATCH_VARIANTS={
+ "1":{label:"Colour 1",sku:"CJZBNSJX00017-1",cost:13.27,usShipping:8.89,inventory:40001},
+ "2":{label:"Colour 2",sku:"CJZBNSJX00017-2",cost:13.27,usShipping:8.89,inventory:40000},
+ "3":{label:"Colour 3",sku:"CJZBNSJX00017-3",cost:13.27,usShipping:8.89,inventory:40000},
+ "4":{label:"Colour 4",sku:"CJZBNSJX00017-4",cost:13.27,usShipping:8.89,inventory:40000},
+ "5":{label:"Colour 5",sku:"CJZBNSJX00017-5",cost:13.27,usShipping:8.89,inventory:40000}
+};
 const shippingRates = {
             "Afghanistan": 10.16,
             "Albania": 8.64,
@@ -771,12 +791,20 @@ const shippingRates = {
         };
 const api=window.SacchiCart;
 const countrySelect=document.getElementById("countrySelect");
+const colorSelect=document.getElementById("colorSelect");
+const displaySku=document.getElementById("displaySku");
 const productPrice=document.getElementById("productPrice");
 const shippingMessage=document.getElementById("shippingMessage");
 const priceWrap=document.getElementById("priceDisplay");
 const quantityElement=document.getElementById("quantity");
 let quantity=1,selectedCountry="",selectedCurrency="USD",unitPriceUSD=null,unitPriceLocal=null,shippingCountryName="";
-let selectedColor=""; // This product has no colour selector.
+let selectedColor="",selectedVariant=null;
+colorSelect.addEventListener("change",()=>{
+ selectedColor=colorSelect.value;
+ selectedVariant=WATCH_VARIANTS[selectedColor]||null;
+ displaySku.textContent=selectedVariant?selectedVariant.sku:"Select a colour";
+ updatePrice();
+});
 function setPriceVisible(visible){if(priceWrap===productPrice)return;if(priceWrap)priceWrap.classList.toggle("visible",visible)}
 function normalizeName(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"")}
 const aliases={"KR":"Korea","KP":"Korea (the Democratic People’s Republic of)","CD":"Congo (the Democratic Republic of the)","CG":"Congo","MD":"Moldova, Republic of","MK":"Macedonia (the former Yugoslav Republic of)","ST":"Sao Tome and Principe","SZ":"Swaziland","TR":"Turkey","CZ":"Czechia","BO":"Bolivia (Plurinational State of)","CI":"Côte d’Ivoire","PS":"Palestine State of","FM":"Micronesia (Federated States of)","VA":"Holy See","RU":"Russian Federation","TW":"Taiwan (Province of China)","TZ":"Tanzania, United Republic of","SY":"Syrian Arab Republic","IR":"Iran (Islamic Republic of)","LA":"Lao People’s Democratic Republic","VE":"Venezuela (Bolivarian Republic of)","BN":"Brunei Darussalam","CV":"Cabo Verde"};
@@ -785,14 +813,17 @@ function setUnavailable(message){unitPriceUSD=null;unitPriceLocal=null;setPriceV
 function updatePrice(){
  selectedCountry=countrySelect.value;
  unitPriceUSD=null;unitPriceLocal=null;setPriceVisible(false);shippingMessage.classList.remove("unavailable");
- if(!selectedCountry){productPrice.textContent="Select country";shippingMessage.textContent="Select your country to calculate the final price.";return}
+ if(!selectedColor||!selectedVariant){productPrice.textContent="Select colour";shippingMessage.textContent="Select a watch colour and shipping country to calculate the final price.";return}
+ if(!selectedCountry){productPrice.textContent="Select country";shippingMessage.textContent="Select your shipping country to calculate the final price.";return}
  const c=api.COUNTRIES[selectedCountry];if(!c){setUnavailable("Country information is unavailable. Please refresh and try again.");return}
  shippingCountryName=resolveShippingName({name:{common:c.name},cca2:selectedCountry});
  if(!shippingCountryName||shippingRates[shippingCountryName]===null||shippingRates[shippingCountryName]===undefined){setUnavailable("CJ shipping is unavailable for this destination.");return}
  selectedCurrency=c.currency;
- const ratePrice=api.convertUSD(PRODUCT.productCostUSD+Number(shippingRates[shippingCountryName])+PRODUCT.profitUSD,selectedCurrency);
+ const shippingUSD=selectedCountry==="US"?selectedVariant.usShipping:Number(shippingRates[shippingCountryName]);
+ const variantCost=selectedVariant.cost;
+ const ratePrice=api.convertUSD(variantCost+shippingUSD+PRODUCT.profitUSD,selectedCurrency);
  if(ratePrice===null){setUnavailable("Reference conversion for "+selectedCurrency+" is unavailable. Please try again later.");return}
- unitPriceUSD=Number((PRODUCT.productCostUSD+Number(shippingRates[shippingCountryName])+PRODUCT.profitUSD).toFixed(2));
+ unitPriceUSD=Number((variantCost+shippingUSD+PRODUCT.profitUSD).toFixed(2));
  unitPriceLocal=ratePrice;
  productPrice.textContent=api.formatMoney(ratePrice,selectedCurrency);
  setPriceVisible(true);
@@ -808,12 +839,12 @@ function populateCountries(){
 }
 function createProductItem(){
  if(unitPriceUSD===null||unitPriceLocal===null)return null;
- const item={id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:PRODUCT.sku,image:PRODUCT.image,quantity,country:selectedCountry,countryName:api.COUNTRIES[selectedCountry]?.name||"",currency:selectedCurrency,unitPriceUSD,unitPriceLocal:Number(unitPriceLocal.toFixed(2)),shippingCostUSD:Number(shippingRates[shippingCountryName]),productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD};
- if(selectedColor)item.color=selectedColor;
+ const item={id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:selectedVariant.sku,image:PRODUCT.image,quantity,country:selectedCountry,countryName:api.COUNTRIES[selectedCountry]?.name||"",currency:selectedCurrency,unitPriceUSD,unitPriceLocal:Number(unitPriceLocal.toFixed(2)),shippingCostUSD:Number(selectedCountry==="US"?selectedVariant.usShipping:shippingRates[shippingCountryName]),productCostUSD:selectedVariant.cost,profitUSD:PRODUCT.profitUSD,color:selectedVariant.label};
  
  return item;
 }
 function validateSelection(){
+ if(!selectedColor||!selectedVariant){alert("Please select a watch colour first.");return false}
  if(!selectedCountry){alert("Please select your shipping country first.");return false}
  if(unitPriceUSD===null||unitPriceLocal===null){alert("Shipping or currency conversion is unavailable for this destination.");return false}
  
