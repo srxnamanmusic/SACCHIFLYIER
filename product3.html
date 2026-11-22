@@ -341,12 +341,10 @@
             </h1>
 
             <p class="product-description">
-    Personalized battery-free E-ink screen phone case.
-    Available in Black, Blue, Grey, Pink, and White for compatible
-    iPhone 12–17 models. White is unavailable for iPhone 12 models.
+    Battery-free E-Ink screen phone case with NFC image projection through the INKZONE app. Available in selected colours and compatible iPhone models. Black Set is exclusive to iPhone 15 Pro Max; White is unavailable for the iPhone 12 series.
 </p>
 
-            <p class="product-sku">SKU: CJJT196419841OL</p>
+            <p class="product-sku">CJ SKU: <strong id="productSku">Select colour and phone model</strong></p>
 
             <div class="product-option">
                 <label class="option-label" for="countrySelect">
@@ -465,7 +463,15 @@
 <script src="reviews.js"></script>
 <script>
 "use strict";
-const PRODUCT={id:"product3",name:"E-ink Screen Phone Case Unlimited Screen Projection Personalized Phone Cover Battery Free New Designer Luxury Phone Case",sku:"CJJT196419841OL",image:"product3-main.jpg",productCostUSD:26.79,profitUSD:10};
+const PRODUCT={id:"product3",name:"E-ink Screen Phone Case",sku:"",image:"product3-main.jpg",profitUSD:20};
+const VARIANTS={
+ "Black Set":{sku:"CJJT196419841OL",productCostUSD:26.79,usShippingUSD:7.30},
+ "Black":{sku:"CJJT196419803CX",productCostUSD:26.20,usShippingUSD:6.88},
+ "Blue":{sku:"CJJT196419832FU",productCostUSD:26.20,usShippingUSD:6.88},
+ "Grey":{sku:"CJJT196419809IR",productCostUSD:26.20,usShippingUSD:6.88},
+ "Pink":{sku:"CJJT196419865MN",productCostUSD:26.20,usShippingUSD:6.88},
+ "White":{sku:"CJJT196419815OL",productCostUSD:26.20,usShippingUSD:6.88}
+};
 const shippingRates = {
         "Afghanistan": 131.16,
         "Albania": 8.69,
@@ -719,12 +725,17 @@ const shippingMessage=document.getElementById("shippingMessage");
 const priceWrap=document.getElementById("priceDisplay");
 const quantityElement=document.getElementById("quantityNumber");
 let quantity=1,selectedCountry="",selectedCurrency="USD",unitPriceUSD=null,unitPriceLocal=null,shippingCountryName="";
+function currentVariant(){return VARIANTS[selectedColor==="Black" && selectedModel==="iPhone 15 Pro Max" ? "Black Set" : selectedColor] || null;}
+function currentProductCost(){const v=currentVariant();return v?v.productCostUSD:null;}
+function currentShippingUSD(){const v=currentVariant();if(!v)return null;if(selectedCountry==="US")return v.usShippingUSD;return shippingCountryName && shippingRates[shippingCountryName]!=null ? Number(shippingRates[shippingCountryName]) : null;}
 function setPriceVisible(visible){if(priceWrap===productPrice)return;if(priceWrap)priceWrap.classList.toggle("visible",visible)}
 function normalizeName(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"")}
 const aliases={"KR":"Korea","KP":"Korea (the Democratic People’s Republic of)","CD":"Congo (the Democratic Republic of the)","CG":"Congo","MD":"Moldova, Republic of","MK":"Macedonia (the former Yugoslav Republic of)","ST":"Sao Tome and Principe","SZ":"Swaziland","TR":"Turkey","CZ":"Czechia","BO":"Bolivia (Plurinational State of)","CI":"Côte d’Ivoire","PS":"Palestine State of","FM":"Micronesia (Federated States of)","VA":"Holy See","RU":"Russian Federation","TW":"Taiwan (Province of China)","TZ":"Tanzania, United Republic of","SY":"Syrian Arab Republic","IR":"Iran (Islamic Republic of)","LA":"Lao People’s Democratic Republic","VE":"Venezuela (Bolivarian Republic of)","BN":"Brunei Darussalam","CV":"Cabo Verde"};
 function resolveShippingName(country){const candidates=[country.name.common,aliases[country.cca2]].filter(Boolean);for(const n of candidates){const key=Object.keys(shippingRates).find(k=>normalizeName(k)===normalizeName(n));if(key)return key}return null}
 function setUnavailable(message){unitPriceUSD=null;unitPriceLocal=null;setPriceVisible(false);productPrice.textContent="Price unavailable";shippingMessage.textContent=message;shippingMessage.classList.add("unavailable")}
+function updateVariantSku(){const v=currentVariant();const skuEl=document.getElementById("productSku");if(skuEl)skuEl.textContent=v?v.sku:"Unavailable";}
 function updatePrice(){
+ updateVariantSku();
  selectedCountry=countrySelect.value;
  unitPriceUSD=null;unitPriceLocal=null;setPriceVisible(false);shippingMessage.classList.remove("unavailable");
  if(!selectedCountry){productPrice.textContent="Select country";shippingMessage.textContent="Select your country to calculate the final price.";return}
@@ -732,13 +743,17 @@ function updatePrice(){
  shippingCountryName=resolveShippingName({name:{common:c.name},cca2:selectedCountry});
  if(!shippingCountryName||shippingRates[shippingCountryName]===null||shippingRates[shippingCountryName]===undefined){setUnavailable("CJ shipping is unavailable for this destination.");return}
  selectedCurrency=c.currency;
- const ratePrice=api.convertUSD(PRODUCT.productCostUSD+Number(shippingRates[shippingCountryName])+PRODUCT.profitUSD,selectedCurrency);
+ const variant=currentVariant();if(!variant){setUnavailable("This colour and phone model combination is unavailable.");return;}
+ const shippingUSD=currentShippingUSD();if(shippingUSD===null){setUnavailable("CJ shipping is unavailable for this destination.");return;}
+ const totalUSD=Number((variant.productCostUSD+shippingUSD+PRODUCT.profitUSD).toFixed(2));
+ const ratePrice=api.convertUSD(totalUSD,selectedCurrency);
  if(ratePrice===null){setUnavailable("Reference conversion for "+selectedCurrency+" is unavailable. Please try again later.");return}
- unitPriceUSD=Number((PRODUCT.productCostUSD+Number(shippingRates[shippingCountryName])+PRODUCT.profitUSD).toFixed(2));
+ unitPriceUSD=totalUSD;
  unitPriceLocal=ratePrice;
  productPrice.textContent=api.formatMoney(ratePrice,selectedCurrency);
  setPriceVisible(true);
  shippingMessage.textContent="Shipping included. Local price converted from USD using reference exchange rates.";
+ updateVariantSku();
 }
 function populateCountries(){
  const previous=api.getCountry();countrySelect.innerHTML='<option value="">Select your country</option>';
@@ -750,7 +765,7 @@ function populateCountries(){
 }
 function createProductItem(){
  if(unitPriceUSD===null||unitPriceLocal===null)return null;
- const item={id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:PRODUCT.sku,image:PRODUCT.image,quantity,country:selectedCountry,countryName:api.COUNTRIES[selectedCountry]?.name||"",currency:selectedCurrency,unitPriceUSD,unitPriceLocal:Number(unitPriceLocal.toFixed(2)),shippingCostUSD:Number(shippingRates[shippingCountryName]),productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD};
+ const variant=currentVariant();const item={id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:variant.sku,image:PRODUCT.image,quantity,country:selectedCountry,countryName:api.COUNTRIES[selectedCountry]?.name||"",currency:selectedCurrency,unitPriceUSD,unitPriceLocal:Number(unitPriceLocal.toFixed(2)),shippingCostUSD:Number(currentShippingUSD()),productCostUSD:variant.productCostUSD,profitUSD:PRODUCT.profitUSD};
  if(selectedColor)item.color=selectedColor;
  item.model=selectedModel;
  return item;
@@ -776,46 +791,20 @@ document.getElementById("buyNow").addEventListener("click",buyNow);
     );
 
     const modelsBySeries = {
-        "iPhone 12": [
-            "iPhone 12",
-            "iPhone 12 mini",
-            "iPhone 12 Pro",
-            "iPhone 12 Pro Max"
-        ],
-        "iPhone 13": [
-            "iPhone 13",
-            "iPhone 13 mini",
-            "iPhone 13 Pro",
-            "iPhone 13 Pro Max"
-        ],
-        "iPhone 14": [
-            "iPhone 14",
-            "iPhone 14 Plus",
-            "iPhone 14 Pro",
-            "iPhone 14 Pro Max"
-        ],
-        "iPhone 15": [
-            "iPhone 15",
-            "iPhone 15 Plus",
-            "iPhone 15 Pro",
-            "iPhone 15 Pro Max"
-        ],
+        "iPhone 12": ["iPhone 12","iPhone 12 Pro","iPhone 12 Pro Max"],
+        "iPhone 13": ["iPhone 13","iPhone 13 Pro","iPhone 13 Pro Max"],
+        "iPhone 14": ["iPhone 14","iPhone 14 Pro","iPhone 14 Pro Max"],
+        "iPhone 15": ["iPhone 15","iPhone 15 Pro","iPhone 15 Pro Max"],
         "iPhone 16": [
             "iPhone 16",
             "iPhone 16 Plus",
             "iPhone 16 Pro",
             "iPhone 16 Pro Max"
         ],
-        "iPhone 17": [
-            "iPhone 17",
-            "iPhone 17 Pro",
-            "iPhone 17 Pro Max",
-        ]
+        "iPhone 17": ["iPhone 17","iPhone 17 Pro","iPhone 17 Pro Max"]
     };
 
-    const availableColors = [
-        "Black", "Blue", "Grey", "Pink", "White"
-    ];
+    const availableColors = ["Black","Blue","Grey","Pink","White","Black Set"];
 
     let selectedColor = "Black";
     let selectedModel = "";
@@ -830,12 +819,10 @@ document.getElementById("buyNow").addEventListener("click",buyNow);
 
         if (!modelExists) return false;
 
-        // White is not available for any iPhone 12 model.
-        if (color === "White" && model.startsWith("iPhone 12")) {
-            return false;
-        }
-
-        // All other colours support iPhone 12–17.
+        // Black Set is only available for iPhone 15 Pro Max.
+        if (color === "Black Set") return model === "iPhone 15 Pro Max";
+        // White is unavailable for the iPhone 12 series.
+        if (color === "White" && model.startsWith("iPhone 12")) return false;
         return true;
     }
 
@@ -879,13 +866,13 @@ document.getElementById("buyNow").addEventListener("click",buyNow);
         modelMessage.classList.remove("unavailable");
 
         if (selectedColor === "White") {
-            modelMessage.textContent =
-                "White is available for iPhone 13–17 models. " +
-                "iPhone 12 models are unavailable in White.";
+            modelMessage.textContent = "White is available for listed iPhone 13–17 models. iPhone 12 models are unavailable in White.";
+        } else if (selectedColor === "Black Set") {
+            modelMessage.textContent = "Black Set is available only for iPhone 15 Pro Max.";
         } else {
             modelMessage.textContent =
                 selectedColor +
-                " is available for iPhone 12–17 models.";
+                " is available for the listed iPhone 12–17 models."
         }
     }
 
@@ -901,6 +888,7 @@ document.getElementById("buyNow").addEventListener("click",buyNow);
         });
 
         populateModels();
+        updatePrice();
     }
 
     colorButtons.forEach(button => {
@@ -911,6 +899,7 @@ document.getElementById("buyNow").addEventListener("click",buyNow);
 
     modelSelect.addEventListener("change", () => {
         selectedModel = modelSelect.value;
+        updatePrice();
 
         if (
             selectedModel &&
@@ -926,6 +915,7 @@ document.getElementById("buyNow").addEventListener("click",buyNow);
 
     
 countrySelect.addEventListener("change",()=>{try{api.setCountry(countrySelect.value)}catch(e){}updatePrice()});
+    populateModels();
 (async()=>{await api.refreshCurrencyData();populateCountries();})();
 </script>
 </body>
