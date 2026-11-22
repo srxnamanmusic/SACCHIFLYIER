@@ -68,7 +68,7 @@ footer{border-top:1px solid #222;text-align:center;padding:25px 15px;color:#aaa;
 <label class="quantity-title">Quantity</label>
 <div class="quantity-box"><button type="button" id="decreaseQty" aria-label="Decrease quantity">−</button><span id="quantity">1</span><button type="button" id="increaseQty" aria-label="Increase quantity">+</button></div>
 <div class="buttons"><button type="button" class="add-cart" id="addCart" disabled>Add to Cart</button><button type="button" class="buy-now" id="buyNow" disabled>Buy Now</button></div>
-<p class="setup-note" id="orderNote">Shipping is currently confirmed only for Black / 2XL to the United States. Other variants and destinations will remain unavailable until their shipping rates are checked.</p>
+<p class="setup-note" id="orderNote">USA shipping is confirmed for all 15 color and size combinations. Other destinations remain unavailable until their shipping rates are checked.</p>
 <div class="description">
 <h2>Product Description</h2>
 <p>A long-sleeve check-pattern jacket with a single-breasted front. Available in Black, Khaki and Pink, in sizes S, M, L, XL and 2XL. Material is listed by CJ as cloth. The package contains one coat.</p>
@@ -102,7 +102,7 @@ const VARIANTS={
  "Pink":{"S":{sku:"CJNS103536113MN",cost:6.14,weight:470},"M":{sku:"CJNS103536112LO",cost:6.14,weight:470},"L":{sku:"CJNS103536111KP",cost:6.14,weight:470},"XL":{sku:"CJNS103536114NM",cost:6.14,weight:470},"2XL":{sku:"CJNS103536115OL",cost:6.14,weight:470}}
 };
 const COLOR_IMAGES={"Black":"https://cf.cjdropshipping.com/1615257606446.jpg","Khaki":"https://cf.cjdropshipping.com/1615257606448.jpg","Pink":"https://cf.cjdropshipping.com/601bc662-d066-423d-a6a9-82e0bb795a15.jpg"};
-const CONFIRMED_SHIPPING={"Black|2XL|US":9.52};
+const CONFIRMED_SHIPPING={"Black|S|US":9.52,"Black|M|US":9.68,"Black|L|US":9.82,"Black|XL|US":9.98,"Black|2XL|US":9.52,"Khaki|S|US":9.52,"Khaki|M|US":9.52,"Khaki|L|US":9.52,"Khaki|XL|US":9.52,"Khaki|2XL|US":9.52,"Pink|S|US":9.52,"Pink|M|US":9.52,"Pink|L|US":9.52,"Pink|XL|US":9.52,"Pink|2XL|US":9.52};
 const api=window.SacchiCart,countrySelect=document.getElementById("country"),sizeSelect=document.getElementById("size"),priceEl=document.getElementById("productPrice"),shipEl=document.getElementById("shippingPrice"),qtyEl=document.getElementById("quantity"),skuEl=document.getElementById("variantSku"),addBtn=document.getElementById("addCart"),buyBtn=document.getElementById("buyNow"),mainImage=document.getElementById("mainImage");
 let selectedColor="Black",quantity=1,selectedCode="",selectedCurrency="",unitUSD=null,unitLocal=null,shipUSD=null;
 function selectedVariant(){return VARIANTS[selectedColor][sizeSelect.value]}
