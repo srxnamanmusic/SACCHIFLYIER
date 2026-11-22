@@ -370,6 +370,8 @@
     <div class="color-options" id="colorOptions">
         <button type="button" class="color-button active"
             data-color="Black" aria-pressed="true">Black</button>
+        <button type="button" class="color-button"
+            data-color="Black Set" aria-pressed="false">Black Set</button>
 
         <button type="button" class="color-button"
             data-color="Blue" aria-pressed="false">Blue</button>
@@ -725,7 +727,7 @@ const shippingMessage=document.getElementById("shippingMessage");
 const priceWrap=document.getElementById("priceDisplay");
 const quantityElement=document.getElementById("quantityNumber");
 let quantity=1,selectedCountry="",selectedCurrency="USD",unitPriceUSD=null,unitPriceLocal=null,shippingCountryName="";
-function currentVariant(){return VARIANTS[selectedColor==="Black" && selectedModel==="iPhone 15 Pro Max" ? "Black Set" : selectedColor] || null;}
+function currentVariant(){return VARIANTS[selectedColor] || null;}
 function currentProductCost(){const v=currentVariant();return v?v.productCostUSD:null;}
 function currentShippingUSD(){const v=currentVariant();if(!v)return null;if(selectedCountry==="US")return v.usShippingUSD;return shippingCountryName && shippingRates[shippingCountryName]!=null ? Number(shippingRates[shippingCountryName]) : null;}
 function setPriceVisible(visible){if(priceWrap===productPrice)return;if(priceWrap)priceWrap.classList.toggle("visible",visible)}
@@ -804,7 +806,7 @@ document.getElementById("buyNow").addEventListener("click",buyNow);
         "iPhone 17": ["iPhone 17","iPhone 17 Pro","iPhone 17 Pro Max"]
     };
 
-    const availableColors = ["Black","Blue","Grey","Pink","White","Black Set"];
+    const availableColors = ["Black","Black Set","Blue","Grey","Pink","White"];
 
     let selectedColor = "Black";
     let selectedModel = "";
