@@ -1,430 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-ink Screen Phone Case | Sacchi Flyier</title>
-    <meta name="description" content="Personalized E-ink screen phone case from Sacchi Flyier.">
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: #000;
-            color: #fff;
-            font-family: Arial, Helvetica, sans-serif;
-            min-height: 100vh;
-        }
-
-        button, select {
-            font-family: inherit;
-        }
-
-        .product-header {
-            min-height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px 5.5%;
-            background: #000;
-            border-bottom: 1px solid #202020;
-        }
-
-        .brand-name {
-            color: #fff;
-            text-decoration: none;
-            font-size: 27px;
-            font-weight: 700;
-            letter-spacing: 2px;
-        }
-
-        .back-store {
-            padding: 14px 20px;
-            border: 1px solid #3b3b3b;
-            border-radius: 30px;
-            color: #fff;
-            text-decoration: none;
-        }
-
-        .product-page {
-            padding: 52px 5.5% 70px;
-        }
-
-        .product-container {
-            width: 100%;
-            max-width: 1260px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-            gap: 58px;
-            align-items: start;
-        }
-
-        .product-image-wrapper {
-            width: 100%;
-            max-width: 580px;
-            aspect-ratio: 1 / 1;
-            margin: 0 auto;
-            overflow: hidden;
-            border-radius: 29px;
-            background: #111;
-        }
-
-        .product-main-image {
-            width: 100%;
-            height: 100%;
-            display: block;
-            object-fit: cover;
-        }
-
-        .product-info {
-            width: 100%;
-            max-width: 590px;
-        }
-
-        .product-label {
-            color: #aaa;
-            font-size: 14px;
-            letter-spacing: 5px;
-            margin-bottom: 20px;
-        }
-
-        .product-title {
-            font-size: 38px;
-            line-height: 1.2;
-            margin-bottom: 17px;
-        }
-
-        .product-description {
-            color: #bdbdbd;
-            font-size: 17px;
-            line-height: 1.6;
-            margin-bottom: 22px;
-        }
-
-        .product-sku {
-            color: #888;
-            font-size: 14px;
-            margin-bottom: 25px;
-        }
-
-        .product-option {
-            margin-bottom: 20px;
-        }
-
-        .option-label {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 15px;
-        }
-
-        .country-select {
-            width: 100%;
-            height: 55px;
-            padding: 0 15px;
-            border: 1px solid #3d3d3d;
-            border-radius: 12px;
-            background: #111;
-            color: #fff;
-            font-size: 15px;
-        }
-
-        .country-select option {
-            background: #111;
-            color: #fff;
-        }
-
-        .shipping-message {
-            min-height: 24px;
-            color: #bbb;
-            font-size: 14px;
-            line-height: 1.5;
-            margin: 10px 0 20px;
-        }
-
-        .shipping-message.unavailable {
-            color: #ff7676;
-        }
-
-        .price-display {
-            display: none;
-            margin-bottom: 22px;
-            padding: 18px;
-            border: 1px solid #333;
-            border-radius: 13px;
-            background: #080808;
-        }
-
-        .price-display.visible {
-            display: block;
-        }
-
-        .price-label {
-            display: block;
-            color: #888;
-            font-size: 13px;
-            margin-bottom: 6px;
-        }
-
-        .product-price {
-            font-size: 28px;
-            font-weight: 700;
-        }
-
-        .color-section, .quantity-section {
-            margin-bottom: 25px;
-        }
-
-        .color-label, .quantity-label {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 15px;
-        }
-
-        .color-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 9px;
-        }
-
-        .color-button {
-            padding: 12px 16px;
-            border: 1px solid #444;
-            border-radius: 25px;
-            background: #080808;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .color-button.active {
-            background: #fff;
-            color: #000;
-            border-color: #fff;
-        }
-
-        .color-button:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        .quantity-control {
-            display: flex;
-            width: 160px;
-            height: 52px;
-            overflow: hidden;
-            border: 1px solid #444;
-            border-radius: 12px;
-        }
-
-        .quantity-button {
-            width: 53px;
-            border: none;
-            background: #111;
-            color: #fff;
-            font-size: 22px;
-            cursor: pointer;
-        }
-
-        .quantity-number {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .product-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .add-cart-button, .buy-now-button {
-            min-height: 55px;
-            border-radius: 30px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .add-cart-button {
-            border: 1px solid #fff;
-            background: #000;
-            color: #fff;
-        }
-
-        .buy-now-button {
-            border: 1px solid #fff;
-            background: #fff;
-            color: #000;
-        }
-
-        .add-cart-button:hover {
-            background: #222;
-        }
-
-        .buy-now-button:hover {
-            background: #ddd;
-        }
-
-        .product-details {
-            max-width: 1260px;
-            margin: 60px auto 0;
-            border-top: 1px solid #292929;
-            padding-top: 30px;
-            color: #bbb;
-            line-height: 1.8;
-        }
-
-        .product-details h2 {
-            color: #fff;
-            margin-bottom: 15px;
-        }
-
-        @media (max-width: 800px) {
-            .product-container {
-                grid-template-columns: 1fr;
-                gap: 35px;
-            }
-
-            .product-title {
-                font-size: 30px;
-            }
-
-            .product-page {
-                padding: 30px 5% 50px;
-            }
-
-            .product-header {
-                padding: 20px 5%;
-            }
-
-            .brand-name {
-                font-size: 20px;
-            }
-
-            .product-buttons {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-    <link rel="stylesheet" href="reviews.css">
-</head>
-
-<body>
-<header class="product-header">
-    <a class="brand-name" href="index.html">SACCHI FLYIER</a>
-    <a class="back-store" href="index.html">← Back to Store</a>
-</header>
-
-<main class="product-page">
-    <div class="product-container">
-        <section class="product-image-section">
-            <div class="product-image-wrapper">
-                <img
-                    class="product-main-image"
-                    src="product3-main.jpg"
-                    alt="E-ink Screen Phone Case"
-                >
-            </div>
-        </section>
-
-        <section class="product-info">
-            <div class="product-label">SACCHI FLYIER / ACCESSORIES</div>
-
-            <h1 class="product-title">
-                E-ink Screen Phone Case Unlimited Screen Projection Personalized Phone Cover Battery Free New Designer Luxury Phone Case
-            </h1>
-
-            <p class="product-description">
-    Battery-free E-Ink screen phone case with NFC image projection through the INKZONE app. Available in selected colours and compatible iPhone models. Black Set is exclusive to iPhone 15 Pro Max; White is unavailable for the iPhone 12 series.
-</p>
-
-            <p class="product-sku">CJ SKU: <strong id="productSku">Select colour and phone model</strong></p>
-
-            <div class="product-option">
-                <label class="option-label" for="countrySelect">
-                    Select your country
-                </label>
-                <select id="countrySelect" class="country-select">
-                    <option value="">Choose country</option>
-                </select>
-            </div>
-
-            <p id="shippingMessage" class="shipping-message">
-                Select your country to calculate the final price.
-            </p>
-
-            <div id="priceDisplay" class="price-display">
-                <span class="price-label">Total price per item, including shipping</span>
-                <span id="productPrice" class="product-price"></span>
-            </div>
-
-            <div class="color-section">
-    <span class="color-label">Color</span>
-
-    <div class="color-options" id="colorOptions">
-        <button type="button" class="color-button active"
-            data-color="Black" aria-pressed="true">Black</button>
-        <button type="button" class="color-button"
-            data-color="Black Set" aria-pressed="false">Black Set</button>
-
-        <button type="button" class="color-button"
-            data-color="Blue" aria-pressed="false">Blue</button>
-
-        <button type="button" class="color-button"
-            data-color="Grey" aria-pressed="false">Grey</button>
-
-        <button type="button" class="color-button"
-            data-color="Pink" aria-pressed="false">Pink</button>
-
-        <button type="button" class="color-button"
-            data-color="White" aria-pressed="false">White</button>
-    </div>
-</div>
-
-<div class="product-option">
-    <label class="option-label" for="modelSelect">Phone model</label>
-
-    <select id="modelSelect" class="country-select">
-        <option value="">Select phone model</option>
-    </select>
-
-    <p id="modelMessage" class="shipping-message" aria-live="polite">
-        Select a colour, then choose your iPhone model.
-    </p>
-</div>
-
-            <div class="quantity-section">
-                <span class="quantity-label">Quantity</span>
-                <div class="quantity-control">
-                    <button id="decreaseQuantity" class="quantity-button" type="button">−</button>
-                    <span id="quantityNumber" class="quantity-number">1</span>
-                    <button id="increaseQuantity" class="quantity-button" type="button">+</button>
-                </div>
-            </div>
-
-            <div class="product-buttons">
-                <button id="addToCart" class="add-cart-button" type="button">
-                    Add to Cart
-                </button>
-                <button id="buyNow" class="buy-now-button" type="button">
-                    Buy Now
-                </button>
-            </div>
-        </section>
-    </div>
-
-   <!-- =====================================================
-         FOOTER
-         ===================================================== -->
-
-    <!-- ================= PRODUCT CUSTOMER REVIEWS ================= -->
-<section class="sf-reviews" id="customer-reviews">
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#050505"><meta name="description" content="Battery-free E-Ink screen phone case with NFC image projection."><title>E-Ink Screen Phone Case | Sacchi Flyier</title><link rel="stylesheet" href="reviews.css"><style>
+:root{color-scheme:dark;--bg:#050505;--panel:#101010;--line:#292929;--muted:#a4a4a4;--white:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--white);min-height:100vh}
+a{color:inherit;text-decoration:none}
+.topline{height:3px;background:linear-gradient(90deg,#333,#fff,#333)}
+.site-header{height:82px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(5,5,5,.92);backdrop-filter:blur(14px);z-index:10}
+.logo{font-size:20px;font-weight:800;letter-spacing:3px}
+.back{font-size:13px;color:#ddd;border:1px solid #444;border-radius:30px;padding:11px 17px;transition:.2s}
+.back:hover{background:#fff;color:#000}
+.page-wrap{max-width:1240px;margin:0 auto;padding:54px 5.5% 90px}
+.breadcrumb{font-size:12px;color:#777;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:28px}
+.breadcrumb a:hover{color:#fff}
+.product-layout{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);gap:clamp(36px,6vw,82px);align-items:start}
+.gallery{min-width:0}
+.hero-frame{position:relative;background:radial-gradient(ellipse at 50% 40%,#242424 0,#101010 48%,#090909 100%);border:1px solid #242424;border-radius:22px;overflow:hidden;aspect-ratio:1/1;display:grid;place-items:center}
+.hero-frame:after{content:"SACCHI FLYIER";position:absolute;bottom:18px;right:20px;font-size:9px;letter-spacing:3px;color:rgba(255,255,255,.38)}
+.hero-image{width:100%;height:100%;object-fit:contain;display:block;transition:opacity .2s,transform .45s}
+.hero-frame:hover .hero-image{transform:scale(1.035)}
+.thumbs{display:grid;grid-template-columns:repeat(1,minmax(0,110px));gap:10px;margin-top:13px}
+.thumb{border:1px solid #fff;border-radius:12px;background:#111;aspect-ratio:1/1;overflow:hidden;cursor:pointer;padding:0;opacity:1}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.gallery-note{font-size:11px;color:#666;margin-top:12px;letter-spacing:.5px}
+.details{padding-top:8px}
+.eyebrow{font-size:11px;letter-spacing:4px;color:#999;margin-bottom:18px}
+h1{font-size:clamp(30px,3.6vw,48px);line-height:1.05;letter-spacing:-1.7px;font-weight:800;max-width:600px}
+.subtitle{font-size:15px;line-height:1.7;color:#aaa;margin-top:17px;max-width:520px}
+.product-code{font-size:11px;letter-spacing:1px;color:#777;margin-top:18px}
+.rule{height:1px;background:var(--line);margin:25px 0}
+.price-label{font-size:10px;letter-spacing:2px;color:#888;text-transform:uppercase;margin-bottom:8px}
+.price{font-size:34px;font-weight:800;letter-spacing:-1px}
+.price-note{font-size:12px;color:#888;line-height:1.6;margin-top:8px}
+.field-label{display:block;font-size:12px;letter-spacing:1px;color:#ccc;margin-bottom:10px}
+.select{width:100%;height:50px;background:#101010;border:1px solid #444;border-radius:10px;color:#fff;padding:0 14px;font-size:14px;outline:none}
+.select:focus{border-color:#fff}
+.shipping-info{font-size:12px;color:#999;line-height:1.65;margin-top:12px;min-height:38px}
+.color-section{margin-top:23px}
+.color-label{display:block;font-size:12px;letter-spacing:1px;color:#ccc;margin-bottom:10px}
+.color-options{display:flex;flex-wrap:wrap;gap:9px}
+.color-button{min-height:40px;padding:0 15px;border:1px solid #444;border-radius:22px;background:#101010;color:#fff;font-size:12px;cursor:pointer;transition:.2s}
+.color-button:hover{border-color:#aaa}
+.color-button.active{background:#fff;color:#000;border-color:#fff}
+.quantity-row{display:flex;align-items:center;justify-content:space-between;margin-top:25px}
+.quantity-label{font-size:12px;color:#ccc;letter-spacing:1px}
+.quantity{height:44px;display:flex;align-items:center;border:1px solid #444;border-radius:9px;overflow:hidden}
+.quantity button{width:42px;height:44px;border:0;background:#111;color:#fff;font-size:20px;cursor:pointer}
+.quantity button:hover{background:#292929}
+.quantity span{width:38px;text-align:center;font-size:14px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px}
+.action{min-height:54px;border-radius:9px;font-weight:800;letter-spacing:1px;font-size:12px;cursor:pointer;transition:.2s}
+.add-cart{background:transparent;color:#fff;border:1px solid #777}
+.add-cart:hover:not(:disabled){background:#fff;color:#000;border-color:#fff}
+.buy-now{background:#fff;color:#000;border:1px solid #fff;box-shadow:0 8px 30px rgba(255,255,255,.09)}
+.buy-now:hover:not(:disabled){background:#dcdcdc;transform:translateY(-2px)}
+.action:disabled{opacity:.38;cursor:not-allowed}
+.trust-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.trust-item{text-align:center;font-size:10px;color:#aaa;line-height:1.5}
+.trust-item strong{display:block;color:#fff;font-size:11px;margin-bottom:4px}
+.description{margin-top:32px}
+.description h2{font-size:17px;letter-spacing:1px;margin-bottom:13px}
+.description p{font-size:13px;line-height:1.9;color:#aaa}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:0 18px;margin-top:17px}
+.spec{padding:12px 0;border-bottom:1px solid #222;font-size:12px;color:#888}
+.spec strong{display:block;color:#eee;font-weight:600;margin-top:5px}
+.reviews-anchor{display:inline-block;margin-top:20px;color:#ddd;font-size:12px;border-bottom:1px solid #777;padding-bottom:5px}
+footer{border-top:1px solid #222;text-align:center;padding:25px 15px;color:#777;font-size:12px;letter-spacing:.5px}
+@media(max-width:850px){.product-layout{grid-template-columns:1fr;gap:36px}.details{padding-top:0}.page-wrap{padding-top:32px}.hero-frame{max-width:680px;margin:auto}}
+@media(max-width:520px){.site-header{height:70px;padding:0 18px}.logo{font-size:16px;letter-spacing:2px}.back{font-size:11px;padding:9px 12px}.page-wrap{padding:25px 18px 60px}.product-layout{gap:28px}.hero-frame{border-radius:15px}.thumbs{gap:7px}.thumb{border-radius:8px}h1{font-size:31px}.price{font-size:30px}.actions{grid-template-columns:1fr}.trust-row{gap:5px}.trust-item{font-size:9px}.specs{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+</style></head><body><div class="topline"></div><header class="site-header"><a class="logo" href="index.html">SACCHI FLYIER</a><a class="back" href="index.html">← BACK TO SHOP</a></header>
+<main class="page-wrap"><nav class="breadcrumb"><a href="index.html">Home</a> / <a href="index.html#shop">Shop</a> / Phone Accessories</nav>
+<section class="product-layout"><div class="gallery"><div class="hero-frame"><img id="productMainImage" class="hero-image" src="product3-main.jpg" alt="E-Ink screen phone case"></div><div class="thumbs"><button class="thumb active" type="button"><img src="product3-main.jpg" alt=""></button></div><p class="gallery-note">E-INK SCREEN PHONE CASE · PRODUCT IMAGE</p></div>
+<div class="details"><p class="eyebrow">SACCHI FLYIER / ACCESSORIES</p><h1>E-INK SCREEN PHONE CASE</h1><p class="subtitle">Battery-free E-Ink screen phone case with NFC image projection through the INKZONE app. Personalize the back display with your chosen image.</p><p class="product-code" id="productSku">SELECT COLOUR AND PHONE MODEL</p><div class="rule"></div>
+<p class="price-label">Your price</p><div class="price" id="productPrice" aria-live="polite">Select country and phone model</div><p class="price-note">Displayed price includes product cost, destination shipping and the current $20 product margin.</p><div class="rule"></div>
+<label class="field-label" for="countrySelect">SHIPPING DESTINATION</label><select class="select" id="countrySelect"><option value="">Loading available destinations…</option></select><p class="shipping-info" id="shippingMessage" aria-live="polite">Select your country to calculate the final price.</p>
+<div class="color-section"><span class="color-label">SELECT COLOUR</span><div class="color-options" id="colorOptions" role="group" aria-label="Select phone case colour"><button class="color-button active" type="button" data-color="Black" aria-pressed="true">Black</button><button class="color-button" type="button" data-color="Black Set" aria-pressed="false">Black Set</button><button class="color-button" type="button" data-color="Blue" aria-pressed="false">Blue</button><button class="color-button" type="button" data-color="Grey" aria-pressed="false">Grey</button><button class="color-button" type="button" data-color="Pink" aria-pressed="false">Pink</button><button class="color-button" type="button" data-color="White" aria-pressed="false">White</button></div></div>
+<div class="size-section" style="margin-top:23px"><label class="field-label" for="modelSelect">SELECT PHONE MODEL</label><select class="select" id="modelSelect"><option value="">Choose your iPhone model</option></select><p class="shipping-info" id="modelMessage" aria-live="polite">Black Set is only available for iPhone 15 Pro Max; White is unavailable for iPhone 12 series.</p></div>
+<div class="quantity-row"><span class="quantity-label">QUANTITY</span><div class="quantity"><button type="button" id="decreaseQuantity">−</button><span id="quantityNumber">1</span><button type="button" id="increaseQuantity">+</button></div></div>
+<div class="actions"><button type="button" class="action add-cart" id="addToCart">ADD TO CART</button><button type="button" class="action buy-now" id="buyNow">BUY NOW</button></div>
+<div class="trust-row"><div class="trust-item"><strong>SECURE CHECKOUT</strong>Protected checkout flow</div><div class="trust-item"><strong>TRACKED DELIVERY</strong>Tracking when supplied</div><div class="trust-item"><strong>SUPPORT</strong>info@sacchiflyier.in</div></div>
+<section class="description"><h2>PRODUCT DETAILS</h2><p>Battery-free E-Ink display case. Activate NFC on your phone, install the INKZONE app, choose an image and project it onto the case display. One phone case per package.</p><div class="specs"><div class="spec">DISPLAY<strong>Battery-free E-Ink</strong></div><div class="spec">SETUP<strong>NFC + INKZONE app</strong></div><div class="spec">MATERIAL<strong>TPU</strong></div><div class="spec">COLOURS<strong>Black, Black Set, Blue, Grey, Pink, White</strong></div><div class="spec">COMPATIBILITY<strong>Selected Apple iPhone models</strong></div><div class="spec">SUPPLIER SKU<strong id="supplierSku">Select colour</strong></div></div><a class="reviews-anchor" href="#customer-reviews">READ / WRITE CUSTOMER REVIEWS ↓</a></section></div></section></main><section class="sf-reviews" id="customer-reviews">
   <div class="sf-reviews-inner">
     <p class="section-label">CUSTOMER FEEDBACK</p>
     <h2>Customer Reviews</h2>
@@ -921,5 +576,464 @@ countrySelect.addEventListener("change",()=>{try{api.setCountry(countrySelect.va
     populateModels();
 (async()=>{await api.refreshCurrencyData();populateCountries();})();
 </script>
-</body>
-</html>
+<footer>© 2026 SACCHI FLYIER — FLY BEYOND LIMIT</footer><script src="cart.js"></script>
+<script src="reviews.js"></script>
+<script>
+"use strict";
+const PRODUCT={id:"product3",name:"E-ink Screen Phone Case",sku:"",image:"product3-main.jpg",profitUSD:20};
+const VARIANTS={
+ "Black Set":{sku:"CJJT196419841OL",productCostUSD:26.79,usShippingUSD:7.30},
+ "Black":{sku:"CJJT196419803CX",productCostUSD:26.20,usShippingUSD:6.88},
+ "Blue":{sku:"CJJT196419832FU",productCostUSD:26.20,usShippingUSD:6.88},
+ "Grey":{sku:"CJJT196419809IR",productCostUSD:26.20,usShippingUSD:6.88},
+ "Pink":{sku:"CJJT196419865MN",productCostUSD:26.20,usShippingUSD:6.88},
+ "White":{sku:"CJJT196419815OL",productCostUSD:26.20,usShippingUSD:6.88}
+};
+const shippingRates = {
+        "Afghanistan": 131.16,
+        "Albania": 8.69,
+        "Algeria": 9.57,
+        "American Samoa": 85.41,
+        "Andorra": 9.35,
+        "Angola": 10.03,
+        "Anguilla": 21.38,
+        "Antigua and Barbuda": 85.41,
+        "Argentina": 10.99,
+        "Armenia": 11.02,
+        "Aruba": 9.45,
+        "Australia": 7.39,
+        "Austria": 7.69,
+        "Azerbaijan": 8.08,
+        "Bahamas": 85.41,
+        "Bahrain": 13.98,
+        "Bangladesh": 9.03,
+        "Barbados": null,
+        "Belarus": null,
+        "Belgium": 8.54,
+        "Belize": 9.85,
+        "Benin": 10.03,
+        "Bermuda": 9.85,
+        "Bhutan": 85.41,
+        "Bolivia (Plurinational State of)": 10.07,
+        "Bonaire, Sint Eustatius and Saba": null,
+        "Bosnia and Herzegovina": 8.60,
+        "Botswana": 10.03,
+        "Bouvet Island": 11.11,
+        "Brazil": 8.34,
+        "British Indian Ocean Territory": 10.03,
+        "Brunei Darussalam": 7.30,
+        "Bulgaria": 12.39,
+        "Burkina Faso": 10.03,
+        "Burundi": 10.03,
+        "Cabo Verde": 10.03,
+        "Cambodia": 9.87,
+        "Cameroon": 10.03,
+        "Canada": 5.27,
+        "Cayman Islands": 24.52,
+        "Central African Republic": 10.03,
+        "Chad": 85.41,
+        "Chile": 9.32,
+        "China": 1.43,
+        "Christmas Island": 12.57,
+        "Cocos (Keeling) Islands": 12.57,
+        "Colombia": 8.39,
+        "Comoros": 10.03,
+        "Congo (The Democratic Republic of the)": 135.41,
+        "Congo": 85.41,
+        "Cook Islands": 13.07,
+        "Costa Rica": 14.22,
+        "Côte d’Ivoire": 10.03,
+        "Croatia": 12.50,
+        "Cuba": 85.41,
+        "Curaçao": 85.41,
+        "Cyprus": 12.92,
+        "Czechia": 9.36,
+        "Denmark": 7.69,
+        "Djibouti": 10.03,
+        "Dominica": 85.41,
+        "Dominican Republic": 85.41,
+        "Ecuador": 85.41,
+        "Egypt": 11.25,
+        "El Salvador": 16.70,
+        "Equatorial Guinea": 16.02,
+        "Eritrea": 85.41,
+        "Estonia": 9.07,
+        "Ethiopia": 10.03,
+        "Falkland Islands": 9.47,
+        "Faroe Islands": 10.73,
+        "Fiji": 11.08,
+        "Finland": 11.08,
+        "France": 7.75,
+        "French Guiana": 12.36,
+        "French Polynesia": 10.71,
+        "French Southern Territories": 9.47,
+        "Gabon": 10.03,
+        "Gambia": 10.03,
+        "Georgia": 14.45,
+        "Germany": 7.07,
+        "Ghana": 9.40,
+        "Gibraltar": 8.30,
+        "Greece": 6.99,
+        "Greenland": 21.89,
+        "Grenada": 85.41,
+        "Guadeloupe": 11.87,
+        "Guam": 85.41,
+        "Guatemala": 13.79,
+        "Guernsey": 9.07,
+        "Guinea": 10.03,
+        "Guinea-Bissau": 85.41,
+        "Guyana": 10.07,
+        "Haiti": 85.41,
+        "Hawaii": null,
+        "Heard Island and McDonald Islands": 13.22,
+        "Holy See": 37.19,
+        "Honduras": 85.41,
+        "Hong Kong (China)": 4.79,
+        "Hungary": 7.36,
+        "Iceland": 11.55,
+        "Indonesia": 6.99,
+        "Iran (Islamic Republic of)": 135.41,
+        "Iraq": 180.12,
+        "Ireland": 9.00,
+        "Isle of Man": 9.07,
+        "Israel": 6.90,
+        "Italy": 8.20,
+        "Jamaica": 9.85,
+        "Japan": 4.55,
+        "Jersey": 8.61,
+        "Jordan": 8.08,
+        "Kazakhstan": 2.76,
+        "Kenya": 8.77,
+        "Kiribati": 13.07,
+        "Korea (The Democratic People's Republic of)": 135.41,
+        "Korea": 3.03,
+        "Kuwait": 12.64,
+        "Kyrgyzstan": 9.03,
+        "Lao People's Democratic Republic": 30.42,
+        "Latvia": 10.01,
+        "Lebanon": 131.16,
+        "Lesotho": 16.02,
+        "Liberia": 10.03,
+        "Libya": 180.12,
+        "Liechtenstein": 10.84,
+        "Lithuania": 10.74,
+        "Luxembourg": 9.98,
+        "Macao (China)": 6.30,
+        "Macedonia (The Former Yugoslav Republic of)": 9.06,
+        "Madagascar": 85.41,
+        "Malawi": 10.03,
+        "Malaysia": 2.57,
+        "Maldives": 9.03,
+        "Mali": 10.03,
+        "Malta": 14.04,
+        "Marshall Islands": 85.41,
+        "Martinique": 11.79,
+        "Mauritania": 85.41,
+        "Mauritius": 16.63,
+        "Mayotte": 9.19,
+        "Mexico": 5.31,
+        "Micronesia (Federated States of)": 85.41,
+        "Moldova, The Republic of": 10.75,
+        "Monaco": 9.19,
+        "Mongolia": 85.41,
+        "Montenegro": 85.41,
+        "Montserrat": 85.41,
+        "Morocco": 10.33,
+        "Mozambique": 9.57,
+        "Myanmar": 9.03,
+        "Namibia": 9.66,
+        "Nauru": 85.41,
+        "Nepal": 85.41,
+        "Netherlands": 8.77,
+        "New Caledonia": 10.62,
+        "New Zealand": 6.77,
+        "Nicaragua": 9.85,
+        "Niger": 131.16,
+        "Nigeria": 9.92,
+        "Niue": 13.07,
+        "Norfolk Island": 12.57,
+        "Northern Mariana Islands": 85.41,
+        "Norway": 6.58,
+        "Oman": 10.68,
+        "Pakistan": 2.35,
+        "Palau": 85.41,
+        "Palestine, State of": null,
+        "Panama": 9.85,
+        "Papua New Guinea": 9.72,
+        "Paraguay": 10.07,
+        "Peru": 9.57,
+        "Philippines": 3.43,
+        "Pitcairn": 15.04,
+        "Poland": 6.85,
+        "Portugal": 7.96,
+        "Puerto Rico": 12.94,
+        "Qatar": 10.08,
+        "Réunion": 11.98,
+        "Romania": 16.88,
+        "Russian Federation": 5.79,
+        "Rwanda": 10.03,
+        "Saint Helena, Ascension and Tristan da Cunha": 11.19,
+        "Saint Kitts and Nevis": 21.38,
+        "Saint Lucia": 85.41,
+        "Saint Martin (French part)": 9.47,
+        "Saint Pierre and Miquelon": 10.91,
+        "Saint Vincent and the Grenadines": 9.39,
+        "Samoa": 13.07,
+        "San Marino": 37.19,
+        "Sao Tome and Principe": 85.41,
+        "Saudi Arabia": 7.18,
+        "Senegal": 10.03,
+        "Serbia": 7.65,
+        "Seychelles": 14.21,
+        "Sierra Leone": 10.03,
+        "Singapore": 13.17,
+        "Sint Maarten (Dutch part)": null,
+        "Slovakia": 11.15,
+        "Slovenia": 12.35,
+        "Solomon Islands": 85.41,
+        "Somalia": 180.12,
+        "South Africa": 10.12,
+        "South Georgia and the South Sandwich Islands": 9.47,
+        "South Sudan": 85.41,
+        "Spain": 6.32,
+        "Sri Lanka": 6.72,
+        "Sudan": 10.07,
+        "Suriname": 10.70,
+        "Swaziland": 19.16,
+        "Sweden": 7.16,
+        "Switzerland": 7.49,
+        "Syrian Arab Republic": 180.12,
+        "Taiwan (Province of China)": 9.95,
+        "Tajikistan": 85.41,
+        "Tanzania, United Republic of": 10.03,
+        "Thailand": 1.60,
+        "The Republic of Kosovo": 85.41,
+        "Timor-Leste": 85.41,
+        "Togo": 10.03,
+        "Tokelau": 13.07,
+        "Tonga": 13.07,
+        "Trinidad and Tobago": 15.75,
+        "Tunisia": 10.03,
+        "Turkey": 9.70,
+        "Turks and Caicos Islands": 85.41,
+        "Tuvalu": 13.07,
+        "Uganda": 8.87,
+        "Ukraine": null,
+        "United Arab Emirates": 4.23,
+        "United Kingdom": 4.94,
+        "United States": 6.78,
+        "Uruguay": 85.41,
+        "Uzbekistan": 9.03,
+        "Vanuatu": 13.07,
+        "Venezuela (Bolivarian Republic of)": 131.16,
+        "Vietnam": 1.71,
+        "Virgin Islands (British)": 9.85,
+        "Virgin Islands (U.S.)": 85.41,
+        "Wallis and Futuna": 13.07,
+        "Western Sahara": 10.33,
+        "Yemen": 180.12,
+        "Zambia": 10.03,
+        "Zimbabwe": 10.23
+    };
+const api=window.SacchiCart;
+const countrySelect=document.getElementById("countrySelect");
+const productPrice=document.getElementById("productPrice");
+const shippingMessage=document.getElementById("shippingMessage");
+const priceWrap=document.getElementById("priceDisplay");
+const quantityElement=document.getElementById("quantityNumber");
+let quantity=1,selectedCountry="",selectedCurrency="USD",unitPriceUSD=null,unitPriceLocal=null,shippingCountryName="";
+function currentVariant(){return VARIANTS[selectedColor] || null;}
+function currentProductCost(){const v=currentVariant();return v?v.productCostUSD:null;}
+function currentShippingUSD(){const v=currentVariant();if(!v)return null;if(selectedCountry==="US")return v.usShippingUSD;return shippingCountryName && shippingRates[shippingCountryName]!=null ? Number(shippingRates[shippingCountryName]) : null;}
+function setPriceVisible(visible){if(priceWrap===productPrice)return;if(priceWrap)priceWrap.classList.toggle("visible",visible)}
+function normalizeName(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"")}
+const aliases={"KR":"Korea","KP":"Korea (the Democratic People’s Republic of)","CD":"Congo (the Democratic Republic of the)","CG":"Congo","MD":"Moldova, Republic of","MK":"Macedonia (the former Yugoslav Republic of)","ST":"Sao Tome and Principe","SZ":"Swaziland","TR":"Turkey","CZ":"Czechia","BO":"Bolivia (Plurinational State of)","CI":"Côte d’Ivoire","PS":"Palestine State of","FM":"Micronesia (Federated States of)","VA":"Holy See","RU":"Russian Federation","TW":"Taiwan (Province of China)","TZ":"Tanzania, United Republic of","SY":"Syrian Arab Republic","IR":"Iran (Islamic Republic of)","LA":"Lao People’s Democratic Republic","VE":"Venezuela (Bolivarian Republic of)","BN":"Brunei Darussalam","CV":"Cabo Verde"};
+function resolveShippingName(country){const candidates=[country.name.common,aliases[country.cca2]].filter(Boolean);for(const n of candidates){const key=Object.keys(shippingRates).find(k=>normalizeName(k)===normalizeName(n));if(key)return key}return null}
+function setUnavailable(message){unitPriceUSD=null;unitPriceLocal=null;setPriceVisible(false);productPrice.textContent="Price unavailable";shippingMessage.textContent=message;shippingMessage.classList.add("unavailable")}
+function updateVariantSku(){const v=currentVariant();const skuEl=document.getElementById("productSku");if(skuEl)skuEl.textContent=v?v.sku:"Unavailable";}
+function updatePrice(){
+ updateVariantSku();
+ if(!isModelAvailable(selectedColor,selectedModel)){unitPriceUSD=null;unitPriceLocal=null;setPriceVisible(false);productPrice.textContent="Select phone model";shippingMessage.textContent="Choose an available phone model to calculate the price.";return;}
+ selectedCountry=countrySelect.value;
+ unitPriceUSD=null;unitPriceLocal=null;setPriceVisible(false);shippingMessage.classList.remove("unavailable");
+ if(!selectedCountry){productPrice.textContent="Select country";shippingMessage.textContent="Select your country to calculate the final price.";return}
+ const c=api.COUNTRIES[selectedCountry];if(!c){setUnavailable("Country information is unavailable. Please refresh and try again.");return}
+ shippingCountryName=resolveShippingName({name:{common:c.name},cca2:selectedCountry});
+ if(!shippingCountryName||shippingRates[shippingCountryName]===null||shippingRates[shippingCountryName]===undefined){setUnavailable("CJ shipping is unavailable for this destination.");return}
+ selectedCurrency=c.currency;
+ const variant=currentVariant();if(!variant){setUnavailable("This colour and phone model combination is unavailable.");return;}
+ const shippingUSD=currentShippingUSD();if(shippingUSD===null){setUnavailable("CJ shipping is unavailable for this destination.");return;}
+ const totalUSD=Number((variant.productCostUSD+shippingUSD+PRODUCT.profitUSD).toFixed(2));
+ const ratePrice=api.convertUSD(totalUSD,selectedCurrency);
+ if(ratePrice===null){setUnavailable("Reference conversion for "+selectedCurrency+" is unavailable. Please try again later.");return}
+ unitPriceUSD=totalUSD;
+ unitPriceLocal=ratePrice;
+ productPrice.textContent=api.formatMoney(ratePrice,selectedCurrency);
+ setPriceVisible(true);
+ shippingMessage.textContent="Shipping included. Local price converted from USD using reference exchange rates.";
+ updateVariantSku();
+}
+function populateCountries(){
+ const previous=api.getCountry();countrySelect.innerHTML='<option value="">Select your country</option>';
+ Object.entries(api.COUNTRIES).sort((a,b)=>a[1].name.localeCompare(b[1].name)).forEach(([code,c])=>{
+  if(code==="IN")return;const option=document.createElement("option");option.value=code;option.textContent=c.name+" ("+c.currency+")";countrySelect.appendChild(option);
+ });
+ if(api.COUNTRIES[previous])countrySelect.value=previous;
+ updatePrice();
+}
+function createProductItem(){
+ if(unitPriceUSD===null||unitPriceLocal===null)return null;
+ const variant=currentVariant();const item={id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:variant.sku,image:PRODUCT.image,quantity,country:selectedCountry,countryName:api.COUNTRIES[selectedCountry]?.name||"",currency:selectedCurrency,unitPriceUSD,unitPriceLocal:Number(unitPriceLocal.toFixed(2)),shippingCostUSD:Number(currentShippingUSD()),productCostUSD:variant.productCostUSD,profitUSD:PRODUCT.profitUSD};
+ if(selectedColor)item.color=selectedColor;
+ item.model=selectedModel;
+ return item;
+}
+function validateSelection(){
+ if(!selectedCountry){alert("Please select your shipping country first.");return false}
+ if(unitPriceUSD===null||unitPriceLocal===null){alert("Shipping or currency conversion is unavailable for this destination.");return false}
+ if(!isModelAvailable(selectedColor,selectedModel)){alert("Please select an available phone model.");modelSelect.focus();return false;}
+ return true;
+}
+function addToCart(){if(!validateSelection())return;try{api.add(createProductItem());alert("Product added to your cart.");}catch(e){alert(e.message||"Unable to add this product.");}}
+function buyNow(){if(!validateSelection())return;try{api.buyNow(createProductItem());}catch(e){alert(e.message||"Unable to continue to checkout.");}}
+document.getElementById("increaseQuantity").addEventListener("click",()=>{quantity=Math.min(99,quantity+1);quantityElement.textContent=quantity});
+document.getElementById("decreaseQuantity").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);quantityElement.textContent=quantity});
+document.getElementById("addToCart").addEventListener("click",addToCart);
+document.getElementById("buyNow").addEventListener("click",buyNow);
+
+// Product colour and phone-model availability
+    const modelSelect = document.getElementById("modelSelect");
+    const modelMessage = document.getElementById("modelMessage");
+    const colorButtons = Array.from(
+        document.querySelectorAll(".color-button")
+    );
+
+    const modelsBySeries = {
+        "iPhone 12": ["iPhone 12","iPhone 12 Pro","iPhone 12 Pro Max"],
+        "iPhone 13": ["iPhone 13","iPhone 13 Pro","iPhone 13 Pro Max"],
+        "iPhone 14": ["iPhone 14","iPhone 14 Pro","iPhone 14 Pro Max"],
+        "iPhone 15": ["iPhone 15","iPhone 15 Pro","iPhone 15 Pro Max"],
+        "iPhone 16": [
+            "iPhone 16",
+            "iPhone 16 Plus",
+            "iPhone 16 Pro",
+            "iPhone 16 Pro Max"
+        ],
+        "iPhone 17": ["iPhone 17","iPhone 17 Pro","iPhone 17 Pro Max"]
+    };
+
+    const availableColors = ["Black","Black Set","Blue","Grey","Pink","White"];
+
+    let selectedColor = "Black";
+    let selectedModel = "";
+
+    function isModelAvailable(color, model) {
+        if (!availableColors.includes(color) || !model) {
+            return false;
+        }
+
+        const modelExists = Object.values(modelsBySeries)
+            .some(models => models.includes(model));
+
+        if (!modelExists) return false;
+
+        // Black Set is only available for iPhone 15 Pro Max.
+        if (color === "Black Set") return model === "iPhone 15 Pro Max";
+        // White is unavailable for the iPhone 12 series.
+        if (color === "White" && model.startsWith("iPhone 12")) return false;
+        return true;
+    }
+
+    function populateModels() {
+        const previousModel = selectedModel;
+
+        modelSelect.innerHTML =
+            '<option value="">Select phone model</option>';
+
+        Object.entries(modelsBySeries).forEach(([series, models]) => {
+            const group = document.createElement("optgroup");
+            group.label = series + " series";
+
+            models.forEach(model => {
+                const option = document.createElement("option");
+                option.value = model;
+
+                const available = isModelAvailable(
+                    selectedColor,
+                    model
+                );
+
+                option.textContent = model +
+                    (available ? " — Available" : " — Unavailable");
+
+                option.disabled = !available;
+                group.appendChild(option);
+            });
+
+            modelSelect.appendChild(group);
+        });
+
+        if (isModelAvailable(selectedColor, previousModel)) {
+            modelSelect.value = previousModel;
+            selectedModel = previousModel;
+        } else {
+            modelSelect.value = "";
+            selectedModel = "";
+        }
+
+        modelMessage.classList.remove("unavailable");
+
+        if (selectedColor === "White") {
+            modelMessage.textContent = "White is available for listed iPhone 13–17 models. iPhone 12 models are unavailable in White.";
+        } else if (selectedColor === "Black Set") {
+            modelMessage.textContent = "Black Set is available only for iPhone 15 Pro Max.";
+        } else {
+            modelMessage.textContent =
+                selectedColor +
+                " is available for the listed iPhone 12–17 models."
+        }
+    }
+
+    function chooseColor(color) {
+        if (!availableColors.includes(color)) return;
+
+        selectedColor = color;
+
+        colorButtons.forEach(button => {
+            const active = button.dataset.color === color;
+            button.classList.toggle("active", active);
+            button.setAttribute("aria-pressed", String(active));
+        });
+
+        populateModels();
+        updatePrice();
+    }
+
+    colorButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            chooseColor(button.dataset.color);
+        });
+    });
+
+    modelSelect.addEventListener("change", () => {
+        selectedModel = modelSelect.value;
+        updatePrice();
+
+        if (
+            selectedModel &&
+            !isModelAvailable(selectedColor, selectedModel)
+        ) {
+            modelSelect.value = "";
+            selectedModel = "";
+            modelMessage.textContent =
+                "That model is unavailable in " + selectedColor + ".";
+            modelMessage.classList.add("unavailable");
+        }
+    });
+
+    
+countrySelect.addEventListener("change",()=>{try{api.setCountry(countrySelect.value)}catch(e){}updatePrice()});
+    populateModels();
+(async()=>{await api.refreshCurrencyData();populateCountries();})();
+</script>
+</body></html>
