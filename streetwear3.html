@@ -29,7 +29,7 @@ h1{font-size:clamp(29px,4vw,38px);line-height:1.15;margin-bottom:12px}
 .price-note,.shipping-price{color:#999;font-size:13px;line-height:1.65}
 .price-note{margin-bottom:23px}
 label{display:block;margin:16px 0 8px;font-size:14px;color:#ccc}
-.color-options{display:flex;align-items:center;gap:12px;margin:8px 0 18px}.color-swatch{width:28px;height:28px;border:2px solid #fff;border-radius:50%;background:#080808;box-shadow:0 0 0 2px #555}.color-name{font-size:14px;color:#ccc}
+.color-options{display:flex;flex-wrap:wrap;gap:12px;margin:8px 0 18px}.color-choice{display:flex;flex-direction:column;align-items:center;gap:7px;padding:5px 7px;border:1px solid transparent;border-radius:10px;background:transparent;color:#ccc;font-size:12px;cursor:pointer}.color-choice.active{border-color:#fff;color:#fff}.color-swatch{display:block;width:28px;height:28px;border:1px solid #777;border-radius:50%;box-shadow:0 0 0 1px #333}.swatch-black{background:#080808}.swatch-blue{background:#2365bd}.swatch-pink{background:#ef9fbd}.swatch-white{background:#f5f5f5}.swatch-yellow{background:#f2d22e}
 select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;background:#111;color:#fff;font-size:15px}
 .shipping-price{margin:12px 0 22px}
 .quantity-box{display:flex;align-items:center;width:fit-content;border:1px solid #444;border-radius:12px;overflow:hidden;margin:10px 0 24px}
@@ -75,7 +75,13 @@ footer{border-top:1px solid #222;text-align:center;padding:25px 15px;color:#aaa;
 <p class="subtitle">A clean, casual hooded sweatshirt with a relaxed streetwear look.</p>
 <p class="sku" id="variantSku">Choose a size to view its SKU</p>
 <label>Color</label>
-<div class="color-options" aria-label="Available color"><span class="color-swatch" role="img" aria-label="Black color"></span><span class="color-name">Black</span></div>
+<div class="color-options" id="colorOptions" aria-label="Choose hoodie color">
+<button type="button" class="color-choice active" data-color="Black" aria-label="Black" aria-pressed="true"><span class="color-swatch swatch-black"></span><span>Black</span></button>
+<button type="button" class="color-choice" data-color="Blue" aria-label="Blue" aria-pressed="false"><span class="color-swatch swatch-blue"></span><span>Blue</span></button>
+<button type="button" class="color-choice" data-color="Pink" aria-label="Pink" aria-pressed="false"><span class="color-swatch swatch-pink"></span><span>Pink</span></button>
+<button type="button" class="color-choice" data-color="White" aria-label="White" aria-pressed="false"><span class="color-swatch swatch-white"></span><span>White</span></button>
+<button type="button" class="color-choice" data-color="Yellow" aria-label="Yellow" aria-pressed="false"><span class="color-swatch swatch-yellow"></span><span>Yellow</span></button>
+</div>
 <label for="size">Select Size</label>
 <select id="size">
 <option value="">Choose your size</option>
@@ -121,7 +127,7 @@ footer{border-top:1px solid #222;text-align:center;padding:25px 15px;color:#aaa;
 
 const PRODUCT = {
   id: "streetwear3",
-  name: "Black Streetwear Hoodie",
+  name: "Streetwear Hoodie",
   productCostUSD: 5.03,
   profitUSD: 20,
   image: "https://cf.cjdropshipping.com/quick/product/d5ad8011-f3d8-4272-a392-a8b915c218fc.jpg"
@@ -138,6 +144,16 @@ const VARIANTS = {
   "4XL": { sku: "CJLS281993044RI", weight: 370, shipping: 9.12 },
   "5XL": { sku: "CJLS281993045SH", weight: 380, shipping: 9.28 }
 };
+
+const COLOR_DATA = {
+  Black:  { image: "https://cf.cjdropshipping.com/quick/product/cf1eea5d-a473-473f-8073-800b4916a1b1.jpg", skus: ["CJLS281993037KP","CJLS281993038LO","CJLS281993039MN","CJLS281993040NM","CJLS281993041OL","CJLS281993042PK","CJLS281993043QJ","CJLS281993044RI","CJLS281993045SH"] },
+  Blue:   { image: "https://cf.cjdropshipping.com/quick/product/0ca622ee-30e2-4a1d-9bf4-b61543923971.jpg", skus: ["CJLS281993028BY","CJLS281993029CX","CJLS281993030DW","CJLS281993031EV","CJLS281993032FU","CJLS281993033GT","CJLS281993034HS","CJLS281993035IR","CJLS281993036JQ"] },
+  Pink:   { image: "https://cf.cjdropshipping.com/quick/product/bbc8b867-ee14-4209-b97d-643ebc6aece9.jpg", skus: ["CJLS281993019SH","CJLS281993020TG","CJLS281993021UF","CJLS281993022VE","CJLS281993023WD","CJLS281993024XC","CJLS281993025YB","CJLS281993026ZA","CJLS281993027AZ"] },
+  White:  { image: "https://cf.cjdropshipping.com/quick/product/fe33c6d2-35f4-4d5f-b1dd-a0065283be5b.jpg", skus: ["CJLS281993010JQ","CJLS281993011KP","CJLS281993012LO","CJLS281993013MN","CJLS281993014NM","CJLS281993015OL","CJLS281993016PK","CJLS281993017QJ","CJLS281993018RI"] },
+  Yellow: { image: "https://cf.cjdropshipping.com/quick/product/ae2621fa-3063-4e09-8e3a-f5f476b60eb8.jpg", skus: ["CJLS281993001AZ","CJLS281993002BY","CJLS281993003CX","CJLS281993004DW","CJLS281993005EV","CJLS281993006FU","CJLS281993007GT","CJLS281993008HS","CJLS281993009IR"] }
+};
+const SIZE_ORDER = ["XS","S","M","L","XL","2XL","3XL","4XL","5XL"];
+let selectedColor = "Black";
 
 const cart = window.SacchiCart;
 const sizeSelect = document.getElementById("size");
@@ -165,55 +181,49 @@ function setUnavailable(title, message) {
 
 function updateProductSelection() {
   const size = sizeSelect.value;
-  selectedVariant = VARIANTS[size] || null;
+  const sizeIndex = SIZE_ORDER.indexOf(size);
+  const colorData = COLOR_DATA[selectedColor];
+  const blackRate = VARIANTS[size];
+  selectedVariant = sizeIndex >= 0 && colorData
+    ? { sku: colorData.skus[sizeIndex], weight: blackRate ? blackRate.weight : null,
+        shipping: selectedColor === "Black" && blackRate ? blackRate.shipping : null }
+    : null;
 
-  skuDisplay.textContent = selectedVariant
-    ? "SKU: " + selectedVariant.sku
-    : "Choose a size to view its SKU";
+  skuDisplay.textContent = selectedVariant ? "SKU: " + selectedVariant.sku : "Choose a size to view its SKU";
 
   if (!selectedVariant) {
-    setUnavailable(
-      "Select size",
-      "Choose a size to see its USA shipping and final price."
-    );
+    setUnavailable("Select size", "Choose a size to see availability.");
+    return;
+  }
+
+  if (selectedColor !== "Black") {
+    setUnavailable("Shipping rate unavailable", "CJ confirms this color and size, but USA shipping has not yet been confirmed for it. Please contact us before ordering.");
     return;
   }
 
   const usa = cart.COUNTRIES && cart.COUNTRIES.US;
   if (!usa) {
-    setUnavailable(
-      "Price unavailable",
-      "Currency details could not be loaded. Please refresh the page."
-    );
+    setUnavailable("Price unavailable", "Currency details could not be loaded. Please refresh the page.");
     return;
   }
 
   const shippingUSD = selectedVariant.shipping;
-  const totalUSD = Number(
-    (PRODUCT.productCostUSD + shippingUSD + PRODUCT.profitUSD).toFixed(2)
-  );
+  const totalUSD = Number((PRODUCT.productCostUSD + shippingUSD + PRODUCT.profitUSD).toFixed(2));
   const convertedPrice = cart.convertUSD(totalUSD, usa.currency);
 
   if (convertedPrice === null || !Number.isFinite(Number(convertedPrice))) {
-    setUnavailable(
-      "Price unavailable",
-      "USD currency formatting is temporarily unavailable."
-    );
+    setUnavailable("Price unavailable", "USD currency formatting is temporarily unavailable.");
     return;
   }
 
   currency = usa.currency;
   unitPriceUSD = totalUSD;
   unitPriceLocal = Number(Number(convertedPrice).toFixed(2));
-
   priceDisplay.textContent = cart.formatMoney(unitPriceLocal, currency);
-  shippingDisplay.textContent =
-    "USA shipping: $" + shippingUSD.toFixed(2) +
+  shippingDisplay.textContent = "USA shipping: $" + shippingUSD.toFixed(2) +
     " · Product: $" + PRODUCT.productCostUSD.toFixed(2) +
     " · CJ total: $" + (PRODUCT.productCostUSD + shippingUSD).toFixed(2) +
-    " · Your $20 profit is included. Weight: " +
-    selectedVariant.weight + " g.";
-
+    " · Your $20 profit is included. Weight: " + selectedVariant.weight + " g.";
   addCartButton.disabled = false;
   buyNowButton.disabled = false;
 }
@@ -224,9 +234,9 @@ function buildCartItem() {
   return {
     id: PRODUCT.id + "-" + selectedVariant.sku,
     productId: PRODUCT.id,
-    name: PRODUCT.name,
+    name: PRODUCT.name + " - " + selectedColor,
     sku: selectedVariant.sku,
-    color: "Black",
+    color: selectedColor,
     size: sizeSelect.value,
     quantity: quantity,
     country: "US",
@@ -248,6 +258,23 @@ document.querySelectorAll(".thumbnail").forEach(function (thumbnail) {
     document.querySelectorAll(".thumbnail").forEach(function (item) {
       item.classList.toggle("active", item === thumbnail);
     });
+  });
+});
+
+document.querySelectorAll(".color-choice").forEach(function (button) {
+  button.addEventListener("click", function () {
+    selectedColor = button.dataset.color;
+    document.querySelectorAll(".color-choice").forEach(function (item) {
+      const active = item === button;
+      item.classList.toggle("active", active);
+      item.setAttribute("aria-pressed", String(active));
+    });
+    const image = COLOR_DATA[selectedColor].image;
+    document.getElementById("mainProductImage").src = image;
+    document.querySelectorAll(".thumbnail").forEach(function (thumb) {
+      thumb.classList.toggle("active", thumb.dataset.image === image);
+    });
+    updateProductSelection();
   });
 });
 
