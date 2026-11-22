@@ -469,27 +469,23 @@ function updateShipping(){updatePrice();}
 function updatePrice(){
  selectedCountry=countrySelect.value;
  unitPriceUSD=null;unitPriceLocal=null;setPriceVisible(false);shippingMessage.classList.remove("unavailable");
- if(!selectedCountry){productPrice.textContent="Select country";shippingMessage.textContent="Select your country to calculate the final price.";return}
- const c=api.COUNTRIES[selectedCountry];if(!c){setUnavailable("Country information is unavailable. Please refresh and try again.");return}
- shippingCountryName=resolveShippingName({name:{common:c.name},cca2:selectedCountry});
- if(!shippingCountryName||shippingRates[shippingCountryName]===null||shippingRates[shippingCountryName]===undefined){setUnavailable("CJ shipping is unavailable for this destination.");return}
- selectedCurrency=c.currency;
- const ratePrice=api.convertUSD(PRODUCT.productCostUSD+Number(shippingRates[shippingCountryName])+PRODUCT.profitUSD,selectedCurrency);
- if(ratePrice===null){setUnavailable("Reference conversion for "+selectedCurrency+" is unavailable. Please try again later.");return}
- unitPriceUSD=Number((PRODUCT.productCostUSD+Number(shippingRates[shippingCountryName])+PRODUCT.profitUSD).toFixed(2));
- unitPriceLocal=ratePrice;
- productPrice.textContent=api.formatMoney(ratePrice,selectedCurrency);
+ if(selectedCountry!=="US"){productPrice.textContent="Select country";shippingMessage.textContent="Select United States to see the available price.";return}
+ shippingCountryName="United States";
+ selectedCurrency="USD";
+ const shippingUSD=5.20;
+ unitPriceUSD=Number((PRODUCT.productCostUSD+shippingUSD+PRODUCT.profitUSD).toFixed(2));
+ unitPriceLocal=unitPriceUSD;
+ productPrice.textContent=api.formatMoney(unitPriceUSD,"USD");
  setPriceVisible(true);
- shippingMessage.textContent="Shipping included. Local price converted from USD using reference exchange rates.";
+ shippingMessage.textContent="USA shipping included ($5.20). Total includes $1.62 product cost and $20.00 profit.";
 }
 function populateCountries(){
- const previous=api.getCountry();countrySelect.innerHTML='<option value="">Select your country</option>';
- Object.entries(api.COUNTRIES).sort((a,b)=>a[1].name.localeCompare(b[1].name)).forEach(([code,c])=>{
-  if(code==="IN")return;const option=document.createElement("option");option.value=code;option.textContent=c.name+" ("+c.currency+")";countrySelect.appendChild(option);
- });
- if(api.COUNTRIES[previous])countrySelect.value=previous;
+ countrySelect.innerHTML='<option value="US">United States (USD)</option>';
+ countrySelect.value="US";
+ try{api.setCountry("US")}catch(e){}
  updatePrice();
 }
+
 function createProductItem(){
  if(unitPriceUSD===null||unitPriceLocal===null)return null;
  const item={id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:PRODUCT.sku,image:PRODUCT.image,quantity,country:selectedCountry,countryName:api.COUNTRIES[selectedCountry]?.name||"",currency:selectedCurrency,unitPriceUSD,unitPriceLocal:Number(unitPriceLocal.toFixed(2)),shippingCostUSD:Number(shippingRates[shippingCountryName]),productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD};
