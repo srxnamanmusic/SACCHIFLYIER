@@ -39,7 +39,7 @@ footer{border-top:1px solid #222;text-align:center;padding:25px 15px;color:#aaa;
 <p class="subtitle">Blue denim cargo shorts with a relaxed workwear look and practical large pockets.</p>
 <p class="sku">CJ Product SKU: <span id="selectedSku">CJXX283166604DW</span></p>
 <div class="price" id="productPrice">Loading price…</div>
-<p class="price-note">USA price includes the confirmed CJ shipping cost and your $20 profit target. Shipping is verified for sizes M and L; other sizes need a fresh CJ shipping quote.</p>
+<p class="price-note">USA price includes the confirmed CJ shipping cost and your $20 profit target. Shipping is verified for sizes S, M and L; other sizes need a fresh CJ shipping quote.</p>
 <label for="variant">Size — Blue</label>
 <select id="variant">
 <option value="CJXX283166601AZ" data-size="XS">XS</option>
@@ -78,7 +78,7 @@ footer{border-top:1px solid #222;text-align:center;padding:25px 15px;color:#aaa;
 <script>
 "use strict";
 const PRODUCT={id:"streetwear9",name:"Hong Kong-Style Large-Pocket Cargo Shorts",image:"https://cf.cjdropshipping.com/quick/product/9f41e823-1d90-42d0-a39a-9b7bd832aecb.jpg",productCostUSD:7.09,profitUSD:20};
-const SHIPPING_RATES={"US":{"CJXX283166603CX":9.42,"CJXX283166604DW":9.57}};
+const SHIPPING_RATES={"US":{"CJXX283166602BY":9.28,"CJXX283166603CX":9.42,"CJXX283166604DW":9.57}};
 const VARIANTS={"CJXX283166601AZ":"XS","CJXX283166602BY":"S","CJXX283166603CX":"M","CJXX283166604DW":"L","CJXX283166605EV":"XL","CJXX283166606FU":"XXL"};
 const api=window.SacchiCart,countrySelect=document.getElementById("country"),variantSelect=document.getElementById("variant");
 const priceEl=document.getElementById("productPrice"),shipEl=document.getElementById("shippingPrice"),skuEl=document.getElementById("selectedSku");
@@ -92,7 +92,7 @@ function updatePrice(){
  if(selectedCode!=="US"){unavailable("Shipping cost is not confirmed for this destination yet.");return}
  const size=VARIANTS[variantSelect.value];
  const verifiedShipping=SHIPPING_RATES[selectedCode]?.[variantSelect.value];
- if(verifiedShipping===undefined){unavailable("USA shipping is confirmed for sizes M (390 g) and L (400 g) only. Please select M or L, or request a fresh CJ quote for another size.");return}
+ if(verifiedShipping===undefined){unavailable("USA shipping is confirmed for sizes S (380 g), M (390 g) and L (400 g). Please select one of these sizes or request a fresh CJ quote for another size.");return}
  selectedCurrency=country.currency;shipUSD=verifiedShipping;
  const total=Number((PRODUCT.productCostUSD+shipUSD+PRODUCT.profitUSD).toFixed(2));
  const converted=api.convertUSD(total,selectedCurrency);if(converted===null){unavailable("Reference exchange rate for "+selectedCurrency+" is unavailable.");return}
