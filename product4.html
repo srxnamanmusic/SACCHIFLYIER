@@ -1,539 +1,188 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>NARY Mechanical Watch | Sacchi Flyier</title>
-    <meta name="description" content="NARY fashionable mechanical watch from Sacchi Flyier.">
-    <meta name="author" content="Sacchi Flyier">
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            background: #000;
-            color: #fff;
-            font-family: Arial, Helvetica, sans-serif;
-            min-height: 100vh;
-        }
-
-        button, select { font-family: inherit; }
-
-        /* HEADER */
-        .product-header {
-            height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 5.5%;
-            background: #000;
-            border-bottom: 1px solid #202020;
-        }
-
-        .brand-name {
-            color: #fff;
-            text-decoration: none;
-            font-size: 27px;
-            font-weight: 700;
-            letter-spacing: 2px;
-        }
-
-        .back-store {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 157px;
-            height: 45px;
-            padding: 0 20px;
-            border: 1px solid #3b3b3b;
-            border-radius: 30px;
-            color: #fff;
-            text-decoration: none;
-            font-size: 15px;
-            transition: 0.25s ease;
-        }
-
-        .back-store:hover {
-            background: #111;
-            border-color: #777;
-        }
-
-        /* MAIN */
-        .product-page {
-            width: 100%;
-            padding: 52px 5.5% 70px;
-        }
-
-        .product-container {
-            width: 100%;
-            max-width: 1260px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-            gap: 58px;
-            align-items: start;
-        }
-
-        /* PRODUCT IMAGE */
-        .product-image-section { width: 100%; }
-
-        .product-image-wrapper {
-            width: 100%;
-            max-width: 580px;
-            aspect-ratio: 1 / 1;
-            margin: 0 auto;
-            overflow: hidden;
-            border-radius: 29px;
-            background: #111;
-        }
-
-        .product-main-image {
-            width: 100%;
-            height: 100%;
-            display: block;
-            object-fit: cover;
-            transition: transform 0.35s ease;
-        }
-
-        .product-image-wrapper:hover .product-main-image {
-            transform: scale(1.025);
-        }
-
-        /* PRODUCT INFORMATION */
-        .product-info {
-            width: 100%;
-            max-width: 590px;
-            padding-top: 1px;
-        }
-
-        .product-label {
-            color: #a7a7a7;
-            font-size: 14px;
-            letter-spacing: 5px;
-            margin-bottom: 20px;
-        }
-
-        .product-title {
-            color: #fff;
-            font-size: 43px;
-            line-height: 1.17;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 17px;
-        }
-
-        .product-description {
-            color: #bdbdbd;
-            font-size: 18px;
-            line-height: 1.5;
-            margin-bottom: 22px;
-        }
-
-        .product-sku {
-            color: #666;
-            font-size: 15px;
-            margin-bottom: 25px;
-        }
-
-        /* COUNTRY */
-        .country-heading {
-            color: #fff;
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 13px;
-        }
-
-        .product-option {
-            width: 100%;
-            margin-bottom: 12px;
-        }
-
-        .option-label {
-            display: block;
-            color: #fff;
-            font-size: 15px;
-            margin-bottom: 10px;
-        }
-
-        .country-select {
-            width: 100%;
-            height: 57px;
-            padding: 0 20px;
-            border: 1px solid #3d3d3d;
-            border-radius: 13px;
-            background: #111;
-            color: #fff;
-            font-size: 16px;
-            outline: none;
-            cursor: pointer;
-            transition: 0.25s ease;
-        }
-
-        .country-select:hover,
-        .country-select:focus {
-            border-color: #666;
-        }
-
-        .country-select option {
-            background: #111;
-            color: #fff;
-        }
-
-        /* SHIPPING MESSAGE */
-        .shipping-message {
-            min-height: 24px;
-            color: #bdbdbd;
-            font-size: 15px;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }
-
-        .shipping-message.unavailable { color: #ff7676; }
-
-        /* PRICE */
-        .price-display {
-            display: none;
-            margin-bottom: 22px;
-            padding: 16px 20px;
-            border: 1px solid #2e2e2e;
-            border-radius: 13px;
-            background: #080808;
-        }
-
-        .price-display.visible { display: block; }
-
-        .price-label {
-            display: block;
-            color: #777;
-            font-size: 13px;
-            margin-bottom: 5px;
-        }
-
-        .product-price {
-            color: #fff;
-            font-size: 27px;
-            font-weight: 700;
-        }
-
-        .free-shipping {
-            display: block;
-            color: #aaa;
-            font-size: 12px;
-            letter-spacing: 1.5px;
-            margin-top: 5px;
-        }
-
-        /* QUANTITY */
-        .quantity-section { margin-bottom: 27px; }
-
-        .quantity-label {
-            display: block;
-            color: #fff;
-            font-size: 15px;
-            margin-bottom: 10px;
-        }
-
-        .quantity-control {
-            display: flex;
-            width: 160px;
-            height: 55px;
-            overflow: hidden;
-            border: 1px solid #3d3d3d;
-            border-radius: 13px;
-        }
-
-        .quantity-button {
-            width: 53px;
-            border: none;
-            background: #111;
-            color: #fff;
-            font-size: 22px;
-            cursor: pointer;
-            transition: 0.2s ease;
-        }
-
-        .quantity-button:hover { background: #202020; }
-
-        .quantity-number {
-            width: 54px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #000;
-            color: #fff;
-            font-size: 17px;
-        }
-
-        /* ACTION BUTTONS */
-        .product-buttons {
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            margin-top: 3px;
-        }
-
-        .add-cart-button,
-        .buy-now-button {
-            height: 57px;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.25s ease, color 0.25s ease,
-                        border-color 0.25s ease, transform 0.15s ease;
-        }
-
-        .add-cart-button {
-            background: #000;
-            color: #fff;
-            border: 1px solid #fff;
-        }
-
-        .add-cart-button:hover {
-            background: #fff;
-            color: #000;
-        }
-
-        .buy-now-button {
-            background: #fff;
-            color: #000;
-            border: 1px solid #fff;
-        }
-
-        .buy-now-button:hover {
-            background: #ddd;
-            border-color: #ddd;
-        }
-
-        .add-cart-button:active,
-        .buy-now-button:active {
-            transform: scale(0.98);
-        }
-
-        /* FOOTER */
-        .product-footer {
-            padding: 30px 5.5% 35px;
-            border-top: 1px solid #202020;
-            text-align: center;
-            color: #666;
-            font-size: 13px;
-        }
-
-        .footer-brand {
-            color: #aaa;
-            font-size: 15px;
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-        }
-
-        /* TABLET */
-        @media (max-width: 1000px) {
-            .product-container {
-                grid-template-columns: 1fr;
-                gap: 45px;
-            }
-
-            .product-info { max-width: 100%; }
-            .product-image-wrapper { max-width: 650px; }
-            .product-title { font-size: 38px; }
-        }
-
-        /* MOBILE */
-        @media (max-width: 600px) {
-            .product-header {
-                height: 76px;
-                padding: 0 20px;
-            }
-
-            .brand-name {
-                font-size: 19px;
-                letter-spacing: 1.5px;
-            }
-
-            .back-store {
-                min-width: auto;
-                height: 40px;
-                padding: 0 15px;
-                font-size: 13px;
-            }
-
-            .product-page { padding: 30px 20px 50px; }
-            .product-container { gap: 32px; }
-            .product-image-wrapper { border-radius: 20px; }
-
-            .product-label {
-                font-size: 11px;
-                letter-spacing: 4px;
-                margin-bottom: 15px;
-            }
-
-            .product-title {
-                font-size: 30px;
-                line-height: 1.15;
-            }
-
-            .product-description { font-size: 16px; }
-            .country-heading { font-size: 27px; }
-
-            .product-buttons {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-        }
-    </style>
-    <link rel="stylesheet" href="reviews.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050505">
+  <meta name="description" content="Discover the NARY Mechanical Watch at Sacchi Flyier. Choose from five colour variants.">
+  <title>NARY Mechanical Watch | Sacchi Flyier</title>
+  <link rel="stylesheet" href="reviews.css">
+  <style>
+    :root{color-scheme:dark;--bg:#050505;--panel:#101010;--line:#292929;--muted:#a4a4a4;--white:#fff}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--white);min-height:100vh}
+    a{color:inherit;text-decoration:none}
+    .topline{height:3px;background:linear-gradient(90deg,#333,#fff,#333)}
+    .site-header{height:82px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(5,5,5,.92);backdrop-filter:blur(14px);z-index:10}
+    .logo{font-size:20px;font-weight:800;letter-spacing:3px}
+    .back{font-size:13px;color:#ddd;border:1px solid #444;border-radius:30px;padding:11px 17px;transition:.2s}
+    .back:hover{background:#fff;color:#000}
+    .page-wrap{max-width:1240px;margin:0 auto;padding:54px 5.5% 90px}
+    .breadcrumb{font-size:12px;color:#777;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:28px}
+    .breadcrumb a:hover{color:#fff}
+    .product-layout{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);gap:clamp(36px,6vw,82px);align-items:start}
+    .gallery{min-width:0}
+    .hero-frame{position:relative;background:radial-gradient(ellipse at 50% 40%,#242424 0,#101010 48%,#090909 100%);border:1px solid #242424;border-radius:22px;overflow:hidden;aspect-ratio:1/1;display:grid;place-items:center}
+    .hero-frame:after{content:"SACCHI FLYIER";position:absolute;bottom:18px;right:20px;font-size:9px;letter-spacing:3px;color:rgba(255,255,255,.38)}
+    .hero-image{width:100%;height:100%;object-fit:contain;display:block;mix-blend-mode:normal;transition:opacity .2s,transform .45s}
+    .hero-frame:hover .hero-image{transform:scale(1.035)}
+    .thumbs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:13px}
+    .thumb{border:1px solid #333;border-radius:12px;background:#111;aspect-ratio:1/1;overflow:hidden;cursor:pointer;padding:0;opacity:.7;transition:.2s}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .thumb:hover,.thumb.active{opacity:1;border-color:#fff}
+    .gallery-note{font-size:11px;color:#666;margin-top:12px;letter-spacing:.5px}
+    .details{padding-top:8px}
+    .eyebrow{font-size:11px;letter-spacing:4px;color:#999;margin-bottom:18px}
+    h1{font-size:clamp(30px,3.6vw,48px);line-height:1.05;letter-spacing:-1.7px;font-weight:800;max-width:600px}
+    .subtitle{font-size:15px;line-height:1.7;color:#aaa;margin-top:17px;max-width:520px}
+    .product-code{font-size:11px;letter-spacing:1px;color:#777;margin-top:18px}
+    .rule{height:1px;background:var(--line);margin:25px 0}
+    .price-label{font-size:10px;letter-spacing:2px;color:#888;text-transform:uppercase;margin-bottom:8px}
+    .price{font-size:34px;font-weight:800;letter-spacing:-1px}
+    .price-note{font-size:12px;color:#888;line-height:1.6;margin-top:8px}
+    .field-label{display:block;font-size:12px;letter-spacing:1px;color:#ccc;margin-bottom:10px}
+    .select{width:100%;height:50px;background:#101010;border:1px solid #444;border-radius:10px;color:#fff;padding:0 14px;font-size:14px;outline:none}
+    .select:focus{border-color:#fff}
+    .shipping-info{font-size:12px;color:#999;line-height:1.65;margin-top:12px;min-height:38px}
+    .quantity-row{display:flex;align-items:center;justify-content:space-between;margin-top:25px}
+    .quantity-label{font-size:12px;color:#ccc;letter-spacing:1px}
+    .quantity{height:44px;display:flex;align-items:center;border:1px solid #444;border-radius:9px;overflow:hidden}
+    .quantity button{width:42px;height:44px;border:0;background:#111;color:#fff;font-size:20px;cursor:pointer}
+    .quantity button:hover{background:#292929}
+    .quantity span{width:38px;text-align:center;font-size:14px}
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px}
+    .action{min-height:54px;border-radius:9px;font-weight:800;letter-spacing:1px;font-size:12px;cursor:pointer;transition:.2s}
+    .add-cart{background:transparent;color:#fff;border:1px solid #777}
+    .add-cart:hover:not(:disabled){background:#fff;color:#000;border-color:#fff}
+    .buy-now{background:#fff;color:#000;border:1px solid #fff;box-shadow:0 8px 30px rgba(255,255,255,.09)}
+    .buy-now:hover:not(:disabled){background:#dcdcdc;transform:translateY(-2px)}
+    .action:disabled{opacity:.38;cursor:not-allowed}
+    .trust-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .trust-item{text-align:center;font-size:10px;color:#aaa;line-height:1.5}
+    .trust-item strong{display:block;color:#fff;font-size:11px;margin-bottom:4px}
+    .description{margin-top:32px}
+    .description h2{font-size:17px;letter-spacing:1px;margin-bottom:13px}
+    .description p{font-size:13px;line-height:1.9;color:#aaa}
+    .specs{display:grid;grid-template-columns:1fr 1fr;gap:0 18px;margin-top:17px}
+    .spec{padding:12px 0;border-bottom:1px solid #222;font-size:12px;color:#888}
+    .spec strong{display:block;color:#eee;font-weight:600;margin-top:5px}
+    .reviews-anchor{display:inline-block;margin-top:20px;color:#ddd;font-size:12px;border-bottom:1px solid #777;padding-bottom:5px}
+    footer{border-top:1px solid #222;text-align:center;padding:25px 15px;color:#777;font-size:12px;letter-spacing:.5px}
+    @media(max-width:850px){.product-layout{grid-template-columns:1fr;gap:36px}.details{padding-top:0}.page-wrap{padding-top:32px}.hero-frame{max-width:680px;margin:auto}}
+    @media(max-width:520px){.site-header{height:70px;padding:0 18px}.logo{font-size:16px;letter-spacing:2px}.back{font-size:11px;padding:9px 12px}.page-wrap{padding:25px 18px 60px}.product-layout{gap:28px}.hero-frame{border-radius:15px}.thumbs{gap:7px}.thumb{border-radius:8px}h1{font-size:31px}.price{font-size:30px}.actions{grid-template-columns:1fr}.trust-row{gap:5px}.trust-item{font-size:9px}.specs{grid-template-columns:1fr 1fr}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+  </style>
 </head>
-
 <body>
-    <!-- HEADER -->
-    <header class="product-header">
-        <a href="index.html" class="brand-name">SACCHI FLYIER</a>
-        <a href="index.html" class="back-store">← Back to Shop</a>
-    </header>
+  <div class="topline"></div>
+  <header class="site-header">
+    <a class="logo" href="index.html" aria-label="Sacchi Flyier home">SACCHI FLYIER</a>
+    <a class="back" href="index.html">← BACK TO SHOP</a>
+  </header>
 
-    <!-- PRODUCT PAGE -->
-    <main class="product-page">
-        <section class="product-container">
-
-            <!-- PRODUCT IMAGE -->
-            <div class="product-image-section">
-                <div class="product-image-wrapper">
-                    <img
-                        src="product4-main.jpeg"
-                        alt="NARY fashionable mechanical watch"
-                        class="product-main-image"
-                    >
-                </div>
-            </div>
-
-            <!-- PRODUCT INFORMATION -->
-            <div class="product-info">
-                <div class="product-label">SACCHI FLYIER</div>
-
-                <h1 class="product-title">
-                    NARY MECHANICAL WATCH
-                </h1>
-
-                <p class="product-description">
-                    Fashionable men's mechanical watch, supplied directly
-                    from the manufacturer.
-                </p>
-
-                <p class="product-sku">SKU: <span id="displaySku">Select a colour</span></p>
-
-                <!-- WATCH COLOUR -->
-                <div class="product-option">
-                    <label for="colorSelect" class="option-label">Watch Colour</label>
-                    <select id="colorSelect" class="country-select">
-                        <option value="">Select colour</option>
-                        <option value="1">Colour 1</option>
-                        <option value="2">Colour 2</option>
-                        <option value="3">Colour 3</option>
-                        <option value="4">Colour 4</option>
-                        <option value="5">Colour 5</option>
-                    </select>
-                </div>
-
-                <!-- COUNTRY -->
-                <h2 class="country-heading">Select country</h2>
-
-                <div class="product-option">
-                    <label for="countrySelect" class="option-label">
-                        Shipping Country
-                    </label>
-
-                    <select id="countrySelect" class="country-select">
-                        <option value="">Select your country</option>
-                    </select>
-                </div>
-
-                <!-- SHIPPING MESSAGE -->
-                <div id="shippingMessage" class="shipping-message">
-                    Select your country to calculate the final price.
-                </div>
-
-                <!-- PRICE -->
-                <div id="priceDisplay" class="price-display">
-                    <span class="price-label">Price</span>
-                    <span id="productPrice" class="product-price">—</span>
-                    <span class="free-shipping">SHIPPING INCLUDED IN PRICE</span>
-                </div>
-
-                <!-- QUANTITY -->
-                <div class="quantity-section">
-                    <span class="quantity-label">Quantity</span>
-
-                    <div class="quantity-control">
-                        <button type="button" id="decreaseQuantity"
-                            class="quantity-button" aria-label="Decrease quantity">−</button>
-
-                        <span id="quantity" class="quantity-number">1</span>
-
-                        <button type="button" id="increaseQuantity"
-                            class="quantity-button" aria-label="Increase quantity">+</button>
-                    </div>
-                </div>
-
-                <!-- BUTTONS -->
-                <div class="product-buttons">
-                    <button type="button" id="addToCart" class="add-cart-button">
-                        Add to Cart
-                    </button>
-
-                    <button type="button" id="buyNow" class="buy-now-button">
-                        Buy Now
-                    </button>
-                </div>
-            </div>
-        </section>
-    </main>
-
-<!-- ================= PRODUCT CUSTOMER REVIEWS ================= -->
-<section class="sf-reviews" id="customer-reviews">
-  <div class="sf-reviews-inner">
-    <p class="section-label">CUSTOMER FEEDBACK</p>
-    <h2>Customer Reviews</h2>
-    <p class="sf-reviews-intro">Have you purchased this product? Share your honest experience with the Sacchi Flyier community.</p>
-    <div class="sf-review-summary">
-      <div class="sf-review-score">—</div>
-      <div><div class="sf-review-stars" aria-label="No ratings yet">☆☆☆☆☆</div><div class="sf-review-count">No ratings yet for this product</div></div>
-    </div>
-    <div class="sf-review-empty"><strong>No reviews published yet.</strong>Be the first customer to share a genuine review. Reviews are checked before publication.</div>
-    <div class="sf-review-form-wrap">
-      <h3>Write a Review</h3>
-      <p>Send your rating and feedback to our team. We may contact you to confirm your order before publishing it.</p>
-      <form class="sf-review-form" data-sf-review-form data-product="Product 4">
-        <div><label for="sf-name-4">Your name</label><input id="sf-name-4" name="customerName" autocomplete="name" maxlength="80" required></div>
-        <div><label for="sf-email-4">Email address</label><input id="sf-email-4" name="customerEmail" type="email" autocomplete="email" required></div>
-        <div class="sf-full"><label for="sf-rating-4">Your rating</label><input type="hidden" id="sf-rating-4" name="rating" value=""><div class="sf-star-picker" role="radiogroup" aria-label="Choose a rating" data-rating-picker="sf-rating-4"><button type="button" class="sf-star" data-value="1" aria-label="1 star">★</button><button type="button" class="sf-star" data-value="2" aria-label="2 stars">★</button><button type="button" class="sf-star" data-value="3" aria-label="3 stars">★</button><button type="button" class="sf-star" data-value="4" aria-label="4 stars">★</button><button type="button" class="sf-star" data-value="5" aria-label="5 stars">★</button><span class="sf-star-label">Select a rating</span></div></div>
-        <div class="sf-full"><label for="sf-text-4">Your review</label><textarea id="sf-text-4" name="reviewText" minlength="10" maxlength="1500" placeholder="Tell us about your experience..." required></textarea></div>
-        <div class="sf-full"><button type="submit">SUBMIT REVIEW</button><p class="sf-review-note" data-sf-review-status>Submitting opens your email app so you can send your review to Sacchi Flyier. Reviews are not published automatically.</p></div>
-      </form>
-    </div>
-  </div>
-</section>
-
-    <!-- FOOTER -->
-    <footer class="product-footer">
-        <div class="footer-brand">SACCHI FLYIER</div>
-        <div>FLY-BEYOND LIMITS.</div>
-        <div style="margin-top: 8px;">
-            © 2026 Sacchi Flyier. All Rights Reserved.
+  <main class="page-wrap">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a> / <a href="index.html#shop">Shop</a> / Watches</nav>
+    <section class="product-layout" aria-label="Product details">
+      <div class="gallery">
+        <div class="hero-frame">
+          <img id="productMainImage" class="hero-image" src="product4-main.jpeg" alt="NARY mechanical watch" fetchpriority="high">
         </div>
-    </footer>
+        <p class="gallery-note">NARY MECHANICAL WATCH · FIVE COLOUR OPTIONS</p>
+      </div>
 
-    <script src="cart.js"></script>
-<script src="reviews.js"></script>
-<script>
+      <div class="details">
+        <p class="eyebrow">SACCHI FLYIER / WATCHES</p>
+        <h1>NARY MECHANICAL WATCH</h1>
+        <p class="subtitle">A fashionable men’s mechanical watch, supplied directly from the manufacturer. Choose your preferred colour below.</p>
+        <p class="product-code">PRODUCT CODE: <span id="displaySku">Select a colour</span></p>
+        <div class="rule"></div>
+
+        <p class="price-label">Your price</p>
+        <div class="price" id="productPrice" aria-live="polite">Loading price…</div>
+        <p class="price-note">Displayed price includes product cost, destination shipping and your $20 product margin.</p>
+
+        <div class="rule"></div>
+        <label class="field-label" for="colorSelect">WATCH COLOUR</label>
+        <select class="select" id="colorSelect">
+          <option value="">Select colour</option>
+          <option value="1">Colour 1</option>
+          <option value="2">Colour 2</option>
+          <option value="3">Colour 3</option>
+          <option value="4">Colour 4</option>
+          <option value="5">Colour 5</option>
+        </select>
+
+        <label class="field-label" for="country">SHIPPING DESTINATION</label>
+        <select class="select" id="country">
+          <option value="">Loading available destinations…</option>
+        </select>
+        <p class="shipping-info" id="shippingPrice" aria-live="polite">Checking destination pricing…</p>
+
+        <div class="quantity-row">
+          <span class="quantity-label">QUANTITY</span>
+          <div class="quantity">
+            <button type="button" id="decreaseQty" aria-label="Decrease quantity">−</button>
+            <span id="quantity" aria-live="polite">1</span>
+            <button type="button" id="increaseQty" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="action add-cart" id="addCart" disabled>ADD TO CART</button>
+          <button type="button" class="action buy-now" id="buyNow" disabled>BUY NOW</button>
+        </div>
+
+        <div class="trust-row">
+          <div class="trust-item"><strong>SECURE CHECKOUT</strong>Protected checkout flow</div>
+          <div class="trust-item"><strong>TRACKED DELIVERY</strong>Tracking when supplied</div>
+          <div class="trust-item"><strong>SUPPORT</strong>info@sacchiflyier.in</div>
+        </div>
+
+        <section class="description">
+          <h2>PRODUCT DETAILS</h2>
+          <p>The NARY mechanical watch features a metal construction and a fashionable design. It is supplied by Yiwu Renfan Trading Co., Ltd. The package size listed by the supplier is 215 × 22 × 13 mm.</p>
+          <div class="specs">
+            <div class="spec">MATERIAL<strong>Metal</strong></div>
+            <div class="spec">TYPE<strong>Mechanical watch</strong></div>
+            <div class="spec">WEIGHT<strong>258 g</strong></div>
+            <div class="spec">PACKAGE SIZE<strong>215 × 22 × 13 mm</strong></div>
+            <div class="spec">SUPPLIER<strong>Yiwu Renfan Trading Co., Ltd.</strong></div>
+            <div class="spec">COLOUR OPTIONS<strong>Colour 1–Colour 5</strong></div>
+          </div>
+          <a class="reviews-anchor" href="#customer-reviews">READ / WRITE CUSTOMER REVIEWS ↓</a>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <section class="sf-reviews" id="customer-reviews">
+    <div class="sf-reviews-inner">
+      <p class="section-label">CUSTOMER FEEDBACK</p>
+      <h2>Customer Reviews</h2>
+      <p class="sf-reviews-intro">Have you purchased this product? Share your honest experience with the Sacchi Flyier community.</p>
+      <div class="sf-review-summary"><div class="sf-review-score">—</div><div><div class="sf-review-stars" aria-label="No ratings yet">☆☆☆☆☆</div><div class="sf-review-count">No ratings yet for this product</div></div></div>
+      <div class="sf-review-empty"><strong>No reviews published yet.</strong>Be the first customer to share a genuine review. Reviews are checked before publication.</div>
+      <div class="sf-review-form-wrap">
+        <h3>Write a Review</h3>
+        <p>Send your rating and feedback to our team. We may contact you to confirm your order before publishing it.</p>
+        <form class="sf-review-form" data-sf-review-form data-product="Product 4 — NARY Mechanical Watch">
+          <div><label for="sf-name-4">Your name</label><input id="sf-name-4" name="customerName" autocomplete="name" maxlength="80" required></div>
+          <div><label for="sf-email-4">Email address</label><input id="sf-email-4" name="customerEmail" type="email" autocomplete="email" required></div>
+          <div class="sf-full"><label for="sf-rating-4">Your rating</label><input type="hidden" id="sf-rating-4" name="rating" value=""><div class="sf-star-picker" role="radiogroup" aria-label="Choose a rating" data-rating-picker="sf-rating-4"><button type="button" class="sf-star" data-value="1" aria-label="1 star">★</button><button type="button" class="sf-star" data-value="2" aria-label="2 stars">★</button><button type="button" class="sf-star" data-value="3" aria-label="3 stars">★</button><button type="button" class="sf-star" data-value="4" aria-label="4 stars">★</button><button type="button" class="sf-star" data-value="5" aria-label="5 stars">★</button><span class="sf-star-label">Select a rating</span></div></div>
+          <div class="sf-full"><label for="sf-text-4">Your review</label><textarea id="sf-text-4" name="reviewText" minlength="10" maxlength="1500" placeholder="Tell us about your experience..." required></textarea></div>
+          <div class="sf-full"><button type="submit">SUBMIT REVIEW</button><p class="sf-review-note" data-sf-review-status>Submitting opens your email app so you can send your review to Sacchi Flyier. Reviews are not published automatically.</p></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>© 2026 SACCHI FLYIER — FLY BEYOND LIMIT</footer>
+
+  <script src="cart.js"></script>
+  <script src="reviews.js"></script>
+  <script>
+
 "use strict";
 const PRODUCT={id:"product4",name:"NARY Mechanical Watch",image:"product4-main.jpeg",productCostUSD:13.27,profitUSD:20};
 const WATCH_VARIANTS={
@@ -790,12 +439,14 @@ const shippingRates = {
             "Zimbabwe": 6.88
         };
 const api=window.SacchiCart;
-const countrySelect=document.getElementById("countrySelect");
+const countrySelect=document.getElementById("country");
+const colorSelect=document.getElementById("colorSelect");
+const displaySku=document.getElementById("displaySku");
 const colorSelect=document.getElementById("colorSelect");
 const displaySku=document.getElementById("displaySku");
 const productPrice=document.getElementById("productPrice");
-const shippingMessage=document.getElementById("shippingMessage");
-const priceWrap=document.getElementById("priceDisplay");
+const shippingMessage=document.getElementById("shippingPrice");
+const priceWrap=null;
 const quantityElement=document.getElementById("quantity");
 let quantity=1,selectedCountry="",selectedCurrency="USD",unitPriceUSD=null,unitPriceLocal=null,shippingCountryName="";
 let selectedColor="",selectedVariant=null;
@@ -805,7 +456,7 @@ colorSelect.addEventListener("change",()=>{
  displaySku.textContent=selectedVariant?selectedVariant.sku:"Select a colour";
  updatePrice();
 });
-function setPriceVisible(visible){if(priceWrap===productPrice)return;if(priceWrap)priceWrap.classList.toggle("visible",visible)}
+function setPriceVisible(visible){}
 function normalizeName(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"")}
 const aliases={"KR":"Korea","KP":"Korea (the Democratic People’s Republic of)","CD":"Congo (the Democratic Republic of the)","CG":"Congo","MD":"Moldova, Republic of","MK":"Macedonia (the former Yugoslav Republic of)","ST":"Sao Tome and Principe","SZ":"Swaziland","TR":"Turkey","CZ":"Czechia","BO":"Bolivia (Plurinational State of)","CI":"Côte d’Ivoire","PS":"Palestine State of","FM":"Micronesia (Federated States of)","VA":"Holy See","RU":"Russian Federation","TW":"Taiwan (Province of China)","TZ":"Tanzania, United Republic of","SY":"Syrian Arab Republic","IR":"Iran (Islamic Republic of)","LA":"Lao People’s Democratic Republic","VE":"Venezuela (Bolivarian Republic of)","BN":"Brunei Darussalam","CV":"Cabo Verde"};
 function resolveShippingName(country){const candidates=[country.name.common,aliases[country.cca2]].filter(Boolean);for(const n of candidates){const key=Object.keys(shippingRates).find(k=>normalizeName(k)===normalizeName(n));if(key)return key}return null}
@@ -852,14 +503,15 @@ function validateSelection(){
 }
 function addToCart(){if(!validateSelection())return;try{api.add(createProductItem());alert("Product added to your cart.");}catch(e){alert(e.message||"Unable to add this product.");}}
 function buyNow(){if(!validateSelection())return;try{api.buyNow(createProductItem());}catch(e){alert(e.message||"Unable to continue to checkout.");}}
-document.getElementById("increaseQuantity").addEventListener("click",()=>{quantity=Math.min(99,quantity+1);quantityElement.textContent=quantity});
-document.getElementById("decreaseQuantity").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);quantityElement.textContent=quantity});
-document.getElementById("addToCart").addEventListener("click",addToCart);
+document.getElementById("increaseQty").addEventListener("click",()=>{quantity=Math.min(99,quantity+1);quantityElement.textContent=quantity});
+document.getElementById("decreaseQty").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);quantityElement.textContent=quantity});
+document.getElementById("addCart").addEventListener("click",addToCart);
 document.getElementById("buyNow").addEventListener("click",buyNow);
 
 
 countrySelect.addEventListener("change",()=>{try{api.setCountry(countrySelect.value)}catch(e){}updatePrice()});
 (async()=>{await api.refreshCurrencyData();populateCountries();})();
-</script>
+
+  </script>
 </body>
 </html>
