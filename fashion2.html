@@ -39,7 +39,7 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <p class="subtitle">Graffiti-print streetwear essential</p>
 <p class="sku">SKU: CJYH206053308HS</p>
 <div class="price" id="productPrice">Select country</div>
-<p class="price-note">Your local price includes shipping and is converted from USD using reference exchange rates.</p>
+<p class="price-note">Your local price includes the currently checked US shipping estimate and is converted from USD using reference exchange rates.</p>
 <label for="country">Shipping Country</label>
 <select id="country"><option value="">Loading countries…</option></select>
 <div class="shipping-price" id="shippingPrice">Choose your country to see the final price in your currency.</div>
@@ -47,7 +47,7 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <div class="quantity-box"><button type="button" id="decreaseQty" aria-label="Decrease quantity">−</button><span id="quantity">1</span><button type="button" id="increaseQty" aria-label="Increase quantity">+</button></div>
 <div class="buttons"><button type="button" class="add-cart" id="addCart" disabled>Add to Cart</button><button type="button" class="buy-now" id="buyNow" disabled>Buy Now</button></div>
 <p class="setup-note" id="orderNote">Select a supported destination to calculate the price. Checkout will be enabled only when a shipping rate and currency conversion are available.</p>
-<div class="description"><h2>Product Description</h2><p>A graffiti-letter short-sleeve T-shirt designed for a casual streetwear look. Check available color and size options before ordering.</p></div>
+<div class="description"><h2>Product Description</h2><p>A men’s relaxed-fit short-sleeve T-shirt with a graffiti-letter print, made from pure cotton. Available in black and apricot, with sizes S–XXL. CJ notes that Asian sizing may run 1–2 sizes smaller than European and US sizing; check the size chart before ordering.</p></div>
 </div>
 </section>
 </main>
@@ -59,10 +59,10 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <div class="sf-review-empty"><strong>No reviews published yet.</strong> Be the first customer to share a genuine review. Reviews are checked before publication.</div>
 <div class="sf-review-form-wrap"><h3>Write a Review</h3><p>Send your rating and feedback to our team. We may contact you to confirm your order before publishing it.</p>
 <form class="sf-review-form" data-sf-review-form data-product="Men's Graffiti Letter Short Sleeve T-Shirt">
-<div><label for="sf-name-fashion-1">Your name</label><input id="sf-name-fashion-1" name="customerName" autocomplete="name" maxlength="80" required></div>
-<div><label for="sf-email-fashion-1">Email address</label><input id="sf-email-fashion-1" name="customerEmail" type="email" autocomplete="email" required></div>
-<div class="sf-full"><label for="sf-rating-fashion-1">Your rating</label><input type="hidden" id="sf-rating-fashion-1" name="rating" value=""><div class="sf-star-picker" role="radiogroup" aria-label="Choose a rating" data-rating-picker="sf-rating-fashion-1"><button type="button" class="sf-star" data-value="1" aria-label="1 star">★</button><button type="button" class="sf-star" data-value="2" aria-label="2 stars">★</button><button type="button" class="sf-star" data-value="3" aria-label="3 stars">★</button><button type="button" class="sf-star" data-value="4" aria-label="4 stars">★</button><button type="button" class="sf-star" data-value="5" aria-label="5 stars">★</button><span class="sf-star-label">Select a rating</span></div></div>
-<div class="sf-full"><label for="sf-text-fashion-1">Your review</label><textarea id="sf-text-fashion-1" name="reviewText" minlength="10" maxlength="1500" placeholder="Tell us about your experience..." required></textarea></div>
+<div><label for="sf-name-fashion-2">Your name</label><input id="sf-name-fashion-2" name="customerName" autocomplete="name" maxlength="80" required></div>
+<div><label for="sf-email-fashion-2">Email address</label><input id="sf-email-fashion-2" name="customerEmail" type="email" autocomplete="email" required></div>
+<div class="sf-full"><label for="sf-rating-fashion-2">Your rating</label><input type="hidden" id="sf-rating-fashion-2" name="rating" value=""><div class="sf-star-picker" role="radiogroup" aria-label="Choose a rating" data-rating-picker="sf-rating-fashion-2"><button type="button" class="sf-star" data-value="1" aria-label="1 star">★</button><button type="button" class="sf-star" data-value="2" aria-label="2 stars">★</button><button type="button" class="sf-star" data-value="3" aria-label="3 stars">★</button><button type="button" class="sf-star" data-value="4" aria-label="4 stars">★</button><button type="button" class="sf-star" data-value="5" aria-label="5 stars">★</button><span class="sf-star-label">Select a rating</span></div></div>
+<div class="sf-full"><label for="sf-text-fashion-2">Your review</label><textarea id="sf-text-fashion-2" name="reviewText" minlength="10" maxlength="1500" placeholder="Tell us about your experience..." required></textarea></div>
 <div class="sf-full"><button type="submit">SUBMIT REVIEW</button><p class="sf-review-note" data-sf-review-status>Submitting opens your email app so you can send your review to Sacchi Flyier. Reviews are not published automatically.</p></div>
 </form></div></div></section>
 <footer>© 2026 Sacchi Flyier — Fly Beyond Limit</footer>
@@ -89,7 +89,7 @@ function updatePrice(){
  if(converted===null){showUnavailable("Live reference exchange rate for "+selectedCurrency+" is unavailable.");return}
  unitUSD=total;unitLocal=Number(converted.toFixed(2));
  priceEl.textContent=api.formatMoney(unitLocal,selectedCurrency);
- shipEl.textContent="Shipping included via LuWei Ordinary US. Estimated delivery: 5–11 days. Price shown in "+selectedCurrency+" using reference exchange rates.";
+ shipEl.textContent="Shipping included via LuWei Ordinary US (estimated packed weight 410 g). Estimated delivery: 5–11 days. Price shown in "+selectedCurrency+" using reference exchange rates.";
  addBtn.disabled=buyBtn.disabled=false;
 }
 function populateCountries(){
