@@ -29,6 +29,7 @@ h1{font-size:clamp(29px,4vw,38px);line-height:1.15;margin-bottom:12px}
 .price-note,.shipping-price{color:#999;font-size:13px;line-height:1.65}
 .price-note{margin-bottom:23px}
 label{display:block;margin:16px 0 8px;font-size:14px;color:#ccc}
+.color-options{display:flex;align-items:center;gap:12px;margin:8px 0 18px}.color-swatch{width:28px;height:28px;border:2px solid #fff;border-radius:50%;background:#080808;box-shadow:0 0 0 2px #555}.color-name{font-size:14px;color:#ccc}
 select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;background:#111;color:#fff;font-size:15px}
 .shipping-price{margin:12px 0 22px}
 .quantity-box{display:flex;align-items:center;width:fit-content;border:1px solid #444;border-radius:12px;overflow:hidden;margin:10px 0 24px}
@@ -73,6 +74,8 @@ footer{border-top:1px solid #222;text-align:center;padding:25px 15px;color:#aaa;
 <h1>BLACK STREETWEAR HOODIE</h1>
 <p class="subtitle">A clean, casual hooded sweatshirt with a relaxed streetwear look.</p>
 <p class="sku" id="variantSku">Choose a size to view its SKU</p>
+<label>Color</label>
+<div class="color-options" aria-label="Available color"><span class="color-swatch" role="img" aria-label="Black color"></span><span class="color-name">Black</span></div>
 <label for="size">Select Size</label>
 <select id="size">
 <option value="">Choose your size</option>
