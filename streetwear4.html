@@ -3,27 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Black Collar Coat Streetwear Jacket | Sacchi Flyier</title>
-<meta name="description" content="Discover the Black Collar Coat Streetwear Jacket at Sacchi Flyier.">
+<title>Check Streetwear Blazer Jacket | Sacchi Flyier</title>
+<meta name="description" content="Shop the women's check streetwear blazer jacket in black, khaki and pink at Sacchi Flyier.">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#000;color:#fff;min-height:100vh}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#000;color:#fff;min-height:100vh}
 header{width:100%;min-height:90px;padding:20px 5.5%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #222}
 .logo{font-size:22px;font-weight:700;letter-spacing:2px}.back{color:#fff;text-decoration:none;border:1px solid #444;padding:10px 16px;border-radius:25px;font-size:14px}.back:hover{background:#fff;color:#000}
 main{max-width:1100px;margin:auto;padding:45px 20px 70px}.product{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:start}
-.product-image{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:25px;display:block;background:#111}
+.gallery-main{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:25px;display:block;background:#111}
+.thumbs{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-top:12px}.thumb{width:100%;aspect-ratio:1/1;object-fit:cover;border:1px solid #333;border-radius:10px;cursor:pointer;background:#111}.thumb.active{border:2px solid #fff}
 .brand{font-size:13px;letter-spacing:3px;color:#999;margin-bottom:15px;text-transform:uppercase}h1{font-size:clamp(29px,4vw,38px);line-height:1.15;margin-bottom:12px}
 .subtitle{color:#aaa;font-size:16px;margin-bottom:22px}.sku{color:#777;font-size:13px;margin-bottom:20px}.price{font-size:30px;font-weight:bold;margin-bottom:10px;min-height:36px}
-.price-note{color:#888;font-size:13px;margin-bottom:25px;line-height:1.6}label{display:block;margin-bottom:8px;font-size:14px;color:#ccc}
-select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;background:#111;color:#fff;font-size:15px;margin-bottom:12px}
-.shipping-price{color:#888;font-size:13px;margin-bottom:25px;line-height:1.5}.quantity-title{margin-bottom:8px}
-.quantity-box{display:flex;align-items:center;width:fit-content;border:1px solid #444;border-radius:12px;overflow:hidden;margin-bottom:25px}
+.price-note{color:#888;font-size:13px;margin-bottom:25px;line-height:1.6}label{display:block;margin:18px 0 9px;font-size:14px;color:#ccc}
+.color-options{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}.color-btn{border:1px solid #555;background:#111;color:#fff;padding:10px 17px;border-radius:22px;cursor:pointer;font-size:13px}.color-btn.active{border:2px solid #fff;background:#fff;color:#000}
+select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;background:#111;color:#fff;font-size:15px}
+.shipping-price{color:#888;font-size:13px;margin:12px 0 22px;line-height:1.6}.quantity-title{margin-bottom:8px}
+.quantity-box{display:flex;align-items:center;width:fit-content;border:1px solid #444;border-radius:12px;overflow:hidden;margin:10px 0 25px}
 .quantity-box button{width:45px;height:45px;border:none;background:#111;color:#fff;font-size:20px;cursor:pointer}.quantity-box span{width:45px;text-align:center;font-size:16px}
 .buttons{display:flex;gap:12px;margin-bottom:20px}.buttons button{flex:1;padding:15px;border-radius:30px;font-size:15px;font-weight:bold;cursor:pointer}
 .add-cart{background:transparent;color:#fff;border:1px solid #fff}.add-cart:hover{background:#fff;color:#000}
-.buy-now{background:#fff;color:#000;border:1px solid #fff}.buy-now:hover{background:#ddd}
-.buttons button:disabled{opacity:.45;cursor:not-allowed}
+.buy-now{background:#fff;color:#000;border:1px solid #fff}.buy-now:hover{background:#ddd}.buttons button:disabled{opacity:.4;cursor:not-allowed}
 .description{border-top:1px solid #222;padding-top:25px;margin-top:25px}.description h2{font-size:22px;margin-bottom:15px}.description p{color:#aaa;line-height:1.8;font-size:15px}
-.setup-note{color:#999;font-size:12px;line-height:1.7;margin-top:14px}footer{border-top:1px solid #222;text-align:center;padding:25px 15px;color:#aaa;font-size:14px}
+.setup-note{color:#999;font-size:12px;line-height:1.7;margin-top:14px}
+footer{border-top:1px solid #222;text-align:center;padding:25px 15px;color:#aaa;font-size:14px}
 @media(max-width:768px){header{padding:18px 20px}.logo{font-size:18px}main{padding:30px 18px 50px}.product{grid-template-columns:1fr;gap:30px}.buttons{flex-direction:column}}
 </style>
 <link rel="stylesheet" href="reviews.css">
@@ -32,22 +35,45 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <header><div class="logo">SACCHI FLYIER</div><a href="streetwear.html" class="back">← Back to Streetwear</a></header>
 <main>
 <section class="product">
-<div><img src="streetwear-4.jpg" alt="Black Collar Coat Streetwear Jacket" class="product-image"></div>
+<div>
+<img id="mainImage" src="https://cf.cjdropshipping.com/1615257606446.jpg" alt="Black check streetwear blazer jacket" class="gallery-main">
+<div class="thumbs" id="thumbs">
+<img class="thumb active" src="https://cf.cjdropshipping.com/1615257606446.jpg" alt="Black jacket view">
+<img class="thumb" src="https://cf.cjdropshipping.com/1615257606448.jpg" alt="Khaki jacket view">
+<img class="thumb" src="https://cf.cjdropshipping.com/601bc662-d066-423d-a6a9-82e0bb795a15.jpg" alt="Pink jacket view">
+<img class="thumb" src="https://cf.cjdropshipping.com/1615257606395.jpg" alt="Jacket detail">
+<img class="thumb" src="https://cf.cjdropshipping.com/1615257606396.jpg" alt="Jacket detail view">
+</div>
+</div>
 <div>
 <div class="brand">SACCHI FLYIER</div>
-<h1>BLACK COLLAR COAT STREETWEAR JACKET</h1>
-<p class="subtitle">Women's autumn streetwear collar coat with a clean, versatile look</p>
-<p class="sku">SKU: CJNS103536109IR</p>
+<h1>CHECK STREETWEAR BLAZER JACKET</h1>
+<p class="subtitle">Women's long-sleeve check jacket with a single-breasted front</p>
+<p class="sku">Selected SKU: <span id="variantSku">CJNS103536109IR</span></p>
 <div class="price" id="productPrice">Select country</div>
-<p class="price-note">Your local price includes the currently checked United States shipping estimate and is converted from USD using reference exchange rates.</p>
+<p class="price-note">Final price includes the selected variant's product cost, confirmed shipping and $20 store profit.</p>
+<label>Color</label>
+<div class="color-options" id="colorOptions">
+<button type="button" class="color-btn active" data-color="Black">Black</button>
+<button type="button" class="color-btn" data-color="Khaki">Khaki</button>
+<button type="button" class="color-btn" data-color="Pink">Pink</button>
+</div>
+<label for="size">Size</label>
+<select id="size">
+<option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option><option value="2XL" selected>2XL</option>
+</select>
 <label for="country">Shipping Country</label>
 <select id="country"><option value="">Loading countries…</option></select>
-<div class="shipping-price" id="shippingPrice">Choose your country to see the final price in your currency.</div>
+<div class="shipping-price" id="shippingPrice">Choose your country to see the final price.</div>
 <label class="quantity-title">Quantity</label>
 <div class="quantity-box"><button type="button" id="decreaseQty" aria-label="Decrease quantity">−</button><span id="quantity">1</span><button type="button" id="increaseQty" aria-label="Increase quantity">+</button></div>
 <div class="buttons"><button type="button" class="add-cart" id="addCart" disabled>Add to Cart</button><button type="button" class="buy-now" id="buyNow" disabled>Buy Now</button></div>
-<p class="setup-note" id="orderNote">Select a supported destination to calculate the price. Checkout will be enabled only when a shipping rate and currency conversion are available.</p>
-<div class="description"><h2>Product Description</h2><p>A relaxed-fit men’s short-sleeve shirt with a lapel collar, button-front closure and pockets. CJ lists sizes S–6XL across its variants. The selected variant on this page is SKU CJNS103536109IR (2XL). CJ advises that Asian sizing may run 1–2 sizes smaller than European and American sizing; check the size chart before ordering.</p></div>
+<p class="setup-note" id="orderNote">Shipping is currently confirmed only for Black / 2XL to the United States. Other variants and destinations will remain unavailable until their shipping rates are checked.</p>
+<div class="description">
+<h2>Product Description</h2>
+<p>A long-sleeve check-pattern jacket with a single-breasted front. Available in Black, Khaki and Pink, in sizes S, M, L, XL and 2XL. Material is listed by CJ as cloth. The package contains one coat.</p>
+<p style="margin-top:12px">Sizing note: CJ advises that Asian sizes may run 1–2 sizes smaller than European and American sizes. Please check the size chart carefully and allow 2–3 cm for manual measurement differences.</p>
+</div>
 </div>
 </section>
 </main>
@@ -58,7 +84,7 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <div class="sf-review-summary"><div class="sf-review-score">—</div><div><div class="sf-review-stars" aria-label="No ratings yet">☆☆☆☆☆</div><div class="sf-review-count">No ratings yet for this product</div></div></div>
 <div class="sf-review-empty"><strong>No reviews published yet.</strong> Be the first customer to share a genuine review. Reviews are checked before publication.</div>
 <div class="sf-review-form-wrap"><h3>Write a Review</h3><p>Send your rating and feedback to our team. We may contact you to confirm your order before publishing it.</p>
-<form class="sf-review-form" data-sf-review-form data-product="Black Collar Coat Streetwear Jacket">
+<form class="sf-review-form" data-sf-review-form data-product="Check Streetwear Blazer Jacket">
 <div><label for="sf-name-streetwear-4">Your name</label><input id="sf-name-streetwear-4" name="customerName" autocomplete="name" maxlength="80" required></div>
 <div><label for="sf-email-streetwear-4">Email address</label><input id="sf-email-streetwear-4" name="customerEmail" type="email" autocomplete="email" required></div>
 <div class="sf-full"><label for="sf-rating-streetwear-4">Your rating</label><input type="hidden" id="sf-rating-streetwear-4" name="rating" value=""><div class="sf-star-picker" role="radiogroup" aria-label="Choose a rating" data-rating-picker="sf-rating-streetwear-4"><button type="button" class="sf-star" data-value="1" aria-label="1 star">★</button><button type="button" class="sf-star" data-value="2" aria-label="2 stars">★</button><button type="button" class="sf-star" data-value="3" aria-label="3 stars">★</button><button type="button" class="sf-star" data-value="4" aria-label="4 stars">★</button><button type="button" class="sf-star" data-value="5" aria-label="5 stars">★</button><span class="sf-star-label">Select a rating</span></div></div>
@@ -69,42 +95,51 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <script src="cart.js"></script><script src="reviews.js"></script>
 <script>
 "use strict";
-const PRODUCT={id:"streetwear4",name:"Black Collar Coat Streetwear Jacket",sku:"CJNS103536109IR",image:"streetwear-4.jpg",productCostUSD:6.14,profitUSD:20};
-const shippingRates={"United States":9.98};
-const api=window.SacchiCart, countrySelect=document.getElementById("country"), priceEl=document.getElementById("productPrice"), shipEl=document.getElementById("shippingPrice"), qtyEl=document.getElementById("quantity"), addBtn=document.getElementById("addCart"), buyBtn=document.getElementById("buyNow");
-let quantity=1,selectedCode="",selectedCurrency="",unitUSD=null,unitLocal=null,shipUSD=null;
-const normalize=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"");
-const aliases={"CD":"Democratic Republic of the Congo","CG":"Republic of the Congo","CI":"Cote d'Ivoire","CZ":"Czechia","KR":"South Korea","KP":"North Korea","MK":"North Macedonia","RU":"Russia","SZ":"Eswatini","TW":"Taiwan","TR":"Turkey","VA":"Vatican City","FM":"Micronesia","BN":"Brunei","LA":"Laos","BO":"Bolivia","MD":"Moldova","IR":"Iran","SY":"Syria","VE":"Venezuela","TZ":"Tanzania","PS":"Palestine"};
-function rateForCountry(c){const candidates=[c.name,aliases[c.code]].filter(Boolean);for(const n of candidates){const key=Object.keys(shippingRates).find(k=>normalize(k)===normalize(n));if(key)return shippingRates[key]}return null}
-function showUnavailable(message){unitUSD=unitLocal=shipUSD=null;priceEl.textContent="Price unavailable";shipEl.textContent=message;addBtn.disabled=buyBtn.disabled=true}
+const PRODUCT={id:"streetwear4",name:"Check Streetwear Blazer Jacket",image:"https://cf.cjdropshipping.com/1615257606446.jpg",profitUSD:20};
+const VARIANTS={
+ "Black":{"S":{sku:"CJNS103536105EV",cost:20.10,weight:470},"M":{sku:"CJNS103536106FU",cost:20.10,weight:480},"L":{sku:"CJNS103536107GT",cost:20.10,weight:490},"XL":{sku:"CJNS103536108HS",cost:20.10,weight:500},"2XL":{sku:"CJNS103536109IR",cost:6.14,weight:470}},
+ "Khaki":{"S":{sku:"CJNS103536101AZ",cost:20.10,weight:470},"M":{sku:"CJNS103536102BY",cost:20.10,weight:470},"L":{sku:"CJNS103536103CX",cost:20.10,weight:470},"XL":{sku:"CJNS103536104DW",cost:20.10,weight:470},"2XL":{sku:"CJNS103536110JQ",cost:6.14,weight:470}},
+ "Pink":{"S":{sku:"CJNS103536113MN",cost:6.14,weight:470},"M":{sku:"CJNS103536112LO",cost:6.14,weight:470},"L":{sku:"CJNS103536111KP",cost:6.14,weight:470},"XL":{sku:"CJNS103536114NM",cost:6.14,weight:470},"2XL":{sku:"CJNS103536115OL",cost:6.14,weight:470}}
+};
+const COLOR_IMAGES={"Black":"https://cf.cjdropshipping.com/1615257606446.jpg","Khaki":"https://cf.cjdropshipping.com/1615257606448.jpg","Pink":"https://cf.cjdropshipping.com/601bc662-d066-423d-a6a9-82e0bb795a15.jpg"};
+const CONFIRMED_SHIPPING={"Black|2XL|US":9.52};
+const api=window.SacchiCart,countrySelect=document.getElementById("country"),sizeSelect=document.getElementById("size"),priceEl=document.getElementById("productPrice"),shipEl=document.getElementById("shippingPrice"),qtyEl=document.getElementById("quantity"),skuEl=document.getElementById("variantSku"),addBtn=document.getElementById("addCart"),buyBtn=document.getElementById("buyNow"),mainImage=document.getElementById("mainImage");
+let selectedColor="Black",quantity=1,selectedCode="",selectedCurrency="",unitUSD=null,unitLocal=null,shipUSD=null;
+function selectedVariant(){return VARIANTS[selectedColor][sizeSelect.value]}
+function setUnavailable(message){unitUSD=unitLocal=shipUSD=null;priceEl.textContent="Price unavailable";shipEl.textContent=message;addBtn.disabled=buyBtn.disabled=true}
+function updateVariant(){
+ const v=selectedVariant();skuEl.textContent=v.sku;mainImage.src=COLOR_IMAGES[selectedColor];mainImage.alt=selectedColor+" check streetwear blazer jacket";
+ document.querySelectorAll(".color-btn").forEach(b=>b.classList.toggle("active",b.dataset.color===selectedColor));
+ updatePrice();
+}
 function updatePrice(){
- selectedCode=countrySelect.value;unitUSD=unitLocal=shipUSD=null;addBtn.disabled=buyBtn.disabled=true;
- if(!selectedCode){priceEl.textContent="Select country";shipEl.textContent="Choose your country to see the final price in your currency.";return}
- const c=api.COUNTRIES[selectedCode];if(!c){showUnavailable("Country details could not be loaded. Please refresh the page.");return}
- const rate=rateForCountry({name:c.name,code:selectedCode});
- if(rate===null){showUnavailable("Shipping rate is not confirmed for this destination yet.");return}
+ const v=selectedVariant();selectedCode=countrySelect.value;unitUSD=unitLocal=shipUSD=null;addBtn.disabled=buyBtn.disabled=true;
+ if(!selectedCode){priceEl.textContent="Select country";shipEl.textContent="Choose your country to see the final price.";return}
+ const rate=CONFIRMED_SHIPPING[selectedColor+"|"+sizeSelect.value+"|"+selectedCode];
+ if(rate===undefined){setUnavailable("Shipping rate is not confirmed for "+selectedColor+" / "+sizeSelect.value+" to this destination yet.");return}
+ const c=api.COUNTRIES[selectedCode];if(!c){setUnavailable("Country details could not be loaded. Please refresh the page.");return}
  selectedCurrency=c.currency;shipUSD=Number(rate);
- const total=Number((PRODUCT.productCostUSD+shipUSD+PRODUCT.profitUSD).toFixed(2));
+ const total=Number((v.cost+shipUSD+PRODUCT.profitUSD).toFixed(2));
  const converted=api.convertUSD(total,selectedCurrency);
- if(converted===null){showUnavailable("Live reference exchange rate for "+selectedCurrency+" is unavailable.");return}
- unitUSD=total;unitLocal=Number(converted.toFixed(2));
- priceEl.textContent=api.formatMoney(unitLocal,selectedCurrency);
- shipEl.textContent="Shipping included. Price shown in "+selectedCurrency+" using reference exchange rates.";
- addBtn.disabled=buyBtn.disabled=false;
+ if(converted===null){setUnavailable("Reference exchange rate for "+selectedCurrency+" is unavailable.");return}
+ unitUSD=total;unitLocal=Number(converted.toFixed(2));priceEl.textContent=api.formatMoney(unitLocal,selectedCurrency);
+ shipEl.textContent="Shipping included. CJ shipping: $"+shipUSD.toFixed(2)+" USD. Selected variant: "+selectedColor+" / "+sizeSelect.value+".";
 }
 function populateCountries(){
  const previous=api.getCountry();countrySelect.innerHTML='<option value="">Select your country</option>';
  Object.entries(api.COUNTRIES).filter(([code])=>code!=="IN").sort((a,b)=>a[1].name.localeCompare(b[1].name)).forEach(([code,c])=>{const o=document.createElement("option");o.value=code;o.textContent=c.name+" ("+c.currency+")";countrySelect.appendChild(o)});
- if(api.COUNTRIES[previous]&&previous!=="IN")countrySelect.value=previous;
- updatePrice();
+ if(api.COUNTRIES[previous]&&previous!=="IN")countrySelect.value=previous;updatePrice();
 }
-function item(){return {id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:PRODUCT.sku,image:PRODUCT.image,quantity,country:selectedCode,countryName:api.COUNTRIES[selectedCode]?.name||"",currency:selectedCurrency,unitPriceUSD:unitUSD,unitPriceLocal:unitLocal,shippingCostUSD:shipUSD,productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD}}
+function item(){const v=selectedVariant();return {id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name+" - "+selectedColor+" - "+sizeSelect.value,sku:v.sku,image:COLOR_IMAGES[selectedColor],color:selectedColor,size:sizeSelect.value,quantity,country:selectedCode,countryName:api.COUNTRIES[selectedCode]?.name||"",currency:selectedCurrency,unitPriceUSD:unitUSD,unitPriceLocal:unitLocal,shippingCostUSD:shipUSD,productCostUSD:v.cost,profitUSD:PRODUCT.profitUSD}}
+document.querySelectorAll(".color-btn").forEach(b=>b.addEventListener("click",()=>{selectedColor=b.dataset.color;updateVariant()}));
+sizeSelect.addEventListener("change",updateVariant);
 countrySelect.addEventListener("change",()=>{try{api.setCountry(countrySelect.value)}catch(e){}updatePrice()});
+document.querySelectorAll(".thumb").forEach(t=>t.addEventListener("click",()=>{mainImage.src=t.src;document.querySelectorAll(".thumb").forEach(x=>x.classList.toggle("active",x===t))}));
 document.getElementById("increaseQty").addEventListener("click",()=>{quantity=Math.min(99,quantity+1);qtyEl.textContent=quantity});
 document.getElementById("decreaseQty").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);qtyEl.textContent=quantity});
 addBtn.addEventListener("click",()=>{if(unitUSD===null)return;try{api.add(item());alert("Product added to your cart.")}catch(e){alert(e.message||"Unable to add this product.")}});
 buyBtn.addEventListener("click",()=>{if(unitUSD===null)return;try{api.buyNow(item())}catch(e){alert(e.message||"Unable to continue to checkout.")}});
-(async()=>{await api.refreshCurrencyData();populateCountries()})();
+(async()=>{await api.refreshCurrencyData();populateCountries();updateVariant()})();
 </script>
 </body>
 </html>
