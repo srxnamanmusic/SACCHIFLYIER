@@ -738,6 +738,7 @@ function setUnavailable(message){unitPriceUSD=null;unitPriceLocal=null;setPriceV
 function updateVariantSku(){const v=currentVariant();const skuEl=document.getElementById("productSku");if(skuEl)skuEl.textContent=v?v.sku:"Unavailable";}
 function updatePrice(){
  updateVariantSku();
+ if(!isModelAvailable(selectedColor,selectedModel)){unitPriceUSD=null;unitPriceLocal=null;setPriceVisible(false);productPrice.textContent="Select phone model";shippingMessage.textContent="Choose an available phone model to calculate the price.";return;}
  selectedCountry=countrySelect.value;
  unitPriceUSD=null;unitPriceLocal=null;setPriceVisible(false);shippingMessage.classList.remove("unavailable");
  if(!selectedCountry){productPrice.textContent="Select country";shippingMessage.textContent="Select your country to calculate the final price.";return}
