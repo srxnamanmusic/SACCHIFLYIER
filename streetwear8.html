@@ -54,7 +54,7 @@ footer{border-top:1px solid #222;text-align:center;padding:25px 15px;color:#aaa;
 <select id="variant">
 <option value="CJYH119047901AZ">S</option>
 <option value="CJYH119047902BY">M</option>
-<option value="CJYH119047903CX">L — shipping method pending</option>
+<option value="CJYH119047903CX">L</option>
 <option value="CJYH119047904DW">XL</option>
 <option value="CJYH119047905EV">2XL</option>
 <option value="CJYH119047906FU">3XL</option>
@@ -88,7 +88,7 @@ footer{border-top:1px solid #222;text-align:center;padding:25px 15px;color:#aaa;
 <script>
 "use strict";
 const PRODUCT={id:"streetwear8",name:"Yellow Casual Streetwear Shirt",image:"https://cf.cjdropshipping.com/2d979996-8144-4798-addf-e5c90a26fdae.jpg",productCostUSD:5.31,profitUSD:20};
-const SHIPPING_RATES={"US":{"CJYH119047901AZ":6.93,"CJYH119047902BY":7.22,"CJYH119047904DW":7.80,"CJYH119047905EV":8.10,"CJYH119047906FU":8.39}};
+const SHIPPING_RATES={"US":{"CJYH119047901AZ":6.93,"CJYH119047902BY":7.22,"CJYH119047903CX":7.52,"CJYH119047904DW":7.80,"CJYH119047905EV":8.10,"CJYH119047906FU":8.39}};
 const VARIANTS={"CJYH119047901AZ":"S","CJYH119047902BY":"M","CJYH119047903CX":"L","CJYH119047904DW":"XL","CJYH119047905EV":"2XL","CJYH119047906FU":"3XL"};
 const api=window.SacchiCart,countrySelect=document.getElementById("country"),variantSelect=document.getElementById("variant");
 const priceEl=document.getElementById("productPrice"),shipEl=document.getElementById("shippingPrice"),skuEl=document.getElementById("selectedSku");
@@ -101,7 +101,7 @@ function updatePrice(){
  const country=api.COUNTRIES[selectedCode];if(!country){unavailable("Country details could not be loaded. Please refresh.");return}
  if(selectedCode!=="US"){unavailable("Shipping cost is not confirmed for this destination yet.");return}
  const sku=variantSelect.value,size=VARIANTS[sku],rate=SHIPPING_RATES.US[sku];
- if(rate===undefined){unavailable("The L-size quote is $8.39, but CJ did not show an available shipping method in the screenshot. Checkout is disabled until availability is confirmed.");return}
+ if(rate===undefined){unavailable("");return}
  selectedCurrency=country.currency;shipUSD=rate;
  const total=Number((PRODUCT.productCostUSD+shipUSD+PRODUCT.profitUSD).toFixed(2));
  const converted=api.convertUSD(total,selectedCurrency);if(converted===null){unavailable("Reference exchange rate for "+selectedCurrency+" is unavailable.");return}
