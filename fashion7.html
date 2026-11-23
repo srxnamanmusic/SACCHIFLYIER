@@ -37,9 +37,11 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <div class="brand">SACCHI FLYIER</div>
 <h1>2026 NEW PLAID MEDIUM-LENGTH WOOLEN COAT</h1>
 <p class="subtitle">Retro plaid outerwear with a relaxed, straight silhouette</p>
-<p class="sku">SKU: CJWC310008805EV</p>
+<p class="sku" id="variantSku">SKU: CJWC310008801AZ</p>
 <div class="price" id="productPrice">Select country</div>
 <p class="price-note">Your local price includes shipping and is converted from USD using reference exchange rates.</p>
+<label for="size">Color: Black — Select Size</label>
+<select id="size" aria-label="Select coat size"><option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option><option value="2XL">2XL</option><option value="3XL">3XL</option><option value="4XL">4XL</option><option value="5XL">5XL</option></select>
 <label for="country">Shipping Country</label>
 <select id="country"><option value="">Loading countries…</option></select>
 <div class="shipping-price" id="shippingPrice">Choose your country to see the final price in your currency.</div>
@@ -47,7 +49,7 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <div class="quantity-box"><button type="button" id="decreaseQty" aria-label="Decrease quantity">−</button><span id="quantity">1</span><button type="button" id="increaseQty" aria-label="Increase quantity">+</button></div>
 <div class="buttons"><button type="button" class="add-cart" id="addCart" disabled>Add to Cart</button><button type="button" class="buy-now" id="buyNow" disabled>Buy Now</button></div>
 <p class="setup-note" id="orderNote">Select a supported destination to calculate the price. Checkout will be enabled only when a shipping rate and currency conversion are available.</p>
-<div class="description"><h2>Product Description</h2><p>A medium-length plaid coat with a suit-style lapel and a loose, straight fit. CJ lists the product material only as cloth, so the fabric composition is not specified; it should not be described as confirmed wool. The supplier describes the dark-green option with a light-brown grid pattern and lists black, dark green, red, blue, grey and camel colour variants. Sizes range from S to 5XL. The supplier lists autumn and winter as the common seasons and suggests daily commuting, leisure travel and casual outings. Check the size chart before ordering.</p></div>
+<div class="description"><h2>Product Description</h2><p>A medium-length black plaid coat with a suit-style lapel and a loose, straight fit. CJ lists the product material only as cloth, so the fabric composition is not specified. This listing is configured for the Black color only, with sizes S, M, L, XL, 2XL, 3XL, 4XL and 5XL. The supplier lists autumn and winter as the common seasons and suggests daily commuting, leisure travel and casual outings. Check the size chart before ordering.</p></div>
 </div>
 </section>
 </main>
@@ -69,9 +71,55 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <script src="cart.js"></script><script src="reviews.js"></script>
 <script>
 "use strict";
-const PRODUCT={id:"fashion7",name:"2026 New Plaid Medium-Length Woolen Coat",sku:"CJWC310008805EV",image:"fashion-7.jpg",productCostUSD:9.48,profitUSD:20};
-const shippingRates={"United States":14.87};
-const api=window.SacchiCart, countrySelect=document.getElementById("country"), priceEl=document.getElementById("productPrice"), shipEl=document.getElementById("shippingPrice"), qtyEl=document.getElementById("quantity"), addBtn=document.getElementById("addCart"), buyBtn=document.getElementById("buyNow");
+const PRODUCT={id:"fashion7",name:"2026 New Plaid Medium-Length Woolen Coat",image:"fashion-7.jpg",productCostUSD:9.48,profitUSD:20};
+const variants={
+ "S":{sku:"CJWC310008801AZ",weight:680,shippingUSD:12.72},
+ "M":{sku:"CJWC310008802BY",weight:700,shippingUSD:13.04},
+ "L":{sku:"CJWC310008803CX",weight:720,shippingUSD:13.34},
+ "XL":{sku:"CJWC310008804DW",weight:740,shippingUSD:13.65},
+ "2XL":{sku:"CJWC310008805EV",weight:760,shippingUSD:13.95},
+ "3XL":{sku:"CJWC310008806FU",weight:780,shippingUSD:14.26},
+ "4XL":{sku:"CJWC310008807GT",weight:800,shippingUSD:14.56},
+ "5XL":{sku:"CJWC310008808HS",weight:820,shippingUSD:14.87}
+};
+const api=window.SacchiCart, sizeSelect=document.getElementById("size"), skuEl=document.getElementById("variantSku"), countrySelect=document.getElementById("country"), priceEl=document.getElementById("productPrice"), shipEl=document.getElementById("shippingPrice"), qtyEl=document.getElementById("quantity"), addBtn=document.getElementById("addCart"), buyBtn=document.getElementById("buyNow");
+let quantity=1,selectedCode="",selectedCurrency="",unitUSD=null,unitLocal=null,shipUSD=null;
+const normalize=s=>String(s||"").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"");
+const aliases={"CD":"Democratic Republic of the Congo","CG":"Republic of the Congo","CI":"Cote d'Ivoire","CZ":"Czechia","KR":"South Korea","KP":"North Korea","MK":"North Macedonia","RU":"Russia","SZ":"Eswatini","TW":"Taiwan","TR":"Turkey","VA":"Vatican City","FM":"Micronesia","BN":"Brunei","LA":"Laos","BO":"Bolivia","MD":"Moldova","IR":"Iran","SY":"Syria","VE":"Venezuela","TZ":"Tanzania","PS":"Palestine"};
+function currentVariant(){return variants[sizeSelect.value]||null}
+function rateForCountry(c){const candidates=[c.name,aliases[c.code]].filter(Boolean);for(const n of candidates){const key=Object.keys({"United States":1}).find(k=>normalize(k)===normalize(n));if(key)return currentVariant()?.shippingUSD??null}return null}
+function showUnavailable(message){unitUSD=unitLocal=shipUSD=null;priceEl.textContent="Price unavailable";shipEl.textContent=message;addBtn.disabled=buyBtn.disabled=true}
+function updatePrice(){
+ const variant=currentVariant();if(!variant){showUnavailable("Please select an available size.");return}
+ skuEl.textContent="SKU: "+variant.sku+" · "+variant.weight+"g";
+ selectedCode=countrySelect.value;unitUSD=unitLocal=shipUSD=null;addBtn.disabled=buyBtn.disabled=true;
+ if(!selectedCode){priceEl.textContent="Select country";shipEl.textContent="Choose your country to see the final price in your currency.";return}
+ const c=api.COUNTRIES[selectedCode];if(!c){showUnavailable("Country details could not be loaded. Please refresh the page.");return}
+ const rate=rateForCountry({name:c.name,code:selectedCode});
+ if(rate===null){showUnavailable("Shipping rate is not confirmed for this destination yet.");return}
+ selectedCurrency=c.currency;shipUSD=Number(rate);
+ const total=Number((PRODUCT.productCostUSD+shipUSD+PRODUCT.profitUSD).toFixed(2));
+ const converted=api.convertUSD(total,selectedCurrency);
+ if(converted===null){showUnavailable("Live reference exchange rate for "+selectedCurrency+" is unavailable.");return}
+ unitUSD=total;unitLocal=Number(converted.toFixed(2));
+ priceEl.textContent=api.formatMoney(unitLocal,selectedCurrency);
+ shipEl.textContent="Shipping included. Price shown in "+selectedCurrency+" using reference exchange rates.";
+ addBtn.disabled=buyBtn.disabled=false;
+}
+function populateCountries(){
+ const previous=api.getCountry();countrySelect.innerHTML='<option value="">Select your country</option>';
+ Object.entries(api.COUNTRIES).filter(([code])=>code!=="IN").sort((a,b)=>a[1].name.localeCompare(b[1].name)).forEach(([code,c])=>{const o=document.createElement("option");o.value=code;o.textContent=c.name+" ("+c.currency+")";countrySelect.appendChild(o)});
+ if(api.COUNTRIES[previous]&&previous!=="IN")countrySelect.value=previous;
+ updatePrice();
+}
+function item(){const variant=currentVariant();return {id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name+" — Black / "+sizeSelect.value,sku:variant.sku,image:PRODUCT.image,quantity,country:selectedCode,countryName:api.COUNTRIES[selectedCode]?.name||"",currency:selectedCurrency,unitPriceUSD:unitUSD,unitPriceLocal:unitLocal,shippingCostUSD:shipUSD,productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD,variant:{color:"Black",size:sizeSelect.value,weightGrams:variant.weight}}}
+sizeSelect.addEventListener("change",updatePrice);
+countrySelect.addEventListener("change",()=>{try{api.setCountry(countrySelect.value)}catch(e){}updatePrice()});
+document.getElementById("increaseQty").addEventListener("click",()=>{quantity=Math.min(99,quantity+1);qtyEl.textContent=quantity});
+document.getElementById("decreaseQty").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);qtyEl.textContent=quantity});
+addBtn.addEventListener("click",()=>{if(unitUSD===null)return;try{api.add(item());alert("Product added to your cart.")}catch(e){alert(e.message||"Unable to add this product.")}});
+buyBtn.addEventListener("click",()=>{if(unitUSD===null)return;try{api.buyNow(item())}catch(e){alert(e.message||"Unable to continue to checkout.")}});
+(async()=>{await api.refreshCurrencyData();populateCountries()})();const api=window.SacchiCart, countrySelect=document.getElementById("country"), priceEl=document.getElementById("productPrice"), shipEl=document.getElementById("shippingPrice"), qtyEl=document.getElementById("quantity"), addBtn=document.getElementById("addCart"), buyBtn=document.getElementById("buyNow");
 let quantity=1,selectedCode="",selectedCurrency="",unitUSD=null,unitLocal=null,shipUSD=null;
 const normalize=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"");
 const aliases={"CD":"Democratic Republic of the Congo","CG":"Republic of the Congo","CI":"Cote d'Ivoire","CZ":"Czechia","KR":"South Korea","KP":"North Korea","MK":"North Macedonia","RU":"Russia","SZ":"Eswatini","TW":"Taiwan","TR":"Turkey","VA":"Vatican City","FM":"Micronesia","BN":"Brunei","LA":"Laos","BO":"Bolivia","MD":"Moldova","IR":"Iran","SY":"Syria","VE":"Venezuela","TZ":"Tanzania","PS":"Palestine"};
