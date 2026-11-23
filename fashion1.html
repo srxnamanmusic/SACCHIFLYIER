@@ -38,8 +38,10 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <h1>MEN'S LOOSE-FITTING LAPEL BUTTON-DOWN SHIRT</h1>
 <p class="subtitle">Relaxed-fit fashion essential</p>
 <p class="sku">SKU: <span id="skuValue">Select a size</span></p>
+<label for="style">Style</label>
+<select id="style"><option value="">Select style</option><option value="Cuba Leader 01SD">Cuba Leader 01SD</option><option value="Cuba Leads 1SD6">Cuba Leads 1SD6</option></select>
 <label for="size">Size</label>
-<select id="size"><option value="">Select size</option></select>
+<select id="size" disabled><option value="">Select style first</option></select>
 <div class="price" id="productPrice">Select country</div>
 <p class="price-note">Your local price includes the currently checked United States shipping estimate and is converted from USD using reference exchange rates.</p>
 <label for="country">Shipping Country</label>
@@ -49,7 +51,7 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <div class="quantity-box"><button type="button" id="decreaseQty" aria-label="Decrease quantity">−</button><span id="quantity">1</span><button type="button" id="increaseQty" aria-label="Increase quantity">+</button></div>
 <div class="buttons"><button type="button" class="add-cart" id="addCart" disabled>Add to Cart</button><button type="button" class="buy-now" id="buyNow" disabled>Buy Now</button></div>
 <p class="setup-note" id="orderNote">Select a supported destination to calculate the price. Checkout will be enabled only when a shipping rate and currency conversion are available.</p>
-<div class="description"><h2>Product Description</h2><p>A relaxed-fit men’s short-sleeve shirt with a lapel collar, button-front closure and pockets. CJ lists sizes S–6XL across its variants. The selected variant on this page is SKU CJMS332136210JQ (2XL). CJ advises that Asian sizing may run 1–2 sizes smaller than European and American sizing; check the size chart before ordering.</p></div>
+<div class="description"><h2>Product Description</h2><p>A relaxed-fit men’s short-sleeve shirt with a lapel collar, button-front closure and pockets. CJ lists sizes S–6XL across its variants. Available in two styles, Cuba Leader 01SD and Cuba Leads 1SD6, with sizes S–6XL. Select your style and size to view the matching SKU and shipping price. CJ advises that Asian sizing may run 1–2 sizes smaller than European and American sizing; check the size chart before ordering.</p></div>
 </div>
 </section>
 </main>
@@ -73,10 +75,9 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 "use strict";
 const PRODUCT={id:"fashion1",name:"Men's Loose-Fitting Lapel Button-Down Shirt",image:"fashion-1.jpg",productCostUSD:4.74,profitUSD:20};
 const VARIANTS=[
-{size:"S",sku:"CJMS332136201AZ",style:"Cuba Leads 1SD6"},{size:"M",sku:"CJMS332136202BY",style:"Cuba Leads 1SD6"},{size:"L",sku:"CJMS332136203CX",style:"Cuba Leads 1SD6"},{size:"XL",sku:"CJMS332136204DW",style:"Cuba Leads 1SD6"},{size:"2XL",sku:"CJMS332136205EV",style:"Cuba Leads 1SD6"},{size:"3XL",sku:"CJMS332136206FU",style:"Cuba Leads 1SD6"},{size:"4XL",sku:"CJMS332136207GT",style:"Cuba Leads 1SD6"},{size:"5XL",sku:"CJMS332136208HS",style:"Cuba Leads 1SD6"},{size:"6XL",sku:"CJMS332136209IR",style:"Cuba Leads 1SD6"},
-{size:"2XL",sku:"CJMS332136210JQ",style:"Cuba Leader 01SD"},{size:"3XL",sku:"CJMS332136211KP",style:"Cuba Leader 01SD"},{size:"4XL",sku:"CJMS332136212LO",style:"Cuba Leader 01SD"},{size:"5XL",sku:"CJMS332136213MN",style:"Cuba Leader 01SD"},{size:"6XL",sku:"CJMS332136214NM",style:"Cuba Leader 01SD"},{size:"L",sku:"CJMS332136215OL",style:"Cuba Leader 01SD"},{size:"M",sku:"CJMS332136216PK",style:"Cuba Leader 01SD"},{size:"S",sku:"CJMS332136217QJ",style:"Cuba Leader 01SD"},{size:"XL",sku:"CJMS332136218RI",style:"Cuba Leader 01SD"}];
-const shippingRates={"United States":8.84};
-const api=window.SacchiCart, countrySelect=document.getElementById("country"), sizeSelect=document.getElementById("size"), skuEl=document.getElementById("skuValue"), priceEl=document.getElementById("productPrice"), shipEl=document.getElementById("shippingPrice"), qtyEl=document.getElementById("quantity"), addBtn=document.getElementById("addCart"), buyBtn=document.getElementById("buyNow");
+{size:"S",sku:"CJMS332136201AZ",style:"Cuba Leads 1SD6",shippingUSD:7.66,weight:270},{size:"M",sku:"CJMS332136202BY",style:"Cuba Leads 1SD6",shippingUSD:7.80,weight:280},{size:"L",sku:"CJMS332136203CX",style:"Cuba Leads 1SD6",shippingUSD:7.95,weight:290},{size:"XL",sku:"CJMS332136204DW",style:"Cuba Leads 1SD6",shippingUSD:8.10,weight:300},{size:"2XL",sku:"CJMS332136205EV",style:"Cuba Leads 1SD6",shippingUSD:8.39,weight:310},{size:"3XL",sku:"CJMS332136206FU",style:"Cuba Leads 1SD6",shippingUSD:8.39,weight:320},{size:"4XL",sku:"CJMS332136207GT",style:"Cuba Leads 1SD6",shippingUSD:8.54,weight:330},{size:"5XL",sku:"CJMS332136208HS",style:"Cuba Leads 1SD6",shippingUSD:8.69,weight:340},{size:"6XL",sku:"CJMS332136209IR",style:"Cuba Leads 1SD6",shippingUSD:8.84,weight:350},
+{size:"S",sku:"CJMS332136217QJ",style:"Cuba Leader 01SD",shippingUSD:7.66,weight:270},{size:"M",sku:"CJMS332136216PK",style:"Cuba Leader 01SD",shippingUSD:7.80,weight:280},{size:"L",sku:"CJMS332136215OL",style:"Cuba Leader 01SD",shippingUSD:7.95,weight:290},{size:"XL",sku:"CJMS332136218RI",style:"Cuba Leader 01SD",shippingUSD:8.10,weight:300},{size:"2XL",sku:"CJMS332136210JQ",style:"Cuba Leader 01SD",shippingUSD:8.25,weight:310},{size:"3XL",sku:"CJMS332136211KP",style:"Cuba Leader 01SD",shippingUSD:8.39,weight:320},{size:"4XL",sku:"CJMS332136212LO",style:"Cuba Leader 01SD",shippingUSD:8.54,weight:330},{size:"5XL",sku:"CJMS332136213MN",style:"Cuba Leader 01SD",shippingUSD:8.69,weight:340},{size:"6XL",sku:"CJMS332136214NM",style:"Cuba Leader 01SD",shippingUSD:8.84,weight:350}];
+const api=window.SacchiCart, countrySelect=document.getElementById("country"), styleSelect=document.getElementById("style"), sizeSelect=document.getElementById("size"), skuEl=document.getElementById("skuValue"), priceEl=document.getElementById("productPrice"), shipEl=document.getElementById("shippingPrice"), qtyEl=document.getElementById("quantity"), addBtn=document.getElementById("addCart"), buyBtn=document.getElementById("buyNow");
 let quantity=1,selectedCode="",selectedCurrency="",selectedVariant=null,unitUSD=null,unitLocal=null,shipUSD=null;
 const normalize=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"");
 const aliases={"CD":"Democratic Republic of the Congo","CG":"Republic of the Congo","CI":"Cote d'Ivoire","CZ":"Czechia","KR":"South Korea","KP":"North Korea","MK":"North Macedonia","RU":"Russia","SZ":"Eswatini","TW":"Taiwan","TR":"Turkey","VA":"Vatican City","FM":"Micronesia","BN":"Brunei","LA":"Laos","BO":"Bolivia","MD":"Moldova","IR":"Iran","SY":"Syria","VE":"Venezuela","TZ":"Tanzania","PS":"Palestine"};
@@ -87,9 +88,8 @@ function updatePrice(){
  if(!selectedVariant){priceEl.textContent="Select size and country";shipEl.textContent="Choose your size and country to see the final price.";return;}
  if(!selectedCode){priceEl.textContent="Select country";shipEl.textContent="Choose your country to see the final price in your currency.";return}
  const c=api.COUNTRIES[selectedCode];if(!c){showUnavailable("Country details could not be loaded. Please refresh the page.");return}
- const rate=rateForCountry({name:c.name,code:selectedCode});
- if(rate===null){showUnavailable("Shipping rate is not confirmed for this destination yet.");return}
- selectedCurrency=c.currency;shipUSD=Number(rate);
+ if(selectedCode!=="US"){showUnavailable("Shipping rate is currently confirmed only for the United States. Please select United States to continue.");return}
+ selectedCurrency=c.currency;shipUSD=selectedVariant.shippingUSD;
  const total=Number((PRODUCT.productCostUSD+shipUSD+PRODUCT.profitUSD).toFixed(2));
  const converted=api.convertUSD(total,selectedCurrency);
  if(converted===null){showUnavailable("Live reference exchange rate for "+selectedCurrency+" is unavailable.");return}
@@ -98,7 +98,7 @@ function updatePrice(){
  shipEl.textContent="Shipping included. Price shown in "+selectedCurrency+" using reference exchange rates.";
  addBtn.disabled=buyBtn.disabled=false;
 }
-function populateSizes(){sizeSelect.innerHTML='<option value="">Select size</option>';VARIANTS.forEach(v=>{const o=document.createElement("option");o.value=v.sku;o.textContent=v.size+" — "+v.style;sizeSelect.appendChild(o)});}
+function populateSizes(){const style=styleSelect.value;sizeSelect.innerHTML='<option value="">Select size</option>';sizeSelect.disabled=!style;VARIANTS.filter(v=>v.style===style).forEach(v=>{const o=document.createElement("option");o.value=v.sku;o.textContent=v.size;sizeSelect.appendChild(o)});updatePrice();}
 function populateCountries(){
  const previous=api.getCountry();countrySelect.innerHTML='<option value="">Select your country</option>';
  Object.entries(api.COUNTRIES).filter(([code])=>code!=="IN").sort((a,b)=>a[1].name.localeCompare(b[1].name)).forEach(([code,c])=>{const o=document.createElement("option");o.value=code;o.textContent=c.name+" ("+c.currency+")";countrySelect.appendChild(o)});
@@ -106,13 +106,14 @@ function populateCountries(){
  updatePrice();
 }
 function item(){return {id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:selectedVariant?.sku||"",variant:selectedVariant?.size||"",style:selectedVariant?.style||"",image:PRODUCT.image,quantity,country:selectedCode,countryName:api.COUNTRIES[selectedCode]?.name||"",currency:selectedCurrency,unitPriceUSD:unitUSD,unitPriceLocal:unitLocal,shippingCostUSD:shipUSD,productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD}}
+styleSelect.addEventListener("change",()=>{populateSizes()});
 sizeSelect.addEventListener("change",updatePrice);
 countrySelect.addEventListener("change",()=>{try{api.setCountry(countrySelect.value)}catch(e){}updatePrice()});
 document.getElementById("increaseQty").addEventListener("click",()=>{quantity=Math.min(99,quantity+1);qtyEl.textContent=quantity});
 document.getElementById("decreaseQty").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);qtyEl.textContent=quantity});
 addBtn.addEventListener("click",()=>{if(unitUSD===null)return;try{api.add(item());alert("Product added to your cart.")}catch(e){alert(e.message||"Unable to add this product.")}});
 buyBtn.addEventListener("click",()=>{if(unitUSD===null)return;try{api.buyNow(item())}catch(e){alert(e.message||"Unable to continue to checkout.")}});
-(async()=>{populateSizes();await api.refreshCurrencyData();populateCountries()})();
+(async()=>{sizeSelect.disabled=true;await api.refreshCurrencyData();populateCountries()})();
 </script>
 </body>
 </html>
