@@ -37,7 +37,11 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <div class="brand">SACCHI FLYIER</div>
 <h1>MEN'S GRAFFITI LETTER SHORT SLEEVE T-SHIRT</h1>
 <p class="subtitle">Graffiti-print streetwear essential</p>
-<p class="sku">SKU: CJYH206053308HS</p>
+<p class="sku">SKU: <span id="skuValue">Select a color and size</span></p>
+<label for="color">Color</label>
+<select id="color"><option value="">Select color</option><option value="Apricot">Apricot</option><option value="Black">Black</option></select>
+<label for="size">Size</label>
+<select id="size" disabled><option value="">Select color first</option></select>
 <div class="price" id="productPrice">Select country</div>
 <p class="price-note">Your local price includes the currently checked US shipping estimate and is converted from USD using reference exchange rates.</p>
 <label for="country">Shipping Country</label>
@@ -69,28 +73,48 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <script src="cart.js"></script><script src="reviews.js"></script>
 <script>
 "use strict";
-const PRODUCT={id:"fashion2",name:"Men's Graffiti Letter Short Sleeve T-Shirt",sku:"CJYH206053308HS",image:"fashion-2.jpg",productCostUSD:8.46,profitUSD:20};
-const shippingRates={"United States":9.72};
-const api=window.SacchiCart, countrySelect=document.getElementById("country"), priceEl=document.getElementById("productPrice"), shipEl=document.getElementById("shippingPrice"), qtyEl=document.getElementById("quantity"), addBtn=document.getElementById("addCart"), buyBtn=document.getElementById("buyNow");
-let quantity=1,selectedCode="",selectedCurrency="",unitUSD=null,unitLocal=null,shipUSD=null;
+const PRODUCT={id:"fashion2",name:"Men's Graffiti Letter Short Sleeve T-Shirt",image:"fashion-2.jpg",productCostUSD:8.46,profitUSD:20};
+const VARIANTS=[
+{color:"Apricot",size:"S",sku:"CJYH206053306FU",shippingUSD:9.12,weight:370},
+{color:"Apricot",size:"M",sku:"CJYH206053307GT",shippingUSD:9.28,weight:380},
+{color:"Apricot",size:"L",sku:"CJYH206053308HS",shippingUSD:9.42,weight:390},
+{color:"Apricot",size:"XL",sku:"CJYH206053309IR",shippingUSD:9.57,weight:400},
+{color:"Apricot",size:"XXL",sku:"CJYH206053310JQ",shippingUSD:9.72,weight:410},
+{color:"Black",size:"S",sku:"CJYH206053301AZ",shippingUSD:9.12,weight:370},
+{color:"Black",size:"M",sku:"CJYH206053302BY",shippingUSD:9.28,weight:380},
+{color:"Black",size:"L",sku:"CJYH206053303CX",shippingUSD:9.42,weight:390},
+{color:"Black",size:"XL",sku:"CJYH206053304DW",shippingUSD:9.57,weight:400},
+{color:"Black",size:"XXL",sku:"CJYH206053305EV",shippingUSD:9.72,weight:410}
+];
+const api=window.SacchiCart, countrySelect=document.getElementById("country"), colorSelect=document.getElementById("color"), sizeSelect=document.getElementById("size"), skuEl=document.getElementById("skuValue"), priceEl=document.getElementById("productPrice"), shipEl=document.getElementById("shippingPrice"), qtyEl=document.getElementById("quantity"), addBtn=document.getElementById("addCart"), buyBtn=document.getElementById("buyNow");
+let quantity=1,selectedCode="",selectedCurrency="",selectedVariant=null,unitUSD=null,unitLocal=null,shipUSD=null;
 const normalize=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"");
 const aliases={"CD":"Democratic Republic of the Congo","CG":"Republic of the Congo","CI":"Cote d'Ivoire","CZ":"Czechia","KR":"South Korea","KP":"North Korea","MK":"North Macedonia","RU":"Russia","SZ":"Eswatini","TW":"Taiwan","TR":"Turkey","VA":"Vatican City","FM":"Micronesia","BN":"Brunei","LA":"Laos","BO":"Bolivia","MD":"Moldova","IR":"Iran","SY":"Syria","VE":"Venezuela","TZ":"Tanzania","PS":"Palestine"};
 function rateForCountry(c){const candidates=[c.name,aliases[c.code]].filter(Boolean);for(const n of candidates){const key=Object.keys(shippingRates).find(k=>normalize(k)===normalize(n));if(key)return shippingRates[key]}return null}
 function showUnavailable(message){unitUSD=unitLocal=shipUSD=null;priceEl.textContent="Price unavailable";shipEl.textContent=message;addBtn.disabled=buyBtn.disabled=true}
 function updatePrice(){
- selectedCode=countrySelect.value;unitUSD=unitLocal=shipUSD=null;addBtn.disabled=buyBtn.disabled=true;
+ selectedCode=countrySelect.value;
+ selectedVariant=VARIANTS.find(v=>v.sku===sizeSelect.value)||null;
+ skuEl.textContent=selectedVariant?selectedVariant.sku+" · "+selectedVariant.color+" / "+selectedVariant.size:"Select a color and size";
+ unitUSD=unitLocal=shipUSD=null;addBtn.disabled=buyBtn.disabled=true;
+ if(!selectedVariant){priceEl.textContent="Select color and size";shipEl.textContent="Choose your color, size and country to see the final price.";return}
  if(!selectedCode){priceEl.textContent="Select country";shipEl.textContent="Choose your country to see the final price in your currency.";return}
- const c=api.COUNTRIES[selectedCode];if(!c){showUnavailable("Country details could not be loaded. Please refresh the page.");return}
- const rate=rateForCountry({name:c.name,code:selectedCode});
- if(rate===null){showUnavailable("Shipping rate is not confirmed for this destination yet.");return}
- selectedCurrency=c.currency;shipUSD=Number(rate);
+ const country=api.COUNTRIES[selectedCode];if(!country){showUnavailable("Country details could not be loaded. Please refresh the page.");return}
+ if(selectedCode!=="US"){showUnavailable("Shipping rate is currently confirmed only for the United States. Please select United States to continue.");return}
+ selectedCurrency=country.currency;shipUSD=selectedVariant.shippingUSD;
  const total=Number((PRODUCT.productCostUSD+shipUSD+PRODUCT.profitUSD).toFixed(2));
  const converted=api.convertUSD(total,selectedCurrency);
  if(converted===null){showUnavailable("Live reference exchange rate for "+selectedCurrency+" is unavailable.");return}
  unitUSD=total;unitLocal=Number(converted.toFixed(2));
  priceEl.textContent=api.formatMoney(unitLocal,selectedCurrency);
- shipEl.textContent="Shipping included via LuWei Ordinary US (estimated packed weight 410 g). Estimated delivery: 5–11 days. Price shown in "+selectedCurrency+" using reference exchange rates.";
+ shipEl.textContent="US shipping included via LuWei Ordinary US. Variant weight: "+selectedVariant.weight+" g. Estimated delivery: 5–11 days. Price shown in "+selectedCurrency+" using reference exchange rates.";
  addBtn.disabled=buyBtn.disabled=false;
+}
+function populateSizes(){
+ const color=colorSelect.value;sizeSelect.innerHTML='<option value="">Select size</option>';
+ sizeSelect.disabled=!color;
+ VARIANTS.filter(v=>v.color===color).forEach(v=>{const o=document.createElement("option");o.value=v.sku;o.textContent=v.size;sizeSelect.appendChild(o)});
+ updatePrice();
 }
 function populateCountries(){
  const previous=api.getCountry();countrySelect.innerHTML='<option value="">Select your country</option>';
@@ -98,13 +122,15 @@ function populateCountries(){
  if(api.COUNTRIES[previous]&&previous!=="IN")countrySelect.value=previous;
  updatePrice();
 }
-function item(){return {id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:PRODUCT.sku,image:PRODUCT.image,quantity,country:selectedCode,countryName:api.COUNTRIES[selectedCode]?.name||"",currency:selectedCurrency,unitPriceUSD:unitUSD,unitPriceLocal:unitLocal,shippingCostUSD:shipUSD,productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD}}
+function item(){return {id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:selectedVariant?.sku||"",variant:selectedVariant?.size||"",color:selectedVariant?.color||"",image:PRODUCT.image,quantity,country:selectedCode,countryName:api.COUNTRIES[selectedCode]?.name||"",currency:selectedCurrency,unitPriceUSD:unitUSD,unitPriceLocal:unitLocal,shippingCostUSD:shipUSD,productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD}}
+colorSelect.addEventListener("change",populateSizes);
+sizeSelect.addEventListener("change",updatePrice);
 countrySelect.addEventListener("change",()=>{try{api.setCountry(countrySelect.value)}catch(e){}updatePrice()});
 document.getElementById("increaseQty").addEventListener("click",()=>{quantity=Math.min(99,quantity+1);qtyEl.textContent=quantity});
 document.getElementById("decreaseQty").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);qtyEl.textContent=quantity});
 addBtn.addEventListener("click",()=>{if(unitUSD===null)return;try{api.add(item());alert("Product added to your cart.")}catch(e){alert(e.message||"Unable to add this product.")}});
 buyBtn.addEventListener("click",()=>{if(unitUSD===null)return;try{api.buyNow(item())}catch(e){alert(e.message||"Unable to continue to checkout.")}});
-(async()=>{await api.refreshCurrencyData();populateCountries()})();
+(async()=>{sizeSelect.disabled=true;await api.refreshCurrencyData();populateCountries()})();
 </script>
 </body>
 </html>
