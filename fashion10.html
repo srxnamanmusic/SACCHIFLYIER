@@ -32,12 +32,20 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <header><div class="logo">SACCHI FLYIER</div><a href="fashion.html" class="back">← Back to Fashion</a></header>
 <main>
 <section class="product">
-<div><img src="fashion-10.jpg" alt="Men’s black casual linen shirt, size 3XL" class="product-image"></div>
+<div><img src="fashion-10.jpg" alt="Men’s black casual linen shirt" class="product-image"></div>
 <div>
 <div class="brand">SACCHI FLYIER</div>
 <h1>MEN’S CASUAL LINEN SHIRT</h1>
-<p class="subtitle">Black top · Size 3XL · Relaxed casual style</p>
-<p class="sku">SKU: CJXX206815005EV</p>
+<p class="subtitle" id="variantSubtitle">Black top · Size 3XL · Relaxed casual style</p>
+<p class="sku">SKU: <span id="variantSku">CJXX206815005EV</span></p>
+<label for="variant">Choose size · Black top</label>
+<select id="variant">
+<option value="CJXX206815001AZ">M — 290g</option>
+<option value="CJXX206815002BY">L — 310g</option>
+<option value="CJXX206815003CX">XL — 330g</option>
+<option value="CJXX206815004DW">XXL — 350g</option>
+<option value="CJXX206815005EV" selected>3XL — 370g</option>
+</select>
 <div class="price" id="productPrice">Select country</div>
 <p class="price-note">Your local price includes shipping and is converted from USD using reference exchange rates.</p>
 <label for="country">Shipping Country</label>
@@ -47,7 +55,7 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <div class="quantity-box"><button type="button" id="decreaseQty" aria-label="Decrease quantity">−</button><span id="quantity">1</span><button type="button" id="increaseQty" aria-label="Increase quantity">+</button></div>
 <div class="buttons"><button type="button" class="add-cart" id="addCart" disabled>Add to Cart</button><button type="button" class="buy-now" id="buyNow" disabled>Buy Now</button></div>
 <p class="setup-note" id="orderNote">Select a supported destination to calculate the price. Checkout will be enabled only when a shipping rate and currency conversion are available.</p>
-<div class="description"><h2>Product Description</h2><p>A relaxed men’s casual shirt in a clean black colourway, selected in size 3XL. CJ describes the product material as flax and lists the style as casual. The selected variant is the black top only; beige trouser variants belong to the same CJ product listing but are not included in this selection.</p><p style="margin-top:12px">Variant: Black top, 3XL<br>Material listed by CJ: Flax<br>Product cost: $20.69 USD<br>US shipping: $9.12 USD (LuWei Ordinary US, estimated 5–11 days)<br>Store price calculation: $20.69 + $9.12 shipping + $20 target profit = $49.81 USD.</p></div>
+<div class="description"><h2>Product Description</h2><p>A relaxed men’s casual shirt in a clean black colourway, selected in size 3XL. CJ describes the product material as flax and lists the style as casual. The selected variant is the black top only; beige trouser variants belong to the same CJ product listing but are not included in this selection.</p><p style="margin-top:12px">Variant: <span id="descriptionVariant">Black top, 3XL</span><br>Material listed by CJ: Flax<br>Product cost: $20.69 USD<br>US shipping: <span id="descriptionShipping">$9.12</span> USD (LuWei Ordinary US, estimated 5–11 days)<br>Store price calculation: product cost + selected-size shipping + $20 target profit.</p></div>
 </div>
 </section>
 </main>
@@ -69,19 +77,34 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <script src="cart.js"></script><script src="reviews.js"></script>
 <script>
 "use strict";
-const PRODUCT={id:"fashion10",name:"Black Casual Linen Shirt — 3XL",sku:"CJXX206815005EV",image:"fashion-10.jpg",productCostUSD:20.69,profitUSD:20};
+const VARIANTS={
+ "CJXX206815001AZ":{size:"M",weight:290,shipping:7.95},
+ "CJXX206815002BY":{size:"L",weight:310,shipping:8.25},
+ "CJXX206815003CX":{size:"XL",weight:330,shipping:8.54},
+ "CJXX206815004DW":{size:"XXL",weight:350,shipping:8.84},
+ "CJXX206815005EV":{size:"3XL",weight:370,shipping:9.12}
+};
+const PRODUCT={id:"fashion10",name:"Black Casual Linen Shirt",sku:"CJXX206815005EV",image:"fashion-10.jpg",productCostUSD:20.69,profitUSD:20};
 const shippingRates={ "United States":9.12 };
-const api=window.SacchiCart, countrySelect=document.getElementById("country"), priceEl=document.getElementById("productPrice"), shipEl=document.getElementById("shippingPrice"), qtyEl=document.getElementById("quantity"), addBtn=document.getElementById("addCart"), buyBtn=document.getElementById("buyNow");
+const api=window.SacchiCart, variantSelect=document.getElementById("variant"), skuEl=document.getElementById("variantSku"), subtitleEl=document.getElementById("variantSubtitle"), descVariant=document.getElementById("descriptionVariant"), descShipping=document.getElementById("descriptionShipping"), countrySelect=document.getElementById("country"), priceEl=document.getElementById("productPrice"), shipEl=document.getElementById("shippingPrice"), qtyEl=document.getElementById("quantity"), addBtn=document.getElementById("addCart"), buyBtn=document.getElementById("buyNow");
 let quantity=1,selectedCode="",selectedCurrency="",unitUSD=null,unitLocal=null,shipUSD=null;
 const normalize=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"");
 const aliases={"CD":"Democratic Republic of the Congo","CG":"Republic of the Congo","CI":"Cote d'Ivoire","CZ":"Czechia","KR":"South Korea","KP":"North Korea","MK":"North Macedonia","RU":"Russia","SZ":"Eswatini","TW":"Taiwan","TR":"Turkey","VA":"Vatican City","FM":"Micronesia","BN":"Brunei","LA":"Laos","BO":"Bolivia","MD":"Moldova","IR":"Iran","SY":"Syria","VE":"Venezuela","TZ":"Tanzania","PS":"Palestine"};
 function rateForCountry(c){const candidates=[c.name,aliases[c.code]].filter(Boolean);for(const n of candidates){const key=Object.keys(shippingRates).find(k=>normalize(k)===normalize(n));if(key)return shippingRates[key]}return null}
 function showUnavailable(message){unitUSD=unitLocal=shipUSD=null;priceEl.textContent="Price unavailable";shipEl.textContent=message;addBtn.disabled=buyBtn.disabled=true}
+function updateVariant(){
+ const v=VARIANTS[variantSelect.value];if(!v)return;
+ PRODUCT.sku=variantSelect.value;PRODUCT.name="Black Casual Linen Shirt — "+v.size;
+ skuEl.textContent=PRODUCT.sku;subtitleEl.textContent="Black top · Size "+v.size+" · Relaxed casual style";
+ descVariant.textContent="Black top, "+v.size;descShipping.textContent="$"+v.shipping.toFixed(2);
+ document.querySelector(".product-image").alt="Men’s black casual linen shirt, size "+v.size;
+}
 function updatePrice(){
+ updateVariant();
  selectedCode=countrySelect.value;unitUSD=unitLocal=shipUSD=null;addBtn.disabled=buyBtn.disabled=true;
  if(!selectedCode){priceEl.textContent="Select country";shipEl.textContent="Choose your country to see the final price in your currency.";return}
  const c=api.COUNTRIES[selectedCode];if(!c){showUnavailable("Country details could not be loaded. Please refresh the page.");return}
- const rate=rateForCountry({name:c.name,code:selectedCode});
+ const rate=selectedCode==="US"?VARIANTS[PRODUCT.sku].shipping:null;
  if(rate===null){showUnavailable("Shipping rate is not confirmed for this destination yet.");return}
  selectedCurrency=c.currency;shipUSD=Number(rate);
  const total=Number((PRODUCT.productCostUSD+shipUSD+PRODUCT.profitUSD).toFixed(2));
@@ -99,6 +122,7 @@ function populateCountries(){
  updatePrice();
 }
 function item(){return {id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:PRODUCT.sku,image:PRODUCT.image,quantity,country:selectedCode,countryName:api.COUNTRIES[selectedCode]?.name||"",currency:selectedCurrency,unitPriceUSD:unitUSD,unitPriceLocal:unitLocal,shippingCostUSD:shipUSD,productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD}}
+variantSelect.addEventListener("change",updatePrice);
 countrySelect.addEventListener("change",()=>{try{api.setCountry(countrySelect.value)}catch(e){}updatePrice()});
 document.getElementById("increaseQty").addEventListener("click",()=>{quantity=Math.min(99,quantity+1);qtyEl.textContent=quantity});
 document.getElementById("decreaseQty").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);qtyEl.textContent=quantity});
