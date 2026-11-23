@@ -110,6 +110,17 @@
         <p class="price-note">Displayed price includes product cost, confirmed shipping and the current $20 product margin.</p>
 
         <div class="rule"></div>
+        <label class="field-label" for="size">SELECT SIZE</label>
+        <select class="select" id="size" required>
+          <option value="">Choose your size</option>
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+          <option value="2XL">2XL</option>
+        </select>
+        <p class="shipping-info" id="sizeInfo">Please select your size before adding this item to your cart.</p>
+
         <label class="field-label" for="country">SHIPPING DESTINATION</label>
         <select class="select" id="country">
           <option value="">Loading available destinations…</option>
@@ -143,9 +154,9 @@
             <div class="spec">STYLE<strong>Distressed corduroy</strong></div>
             <div class="spec">FIT<strong>Relaxed streetwear</strong></div>
             <div class="spec">PRODUCT<strong>Corduroy pants</strong></div>
-            <div class="spec">SUPPLIER SKU<strong>CJXX288815905EV</strong></div>
+            <div class="spec">AVAILABLE SIZES<strong>S · M · L · XL · 2XL</strong></div>
             <div class="spec">PRODUCT COST<strong>$19.07</strong></div>
-            <div class="spec">US SHIPPING<strong>$18.54</strong></div>
+            <div class="spec">US SHIPPING<strong>$17.93–$18.54 by size</strong></div>
           </div>
           <a class="reviews-anchor" href="#customer-reviews">READ / WRITE CUSTOMER REVIEWS ↓</a>
         </section>
@@ -180,16 +191,24 @@
   <script src="reviews.js"></script>
   <script>
     "use strict";
-    const PRODUCT={id:"streetwear6",name:"American-Style Distressed Corduroy Pants",sku:"CJXX288815905EV",image:"streetwear-6.jpg",productCostUSD:19.07,profitUSD:20};
-    const SHIPPING_RATES={US:18.54};
+    const PRODUCT={id:"streetwear6",name:"American-Style Distressed Corduroy Pants",image:"streetwear-6.jpg",productCostUSD:19.07,profitUSD:20};
+    const VARIANTS={
+      S:{sku:"CJXX288815901AZ",shippingUSD:17.93},
+      M:{sku:"CJXX288815902BY",shippingUSD:18.08},
+      L:{sku:"CJXX288815903CX",shippingUSD:18.23},
+      XL:{sku:"CJXX288815904DW",shippingUSD:18.39},
+      "2XL":{sku:"CJXX288815905EV",shippingUSD:18.54}
+    };
     const api=window.SacchiCart;
     const countrySelect=document.getElementById("country");
+    const sizeSelect=document.getElementById("size");
+    const sizeInfo=document.getElementById("sizeInfo");
     const priceEl=document.getElementById("productPrice");
     const shippingEl=document.getElementById("shippingPrice");
     const quantityEl=document.getElementById("quantity");
     const addButton=document.getElementById("addCart");
     const buyButton=document.getElementById("buyNow");
-    let quantity=1,selectedCountry="",selectedCurrency="USD",unitPriceUSD=null,unitPriceLocal=null,shippingUSD=null;
+    let quantity=1,selectedCountry="",selectedCurrency="USD",selectedSize="",selectedVariant=null,unitPriceUSD=null,unitPriceLocal=null,shippingUSD=null;
 
     function showUnavailable(message){
       unitPriceUSD=null;unitPriceLocal=null;shippingUSD=null;
@@ -199,21 +218,23 @@
     }
     function updatePrice(){
       selectedCountry=countrySelect.value;
+      selectedSize=sizeSelect.value;
+      selectedVariant=VARIANTS[selectedSize]||null;
       unitPriceUSD=null;unitPriceLocal=null;shippingUSD=null;
       addButton.disabled=true;buyButton.disabled=true;
+      if(!selectedSize){priceEl.textContent="Select size";shippingEl.textContent="Choose a size to see the correct SKU and shipping price.";return}
       if(!selectedCountry){priceEl.textContent="Select destination";shippingEl.textContent="Choose an available shipping destination.";return}
       const country=api.COUNTRIES[selectedCountry];
       if(!country){showUnavailable("Destination information could not be loaded. Please refresh the page.");return}
-      const rate=SHIPPING_RATES[selectedCountry];
-      if(rate===undefined){showUnavailable("Shipping has not been confirmed for this destination. Checkout is unavailable.");return}
+      if(!selectedVariant){showUnavailable("This size is unavailable. Please choose another size.");return}
       selectedCurrency=country.currency;
-      shippingUSD=rate;
+      shippingUSD=selectedVariant.shippingUSD;
       const total=Number((PRODUCT.productCostUSD+shippingUSD+PRODUCT.profitUSD).toFixed(2));
       const converted=api.convertUSD(total,selectedCurrency);
       if(converted===null){showUnavailable("Currency conversion is temporarily unavailable.");return}
       unitPriceUSD=total;unitPriceLocal=Number(converted.toFixed(2));
       priceEl.textContent=api.formatMoney(unitPriceLocal,selectedCurrency);
-      shippingEl.textContent="USA shipping included ("+api.formatMoney(shippingUSD,"USD")+") · Processing: 1–3 days for 90% of orders · Delivery: 5–11 days for 62% of orders.";
+      shippingEl.textContent="Size "+selectedSize+" · SKU "+selectedVariant.sku+" · USA shipping included ("+api.formatMoney(shippingUSD,"USD")+") · Processing: 1–3 days for 90% of orders · Delivery: 5–11 days for 62% of orders.";
       addButton.disabled=false;buyButton.disabled=false;
     }
     function populateCountries(){
@@ -227,7 +248,7 @@
     }
     function createCartItem(){
       if(unitPriceUSD===null||unitPriceLocal===null||shippingUSD===null)return null;
-      return {id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:PRODUCT.sku,image:PRODUCT.image,quantity,country:selectedCountry,countryName:api.COUNTRIES[selectedCountry]?.name||"United States",currency:selectedCurrency,unitPriceUSD,unitPriceLocal,shippingCostUSD:shippingUSD,productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD};
+      return {id:PRODUCT.id+"-"+selectedSize,productId:PRODUCT.id,name:PRODUCT.name+" (Size "+selectedSize+")",size:selectedSize,sku:selectedVariant.sku,image:PRODUCT.image,quantity,country:selectedCountry,countryName:api.COUNTRIES[selectedCountry]?.name||"United States",currency:selectedCurrency,unitPriceUSD,unitPriceLocal,shippingCostUSD:shippingUSD,productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD};
     }
     function addToCart(){
       const item=createCartItem();if(!item)return;
@@ -246,6 +267,7 @@
     document.getElementById("increaseQty").addEventListener("click",()=>{quantity=Math.min(99,quantity+1);quantityEl.textContent=quantity});
     document.getElementById("decreaseQty").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);quantityEl.textContent=quantity});
     countrySelect.addEventListener("change",()=>{try{api.setCountry(countrySelect.value)}catch(error){}updatePrice()});
+    sizeSelect.addEventListener("change",()=>{sizeInfo.textContent=sizeSelect.value?"Selected size: "+sizeSelect.value+" · SKU: "+VARIANTS[sizeSelect.value].sku:"Please select your size before adding this item to your cart.";updatePrice()});
     addButton.addEventListener("click",addToCart);
     buyButton.addEventListener("click",buyNow);
     (async()=>{await api.refreshCurrencyData();populateCountries()})();
