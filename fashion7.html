@@ -119,40 +119,6 @@ document.getElementById("increaseQty").addEventListener("click",()=>{quantity=Ma
 document.getElementById("decreaseQty").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);qtyEl.textContent=quantity});
 addBtn.addEventListener("click",()=>{if(unitUSD===null)return;try{api.add(item());alert("Product added to your cart.")}catch(e){alert(e.message||"Unable to add this product.")}});
 buyBtn.addEventListener("click",()=>{if(unitUSD===null)return;try{api.buyNow(item())}catch(e){alert(e.message||"Unable to continue to checkout.")}});
-(async()=>{await api.refreshCurrencyData();populateCountries()})();const api=window.SacchiCart, countrySelect=document.getElementById("country"), priceEl=document.getElementById("productPrice"), shipEl=document.getElementById("shippingPrice"), qtyEl=document.getElementById("quantity"), addBtn=document.getElementById("addCart"), buyBtn=document.getElementById("buyNow");
-let quantity=1,selectedCode="",selectedCurrency="",unitUSD=null,unitLocal=null,shipUSD=null;
-const normalize=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"");
-const aliases={"CD":"Democratic Republic of the Congo","CG":"Republic of the Congo","CI":"Cote d'Ivoire","CZ":"Czechia","KR":"South Korea","KP":"North Korea","MK":"North Macedonia","RU":"Russia","SZ":"Eswatini","TW":"Taiwan","TR":"Turkey","VA":"Vatican City","FM":"Micronesia","BN":"Brunei","LA":"Laos","BO":"Bolivia","MD":"Moldova","IR":"Iran","SY":"Syria","VE":"Venezuela","TZ":"Tanzania","PS":"Palestine"};
-function rateForCountry(c){const candidates=[c.name,aliases[c.code]].filter(Boolean);for(const n of candidates){const key=Object.keys(shippingRates).find(k=>normalize(k)===normalize(n));if(key)return shippingRates[key]}return null}
-function showUnavailable(message){unitUSD=unitLocal=shipUSD=null;priceEl.textContent="Price unavailable";shipEl.textContent=message;addBtn.disabled=buyBtn.disabled=true}
-function updatePrice(){
- selectedCode=countrySelect.value;unitUSD=unitLocal=shipUSD=null;addBtn.disabled=buyBtn.disabled=true;
- if(!selectedCode){priceEl.textContent="Select country";shipEl.textContent="Choose your country to see the final price in your currency.";return}
- const c=api.COUNTRIES[selectedCode];if(!c){showUnavailable("Country details could not be loaded. Please refresh the page.");return}
- const rate=rateForCountry({name:c.name,code:selectedCode});
- if(rate===null){showUnavailable("Shipping rate is not confirmed for this destination yet.");return}
- selectedCurrency=c.currency;shipUSD=Number(rate);
- const total=Number((PRODUCT.productCostUSD+shipUSD+PRODUCT.profitUSD).toFixed(2));
- const converted=api.convertUSD(total,selectedCurrency);
- if(converted===null){showUnavailable("Live reference exchange rate for "+selectedCurrency+" is unavailable.");return}
- unitUSD=total;unitLocal=Number(converted.toFixed(2));
- priceEl.textContent=api.formatMoney(unitLocal,selectedCurrency);
- shipEl.textContent="Shipping included. Price shown in "+selectedCurrency+" using reference exchange rates.";
- addBtn.disabled=buyBtn.disabled=false;
-}
-function populateCountries(){
- const previous=api.getCountry();countrySelect.innerHTML='<option value="">Select your country</option>';
- Object.entries(api.COUNTRIES).filter(([code])=>code!=="IN").sort((a,b)=>a[1].name.localeCompare(b[1].name)).forEach(([code,c])=>{const o=document.createElement("option");o.value=code;o.textContent=c.name+" ("+c.currency+")";countrySelect.appendChild(o)});
- if(api.COUNTRIES[previous]&&previous!=="IN")countrySelect.value=previous;
- updatePrice();
-}
-function item(){return {id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:PRODUCT.sku,image:PRODUCT.image,quantity,country:selectedCode,countryName:api.COUNTRIES[selectedCode]?.name||"",currency:selectedCurrency,unitPriceUSD:unitUSD,unitPriceLocal:unitLocal,shippingCostUSD:shipUSD,productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD}}
-countrySelect.addEventListener("change",()=>{try{api.setCountry(countrySelect.value)}catch(e){}updatePrice()});
-document.getElementById("increaseQty").addEventListener("click",()=>{quantity=Math.min(99,quantity+1);qtyEl.textContent=quantity});
-document.getElementById("decreaseQty").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);qtyEl.textContent=quantity});
-addBtn.addEventListener("click",()=>{if(unitUSD===null)return;try{api.add(item());alert("Product added to your cart.")}catch(e){alert(e.message||"Unable to add this product.")}});
-buyBtn.addEventListener("click",()=>{if(unitUSD===null)return;try{api.buyNow(item())}catch(e){alert(e.message||"Unable to continue to checkout.")}});
-(async()=>{await api.refreshCurrencyData();populateCountries()})();
-</script>
+(async()=>{await api.refreshCurrencyData();populateCountries()})();</script>
 </body>
 </html>
