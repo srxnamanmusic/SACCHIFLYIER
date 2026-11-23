@@ -37,9 +37,12 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <div class="brand">SACCHI FLYIER</div>
 <h1>ARTIFICIAL WOOL-LOOK NECKTIE</h1>
 <p class="subtitle">A versatile Korean-style tie for smart and casual outfits</p>
-<p class="sku">SKU: CJYD223881301AZ</p>
+<p class="sku" id="skuDisplay">SKU: CJYD223881301AZ</p>
 <div class="price" id="productPrice">Select country</div>
 <p class="price-note">Your local price includes shipping and is converted from USD using reference exchange rates.</p>
+<label for="variant">Select Variant</label>
+<select id="variant" aria-label="Select necktie variant"></select>
+<p class="setup-note">Variant photos will be added later. For now, choose by the supplier variant code.</p>
 <label for="country">Shipping Country</label>
 <select id="country"><option value="">Loading countries…</option></select>
 <div class="shipping-price" id="shippingPrice">Choose your country to see the final price in your currency.</div>
@@ -69,10 +72,12 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <script src="cart.js"></script><script src="reviews.js"></script>
 <script>
 "use strict";
+const VARIANTS=[["AA2401","CJYD223881301AZ"],["AA2402","CJYD223881302BY"],["AA2503","CJYD223881303CX"],["AA2604","CJYD223881304DW"],["AA2650","CJYD223881305EV"],["AA276","CJYD223881306FU"],["AA277","CJYD223881307GT"],["AA288","CJYD223881308HS"],["AA319","CJYD223881309IR"],["AA3110","CJYD223881310JQ"],["AA3211","CJYD223881311KP"],["AA3212","CJYD223881312LO"],["AA2513","CJYD223881313MN"],["AA3314","CJYD223881314NM"],["AA3315","CJYD223881315OL"],["AA3416","CJYD223881316PK"],["AA3417","CJYD223881317QJ"],["AA3518","CJYD223881318RI"],["AA3519","CJYD223881319SH"],["AA3620","CJYD223881320TG"],["AA3621","CJYD223881321UF"],["AA3722","CJYD223881322VE"],["AA3723","CJYD223881323WD"],["AA3824","CJYD223881324XC"],["AA3825","CJYD223881325YB"]];
 const PRODUCT={id:"fashion9",name:"Artificial Wool-Look Korean-Style Necktie",sku:"CJYD223881301AZ",image:"https://oss-cf.cjdropshipping.com/product/2024/12/10/02/fba9674a-94a7-4c21-98c4-289116f49077_fine.jpeg",productCostUSD:1.93,profitUSD:20};
 const shippingRates={ "United States":5.49 };
+const variantSelect=document.getElementById("variant"),skuDisplay=document.getElementById("skuDisplay");
 const api=window.SacchiCart, countrySelect=document.getElementById("country"), priceEl=document.getElementById("productPrice"), shipEl=document.getElementById("shippingPrice"), qtyEl=document.getElementById("quantity"), addBtn=document.getElementById("addCart"), buyBtn=document.getElementById("buyNow");
-let quantity=1,selectedCode="",selectedCurrency="",unitUSD=null,unitLocal=null,shipUSD=null;
+let quantity=1,selectedVariant=VARIANTS[0],selectedCode="",selectedCurrency="",unitUSD=null,unitLocal=null,shipUSD=null;
 const normalize=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"");
 const aliases={"CD":"Democratic Republic of the Congo","CG":"Republic of the Congo","CI":"Cote d'Ivoire","CZ":"Czechia","KR":"South Korea","KP":"North Korea","MK":"North Macedonia","RU":"Russia","SZ":"Eswatini","TW":"Taiwan","TR":"Turkey","VA":"Vatican City","FM":"Micronesia","BN":"Brunei","LA":"Laos","BO":"Bolivia","MD":"Moldova","IR":"Iran","SY":"Syria","VE":"Venezuela","TZ":"Tanzania","PS":"Palestine"};
 function rateForCountry(c){const candidates=[c.name,aliases[c.code]].filter(Boolean);for(const n of candidates){const key=Object.keys(shippingRates).find(k=>normalize(k)===normalize(n));if(key)return shippingRates[key]}return null}
@@ -98,7 +103,9 @@ function populateCountries(){
  if(api.COUNTRIES[previous]&&previous!=="IN")countrySelect.value=previous;
  updatePrice();
 }
-function item(){return {id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:PRODUCT.sku,image:PRODUCT.image,quantity,country:selectedCode,countryName:api.COUNTRIES[selectedCode]?.name||"",currency:selectedCurrency,unitPriceUSD:unitUSD,unitPriceLocal:unitLocal,shippingCostUSD:shipUSD,productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD}}
+function item(){return {id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:selectedVariant[1],variant:selectedVariant[0],image:PRODUCT.image,quantity,country:selectedCode,countryName:api.COUNTRIES[selectedCode]?.name||"",currency:selectedCurrency,unitPriceUSD:unitUSD,unitPriceLocal:unitLocal,shippingCostUSD:shipUSD,productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD}}
+VARIANTS.forEach(([code,sku],i)=>{const o=document.createElement("option");o.value=sku;o.textContent="Variant "+(i+1)+" — "+code;variantSelect.appendChild(o)});
+variantSelect.addEventListener("change",()=>{selectedVariant=VARIANTS.find(v=>v[1]===variantSelect.value)||VARIANTS[0];skuDisplay.textContent="SKU: "+selectedVariant[1]});
 countrySelect.addEventListener("change",()=>{try{api.setCountry(countrySelect.value)}catch(e){}updatePrice()});
 document.getElementById("increaseQty").addEventListener("click",()=>{quantity=Math.min(99,quantity+1);qtyEl.textContent=quantity});
 document.getElementById("decreaseQty").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);qtyEl.textContent=quantity});
