@@ -37,9 +37,11 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <div class="brand">SACCHI FLYIER</div>
 <h1>DISTRESSED COTTON HIGH-STREET GRAPHIC T-SHIRT</h1>
 <p class="subtitle">Distressed cotton streetwear essential</p>
-<p class="sku">SKU: CJYH149565224XC</p>
+<p class="sku" id="variantSku">SKU: CJYH149565224XC</p>
+<label for="color">Style</label><select id="color"><option value="TKPA711">TKPA711 style</option><option value="TKPA712">TKPA712 style</option><option value="TKPA713">TKPA713 style</option><option value="TKPA714">TKPA714 style</option><option value="TKPA715">TKPA715 style</option><option value="TKPA716">TKPA716 style</option></select>
+<label for="size">Size</label><select id="size"><option value="M">M</option><option value="L">L</option><option value="XL">XL</option><option value="2XL">2XL</option></select>
 <div class="price" id="productPrice">Select country</div>
-<p class="price-note">Your local price includes the currently checked US shipping estimate and is converted from USD using reference exchange rates.</p>
+<p class="price-note">Choose a style and size to load its exact CJ variant, shipping cost and price. The price includes $20 profit.</p>
 <label for="country">Shipping Country</label>
 <select id="country"><option value="">Loading countries…</option></select>
 <div class="shipping-price" id="shippingPrice">Choose your country to see the final price in your currency.</div>
@@ -47,7 +49,7 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <div class="quantity-box"><button type="button" id="decreaseQty" aria-label="Decrease quantity">−</button><span id="quantity">1</span><button type="button" id="increaseQty" aria-label="Increase quantity">+</button></div>
 <div class="buttons"><button type="button" class="add-cart" id="addCart" disabled>Add to Cart</button><button type="button" class="buy-now" id="buyNow" disabled>Buy Now</button></div>
 <p class="setup-note" id="orderNote">Select a supported destination to calculate the price. Checkout will be enabled only when a shipping rate and currency conversion are available.</p>
-<div class="description"><h2>Product Description</h2><p>A relaxed-fit, short-sleeve cotton graphic T-shirt with a distressed high-street hip-hop style. CJ lists sizes M, L, XL and XXL, with several graphic styles. The selected variant SKU is CJYH149565224XC (TKPA711 style, 2XL). CJ advises that Asian sizing may run 1–2 sizes smaller than European and US sizing; check the size chart carefully.</p></div>
+<div class="description"><h2>Product Description</h2><p>A relaxed-fit, short-sleeve cotton graphic T-shirt with a distressed high-street hip-hop style. CJ lists sizes M, L, XL and XXL, with several graphic styles. Choose among six styles (TKPA711–TKPA716) and sizes M, L, XL or 2XL to view the matching CJ SKU. CJ advises that Asian sizing may run 1–2 sizes smaller than European and US sizing; check the size chart carefully.</p></div>
 </div>
 </section>
 </main>
@@ -69,39 +71,34 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <script src="cart.js"></script><script src="reviews.js"></script>
 <script>
 "use strict";
-const PRODUCT={id:"fashion3",name:"Distressed Cotton High-Street Graphic T-Shirt",sku:"CJYH149565224XC",image:"https://cf.cjdropshipping.com/1584f60c-8e3f-4248-aad3-69c6278119a2.png",productCostUSD:9.93,profitUSD:20};
-const shippingRates={"United States":9.78};
-const api=window.SacchiCart, countrySelect=document.getElementById("country"), priceEl=document.getElementById("productPrice"), shipEl=document.getElementById("shippingPrice"), qtyEl=document.getElementById("quantity"), addBtn=document.getElementById("addCart"), buyBtn=document.getElementById("buyNow");
-let quantity=1,selectedCode="",selectedCurrency="",unitUSD=null,unitLocal=null,shipUSD=null;
-const normalize=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"");
-const aliases={"CD":"Democratic Republic of the Congo","CG":"Republic of the Congo","CI":"Cote d'Ivoire","CZ":"Czechia","KR":"South Korea","KP":"North Korea","MK":"North Macedonia","RU":"Russia","SZ":"Eswatini","TW":"Taiwan","TR":"Turkey","VA":"Vatican City","FM":"Micronesia","BN":"Brunei","LA":"Laos","BO":"Bolivia","MD":"Moldova","IR":"Iran","SY":"Syria","VE":"Venezuela","TZ":"Tanzania","PS":"Palestine"};
-function rateForCountry(c){const candidates=[c.name,aliases[c.code]].filter(Boolean);for(const n of candidates){const key=Object.keys(shippingRates).find(k=>normalize(k)===normalize(n));if(key)return shippingRates[key]}return null}
-function showUnavailable(message){unitUSD=unitLocal=shipUSD=null;priceEl.textContent="Price unavailable";shipEl.textContent=message;addBtn.disabled=buyBtn.disabled=true}
+const PRODUCT={id:"fashion3",name:"Distressed Cotton High-Street Graphic T-Shirt",image:"https://cf.cjdropshipping.com/1584f60c-8e3f-4248-aad3-69c6278119a2.png",productCostUSD:9.93,profitUSD:20};
+const variants={
+TKPA711:{M:["CJYH149565221UF",320,8.39],L:["CJYH149565222VE",340,8.69],XL:["CJYH149565223WD",360,8.98],"2XL":["CJYH149565224XC",380,9.28]},
+TKPA712:{M:["CJYH149565201AZ",320,8.39],L:["CJYH149565202BY",340,8.69],XL:["CJYH149565203CX",360,8.98],"2XL":["CJYH149565204DW",380,9.28]},
+TKPA713:{M:["CJYH149565205EV",320,8.39],L:["CJYH149565206FU",340,8.69],XL:["CJYH149565207GT",360,8.98],"2XL":["CJYH149565208HS",380,9.28]},
+TKPA714:{M:["CJYH149565209IR",320,8.39],L:["CJYH149565210JQ",394,9.48],XL:["CJYH149565211KP",414,9.78],"2XL":["CJYH149565212LO",380,9.28]},
+TKPA715:{M:["CJYH149565213MN",320,8.39],L:["CJYH149565214NM",340,8.69],XL:["CJYH149565215OL",360,8.98],"2XL":["CJYH149565216PK",380,8.98]},
+TKPA716:{M:["CJYH149565217QJ",320,8.39],L:["CJYH149565218RI",340,8.69],XL:["CJYH149565219SH",360,8.98],"2XL":["CJYH149565220TG",380,9.28]}
+};
+const api=window.SacchiCart,countrySelect=document.getElementById("country"),priceEl=document.getElementById("productPrice"),shipEl=document.getElementById("shippingPrice"),qtyEl=document.getElementById("quantity"),addBtn=document.getElementById("addCart"),buyBtn=document.getElementById("buyNow"),colorSelect=document.getElementById("color"),sizeSelect=document.getElementById("size"),skuEl=document.getElementById("variantSku");
+let quantity=1,selectedCode="",selectedCurrency="",unitUSD=null,unitLocal=null,shipUSD=null,current=null;
+function unavailable(msg){unitUSD=unitLocal=shipUSD=null;priceEl.textContent="Price unavailable";shipEl.textContent=msg;addBtn.disabled=buyBtn.disabled=true}
 function updatePrice(){
- selectedCode=countrySelect.value;unitUSD=unitLocal=shipUSD=null;addBtn.disabled=buyBtn.disabled=true;
+ selectedCode=countrySelect.value;current=variants[colorSelect.value]?.[sizeSelect.value]||null;skuEl.textContent=current?"SKU: "+current[0]:"Variant unavailable";unitUSD=unitLocal=shipUSD=null;addBtn.disabled=buyBtn.disabled=true;
+ if(!current){unavailable("This variant is not available.");return}
  if(!selectedCode){priceEl.textContent="Select country";shipEl.textContent="Choose your country to see the final price in your currency.";return}
- const c=api.COUNTRIES[selectedCode];if(!c){showUnavailable("Country details could not be loaded. Please refresh the page.");return}
- const rate=rateForCountry({name:c.name,code:selectedCode});
- if(rate===null){showUnavailable("Shipping rate is not confirmed for this destination yet.");return}
- selectedCurrency=c.currency;shipUSD=Number(rate);
- const total=Number((PRODUCT.productCostUSD+shipUSD+PRODUCT.profitUSD).toFixed(2));
- const converted=api.convertUSD(total,selectedCurrency);
- if(converted===null){showUnavailable("Live reference exchange rate for "+selectedCurrency+" is unavailable.");return}
- unitUSD=total;unitLocal=Number(converted.toFixed(2));
- priceEl.textContent=api.formatMoney(unitLocal,selectedCurrency);
- shipEl.textContent="Shipping included via LuWei Ordinary US (CJ packing-weight range up to 414 g). Estimated delivery: 5–11 days. Price shown in "+selectedCurrency+" using reference exchange rates.";
+ const c=api.COUNTRIES[selectedCode];if(!c){unavailable("Country details could not be loaded. Please refresh.");return}
+ if(String(c.name).toLowerCase()!=="united states"){unavailable("Shipping rate is confirmed only for the United States at this time.");return}
+ shipUSD=current[2];const total=Number((PRODUCT.productCostUSD+shipUSD+PRODUCT.profitUSD).toFixed(2)),converted=api.convertUSD(total,c.currency);
+ if(converted===null){unavailable("Reference exchange rate for "+c.currency+" is unavailable.");return}
+ selectedCurrency=c.currency;unitUSD=total;unitLocal=Number(converted.toFixed(2));priceEl.textContent=api.formatMoney(unitLocal,selectedCurrency);
+ shipEl.textContent="US shipping included via LuWei Ordinary US. Variant weight: "+current[1]+" g. Estimated delivery: 5–11 days for 62% of orders.";
  addBtn.disabled=buyBtn.disabled=false;
 }
-function populateCountries(){
- const previous=api.getCountry();countrySelect.innerHTML='<option value="">Select your country</option>';
- Object.entries(api.COUNTRIES).filter(([code])=>code!=="IN").sort((a,b)=>a[1].name.localeCompare(b[1].name)).forEach(([code,c])=>{const o=document.createElement("option");o.value=code;o.textContent=c.name+" ("+c.currency+")";countrySelect.appendChild(o)});
- if(api.COUNTRIES[previous]&&previous!=="IN")countrySelect.value=previous;
- updatePrice();
-}
-function item(){return {id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:PRODUCT.sku,image:PRODUCT.image,quantity,country:selectedCode,countryName:api.COUNTRIES[selectedCode]?.name||"",currency:selectedCurrency,unitPriceUSD:unitUSD,unitPriceLocal:unitLocal,shippingCostUSD:shipUSD,productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD}}
-countrySelect.addEventListener("change",()=>{try{api.setCountry(countrySelect.value)}catch(e){}updatePrice()});
-document.getElementById("increaseQty").addEventListener("click",()=>{quantity=Math.min(99,quantity+1);qtyEl.textContent=quantity});
-document.getElementById("decreaseQty").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);qtyEl.textContent=quantity});
+function populateCountries(){const previous=api.getCountry();countrySelect.innerHTML='<option value="">Select your country</option>';Object.entries(api.COUNTRIES).filter(([code])=>code!=="IN").sort((a,b)=>a[1].name.localeCompare(b[1].name)).forEach(([code,c])=>{const o=document.createElement("option");o.value=code;o.textContent=c.name+" ("+c.currency+")";countrySelect.appendChild(o)});if(api.COUNTRIES[previous]&&previous!=="IN")countrySelect.value=previous;updatePrice()}
+function item(){return {id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name+" — "+colorSelect.value+" — "+sizeSelect.value,sku:current[0],image:PRODUCT.image,quantity,country:selectedCode,countryName:api.COUNTRIES[selectedCode]?.name||"",currency:selectedCurrency,unitPriceUSD:unitUSD,unitPriceLocal:unitLocal,shippingCostUSD:shipUSD,productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD,variant:{style:colorSelect.value,size:sizeSelect.value,weightGrams:current[1]}}}
+countrySelect.addEventListener("change",()=>{try{api.setCountry(countrySelect.value)}catch(e){}updatePrice()});colorSelect.addEventListener("change",updatePrice);sizeSelect.addEventListener("change",updatePrice);
+document.getElementById("increaseQty").addEventListener("click",()=>{quantity=Math.min(99,quantity+1);qtyEl.textContent=quantity});document.getElementById("decreaseQty").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);qtyEl.textContent=quantity});
 addBtn.addEventListener("click",()=>{if(unitUSD===null)return;try{api.add(item());alert("Product added to your cart.")}catch(e){alert(e.message||"Unable to add this product.")}});
 buyBtn.addEventListener("click",()=>{if(unitUSD===null)return;try{api.buyNow(item())}catch(e){alert(e.message||"Unable to continue to checkout.")}});
 (async()=>{await api.refreshCurrencyData();populateCountries()})();
