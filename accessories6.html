@@ -170,6 +170,7 @@
     "use strict";
     const PRODUCT={id:"accessories6",name:"Transparent TPU Phone Case",sku:"CJGJ129984505EV",image:"accessories-6.jpg",productCostUSD:0.48,profitUSD:20};
     const SHIPPING_RATES={US:5.64};
+    const IPHONE_15_SHIPPING_USD=7.03;
     const api=window.SacchiCart;
     const countrySelect=document.getElementById("country"),modelSelect=document.getElementById("model");
     const priceEl=document.getElementById("productPrice"),shippingEl=document.getElementById("shippingPrice");
@@ -181,7 +182,8 @@
       unitPriceUSD=unitPriceLocal=shippingUSD=null;addButton.disabled=true;buyButton.disabled=true;
       if(!selectedModel){priceEl.textContent="Select model";shippingEl.textContent="Choose an iPhone model and shipping destination.";return}
       if(!selectedCountry){priceEl.textContent="Select destination";shippingEl.textContent="Choose an available shipping destination.";return}
-      const country=api.COUNTRIES[selectedCountry],rate=SHIPPING_RATES[selectedCountry];
+      const country=api.COUNTRIES[selectedCountry];
+      const rate=selectedCountry==="US"&&/^iPhone 15/.test(selectedModel)?IPHONE_15_SHIPPING_USD:SHIPPING_RATES[selectedCountry];
       if(!country||rate===undefined){showUnavailable("Shipping has not been confirmed for this destination. Checkout is unavailable.");return}
       selectedCurrency=country.currency;shippingUSD=rate;
       const total=Number((PRODUCT.productCostUSD+shippingUSD+PRODUCT.profitUSD).toFixed(2));
