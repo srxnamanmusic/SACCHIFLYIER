@@ -36,8 +36,12 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <div>
 <div class="brand">SACCHI FLYIER</div>
 <h1>BLUETOOTH MOBILE PHOTO MINI THERMAL PRINTER</h1>
-<p class="subtitle">Pink · Bluetooth mobile photo printer</p>
-<p class="sku">SKU: CJJT127264301AZ</p>
+<p class="subtitle">Bluetooth mobile photo printer · Choose your colour</p>
+<label for="variant">Colour</label>
+<select id="variant">
+<option value="Pink">Pink</option><option value="Blue">Blue</option><option value="Black">Black</option>
+</select>
+<p class="sku">SKU: <span id="skuValue">CJJT127264301AZ</span></p>
 <div class="price" id="productPrice">Select country</div>
 <p class="price-note">Your local price includes shipping and is converted from USD using reference exchange rates.</p>
 <label for="country">Shipping Country</label>
@@ -69,13 +73,18 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <script src="cart.js"></script><script src="reviews.js"></script>
 <script>
 "use strict";
-const PRODUCT={id:"accessories8",name:"Bluetooth Mobile Photo Mini Thermal Printer",sku:"CJJT127264301AZ",image:"accessories-8.jpg?v=3",productCostUSD:6.86,profitUSD:20};
-const shippingRates={"United States":11.73};
-const api=window.SacchiCart, countrySelect=document.getElementById("country"), priceEl=document.getElementById("productPrice"), shipEl=document.getElementById("shippingPrice"), qtyEl=document.getElementById("quantity"), addBtn=document.getElementById("addCart"), buyBtn=document.getElementById("buyNow");
+const PRODUCT={id:"accessories8",name:"Bluetooth Mobile Photo Mini Thermal Printer",image:"accessories-8.jpg?v=3",productCostUSD:6.86,profitUSD:20};
+const VARIANTS={
+ Pink:{sku:"CJJT127264301AZ",weight:320,shipping:8.63,inventory:38734},
+ Blue:{sku:"CJJT127264302BY",weight:394,shipping:9.82,inventory:36659},
+ Black:{sku:"CJJT127264303CX",weight:394,shipping:9.82,inventory:36653}
+};
+const api=window.SacchiCart, countrySelect=document.getElementById("country"), variantSelect=document.getElementById("variant"), skuValue=document.getElementById("skuValue"), priceEl=document.getElementById("productPrice"), shipEl=document.getElementById("shippingPrice"), qtyEl=document.getElementById("quantity"), addBtn=document.getElementById("addCart"), buyBtn=document.getElementById("buyNow");
 let quantity=1,selectedCode="",selectedCurrency="",unitUSD=null,unitLocal=null,shipUSD=null;
 const normalize=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"");
 const aliases={"CD":"Democratic Republic of the Congo","CG":"Republic of the Congo","CI":"Cote d'Ivoire","CZ":"Czechia","KR":"South Korea","KP":"North Korea","MK":"North Macedonia","RU":"Russia","SZ":"Eswatini","TW":"Taiwan","TR":"Turkey","VA":"Vatican City","FM":"Micronesia","BN":"Brunei","LA":"Laos","BO":"Bolivia","MD":"Moldova","IR":"Iran","SY":"Syria","VE":"Venezuela","TZ":"Tanzania","PS":"Palestine"};
-function rateForCountry(c){const candidates=[c.name,aliases[c.code]].filter(Boolean);for(const n of candidates){const key=Object.keys(shippingRates).find(k=>normalize(k)===normalize(n));if(key)return shippingRates[key]}return null}
+function selectedVariant(){return VARIANTS[variantSelect.value]||VARIANTS.Pink}
+function rateForCountry(c){if(c.code==="US")return selectedVariant().shipping;return null}
 function showUnavailable(message){unitUSD=unitLocal=shipUSD=null;priceEl.textContent="Price unavailable";shipEl.textContent=message;addBtn.disabled=buyBtn.disabled=true}
 function updatePrice(){
  selectedCode=countrySelect.value;unitUSD=unitLocal=shipUSD=null;addBtn.disabled=buyBtn.disabled=true;
@@ -84,7 +93,7 @@ function updatePrice(){
  const rate=rateForCountry({name:c.name,code:selectedCode});
  if(rate===null){showUnavailable("Shipping rate is not confirmed for this destination yet.");return}
  selectedCurrency=c.currency;shipUSD=Number(rate);
- const total=Number((PRODUCT.productCostUSD+shipUSD+PRODUCT.profitUSD).toFixed(2));
+ const v=selectedVariant();const total=Number((PRODUCT.productCostUSD+shipUSD+PRODUCT.profitUSD).toFixed(2));
  const converted=api.convertUSD(total,selectedCurrency);
  if(converted===null){showUnavailable("Live reference exchange rate for "+selectedCurrency+" is unavailable.");return}
  unitUSD=total;unitLocal=Number(converted.toFixed(2));
@@ -98,8 +107,9 @@ function populateCountries(){
  if(api.COUNTRIES[previous]&&previous!=="IN")countrySelect.value=previous;
  updatePrice();
 }
-function item(){return {id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:PRODUCT.sku,image:PRODUCT.image,quantity,country:selectedCode,countryName:api.COUNTRIES[selectedCode]?.name||"",currency:selectedCurrency,unitPriceUSD:unitUSD,unitPriceLocal:unitLocal,shippingCostUSD:shipUSD,productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD}}
+function item(){const v=selectedVariant();return {id:PRODUCT.id+"-"+variantSelect.value.toLowerCase(),productId:PRODUCT.id,name:PRODUCT.name+" ("+variantSelect.value+")",color:variantSelect.value,sku:v.sku,image:PRODUCT.image,weight:v.weight,quantity,country:selectedCode,countryName:api.COUNTRIES[selectedCode]?.name||"",currency:selectedCurrency,unitPriceUSD:unitUSD,unitPriceLocal:unitLocal,shippingCostUSD:shipUSD,productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD}}
 countrySelect.addEventListener("change",()=>{try{api.setCountry(countrySelect.value)}catch(e){}updatePrice()});
+variantSelect.addEventListener("change",()=>{skuValue.textContent=selectedVariant().sku;updatePrice()});
 document.getElementById("increaseQty").addEventListener("click",()=>{quantity=Math.min(99,quantity+1);qtyEl.textContent=quantity});
 document.getElementById("decreaseQty").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);qtyEl.textContent=quantity});
 addBtn.addEventListener("click",()=>{if(unitUSD===null)return;try{api.add(item());alert("Product added to your cart.")}catch(e){alert(e.message||"Unable to add this product.")}});
