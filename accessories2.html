@@ -85,8 +85,13 @@
     <nav class="breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a> / <a href="accessories.html">Accessories</a> / Wallets</nav>
     <section class="product-layout" aria-label="Product details">
       <div class="gallery">
-        <div class="hero-frame"><img id="productMainImage" class="hero-image" src="accessories-2.jpg" alt="New Design Men's Wallets in Black" fetchpriority="high"></div>
-        <p class="gallery-note">NEW DESIGN MEN'S WALLET · BLACK AND COFFEE COLOUR OPTIONS</p>
+        <div class="hero-frame"><img id="productMainImage" class="hero-image" src="https://cf.cjdropshipping.com/15229728/2529974785078.jpg" alt="New Design Men's Wallets in Black" fetchpriority="high"></div>
+        <div class="thumbs" aria-label="Choose product photo">
+          <button class="thumb active" type="button" data-image="https://cf.cjdropshipping.com/15229728/2529974785078.jpg" aria-label="Show wallet photo 1"><img src="https://cf.cjdropshipping.com/15229728/2529974785078.jpg" alt=""></button>
+          <button class="thumb" type="button" data-image="https://cf.cjdropshipping.com/15229728/941036029920.png" aria-label="Show wallet photo 2"><img src="https://cf.cjdropshipping.com/15229728/941036029920.png" alt=""></button>
+          <button class="thumb" type="button" data-image="https://cf.cjdropshipping.com/15229728/2128526131344.jpg" aria-label="Show wallet photo 3"><img src="https://cf.cjdropshipping.com/15229728/2128526131344.jpg" alt=""></button>
+        </div>
+        <p class="gallery-note">SELECT AN IMAGE TO VIEW THE WALLET FROM ANOTHER ANGLE</p>
       </div>
 
       <div class="details">
@@ -142,10 +147,11 @@
   <script src="cart.js"></script><script src="reviews.js"></script>
 <script>
 "use strict";
-const PRODUCT={id:"accessories2",name:"New Design Men's Wallets",image:"accessories-2.jpg",productCostUSD:1.37,profitUSD:20};
+const PRODUCT={id:"accessories2",name:"New Design Men's Wallets",image:"https://cf.cjdropshipping.com/15229728/2529974785078.jpg",productCostUSD:1.37,profitUSD:20};
 const VARIANTS={Black:{sku:"CJBHNSNS01986-Black",weight:65},Coffee:{sku:"CJBHNSNS01986-Coffee",weight:65}};
 let selectedColor="Black";
 const colorSelect=document.getElementById("walletColor");
+document.querySelectorAll(".thumb").forEach(button=>{button.addEventListener("click",()=>{document.getElementById("productMainImage").src=button.dataset.image;document.querySelectorAll(".thumb").forEach(item=>item.classList.toggle("active",item===button));});});
 const skuValue=document.getElementById("skuValue");
 const walletDescription=document.getElementById("walletDescription");
 const shippingRates={"United States":5.46};
