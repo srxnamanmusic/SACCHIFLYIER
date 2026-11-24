@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050505">
+  <meta name="description" content="Men's polarized metal-frame driving sunglasses with TAC lenses in seven styles.">
+  <title>Men's Polarized Driving Sunglasses | Sacchi Flyier</title>
+  <link rel="stylesheet" href="reviews.css">
+  <style>
+    :root{color-scheme:dark;--bg:#050505;--panel:#101010;--line:#292929;--muted:#a4a4a4;--white:#fff}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--white);min-height:100vh}
+    a{color:inherit;text-decoration:none}
+    .topline{height:3px;background:linear-gradient(90deg,#333,#fff,#333)}
+    .site-header{height:82px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(5,5,5,.92);backdrop-filter:blur(14px);z-index:10}
+    .logo{font-size:20px;font-weight:800;letter-spacing:3px}
+    .back{font-size:13px;color:#ddd;border:1px solid #444;border-radius:30px;padding:11px 17px;transition:.2s}
+    .back:hover{background:#fff;color:#000}
+    .page-wrap{max-width:1240px;margin:0 auto;padding:54px 5.5% 90px}
+    .breadcrumb{font-size:12px;color:#777;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:28px}
+    .breadcrumb a:hover{color:#fff}
+    .product-layout{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);gap:clamp(36px,6vw,82px);align-items:start}
+    .gallery{min-width:0}
+    .hero-frame{position:relative;background:radial-gradient(ellipse at 50% 40%,#242424 0,#101010 48%,#090909 100%);border:1px solid #242424;border-radius:22px;overflow:hidden;aspect-ratio:1/1;display:grid;place-items:center}
+    .hero-frame:after{content:"SACCHI FLYIER";position:absolute;bottom:18px;right:20px;font-size:9px;letter-spacing:3px;color:rgba(255,255,255,.38)}
+    .hero-image{width:100%;height:100%;object-fit:contain;display:block;mix-blend-mode:normal;transition:opacity .2s,transform .45s}
+    .hero-frame:hover .hero-image{transform:scale(1.035)}
+    .thumbs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:13px}
+    .thumb{border:1px solid #333;border-radius:12px;background:#111;aspect-ratio:1/1;overflow:hidden;cursor:pointer;padding:0;opacity:.7;transition:.2s}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .thumb:hover,.thumb.active{opacity:1;border-color:#fff}
+    .gallery-note{font-size:11px;color:#666;margin-top:12px;letter-spacing:.5px}
+    .details{padding-top:8px}
+    .eyebrow{font-size:11px;letter-spacing:4px;color:#999;margin-bottom:18px}
+    h1{font-size:clamp(30px,3.6vw,48px);line-height:1.05;letter-spacing:-1.7px;font-weight:800;max-width:600px}
+    .subtitle{font-size:15px;line-height:1.7;color:#aaa;margin-top:17px;max-width:520px}
+    .product-code{font-size:11px;letter-spacing:1px;color:#777;margin-top:18px}
+    .rule{height:1px;background:var(--line);margin:25px 0}
+    .price-label{font-size:10px;letter-spacing:2px;color:#888;text-transform:uppercase;margin-bottom:8px}
+    .price{font-size:34px;font-weight:800;letter-spacing:-1px}
+    .price-note{font-size:12px;color:#888;line-height:1.6;margin-top:8px}
+    .field-label{display:block;font-size:12px;letter-spacing:1px;color:#ccc;margin-bottom:10px}
+    .select{width:100%;height:50px;background:#101010;border:1px solid #444;border-radius:10px;color:#fff;padding:0 14px;font-size:14px;outline:none}
+    .select:focus{border-color:#fff}
+    .shipping-info{font-size:12px;color:#999;line-height:1.65;margin-top:12px;min-height:38px}
+    .quantity-row{display:flex;align-items:center;justify-content:space-between;margin-top:25px}
+    .quantity-label{font-size:12px;color:#ccc;letter-spacing:1px}
+    .quantity{height:44px;display:flex;align-items:center;border:1px solid #444;border-radius:9px;overflow:hidden}
+    .quantity button{width:42px;height:44px;border:0;background:#111;color:#fff;font-size:20px;cursor:pointer}
+    .quantity button:hover{background:#292929}
+    .quantity span{width:38px;text-align:center;font-size:14px}
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px}
+    .action{min-height:54px;border-radius:9px;font-weight:800;letter-spacing:1px;font-size:12px;cursor:pointer;transition:.2s}
+    .add-cart{background:transparent;color:#fff;border:1px solid #777}
+    .add-cart:hover:not(:disabled){background:#fff;color:#000;border-color:#fff}
+    .buy-now{background:#fff;color:#000;border:1px solid #fff;box-shadow:0 8px 30px rgba(255,255,255,.09)}
+    .buy-now:hover:not(:disabled){background:#dcdcdc;transform:translateY(-2px)}
+    .action:disabled{opacity:.38;cursor:not-allowed}
+    .trust-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .trust-item{text-align:center;font-size:10px;color:#aaa;line-height:1.5}
+    .trust-item strong{display:block;color:#fff;font-size:11px;margin-bottom:4px}
+    .description{margin-top:32px}
+    .description h2{font-size:17px;letter-spacing:1px;margin-bottom:13px}
+    .description p{font-size:13px;line-height:1.9;color:#aaa}
+    .specs{display:grid;grid-template-columns:1fr 1fr;gap:0 18px;margin-top:17px}
+    .spec{padding:12px 0;border-bottom:1px solid #222;font-size:12px;color:#888}
+    .spec strong{display:block;color:#eee;font-weight:600;margin-top:5px}
+    .reviews-anchor{display:inline-block;margin-top:20px;color:#ddd;font-size:12px;border-bottom:1px solid #777;padding-bottom:5px}
+    footer{border-top:1px solid #222;text-align:center;padding:25px 15px;color:#777;font-size:12px;letter-spacing:.5px}
+    @media(max-width:850px){.product-layout{grid-template-columns:1fr;gap:36px}.details{padding-top:0}.page-wrap{padding-top:32px}.hero-frame{max-width:680px;margin:auto}}
+    @media(max-width:520px){.site-header{height:70px;padding:0 18px}.logo{font-size:16px;letter-spacing:2px}.back{font-size:11px;padding:9px 12px}.page-wrap{padding:25px 18px 60px}.product-layout{gap:28px}.hero-frame{border-radius:15px}.thumbs{gap:7px}.thumb{border-radius:8px}h1{font-size:31px}.price{font-size:30px}.actions{grid-template-columns:1fr}.trust-row{gap:5px}.trust-item{font-size:9px}.specs{grid-template-columns:1fr 1fr}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <div class="topline"></div>
+  <header class="site-header">
+    <a class="logo" href="index.html" aria-label="Sacchi Flyier home">SACCHI FLYIER</a>
+    <a class="back" href="accessories.html">← BACK TO ACCESSORIES</a>
+  </header>
+
+  <main class="page-wrap">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a> / <a href="index.html#shop">Shop</a> / Men's Polarized Driving Sunglasses</nav>
+    <section class="product-layout" aria-label="Product details">
+      <div class="gallery">
+        <div class="hero-frame"><img id="productMainImage" class="hero-image" src="https://cf.cjdropshipping.com/1613975965493.jpg" alt="Men's polarized driving sunglasses" fetchpriority="high"></div>
+        <div class="thumbs" aria-label="Choose product photo">
+          <button class="thumb active" type="button" data-image="https://cf.cjdropshipping.com/1613975965493.jpg" aria-label="Show photo 1"><img src="https://cf.cjdropshipping.com/1613975965493.jpg" alt=""></button>
+          <button class="thumb" type="button" data-image="https://cf.cjdropshipping.com/1613975965496.jpg" aria-label="Show photo 2"><img src="https://cf.cjdropshipping.com/1613975965496.jpg" alt=""></button>
+          <button class="thumb" type="button" data-image="https://cf.cjdropshipping.com/1613975965227.jpg" aria-label="Show photo 3"><img src="https://cf.cjdropshipping.com/1613975965227.jpg" alt=""></button>
+          <button class="thumb" type="button" data-image="https://cf.cjdropshipping.com/1613976004418.jpg" aria-label="Show photo 4"><img src="https://cf.cjdropshipping.com/1613976004418.jpg" alt=""></button>
+          <button class="thumb" type="button" data-image="https://cf.cjdropshipping.com/1613975965220.jpg" aria-label="Show photo 5"><img src="https://cf.cjdropshipping.com/1613975965220.jpg" alt=""></button>
+          <button class="thumb" type="button" data-image="https://cf.cjdropshipping.com/1613975965222.jpg" aria-label="Show photo 6"><img src="https://cf.cjdropshipping.com/1613975965222.jpg" alt=""></button>
+          <button class="thumb" type="button" data-image="https://cf.cjdropshipping.com/1613975965224.jpg" aria-label="Show photo 7"><img src="https://cf.cjdropshipping.com/1613975965224.jpg" alt=""></button>
+          <button class="thumb" type="button" data-image="https://cf.cjdropshipping.com/1613975965235.jpg" aria-label="Show photo 8"><img src="https://cf.cjdropshipping.com/1613975965235.jpg" alt=""></button>
+          <button class="thumb" type="button" data-image="https://cf.cjdropshipping.com/1613975965231.jpg" aria-label="Show photo 9"><img src="https://cf.cjdropshipping.com/1613975965231.jpg" alt=""></button>
+        </div>
+        <p class="gallery-note">SELECT AN IMAGE TO VIEW THE PRODUCT FROM ANOTHER ANGLE</p>
+      </div>
+
+      <div class="details">
+        <p class="eyebrow">SACCHI FLYIER / ACCESSORIES</p>
+        <h1>MEN'S POLARIZED DRIVING SUNGLASSES</h1>
+        <p class="subtitle">Metal-frame driving sunglasses with TAC polarized lenses and seven style options.</p>
+        <p class="product-code">PRODUCT CODE: CJNS1018206 · SELECTED SKU: <span id="skuValue">CJNS101820601AZ</span></p>
+        <label class="field-label" for="style">SELECT STYLE</label>
+        <select class="select" id="style"><option value="A">A — Black frame / black-gray lens</option><option value="B">B — Gun frame / black-gray lens</option><option value="C">C — Gold frame / dark-green lens</option><option value="D">D — Silver frame / ice-blue lens</option><option value="E">E — Silver frame / gray lens</option><option value="F">F — Black frame / mercury lens</option><option value="G">G — Black frame / night-vision lens</option></select>
+        <div class="rule"></div>
+
+        <p class="price-label">Your price</p>
+        <div class="price" id="productPrice" aria-live="polite">Loading price…</div>
+        <p class="price-note">Displayed price includes product cost, USA shipping and the current $20 product margin.</p>
+
+        <div class="rule"></div>
+        <label class="field-label" for="country">SHIPPING DESTINATION</label>
+        <select class="select" id="country">
+          <option value="">Loading available destinations…</option>
+        </select>
+        <p class="shipping-info" id="shippingPrice" aria-live="polite">Checking destination pricing…</p>
+
+        <div class="quantity-row">
+          <span class="quantity-label">QUANTITY</span>
+          <div class="quantity">
+            <button type="button" id="decreaseQty" aria-label="Decrease quantity">−</button>
+            <span id="quantity" aria-live="polite">1</span>
+            <button type="button" id="increaseQty" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="action add-cart" id="addCart" disabled>ADD TO CART</button>
+          <button type="button" class="action buy-now" id="buyNow" disabled>BUY NOW</button>
+        </div>
+
+        <div class="trust-row">
+          <div class="trust-item"><strong>SECURE CHECKOUT</strong>Protected checkout flow</div>
+          <div class="trust-item"><strong>TRACKED DELIVERY</strong>Tracking when supplied</div>
+          <div class="trust-item"><strong>SUPPORT</strong>info@sacchiflyier.in</div>
+        </div>
+
+        <section class="description">
+          <h2>PRODUCT DETAILS</h2>
+          <p>A metal-frame polarized driving sunglasses with an alloy pendant, electroplated finish and snake-bone chain. Designed as a unisex accessory and individually packed.</p>
+          <div class="specs">
+            <div class="spec">FRAME<strong>Metal</strong></div><div class="spec">LENS<strong>TAC polarized</strong></div><div class="spec">STYLE<strong>Seven options (A–G)</strong></div><div class="spec">PACKAGE<strong>170 × 100 × 50 mm</strong></div><div class="spec">PACKAGED WEIGHT<strong>48 g</strong></div><div class="spec">SUPPLIER<strong>Hangzhou Qigang Trading Co., Ltd.</strong></div>
+          </div>
+          <a class="reviews-anchor" href="#customer-reviews">READ / WRITE CUSTOMER REVIEWS ↓</a>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <section class="sf-reviews" id="customer-reviews">
+    <div class="sf-reviews-inner">
+      <p class="section-label">CUSTOMER FEEDBACK</p>
+      <h2>Customer Reviews</h2>
+      <p class="sf-reviews-intro">Have you purchased this product? Share your honest experience with the Sacchi Flyier community.</p>
+      <div class="sf-review-summary"><div class="sf-review-score">—</div><div><div class="sf-review-stars" aria-label="No ratings yet">☆☆☆☆☆</div><div class="sf-review-count">No ratings yet for this product</div></div></div>
+      <div class="sf-review-empty"><strong>No reviews published yet.</strong>Be the first customer to share a genuine review. Reviews are checked before publication.</div>
+      <div class="sf-review-form-wrap">
+        <h3>Write a Review</h3>
+        <p>Send your rating and feedback to our team. We may contact you to confirm your order before publishing it.</p>
+        <form class="sf-review-form" data-sf-review-form data-product="Accessories Product 1 — Men's Polarized Driving Sunglasses">
+          <div><label for="sf-name-3">Your name</label><input id="sf-name-3" name="customerName" autocomplete="name" maxlength="80" required></div>
+          <div><label for="sf-email-3">Email address</label><input id="sf-email-3" name="customerEmail" type="email" autocomplete="email" required></div>
+          <div class="sf-full"><label for="sf-rating-3">Your rating</label><input type="hidden" id="sf-rating-3" name="rating" value=""><div class="sf-star-picker" role="radiogroup" aria-label="Choose a rating" data-rating-picker="sf-rating-3"><button type="button" class="sf-star" data-value="1" aria-label="1 star">★</button><button type="button" class="sf-star" data-value="2" aria-label="2 stars">★</button><button type="button" class="sf-star" data-value="3" aria-label="3 stars">★</button><button type="button" class="sf-star" data-value="4" aria-label="4 stars">★</button><button type="button" class="sf-star" data-value="5" aria-label="5 stars">★</button><span class="sf-star-label">Select a rating</span></div></div>
+          <div class="sf-full"><label for="sf-text-3">Your review</label><textarea id="sf-text-3" name="reviewText" minlength="10" maxlength="1500" placeholder="Tell us about your experience..." required></textarea></div>
+          <div class="sf-full"><button type="submit">SUBMIT REVIEW</button><p class="sf-review-note" data-sf-review-status>Submitting opens your email app so you can send your review to Sacchi Flyier. Reviews are not published automatically.</p></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>© 2026 SACCHI FLYIER — FLY BEYOND LIMIT</footer>
+
+  <script src="cart.js"></script>
+  <script src="reviews.js"></script>
+  <script>
+"use strict";
+const VARIANTS={A:{sku:"CJNS101820601AZ",cost:2.00,shipping:5.24},B:{sku:"CJNS101820602BY",cost:2.00,shipping:5.24},C:{sku:"CJNS101820603CX",cost:2.00,shipping:5.24},D:{sku:"CJNS101820604DW",cost:2.34,shipping:5.24},E:{sku:"CJNS101820605EV",cost:2.00,shipping:5.24},F:{sku:"CJNS101820606FU",cost:2.17,shipping:5.24},G:{sku:"CJNS101820607GT",cost:2.17,shipping:5.24}};
+const PROFIT_USD=20,PRODUCT={id:"accessory3",name:"Men's Polarized Driving Sunglasses",image:"https://cf.cjdropshipping.com/1613975965493.jpg",weightGrams:48};
+const api=window.SacchiCart,countrySelect=document.getElementById("country"),styleSelect=document.getElementById("style"),skuEl=document.getElementById("skuValue"),priceEl=document.getElementById("productPrice"),shippingEl=document.getElementById("shippingPrice"),quantityEl=document.getElementById("quantity"),addButton=document.getElementById("addCart"),buyButton=document.getElementById("buyNow");
+let quantity=1,selectedCountry="",selectedCurrency="USD",unitPriceUSD=null,unitPriceLocal=null,shippingUSD=null,selectedVariant=VARIANTS.A;
+function unavailable(msg){unitPriceUSD=null;unitPriceLocal=null;shippingUSD=null;priceEl.textContent="Price unavailable";shippingEl.textContent=msg;addButton.disabled=true;buyButton.disabled=true}
+function updatePrice(){selectedCountry=countrySelect.value;selectedVariant=VARIANTS[styleSelect.value];skuEl.textContent=selectedVariant.sku;unitPriceUSD=null;unitPriceLocal=null;shippingUSD=null;addButton.disabled=true;buyButton.disabled=true;if(!selectedCountry){priceEl.textContent="Select destination";shippingEl.textContent="Choose an available shipping destination.";return}const country=api.COUNTRIES[selectedCountry];if(!country){unavailable("Destination information could not be loaded. Please refresh.");return}if(selectedCountry!=="US"){unavailable("Shipping has not been confirmed for this destination. Checkout is unavailable.");return}selectedCurrency=country.currency;shippingUSD=selectedVariant.shipping;const total=Number((selectedVariant.cost+shippingUSD+PROFIT_USD).toFixed(2));const converted=api.convertUSD(total,selectedCurrency);if(converted===null){unavailable("Currency conversion is temporarily unavailable.");return}unitPriceUSD=total;unitPriceLocal=Number(converted.toFixed(2));priceEl.textContent=api.formatMoney(unitPriceLocal,selectedCurrency);shippingEl.textContent="USA shipping included ("+api.formatMoney(shippingUSD,"USD")+") · CJ total: "+api.formatMoney(selectedVariant.cost+shippingUSD,"USD")+" · Processing: 1–3 days for 90% of orders · Delivery: 5–11 days for 62% of orders.";addButton.disabled=false;buyButton.disabled=false}
+function populateCountries(){countrySelect.innerHTML="";const o=document.createElement("option");o.value="US";o.textContent="United States (USD)";countrySelect.appendChild(o);countrySelect.value="US";try{api.setCountry("US")}catch(e){}updatePrice()}
+function cartItem(){if(unitPriceUSD===null||unitPriceLocal===null||shippingUSD===null)return null;return{id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:selectedVariant.sku,image:PRODUCT.image,quantity,country:selectedCountry,countryName:api.COUNTRIES[selectedCountry]?.name||"United States",currency:selectedCurrency,unitPriceUSD,unitPriceLocal,shippingCostUSD:shippingUSD,productCostUSD:selectedVariant.cost,profitUSD:PROFIT_USD,weightGrams:48,variant:styleSelect.value}}
+function addToCart(){const item=cartItem();if(!item)return;try{api.add(item);alert("Product added to your cart.")}catch(e){alert(e.message||"Unable to add this product.")}}
+function buyNow(){const item=cartItem();if(!item)return;try{api.buyNow(item)}catch(e){alert(e.message||"Unable to continue to checkout.")}}
+document.querySelectorAll(".thumb").forEach(b=>b.addEventListener("click",()=>{document.getElementById("productMainImage").src=b.dataset.image;document.querySelectorAll(".thumb").forEach(x=>x.classList.toggle("active",x===b))}));
+styleSelect.addEventListener("change",updatePrice);document.getElementById("increaseQty").addEventListener("click",()=>{quantity=Math.min(99,quantity+1);quantityEl.textContent=quantity});document.getElementById("decreaseQty").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);quantityEl.textContent=quantity});countrySelect.addEventListener("change",()=>{try{api.setCountry(countrySelect.value)}catch(e){}updatePrice()});addButton.addEventListener("click",addToCart);buyButton.addEventListener("click",buyNow);(async()=>{await api.refreshCurrencyData();populateCountries()})();
+  </script></body>
+</html>
