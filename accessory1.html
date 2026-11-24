@@ -86,8 +86,9 @@
     <section class="product-layout" aria-label="Product details">
       <div class="gallery">
         <div class="hero-frame">
-          <img id="productMainImage" class="hero-image" src="accessory-1.jpg" alt="Silver gym dumbbell pendant necklace" fetchpriority="high">
+          <img id="productMainImage" class="hero-image" src="https://cf.cjdropshipping.com/2057/13791150382396.jpg" alt="Silver gym dumbbell pendant necklace" fetchpriority="high">
         </div>
+        <div class="thumbs" aria-label="Product photo gallery"><button type="button" class="thumb active" data-image="https://cf.cjdropshipping.com/2057/13791150382396.jpg" aria-label="View product photo 1"><img src="https://cf.cjdropshipping.com/2057/13791150382396.jpg" alt="Gym dumbbell necklace photo 1" loading="lazy"></button><button type="button" class="thumb" data-image="https://cf.cjdropshipping.com/2057/1339042832728.jpg" aria-label="View product photo 2"><img src="https://cf.cjdropshipping.com/2057/1339042832728.jpg" alt="Gym dumbbell necklace photo 2" loading="lazy"></button><button type="button" class="thumb" data-image="https://cf.cjdropshipping.com/2057/4939880936868.jpg" aria-label="View product photo 3"><img src="https://cf.cjdropshipping.com/2057/4939880936868.jpg" alt="Gym dumbbell necklace photo 3" loading="lazy"></button><button type="button" class="thumb" data-image="https://cf.cjdropshipping.com/2057/3406679338914.jpg" aria-label="View product photo 4"><img src="https://cf.cjdropshipping.com/2057/3406679338914.jpg" alt="Gym dumbbell necklace photo 4" loading="lazy"></button><button type="button" class="thumb" data-image="https://cf.cjdropshipping.com/2057/3235894764632.jpg" aria-label="View product photo 5"><img src="https://cf.cjdropshipping.com/2057/3235894764632.jpg" alt="Gym dumbbell necklace photo 5" loading="lazy"></button><button type="button" class="thumb" data-image="https://cf.cjdropshipping.com/2057/2907580116363.jpg" aria-label="View product photo 6"><img src="https://cf.cjdropshipping.com/2057/2907580116363.jpg" alt="Gym dumbbell necklace photo 6" loading="lazy"></button><button type="button" class="thumb" data-image="https://cf.cjdropshipping.com/2057/1084331655629.jpg" aria-label="View product photo 7"><img src="https://cf.cjdropshipping.com/2057/1084331655629.jpg" alt="Gym dumbbell necklace photo 7" loading="lazy"></button><button type="button" class="thumb" data-image="https://cf.cjdropshipping.com/2057/1317401774634.jpg" aria-label="View product photo 8"><img src="https://cf.cjdropshipping.com/2057/1317401774634.jpg" alt="Gym dumbbell necklace photo 8" loading="lazy"></button><button type="button" class="thumb" data-image="https://cf.cjdropshipping.com/2057/1620957512428.jpg" aria-label="View product photo 9"><img src="https://cf.cjdropshipping.com/2057/1620957512428.jpg" alt="Gym dumbbell necklace photo 9" loading="lazy"></button></div>
         <p class="gallery-note">GYM DUMBBELL NECKLACE · SILVER</p>
       </div>
 
@@ -173,7 +174,7 @@
   <script src="reviews.js"></script>
   <script>
     "use strict";
-    const PRODUCT={id:"accessory1",name:"Gym Dumbbell Necklace",sku:"CJZBLXLX18810-Silver",image:"accessory-1.jpg",productCostUSD:0.64,profitUSD:20};
+    const PRODUCT={id:"accessory1",name:"Gym Dumbbell Necklace",sku:"CJZBLXLX18810-Silver",image:"https://cf.cjdropshipping.com/2057/13791150382396.jpg",productCostUSD:0.64,profitUSD:20};
     const SHIPPING_RATES={US:5.42};
     const api=window.SacchiCart;
     const countrySelect=document.getElementById("country");
@@ -184,6 +185,10 @@
     const buyButton=document.getElementById("buyNow");
     let quantity=1,selectedCountry="",selectedCurrency="USD",unitPriceUSD=null,unitPriceLocal=null,shippingUSD=null;
 
+    document.querySelectorAll(".thumb[data-image]").forEach(button=>button.addEventListener("click",()=>{
+      document.getElementById("productMainImage").src=button.dataset.image;
+      document.querySelectorAll(".thumb").forEach(item=>item.classList.toggle("active",item===button));
+    }));
     function showUnavailable(message){
       unitPriceUSD=null;unitPriceLocal=null;shippingUSD=null;
       priceEl.textContent="Price unavailable";
