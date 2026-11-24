@@ -165,7 +165,7 @@ const sizeSelect=document.getElementById("size"),priceEl=document.getElementById
 const shipEl=document.getElementById("shippingPrice"),skuEl=document.getElementById("skuValue");
 const qtyEl=document.getElementById("quantity"),addBtn=document.getElementById("addCart"),buyBtn=document.getElementById("buyNow");
 let quantity=1,unitUSD=null,unitLocal=null,shippingUSD=null;
-const country=api.COUNTRIES.US;
+let country={name:"United States",currency:"USD"};
 function updatePrice(){
  const variant=VARIANTS[sizeSelect.value];
  skuEl.textContent=variant.sku;
@@ -190,7 +190,7 @@ document.getElementById("increaseQty").addEventListener("click",()=>{quantity=Ma
 document.getElementById("decreaseQty").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);qtyEl.textContent=quantity});
 addBtn.addEventListener("click",()=>{const item=cartItem();if(!item)return;try{api.add(item);alert("Product added to your cart.")}catch(e){alert(e.message||"Unable to add this product.")}});
 buyBtn.addEventListener("click",()=>{const item=cartItem();if(!item)return;try{api.buyNow(item)}catch(e){alert(e.message||"Unable to continue to checkout.")}});
-(async()=>{await api.refreshCurrencyData();try{api.setCountry("US")}catch(e){}updatePrice()})();
+(async()=>{await api.refreshCurrencyData();country=api.COUNTRIES.US||{name:"United States",currency:"USD"};try{api.setCountry("US")}catch(e){}updatePrice()})();
 </script>
 </body>
 </html>
