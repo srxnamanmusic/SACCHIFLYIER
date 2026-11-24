@@ -37,9 +37,11 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <div class="brand">SACCHI FLYIER</div>
 <h1>NEW DESIGN MEN'S WALLET</h1>
 <p class="subtitle">A compact PU leather wallet for everyday carry</p>
-<p class="sku">SKU: CJBHNSNS01986-Black</p>
+<p class="sku">SKU: <span id="skuValue">CJBHNSNS01986-Black</span></p>
+<label for="walletColor">Wallet Colour</label>
+<select id="walletColor" aria-label="Choose wallet colour"><option value="Black">Black</option><option value="Coffee">Coffee</option></select>
 <div class="price" id="productPrice">Select country</div>
-<p class="price-note">Your local price includes shipping and is converted from USD using reference exchange rates.</p>
+<p class="price-note">Your local price includes product cost, confirmed US shipping and the current $20 product margin.</p>
 <label for="country">Shipping Country</label>
 <select id="country"><option value="">Loading countries…</option></select>
 <div class="shipping-price" id="shippingPrice">Choose your country to see the final price in your currency.</div>
@@ -47,7 +49,7 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <div class="quantity-box"><button type="button" id="decreaseQty" aria-label="Decrease quantity">−</button><span id="quantity">1</span><button type="button" id="increaseQty" aria-label="Increase quantity">+</button></div>
 <div class="buttons"><button type="button" class="add-cart" id="addCart" disabled>Add to Cart</button><button type="button" class="buy-now" id="buyNow" disabled>Buy Now</button></div>
 <p class="setup-note" id="orderNote">Select a supported destination to calculate the price. Checkout will be enabled only when a shipping rate and currency conversion are available.</p>
-<div class="description"><h2>Product Description</h2><p>A black men's wallet made from PU material. CJ lists its dimensions as 11 × 8.5 × 1.5 cm and its packed variant weight as 65 g. A practical compact design for carrying everyday essentials.</p></div>
+<div class="description"><h2>Product Description</h2><p id="walletDescription">A black men's wallet made from PU material. Compact design for carrying everyday essentials.</p><p class="setup-note">Dimensions: 11 × 8.5 × 1.5 cm · Variant weight: 65 g · Material: PU</p><p class="setup-note">Available colours: Black and Coffee.</p></div>
 </div>
 </section>
 </main>
@@ -69,8 +71,13 @@ select{width:100%;padding:14px;border-radius:12px;border:1px solid #444;backgrou
 <script src="cart.js"></script><script src="reviews.js"></script>
 <script>
 "use strict";
-const PRODUCT={id:"accessories2",name:"New Design Men's Wallets",sku:"CJBHNSNS01986-Black",image:"accessories-2.jpg",productCostUSD:1.37,profitUSD:20};
-const shippingRates={"United States":5.42};
+const PRODUCT={id:"accessories2",name:"New Design Men's Wallets",image:"accessories-2.jpg",productCostUSD:1.37,profitUSD:20};
+const VARIANTS={Black:{sku:"CJBHNSNS01986-Black",weight:65},Coffee:{sku:"CJBHNSNS01986-Coffee",weight:65}};
+let selectedColor="Black";
+const colorSelect=document.getElementById("walletColor");
+const skuValue=document.getElementById("skuValue");
+const walletDescription=document.getElementById("walletDescription");
+const shippingRates={"United States":5.46};
 /*
 "Afghanistan":11.91,"Albania":9.46,"Algeria":11.59,"Andorra":10.52,"Angola":11.71,"Antigua and Barbuda":11.14,"Argentina":11.50,"Armenia":10.90,"Australia":8.22,"Austria":9.28,"Azerbaijan":8.71,
 "Bahamas":12.29,"Bahrain":10.77,"Bangladesh":10.33,"Barbados":11.71,"Belarus":8.30,"Belgium":9.62,"Belize":13.63,"Benin":12.25,"Bhutan":10.06,"Bolivia":14.21,"Bosnia and Herzegovina":10.22,"Botswana":11.71,"Brazil":9.95,"Brunei":5.72,"Bulgaria":13.10,"Burkina Faso":12.44,"Burundi":12.86,
@@ -124,7 +131,8 @@ function populateCountries(){
  if(api.COUNTRIES[previous]&&previous!=="IN")countrySelect.value=previous;
  updatePrice();
 }
-function item(){return {id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name,sku:PRODUCT.sku,image:PRODUCT.image,quantity,country:selectedCode,countryName:api.COUNTRIES[selectedCode]?.name||"",currency:selectedCurrency,unitPriceUSD:unitUSD,unitPriceLocal:unitLocal,shippingCostUSD:shipUSD,productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD}}
+function item(){return {id:PRODUCT.id,productId:PRODUCT.id,name:PRODUCT.name+" - "+selectedColor,sku:VARIANTS[selectedColor].sku,image:PRODUCT.image,quantity,country:selectedCode,countryName:api.COUNTRIES[selectedCode]?.name||"",currency:selectedCurrency,unitPriceUSD:unitUSD,unitPriceLocal:unitLocal,shippingCostUSD:shipUSD,productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD,variant:selectedColor,weightGrams:VARIANTS[selectedColor].weight}}
+colorSelect.addEventListener("change",()=>{selectedColor=colorSelect.value;skuValue.textContent=VARIANTS[selectedColor].sku;walletDescription.textContent="A "+selectedColor.toLowerCase()+" men's wallet made from PU material. Compact design for carrying everyday essentials."});
 countrySelect.addEventListener("change",()=>{try{api.setCountry(countrySelect.value)}catch(e){}updatePrice()});
 document.getElementById("increaseQty").addEventListener("click",()=>{quantity=Math.min(99,quantity+1);qtyEl.textContent=quantity});
 document.getElementById("decreaseQty").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);qtyEl.textContent=quantity});
