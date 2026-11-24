@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#050505">
   <meta name="description" content="Discover the Bluetooth Mobile Photo Mini Thermal Printer at Sacchi Flyier. Bluetooth mobile photo mini thermal printer in Pink, Blue and Black.">
-  <title>Light Luxury Zircon Chain Earrings | Sacchi Flyier</title>
+  <title>Bluetooth Mobile Photo Mini Thermal Printer | Sacchi Flyier</title>
   <link rel="stylesheet" href="reviews.css">
   <style>
     :root{color-scheme:dark;--bg:#050505;--panel:#101010;--line:#292929;--muted:#a4a4a4;--white:#fff}
@@ -159,5 +159,69 @@
 </form></div></div></section>
   <footer>© 2026 SACCHI FLYIER — FLY BEYOND LIMIT</footer>
 
-  </body>
+  <script src="cart.js"></script>
+  <script src="reviews.js"></script>
+  <script>
+    "use strict";
+    const PRODUCT={id:"accessories8",name:"Bluetooth Mobile Photo Mini Thermal Printer",image:"accessories-8.jpg?v=3",productCostUSD:6.86,profitUSD:20};
+    const VARIANTS={
+      Pink:{sku:"CJJT127264301AZ",weight:320,shipping:8.63,inventory:38734},
+      Blue:{sku:"CJJT127264302BY",weight:394,shipping:9.82,inventory:36659},
+      Black:{sku:"CJJT127264303CX",weight:394,shipping:9.82,inventory:36653}
+    };
+    const api=window.SacchiCart;
+    const countrySelect=document.getElementById("country");
+    const variantSelect=document.getElementById("variant");
+    const skuValue=document.getElementById("skuValue");
+    const priceEl=document.getElementById("productPrice");
+    const shippingEl=document.getElementById("shippingPrice");
+    const quantityEl=document.getElementById("quantity");
+    const addButton=document.getElementById("addCart");
+    const buyButton=document.getElementById("buyNow");
+    let quantity=1,selectedCountry="",selectedCurrency="",unitPriceUSD=null,unitPriceLocal=null,shippingUSD=null;
+    function selectedVariant(){return VARIANTS[variantSelect.value]||VARIANTS.Pink}
+    function showUnavailable(message){
+      unitPriceUSD=unitPriceLocal=shippingUSD=null;
+      priceEl.textContent="Price unavailable";shippingEl.textContent=message;
+      addButton.disabled=true;buyButton.disabled=true;
+    }
+    function updatePrice(){
+      selectedCountry=countrySelect.value;
+      unitPriceUSD=unitPriceLocal=shippingUSD=null;
+      addButton.disabled=true;buyButton.disabled=true;
+      if(!selectedCountry){priceEl.textContent="Select destination";shippingEl.textContent="Choose an available shipping destination.";return}
+      const country=api.COUNTRIES[selectedCountry];
+      if(!country){showUnavailable("Destination information could not be loaded. Please refresh the page.");return}
+      if(selectedCountry!=="US"){showUnavailable("Shipping has not been confirmed for this destination. Checkout is unavailable.");return}
+      const v=selectedVariant();selectedCurrency=country.currency;shippingUSD=v.shipping;
+      const total=Number((PRODUCT.productCostUSD+shippingUSD+PRODUCT.profitUSD).toFixed(2));
+      const converted=api.convertUSD(total,selectedCurrency);
+      if(converted===null){showUnavailable("Currency conversion is temporarily unavailable.");return}
+      unitPriceUSD=total;unitPriceLocal=Number(converted.toFixed(2));
+      priceEl.textContent=api.formatMoney(unitPriceLocal,selectedCurrency);
+      shippingEl.textContent="USA shipping included ("+api.formatMoney(shippingUSD,"USD")+") · Processing: 1–3 days for 90% of orders · Estimated delivery: 7–13 days.";
+      addButton.disabled=false;buyButton.disabled=false;
+    }
+    function populateCountries(){
+      countrySelect.innerHTML="";
+      const option=document.createElement("option");option.value="US";option.textContent="United States (USD)";
+      countrySelect.appendChild(option);countrySelect.value="US";
+      try{api.setCountry("US")}catch(error){}
+      updatePrice();
+    }
+    function createCartItem(){
+      if(unitPriceUSD===null||unitPriceLocal===null||shippingUSD===null)return null;
+      const v=selectedVariant();
+      return {id:PRODUCT.id+"-"+variantSelect.value.toLowerCase(),productId:PRODUCT.id,name:PRODUCT.name+" ("+variantSelect.value+")",color:variantSelect.value,sku:v.sku,image:PRODUCT.image,weight:v.weight,quantity,country:selectedCountry,countryName:api.COUNTRIES[selectedCountry]?.name||"United States",currency:selectedCurrency,unitPriceUSD,unitPriceLocal,shippingCostUSD:shippingUSD,productCostUSD:PRODUCT.productCostUSD,profitUSD:PRODUCT.profitUSD};
+    }
+    function addToCart(){const item=createCartItem();if(!item)return;try{api.add(item);alert("Product added to your cart.")}catch(error){alert(error.message||"Unable to add this product.")}}
+    function buyNow(){const item=createCartItem();if(!item)return;try{api.buyNow(item)}catch(error){alert(error.message||"Unable to continue to checkout.")}}
+    variantSelect.addEventListener("change",()=>{skuValue.textContent=selectedVariant().sku;updatePrice()});
+    countrySelect.addEventListener("change",()=>{try{api.setCountry(countrySelect.value)}catch(error){}updatePrice()});
+    document.getElementById("increaseQty").addEventListener("click",()=>{quantity=Math.min(99,quantity+1);quantityEl.textContent=quantity});
+    document.getElementById("decreaseQty").addEventListener("click",()=>{quantity=Math.max(1,quantity-1);quantityEl.textContent=quantity});
+    addButton.addEventListener("click",addToCart);buyButton.addEventListener("click",buyNow);
+    (async()=>{await api.refreshCurrencyData();populateCountries()})();
+  </script>
+</body>
 </html>
