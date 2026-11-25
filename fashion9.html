@@ -18,7 +18,7 @@ a{color:inherit;text-decoration:none}.topline{height:3px;background:linear-gradi
 .hero-frame:after{content:"SACCHI FLYIER";position:absolute;bottom:18px;right:20px;font-size:9px;letter-spacing:3px;color:rgba(255,255,255,.38)}
 .product-image{width:100%;height:100%;object-fit:contain;display:block;transition:opacity .2s,transform .45s}.hero-frame:hover .product-image{transform:scale(1.035)}
 .thumbs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:13px}.thumb{border:1px solid #333;border-radius:12px;background:#111;aspect-ratio:1/1;overflow:hidden;cursor:pointer;padding:0;opacity:.7;transition:.2s}
-.thumb img{width:100%;height:100%;object-fit:cover;display:block}.thumb:hover,.thumb.active{opacity:1;border-color:#fff}.gallery-note{font-size:11px;color:#666;margin-top:12px;letter-spacing:.5px}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}.thumb:focus-visible{outline:2px solid #fff;outline-offset:3px}.thumb:hover,.thumb.active{opacity:1;border-color:#fff}.gallery-note{font-size:11px;color:#666;margin-top:12px;letter-spacing:.5px}
 .details{padding-top:8px}.brand{font-size:11px;letter-spacing:4px;color:#999;margin-bottom:18px}.details h1{font-size:clamp(30px,3.6vw,48px);line-height:1.05;letter-spacing:-1.7px;font-weight:800}
 .subtitle{font-size:15px;line-height:1.7;color:#aaa;margin-top:17px;margin-bottom:0}.sku{font-size:11px;letter-spacing:1px;color:#777;margin-top:18px;margin-bottom:0}
 .rule{height:1px;background:var(--line);margin:25px 0}.field-label,label{display:block;font-size:12px;letter-spacing:1px;color:#ccc;margin:0 0 10px}
@@ -51,7 +51,8 @@ footer{border-top:1px solid #222;text-align:center;padding:25px 15px;color:#777;
 <section class="product-layout">
 <div class="gallery">
 <div class="hero-frame"><img src="https://oss-cf.cjdropshipping.com/product/2024/12/10/02/fba9674a-94a7-4c21-98c4-289116f49077_fine.jpeg" alt="Artificial wool-look Korean-style necktie" class="product-image"></div>
-<p class="gallery-note">PRODUCT PHOTOS · MORE IMAGES CAN BE ADDED LATER</p>
+<div class="thumbs" id="productThumbs" aria-label="Product image thumbnails"></div>
+<p class="gallery-note">SELECT A THUMBNAIL TO VIEW THE PRODUCT PHOTO</p>
 </div>
 <div class="details">
 <p class="brand">SACCHI FLYIER / FASHION</p>
@@ -96,6 +97,26 @@ footer{border-top:1px solid #222;text-align:center;padding:25px 15px;color:#777;
 const VARIANTS=[["AA2401","CJYD223881301AZ"],["AA2402","CJYD223881302BY"],["AA2503","CJYD223881303CX"],["AA2604","CJYD223881304DW"],["AA2650","CJYD223881305EV"],["AA276","CJYD223881306FU"],["AA277","CJYD223881307GT"],["AA288","CJYD223881308HS"],["AA319","CJYD223881309IR"],["AA3110","CJYD223881310JQ"],["AA3211","CJYD223881311KP"],["AA3212","CJYD223881312LO"],["AA2513","CJYD223881313MN"],["AA3314","CJYD223881314NM"],["AA3315","CJYD223881315OL"],["AA3416","CJYD223881316PK"],["AA3417","CJYD223881317QJ"],["AA3518","CJYD223881318RI"],["AA3519","CJYD223881319SH"],["AA3620","CJYD223881320TG"],["AA3621","CJYD223881321UF"],["AA3722","CJYD223881322VE"],["AA3723","CJYD223881323WD"],["AA3824","CJYD223881324XC"],["AA3825","CJYD223881325YB"]];
 const PRODUCT={id:"fashion9",name:"Artificial Wool-Look Korean-Style Necktie",sku:"CJYD223881301AZ",image:"https://oss-cf.cjdropshipping.com/product/2024/12/10/02/fba9674a-94a7-4c21-98c4-289116f49077_fine.jpeg",productCostUSD:1.93,profitUSD:20};
 const shippingRates={ "United States":5.49 };
+const PRODUCT_IMAGES=["https://oss-cf.cjdropshipping.com/product/2024/12/10/02/0304e0c1-f5aa-476d-aa5d-4702aa9f8c8d_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/3de953eb-7999-4c90-85f5-ce5b7ad6fd25_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/cf8d2bd8-0b32-4d27-b927-b7d340e76670_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/172b01f1-5a17-4167-b536-0c486ab221e4_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/bec99755-38b5-49a3-a1dd-b9056a3c231d_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/f984ed92-0d0e-450a-8b57-a73e860539eb_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/387d1170-f5ea-41ca-bbdb-b72498925b3c_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/5f8a9707-5b35-4f8d-802e-85acb7c55e6f_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/76250946-780f-4b9f-9781-fb6de56f55b9_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/0e454157-7bf2-4ff5-a77e-9a811d4cd5cf_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/280ed8f5-6ea6-455e-aea9-2dd0438cd428_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/02d18883-92c5-4973-933e-eef096ba6e57_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/c21496a9-acf4-4f79-9055-fbae609916b6_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/c6ccbeba-b300-4ca2-859e-1cad4f947f06_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/5b85ad73-663a-4de4-a0a3-bf687112690a_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/4049e56e-e0ef-441a-83e4-799b5ab53465_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/a92721ac-9860-4622-9805-38b81c3fb1d7_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/fba9674a-94a7-4c21-98c4-289116f49077_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/8b754c0d-96e4-4e42-b492-0661f130ff73_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/a5f141b9-4241-41ac-a607-ac2c31ae775f_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/3c38ed93-c77b-4ff1-b238-253d924642c3_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/33f13ef3-68e5-49e8-af39-be4af9a032bb_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/1afb2b49-c769-4ca5-b5db-78f423e95a2c_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/8b679a0d-933e-4fca-9c7c-5a5f65db5bf8_fine.jpeg","https://oss-cf.cjdropshipping.com/product/2024/12/10/02/01ce3939-742c-49b5-a5a5-861998a43813_fine.jpeg"];
+const mainProductImage=document.querySelector(".product-image");
+const thumbnailWrap=document.getElementById("productThumbs");
+PRODUCT_IMAGES.forEach((src,index)=>{
+ const button=document.createElement("button");
+ button.type="button";
+ button.className="thumb"+(index===17?" active":"");
+ button.setAttribute("aria-label","View product image "+(index+1));
+ button.setAttribute("aria-pressed",index===17?"true":"false");
+ const image=document.createElement("img");
+ image.src=src;image.alt="Necktie product view "+(index+1);image.loading="lazy";
+ button.appendChild(image);
+ button.addEventListener("click",()=>{
+  mainProductImage.src=src;
+  mainProductImage.alt="Artificial wool-look Korean-style necktie — image "+(index+1);
+  thumbnailWrap.querySelectorAll(".thumb").forEach((thumb)=>{thumb.classList.remove("active");thumb.setAttribute("aria-pressed","false")});
+  button.classList.add("active");button.setAttribute("aria-pressed","true");
+ });
+ thumbnailWrap.appendChild(button);
+});
 const variantSelect=document.getElementById("variant"),skuDisplay=document.getElementById("skuDisplay");
 const api=window.SacchiCart, countrySelect=document.getElementById("country"), priceEl=document.getElementById("productPrice"), shipEl=document.getElementById("shippingPrice"), qtyEl=document.getElementById("quantity"), addBtn=document.getElementById("addCart"), buyBtn=document.getElementById("buyNow");
 let quantity=1,selectedVariant=VARIANTS[0],selectedCode="",selectedCurrency="",unitUSD=null,unitLocal=null,shipUSD=null;
