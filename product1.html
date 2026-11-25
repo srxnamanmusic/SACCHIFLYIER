@@ -73,6 +73,32 @@
     @media(max-width:520px){.site-header{height:70px;padding:0 18px}.logo{font-size:16px;letter-spacing:2px}.back{font-size:11px;padding:9px 12px}.page-wrap{padding:25px 18px 60px}.product-layout{gap:28px}.hero-frame{border-radius:15px}.thumbs{gap:7px}.thumb{border-radius:8px}h1{font-size:31px}.price{font-size:30px}.actions{grid-template-columns:1fr}.trust-row{gap:5px}.trust-item{font-size:9px}.specs{grid-template-columns:1fr 1fr}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
   </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style id="sacchi-landing-design-match">
+    /* Match the landing page's visual language without changing product layout or functionality. */
+    :root{--display:'Barlow Condensed',Impact,sans-serif;--body:'DM Sans',Arial,sans-serif;--white:#f5f5f2;--muted:#a1a1a1;--line:rgba(255,255,255,.15)}
+    body{font-family:var(--body);background:#050505;color:var(--white)}
+    .topline{background:linear-gradient(90deg,#050505,#fff,#050505)}
+    .site-header{border-bottom:1px solid var(--line);background:rgba(5,5,5,.92);backdrop-filter:blur(18px)}
+    .logo{font-family:var(--body);font-weight:900;letter-spacing:2.5px;color:#fff}
+    .back{font-family:var(--body);font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;border-radius:0;border-color:#eee;color:#fff}
+    .back:hover{background:#fff;color:#050505}
+    .breadcrumb,.gallery-note,.product-code,.price-label,.field-label,.quantity-label{font-family:var(--body)}
+    .eyebrow{font-family:var(--body);font-size:10px;font-weight:800;letter-spacing:4px;color:#bcbcbc}
+    h1,.description h2,.sf-reviews h2{font-family:var(--display);text-transform:uppercase;letter-spacing:normal}
+    h1{font-size:clamp(38px,4.5vw,62px);line-height:.92;font-weight:900}
+    .subtitle,.description p{font-family:var(--body)}
+    .hero-frame{border-color:var(--line)}
+    .thumb:hover,.thumb.active{border-color:#fff}
+    .action{font-family:var(--body);border-radius:0;font-weight:900;letter-spacing:1.5px;text-transform:uppercase}
+    .buy-now{box-shadow:0 7px 0 #888,0 14px 30px #0008}
+    .buy-now:hover:not(:disabled){transform:translateY(1px);box-shadow:0 3px 0 #888,0 9px 20px #0008;background:#f3f3ef}
+    .trust-row{border-color:var(--line)}
+    .description h2{font-size:30px;letter-spacing:.5px}
+    footer{font-family:var(--body);border-color:var(--line)}
+  </style>
 </head>
 <body>
   <div class="topline"></div>
