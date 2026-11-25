@@ -86,7 +86,20 @@
 <nav class="breadcrumb"><a href="index.html">Home</a> / <a href="accessories.html">Accessories</a> / Stainless Steel Kitchen Peeler</nav>
 <section class="product-layout">
 <div class="gallery">
-<div class="hero-frame"><img class="hero-image" src="https://cf.cjdropshipping.com/bdb06472-50cf-4a51-a81a-c72d988cf05e.png" alt="Stainless Steel Kitchen Peeler"></div>
+<div class="hero-frame"><img class="hero-image" id="heroImage" src="https://cf.cjdropshipping.com/bdb06472-50cf-4a51-a81a-c72d988cf05e.png" alt="Stainless Steel Kitchen Peeler"></div>
+<div class="thumbs" aria-label="Product image thumbnails">
+<button type="button" class="thumb active" aria-label="View product image 1" aria-pressed="true"><img src="https://cf.cjdropshipping.com/bdb06472-50cf-4a51-a81a-c72d988cf05e.png" alt="Kitchen peeler view 1" loading="lazy"></button>
+<button type="button" class="thumb" aria-label="View product image 2" aria-pressed="false"><img src="https://cf.cjdropshipping.com/004240c1-c9da-48f9-bee2-4594ccb2af17.jpg" alt="Kitchen peeler view 2" loading="lazy"></button>
+<button type="button" class="thumb" aria-label="View product image 3" aria-pressed="false"><img src="https://cf.cjdropshipping.com/9050d379-b3e1-4bcf-a988-6e043771dd6c.jpg" alt="Kitchen peeler view 3" loading="lazy"></button>
+<button type="button" class="thumb" aria-label="View product image 4" aria-pressed="false"><img src="https://cf.cjdropshipping.com/21bb11b7-6770-4ee9-8eb4-56205a53a57e.jpg" alt="Kitchen peeler view 4" loading="lazy"></button>
+<button type="button" class="thumb" aria-label="View product image 5" aria-pressed="false"><img src="https://cf.cjdropshipping.com/72c97fd6-ae05-4791-9ace-24a1dff6b16b.png" alt="Kitchen peeler view 5" loading="lazy"></button>
+<button type="button" class="thumb" aria-label="View product image 6" aria-pressed="false"><img src="https://cf.cjdropshipping.com/b7a18c9b-3536-4436-a14a-89839c2956aa.png" alt="Kitchen peeler view 6" loading="lazy"></button>
+<button type="button" class="thumb" aria-label="View product image 7" aria-pressed="false"><img src="https://cf.cjdropshipping.com/8ae65a5d-aa7a-455a-b6a4-618a4d1b23e8.jpg" alt="Kitchen peeler view 7" loading="lazy"></button>
+<button type="button" class="thumb" aria-label="View product image 8" aria-pressed="false"><img src="https://cf.cjdropshipping.com/68de0cc5-da2d-4742-b1a0-0fba426bb9c6.png" alt="Kitchen peeler view 8" loading="lazy"></button>
+<button type="button" class="thumb" aria-label="View product image 9" aria-pressed="false"><img src="https://oss-cf.cjdropshipping.com/product/2025/06/12/06/a201f27b-a4a9-4c84-829a-d38a70b10e70.jpg" alt="Kitchen peeler view 9" loading="lazy"></button>
+<button type="button" class="thumb" aria-label="View product image 10" aria-pressed="false"><img src="https://oss-cf.cjdropshipping.com/product/2025/06/12/06/f0a444a3-e052-439d-9143-5268b3351b51.jpg" alt="Kitchen peeler view 10" loading="lazy"></button>
+<button type="button" class="thumb" aria-label="View product image 11" aria-pressed="false"><img src="https://oss-cf.cjdropshipping.com/product/2025/06/12/06/a802e3a3-4dfa-4629-b317-03c94f56f74a.jpg" alt="Kitchen peeler view 11" loading="lazy"></button>
+</div>
 <p class="gallery-note">STAINLESS STEEL KITCHEN PEELER</p>
 </div>
 <div class="details">
@@ -143,6 +156,13 @@
 "use strict";
 const PRODUCT={id:"accessories11",name:"Stainless Steel Kitchen Peeler",sku:"CJJT141172103CX",image:"https://cf.cjdropshipping.com/bdb06472-50cf-4a51-a81a-c72d988cf05e.png",productCostUSD:0.77,profitUSD:20};
 const shippingRates={"United States":5.73};
+const heroImage=document.getElementById("heroImage");
+document.querySelectorAll(".thumb").forEach(button=>button.addEventListener("click",()=>{
+ const image=button.querySelector("img");
+ heroImage.src=image.src;heroImage.alt=image.alt;
+ document.querySelectorAll(".thumb").forEach(t=>{t.classList.remove("active");t.setAttribute("aria-pressed","false")});
+ button.classList.add("active");button.setAttribute("aria-pressed","true");
+}));
 const api=window.SacchiCart, countrySelect=document.getElementById("country"), priceEl=document.getElementById("productPrice"), shipEl=document.getElementById("shippingPrice"), qtyEl=document.getElementById("quantity"), addBtn=document.getElementById("addCart"), buyBtn=document.getElementById("buyNow");
 let quantity=1,selectedCode="",selectedCurrency="",unitUSD=null,unitLocal=null,shipUSD=null;
 const normalize=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"");
